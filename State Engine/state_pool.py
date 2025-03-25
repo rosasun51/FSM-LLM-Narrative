@@ -54,15 +54,44 @@ class StatePool:
                 return True
         return False
 
-# Create the state pool based on the image structure
 def create_task_state_pool():
     state_pool = StatePool()
 
     # Major tasks (large states)
-    major_task_1 = TaskState("major_1", "任务1：初始任务", is_major_task=True)
-    major_task_2 = TaskState("major_2", "任务2：中期任务", is_major_task=True)
-    major_task_3 = TaskState("major_3", "任务3：后期任务", is_major_task=True)
-    major_task_4 = TaskState("major_4", "任务4：最终任务", is_major_task=True)
+    # 这些任务是可选任务，可以不完成可以完成, 但是重点是他们如何影响 major tasks，完成之后可以获得奖励?
+    optional_task_1 = TaskState("optional_1", "Optional Mission 1：Call Millitech agent Meredith Stout", is_major_task=False)
+    optional_task_2 = TaskState("optional_2", "Optional Mission Update 2：Meet with the Millitech agent", is_major_task=False)
+    optional_task_3 = TaskState("optional_3", "Optional Mission Update 3：Talk to the Millitech agent", is_major_task=False)
+
+    # major_task_1, major_task_2 我觉得是同一个scene，归为同一个Scene的id?
+    major_task_1 = TaskState("major_1", "Mission Update 1：Meet with Jackie", is_major_task=True)
+    major_task_2 = TaskState("major_2", "Mission Update 2：Talk to Jackie", is_major_task=True)
+
+    # major_task_3, major_task_4 我觉得是同一个scene，归为同一个Scene的id?
+    major_task_3 = TaskState("major_3", "Mission Update 3：Go to the gate of All Foods", is_major_task=True)
+    major_task_4 = TaskState("major_4", "Mission Update 4：Talk with Maelstorm via the intercom", is_major_task=True)
+
+    #个人觉得 major_task_5, major_task_6, major_task_7 是同一个scene，归为同一个Scene的id?  
+    major_task_5 = TaskState("major_5", "Mission Update 5：Get to main production floor of All Foods", is_major_task=True)
+    major_task_6 = TaskState("major_6", "Mission Update 6：Talk to the Maelstormers", is_major_task=True)
+    major_task_7 = TaskState("major_7", "Mission Update 7：Sit on the couch", is_major_task=True)
+
+    # 这个任务是最终任务，需要完成所有分支才能来到这儿
+    major_task_8 = TaskState("major_8", "Mission Update 8：Leave the All Foods", is_major_task=True)
+
+
+
+    # Sub-states for optional_task_1
+    optional_sub_state_1_1 = TaskState("optional_sub_1_1", "Subtask1.1：Meredith Stout: Due to the Militech convoy being hijacked, the company suspects an internal leak. Her mission and motivation are to gather intelligence, retrieve the robot, and identify the real traitor.")
+    optional_sub_state_1_2 = TaskState("optional_sub_1_2", "Subtask1.2：Calling on the phone of Stout and telling her that the Player has information about the cars of Millitech which got rubbed, Stout will invite the Player to meet and talk")
+    optional_sub_state_1_3 = TaskState("optional_sub_1_3", "Subtask1.3：Meredith Stout: If the Player chooses not to meet with the agent, she loses control over the Player, and her original chip plan falls apart. She must adjust her strategy and act independently, no longer interfering with the Player’s actions.")
+
+    # Sub-states for optional_task_2
+    optional_sub_state_2_1 = TaskState("optional_sub_2_1", "Subtask2.1：If the player is already at the place of meeting,the task will be: Wait for the Millitech agent")
+
+    # Sub-states for optional_task_3
+    optional_sub_state_3_1 = TaskState("optional_sub_3_1", "Subtask3.1：Talk with Stout. The player is forced to be tested whether he/she is lying. After the negotiation, Stout said that they want Player to use the money of Millitech to buy the robot, the flathead.")
+    optional_sub_state_3_2 = TaskState("optional_sub_3_2", "Subtask3.2：Millitech People left.")
 
     # Sub-states for major_task_1
     sub_state_1_1 = TaskState("sub_1_1", "子任务1.1：初始决策")
@@ -84,10 +113,17 @@ def create_task_state_pool():
     sub_state_4_2 = TaskState("sub_4_2", "子任务4.2：最终分支")
 
     # Add all states to the pool
+    state_pool.add_state(optional_task_1)
+    state_pool.add_state(optional_task_2)
+    state_pool.add_state(optional_task_3)
     state_pool.add_state(major_task_1)
     state_pool.add_state(major_task_2)
     state_pool.add_state(major_task_3)
     state_pool.add_state(major_task_4)
+    state_pool.add_state(major_task_5)
+    state_pool.add_state(major_task_6)
+    state_pool.add_state(major_task_7)
+    state_pool.add_state(major_task_8)
     state_pool.add_state(sub_state_1_1)
     state_pool.add_state(sub_state_1_2)
     state_pool.add_state(sub_state_1_3)
@@ -99,6 +135,24 @@ def create_task_state_pool():
     state_pool.add_state(sub_state_3_3)
     state_pool.add_state(sub_state_4_1)
     state_pool.add_state(sub_state_4_2)
+    state_pool.add_state(optional_sub_state_1_1)
+    state_pool.add_state(optional_sub_state_1_2)
+    state_pool.add_state(optional_sub_state_1_3)
+    state_pool.add_state(optional_sub_state_2_1)
+    state_pool.add_state(optional_sub_state_3_1)
+    state_pool.add_state(optional_sub_state_3_2)
+
+    # Define transitions for optional_task_1
+    optional_task_1.add_transition("start", "optional_sub_1_1")
+    optional_sub_state_1_1.add_transition("choice_a", "optional_sub_1_2")
+    optional_sub_state_1_1.add_transition("choice_b", "optional_sub_1_3")
+
+    # Define transitions for optional_task_2
+    optional_task_2.add_transition("start", "optional_sub_2_1")
+
+    # Define transitions for optional_task_3
+    optional_task_3.add_transition("start", "optional_sub_3_1")
+    optional_sub_state_3_1.add_transition("choice_a", "optional_sub_3_2")
 
     # Define transitions for major_task_1
     major_task_1.add_transition("start", "sub_1_1")
@@ -130,6 +184,7 @@ def create_task_state_pool():
     state_pool.set_current_state("major_1")
 
     return state_pool
+
 
 
 # Visualize the state pool
