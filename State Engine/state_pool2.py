@@ -1,4 +1,5 @@
 '''
+You can ignore this file for the time being.
 This is a state engine that is used to manage the state of the game.
 This code will:
 Define major tasks as states.
