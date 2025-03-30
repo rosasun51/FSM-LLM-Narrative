@@ -1,169 +1,188 @@
 """
-This module contains utility helper functions for the narrative game system.
+This module provides utility functions used throughout the project.
 """
 
 import os
 import json
-import uuid
-from datetime import datetime
+import datetime
+import re
+from typing import Dict, Any, List, Optional
+
+from Generate_branches.utils.constants import DEBUG_MODE
 
 def generate_id(prefix=""):
     """
-    Generate a unique ID for game elements.
+    Generate a unique ID for use in the system.
     
     Args:
         prefix: Optional prefix for the ID
         
     Returns:
-        A unique ID string
+        Generated ID string
     """
-    unique_id = str(uuid.uuid4())[:8]  # Take first 8 characters of UUID
-    if prefix:
-        return f"{prefix}_{unique_id}"
-    return unique_id
+    timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
+    return f"{prefix}_{timestamp}"
 
 def timestamp_to_readable(timestamp):
     """
-    Convert a numeric timestamp to a readable string.
+    Convert a numeric timestamp to a human-readable format.
     
     Args:
-        timestamp: Numeric timestamp value
+        timestamp: Numeric timestamp
         
     Returns:
-        Formatted string (e.g., "Day 2, 14:30")
+        String with formatted date and time
     """
-    # Convert game time to days and hours
-    days = timestamp // 24  # Assuming 24 time units per day
-    hours = timestamp % 24
-    
-    return f"Day {days + 1}, {hours:02d}:00"
+    try:
+        # For Unix timestamps (seconds since epoch)
+        if isinstance(timestamp, (int, float)):
+            dt = datetime.datetime.fromtimestamp(timestamp)
+            return dt.strftime("%Y-%m-%d %H:%M:%S")
+        else:
+            # Try to parse common date formats
+            formats = ["%Y-%m-%d", "%Y-%m-%d %H:%M:%S", "%Y%m%d%H%M%S"]
+            for fmt in formats:
+                try:
+                    dt = datetime.datetime.strptime(str(timestamp), fmt)
+                    return dt.strftime("%Y-%m-%d %H:%M:%S")
+                except ValueError:
+                    continue
+            return str(timestamp)  # Return as string if parsing fails
+    except:
+        return str(timestamp)  # Return as string if any exception
 
 def ensure_directory_exists(directory_path):
     """
-    Ensure a directory exists, creating it if necessary.
+    Create directory if it doesn't exist.
     
     Args:
-        directory_path: Path to the directory
+        directory_path: Path to create
     """
     if not os.path.exists(directory_path):
-        os.makedirs(directory_path)
-        
+        try:
+            os.makedirs(directory_path)
+            return True
+        except Exception as e:
+            log_message(f"Failed to create directory {directory_path}: {e}", "ERROR")
+            return False
+    return True
+
 def save_json(data, filename):
     """
     Save data to a JSON file.
     
     Args:
         data: Data to save
-        filename: File path
-    """
-    directory = os.path.dirname(filename)
-    ensure_directory_exists(directory)
-    
-    with open(filename, 'w') as f:
-        json.dump(data, f, indent=4)
+        filename: File to save to
         
+    Returns:
+        True if successful, False otherwise
+    """
+    try:
+        # Ensure directory exists
+        directory = os.path.dirname(filename)
+        if directory and not os.path.exists(directory):
+            os.makedirs(directory)
+        
+        # Save the file
+        with open(filename, 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=2)
+        return True
+    except Exception as e:
+        log_message(f"Error saving JSON file {filename}: {e}", "ERROR")
+        return False
+
 def load_json(filename):
     """
     Load data from a JSON file.
     
     Args:
-        filename: File path
+        filename: File to load from
         
     Returns:
-        Loaded data or None if file doesn't exist
+        Loaded data or None if loading failed
     """
-    if not os.path.exists(filename):
+    try:
+        with open(filename, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception as e:
+        log_message(f"Error loading JSON file {filename}: {e}", "ERROR")
         return None
-        
-    with open(filename, 'r') as f:
-        return json.load(f)
-        
+
 def auto_save_filename(game_name):
     """
-    Generate an auto-save filename based on game name and current time.
+    Generate a filename for auto-saving.
     
     Args:
         game_name: Name of the game
         
     Returns:
-        Auto-save filename
+        Autosave filename
     """
-    from Generate_branches.utils.config import get_config
-    
-    # Get save directory from config
-    save_dir = get_config("game").get("save_directory", "saves/")
-    ensure_directory_exists(save_dir)
-    
-    # Format current time
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    safe_game_name = game_name.replace(" ", "_").lower()
-    
-    return os.path.join(save_dir, f"{safe_game_name}_autosave_{timestamp}.json")
-    
+    # Clean the game name for use in a filename
+    clean_name = re.sub(r'[^a-zA-Z0-9_-]', '_', game_name)
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    return f"autosave_{clean_name}_{timestamp}.json"
+
 def log_message(message, message_type="INFO"):
     """
-    Log a message with timestamp.
+    Log a message with timestamp and type.
     
     Args:
-        message: Message to log
-        message_type: Type of message (INFO, WARNING, ERROR)
+        message: The message to log
+        message_type: Type of message (INFO, WARNING, ERROR, DEBUG)
     """
-    from Generate_branches.utils.config import get_config
-    
-    if not get_config("game").get("debug_mode", False) and message_type == "INFO":
+    # Only display DEBUG messages if debug mode is enabled
+    if message_type == "DEBUG" and not DEBUG_MODE:
         return
-        
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    print(f"[{timestamp}] [{message_type}] {message}")
     
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    formatted_message = f"[{timestamp}] [{message_type}] {message}"
+    
+    # Print to console
+    print(formatted_message)
+    
+    # In a full implementation, this could also write to a log file or send logs to a monitoring service
+
 def parse_player_input(input_text, available_options=None):
     """
-    Parse player input to determine intent.
+    Parse player input and map to available options if needed.
     
     Args:
-        input_text: Player's input text
-        available_options: List of available options/choices
+        input_text: Input text from the player
+        available_options: List of available options to map to
         
     Returns:
-        Parsed input information
+        Standardized input or closest match from available options
     """
-    input_text = input_text.strip().lower()
-    
-    # Check if input matches an available option
-    if available_options:
-        for i, option in enumerate(available_options):
-            # Check if player entered the option number or the text
-            if input_text == str(i + 1) or input_text == option.lower():
-                return {
-                    "type": "option",
-                    "value": option,
-                    "index": i
-                }
-    
-    # Check for common commands
-    if input_text in ["quit", "exit", "q"]:
-        return {
-            "type": "command",
-            "value": "quit"
-        }
-    elif input_text in ["help", "h", "?"]:
-        return {
-            "type": "command",
-            "value": "help"
-        }
-    elif input_text in ["save"]:
-        return {
-            "type": "command",
-            "value": "save"
-        }
-    elif input_text in ["load"]:
-        return {
-            "type": "command",
-            "value": "load"
-        }
+    if not input_text:
+        return None
         
-    # If no match, treat as free text input
-    return {
-        "type": "text",
-        "value": input_text
-    } 
+    # Convert to lowercase for case-insensitive matching
+    standardized_input = input_text.strip().lower()
+    
+    # If no available options, just return the standardized input
+    if not available_options:
+        return standardized_input
+        
+    # Try to match to an available option
+    # First, check for exact matches
+    for option in available_options:
+        if standardized_input == option.lower():
+            return option
+            
+    # Next, check if input is a number corresponding to an option
+    try:
+        option_index = int(standardized_input) - 1  # 1-indexed for user friendliness
+        if 0 <= option_index < len(available_options):
+            return available_options[option_index]
+    except ValueError:
+        pass
+        
+    # Finally, check for partial matches
+    for option in available_options:
+        if option.lower().startswith(standardized_input):
+            return option
+            
+    # Return the original input if no matches found
+    return standardized_input 

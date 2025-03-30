@@ -7,6 +7,19 @@ from Generate_branches.models.task import Task
 from Generate_branches.models.subtask import ScriptedSubTask, GeneratedSubTask
 from Generate_branches.models.layer import Layer
 from Generate_branches.game.task_chain import TaskChain
+from Generate_branches.utils.constants import (
+    NUM_LAYERS,
+    ROOT_TASK_ID,
+    LAYER_1_ID_FORMAT,
+    LAYER_2_ID_FORMAT,
+    LAYER_3_ID_FORMAT,
+    LAYER_NAMES,
+    LAYER_DESCRIPTIONS,
+    LAYER_PRIORITIES,
+    DEFAULT_NUM_ALTERNATIVES,
+    SCRIPTED_TASKS_PATH,
+    GENERATED_CHAINS_PATH
+)
 
 class BranchManager:
     """
@@ -16,7 +29,7 @@ class BranchManager:
     narrative paths, and managing the state of these branches during gameplay.
     """
     
-    def __init__(self, task_data_path="data/Scripted_tasks.json"):
+    def __init__(self, task_data_path=SCRIPTED_TASKS_PATH):
         """
         Initialize the branch manager.
         
@@ -51,7 +64,7 @@ class BranchManager:
             log_message(f"Loaded {len(self.scripted_tasks)} scripted tasks", "INFO")
         except Exception as e:
             log_message(f"Error loading scripted tasks: {e}", "ERROR")
-\
+
     def generate_task_chain(self, task_name):
         """
         Generate a task chain from a scripted task based on its name.
@@ -97,10 +110,15 @@ class BranchManager:
             return task_chain
         
         return None
-\
+
     def _generate_task_with_subtasks(self, task_data):
         """
-        Generate a task with scripted and generated subtasks.
+        Generate a task with scripted and generated subtasks organized in a hierarchical tree structure.
+        
+        The tree structure has three layers below the root task:
+        1. Layer 1: Sequential scripted subtasks based on the first transitioning question
+        2. Layer 2: Generated subtasks based on the second transitioning question
+        3. Layer 3: Generated subtasks based on the third transitioning question
         
         Args:
             task_data: Dictionary containing task data
@@ -113,94 +131,81 @@ class BranchManager:
             task_name = task_data.get("name", task_data.get("scene_name", ""))
             task_id = task_name.lower().replace(' ', '_')
             
-            # Create the task
+            # Create the task (this is the root node with ID "1")
             task = Task(
-                task_id=task_id,
+                task_id=ROOT_TASK_ID,  # Root task always has ID "1"
                 title=task_name,
                 description=task_data.get("environment", ""),
                 location_id=task_data.get("location", "unknown"),
                 timestamp=0  # Will be set during gameplay
             )
             
-            # Generate key transitioning questions
-            log_message(f"Generating transitioning questions for {task_name}", "INFO")
-            key_questions = self.llm_handler.generate_key_questions(task_data)
+            # Use the new method to generate the complete narrative structure
+            log_message(f"Generating hierarchical narrative for {task_name}", "INFO")
+            narrative_structure = self.llm_handler.generate_hierarchical_narrative(task_data)
             
-            # Main path layer (scripted subtasks)
-            main_layer = Layer(
-                layer_id=0,
-                name="Main Path",
-                description="The primary scripted narrative path",
-                priority=100
-            )
+            # Create layers for organization
+            layers = {}
+            for i in range(1, NUM_LAYERS + 1):
+                layers[i] = Layer(
+                    layer_id=i,
+                    name=LAYER_NAMES[i],
+                    description=LAYER_DESCRIPTIONS[i],
+                    priority=LAYER_PRIORITIES[i]
+                )
             
-            # Alternative paths layer (generated subtasks)
-            alt_layer = Layer(
-                layer_id=1,
-                name="Alternative Paths",
-                description="Branching narrative possibilities",
-                priority=50
-            )
-            
-            # Generate scripted subtasks for each question
-            for i, question in enumerate(key_questions):
-                subtask_id = f"{task_id}_scripted_{i+1}"
+            # Process all scripted subtasks
+            for subtask_data in narrative_structure.get("scripted_subtasks", []):
+                layer = subtask_data.get("layer", 1)
                 
-                # Generate the scripted subtask
-                log_message(f"Generating scripted subtask for question: {question}", "INFO")
-                subtask_data = self.llm_handler.generate_scripted_subtask(task_data, question)
-                
-                # Create the scripted subtask
-                subtask = ScriptedSubTask(
-                    subtask_id=subtask_id,
-                    title=subtask_data.get("title", f"Subtask {i+1}"),
+                scripted_subtask = ScriptedSubTask(
+                    subtask_id=subtask_data.get("subtask_id", f"1.{layer}"),
+                    title=subtask_data.get("title", f"Layer {layer} Subtask"),
                     description=subtask_data.get("description", ""),
                     dialogue=subtask_data.get("dialogue", ""),
                     npc_reactions=subtask_data.get("npc_reactions", {}),
                     player_options=subtask_data.get("player_options", []),
-                    layer=0,
-                    next_transitioning_question=subtask_data.get("next_transitioning_question", "")
+                    layer=layer,
+                    next_transitioning_question="",  # Will be set later if needed
+                    parent_id=subtask_data.get("parent_id", ROOT_TASK_ID)
                 )
                 
-                # Add to main layer
-                main_layer.add_subtask(subtask)
+                # Set next transitioning question if not the last layer
+                if layer < NUM_LAYERS and len(narrative_structure.get("transitioning_questions", [])) > layer:
+                    scripted_subtask.next_transitioning_question = narrative_structure["transitioning_questions"][layer]
                 
-                # Add to task
-                task.add_subtask(subtask)
+                # Add to layer and task
+                layers[layer].add_subtask(scripted_subtask)
+                task.add_subtask(scripted_subtask)
+            
+            # Process all generated subtasks (alternatives)
+            for subtask_data in narrative_structure.get("generated_subtasks", []):
+                layer = subtask_data.get("layer", 1)
                 
-                # Generate alternative branches
-                log_message(f"Generating alternative branches for question: {question}", "INFO")
-                branches = self.llm_handler.generate_subtask_branches(task_data, question, subtask_data)
+                generated_subtask = GeneratedSubTask(
+                    subtask_id=subtask_data.get("subtask_id", f"1.{layer}.{0}"),
+                    title=subtask_data.get("title", f"Alternative for Layer {layer}"),
+                    description=subtask_data.get("description", ""),
+                    dialogue=subtask_data.get("dialogue", ""),
+                    npc_reactions=subtask_data.get("npc_reactions", {}),
+                    player_options=subtask_data.get("player_options", []),
+                    transitioning_question=subtask_data.get("next_transitioning_question", ""),
+                    layer=layer,
+                    generation_score=subtask_data.get("rating", 80),
+                    parent_id=subtask_data.get("parent_id", f"1.{layer}")
+                )
                 
-                # Create generated subtasks for branches
-                for j, branch in enumerate(branches):
-                    branch_id = f"{task_id}_generated_{i+1}_{j+1}"
-                    
-                    # Create the generated subtask
-                    branch_subtask = GeneratedSubTask(
-                        subtask_id=branch_id,
-                        title=branch.get("title", f"Alternative {j+1}"),
-                        description=branch.get("description", ""),
-                        dialogue=branch.get("dialogue", ""),
-                        npc_reactions=branch.get("npc_reactions", {}),
-                        player_options=branch.get("player_options", []),
-                        transitioning_question=branch.get("next_transitioning_question", ""),
-                        layer=1
-                    )
-                    
-                    # Add to alternative layer
-                    alt_layer.add_subtask(branch_subtask)
-                    
-                    # Add to task
-                    task.add_subtask(branch_subtask)
+                # Add to layer and task
+                layers[layer].add_subtask(generated_subtask)
+                task.add_subtask(generated_subtask)
             
             return task
             
         except Exception as e:
             log_message(f"Error generating task with subtasks: {e}", "ERROR")
             return None
-\
-    def save_task_chain(self, chain_id, output_path="data/generated_chains"):
+
+    def save_task_chain(self, chain_id, output_path=GENERATED_CHAINS_PATH):
         """
         Save a generated task chain to a JSON file.
         
@@ -230,7 +235,7 @@ class BranchManager:
         except Exception as e:
             log_message(f"Error saving task chain: {e}", "ERROR")
     
-    def load_task_chain(self, chain_id, input_path="data/generated_chains"):
+    def load_task_chain(self, chain_id, input_path=GENERATED_CHAINS_PATH):
         """
         Load a task chain from a JSON file.
         
