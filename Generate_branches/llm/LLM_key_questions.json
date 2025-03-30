@@ -1,0 +1,39 @@
+[
+  {
+    "timestamp": "20250330_165600",
+    "prompt": "\nYou serve as a story teller, and your job is to analyze the task information we give you and generate three key questions (Transitioning_question) that form a sequential narrative flow for this task.\n\nIMPORTANT: These three questions MUST follow a clear chronological sequence where:\n1. The first question establishes the initial situation and sets up the first narrative twist\n2. The second question builds upon the first question's developments and asks about complications or challenges that arise\n3. The third question depends on the previous two and addresses how the situation resolves or concludes\n\nHere are the definitions to help you understand the task:\n- Transitioning_question: A key narrative question that drives the story forward and creates branching paths.\n- Scripted_sub_task: A predetermined narrative segment with fixed dialogue, NPC reactions, and player options.\n- Generated_sub_task: A dynamically generated narrative segment created in response to a Transitioning_question.\n\nHere is the task information:\n{\n  \"name\": \"Beginning\",\n  \"location\": \"0\",\n  \"trigger_conditions\": {\n    \"time_condition\": \"Chapter == 1 and GameDay == 1\"\n  },\n  \"environment\": \"In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.\",\n  \"interactive_environment_objects\": null,\n  \"interactive_npc\": [\n    {\n      \"name\": \"Ronan\",\n      \"additional_conditions\": null,\n      \"goal\": \"Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.\",\n      \"emotion_pool\": [\n        {\n          \"id\": \"0\",\n          \"trigger_condition\": null,\n          \"goal\": \"Assign tasks to the player, provide advice, and answer the player's questions.\"\n        },\n        {\n          \"id\": \"1\",\n          \"trigger_condition\": \"The player asks about the task too many times or constantly goes off-topic\",\n          \"goal\": \"Seriously remind the player that this task is very important.\"\n        }\n      ]\n    }\n  ],\n  \"scene_end_state_reference\": {\n    \"end_condition1\": \"The player indicates understanding of the task\",\n    \"end_condition2\": \"The player explicitly refuses the task\"\n  }\n}\n\nPlease respond with a JSON array containing exactly three transitioning questions in chronological order, like this:\n[\"First question about the initial situation?\", \"Second question about complications that arise?\", \"Third question about resolution?\"]\n\nYOUR RESPONSE MUST BE VALID JSON: A single array containing exactly three string elements.\n",
+    "raw_response": "```json\n[\n    \"What brings the player to the dimly-lit office of the gangster boss at the beginning of Chapter 1, GameDay 1?\",\n    \"As Ronan assigns the task to pick up goods, what challenges or doubts does the player face, especially regarding contacting Meredith Stout?\",\n    \"How does the player decide to approach the task, and what are the outcomes of either accepting or refusing the task as the scene concludes?\"\n]\n```",
+    "task_info": {
+      "name": "Beginning",
+      "location": "0",
+      "trigger_conditions": {
+        "time_condition": "Chapter == 1 and GameDay == 1"
+      },
+      "environment": "In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.",
+      "interactive_environment_objects": null,
+      "interactive_npc": [
+        {
+          "name": "Ronan",
+          "additional_conditions": null,
+          "goal": "Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.",
+          "emotion_pool": [
+            {
+              "id": "0",
+              "trigger_condition": null,
+              "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+            },
+            {
+              "id": "1",
+              "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+              "goal": "Seriously remind the player that this task is very important."
+            }
+          ]
+        }
+      ],
+      "scene_end_state_reference": {
+        "end_condition1": "The player indicates understanding of the task",
+        "end_condition2": "The player explicitly refuses the task"
+      }
+    }
+  }
+]

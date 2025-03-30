@@ -6,8 +6,63 @@ It handles prompting, response parsing, and other LLM-related functionality.
 import os
 import json
 import random
+import datetime
 from typing import Dict, List, Tuple, Any, Optional
-import openai
+from langchain_openai import ChatOpenAI
+from langchain_core.messages import SystemMessage, HumanMessage
+
+# Add a function to save responses to JSON files
+def save_llm_response(response_type, prompt, response, task_info=None):
+    """
+    Save LLM prompt and response to a JSON file for debugging.
+    
+    Args:
+        response_type: Type of response (key_questions, scripted_subtask, etc.)
+        prompt: The prompt sent to the LLM
+        response: The raw response from the LLM
+        task_info: Optional task information for context
+    """
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    
+    # Create the responses directory if it doesn't exist
+    os.makedirs("Generate_branches/llm/responses", exist_ok=True)
+    
+    # Create a unique filename
+    filename = f"Generate_branches/llm/responses/{response_type}_{timestamp}.json"
+    
+    # Prepare the data to save
+    data = {
+        "timestamp": timestamp,
+        "prompt": prompt,
+        "raw_response": response,
+        "task_info": task_info
+    }
+    
+    # Save to file
+    with open(filename, 'w') as f:
+        json.dump(data, f, indent=2)
+    
+    # Also append to aggregated file
+    aggregated_file = f"Generate_branches/llm/LLM_{response_type}.json"
+    
+    # If the file exists, load existing data
+    if os.path.exists(aggregated_file):
+        try:
+            with open(aggregated_file, 'r') as f:
+                aggregated_data = json.load(f)
+                if not isinstance(aggregated_data, list):
+                    aggregated_data = [aggregated_data]
+        except:
+            aggregated_data = []
+    else:
+        aggregated_data = []
+    
+    # Append new data
+    aggregated_data.append(data)
+    
+    # Save updated data
+    with open(aggregated_file, 'w') as f:
+        json.dump(aggregated_data, f, indent=2)
 
 class LLMHandler:
     """
@@ -27,12 +82,15 @@ class LLMHandler:
         # Use provided API key or try to get from environment
         self.api_key = api_key or os.getenv("OPENAI_API_KEY", "sk-SdjbKZ455Psww0ZoKvSl4as8dKai9i3CUQWikdz4w2QBA4Vq")
         
-        # Set up the OpenAI client
-        if self.api_key:
-            openai.api_key = self.api_key
+        # Set up the LangChain ChatOpenAI client with custom base URL
+        self.llm = ChatOpenAI(
+            model="gpt-4o",
+            base_url="https://api2.aigcbest.top/v1",
+            api_key=self.api_key
+        )
         
-        # Default model
-        self.model = "gpt-4o-mini"
+        # Default model (though this is now set in the ChatOpenAI initialization)
+        self.model = "gpt-4o"
     
     def _call_llm(self, prompt: str, max_tokens: int = 1000) -> str:
         """
@@ -47,16 +105,19 @@ class LLMHandler:
         """
         try:
             if self.api_key:
-                # Call the OpenAI API
-                response = openai.ChatCompletion.create(
-                    model=self.model,
-                    messages=[
-                        {"role": "system", "content": "You are a helpful storytelling assistant."},
-                        {"role": "user", "content": prompt}
-                    ],
+                # Call the LLM using LangChain's ChatOpenAI
+                messages = [
+                    SystemMessage(content="You are a helpful storytelling assistant who always responds in valid JSON format."),
+                    HumanMessage(content=prompt)
+                ]
+                
+                response = self.llm.invoke(
+                    messages,
                     max_tokens=max_tokens
                 )
-                return response.choices[0].message.content
+                
+                # Extract content from the response
+                return response.content
             else:
                 # Mock response for demo/testing when no API key is available
                 return self._mock_llm_response(prompt)
@@ -110,6 +171,13 @@ class LLMHandler:
         elif "npc_response" in prompt.lower():
             return "The character considers your words carefully before responding with measured caution."
         
+        elif "key questions" in prompt.lower():
+            return json.dumps([
+                "How does the initial interaction unfold?",
+                "What complications arise during the task?",
+                "How does the situation resolve?"
+            ])
+        
         else:
             return "The narrative continues with unexpected developments and emerging challenges."
     
@@ -125,7 +193,12 @@ class LLMHandler:
         """
         # Prepare the prompt
         prompt = f"""
-You serve as a story teller, and your job is to analyze the task information we give you and give us three key questions (Transitioning_question) that you think can cover the main flow of this task. Please pay attention that these three key questions should be in a time precedence as the task proceeds in your analysis.
+You serve as a story teller, and your job is to analyze the task information we give you and generate three key questions (Transitioning_question) that form a sequential narrative flow for this task.
+
+IMPORTANT: These three questions MUST follow a clear chronological sequence where:
+1. The first question establishes the initial situation and sets up the first narrative twist
+2. The second question builds upon the first question's developments and asks about complications or challenges that arise
+3. The third question depends on the previous two and addresses how the situation resolves or concludes
 
 Here are the definitions to help you understand the task:
 - Transitioning_question: A key narrative question that drives the story forward and creates branching paths.
@@ -136,31 +209,44 @@ Here is the task information:
 {json.dumps(task_info, indent=2)}
 
 Please respond with a JSON array containing exactly three transitioning questions in chronological order, like this:
-["First question?", "Second question?", "Third question?"]
+["First question about the initial situation?", "Second question about complications that arise?", "Third question about resolution?"]
+
+YOUR RESPONSE MUST BE VALID JSON: A single array containing exactly three string elements.
 """
         
         # Call the LLM
         response = self._call_llm(prompt)
         
+        # Save the prompt and response
+        save_llm_response("key_questions", prompt, response, task_info)
+        
+        # Try different JSON extraction methods
         try:
-            # Parse the response
+            # First, try direct JSON parsing
             questions = json.loads(response)
             if isinstance(questions, list) and len(questions) > 0:
                 return questions[:3]  # Ensure we have at most 3 questions
-            else:
-                # Fallback if parsing fails
-                return [
-                    "How does the initial interaction unfold?",
-                    "What complications arise during the task?",
-                    "How does the situation resolve?"
-                ]
-        except:
-            # Fallback if parsing fails
-            return [
-                "How does the initial interaction unfold?",
-                "What complications arise during the task?",
-                "How does the situation resolve?"
-            ]
+                
+        except json.JSONDecodeError:
+            # If direct parsing fails, try to extract JSON from the response
+            try:
+                # Look for anything that looks like a JSON array
+                import re
+                json_match = re.search(r'\[.*\]', response, re.DOTALL)
+                if json_match:
+                    questions = json.loads(json_match.group(0))
+                    if isinstance(questions, list) and len(questions) > 0:
+                        return questions[:3]
+            except:
+                pass
+                
+        # Fallback if all parsing methods fail
+        print("Error parsing LLM response for key questions. Using fallback.")
+        return [
+            "How does the initial interaction unfold?",
+            "What complications arise during the task?",
+            "How does the situation resolve?"
+        ]
     
     def generate_scripted_subtask(self, task_info: Dict[str, Any], transitioning_question: str) -> Dict[str, Any]:
         """
@@ -187,35 +273,57 @@ Task Information:
 Transitioning Question: {transitioning_question}
 
 Please respond with a JSON object representing a scripted subtask that addresses this question. 
-Your response should have this format:
+Your response should have EXACTLY this format:
 {{
-  "title": "",
-  "description": "",
-  "dialogue": "",
+  "title": "Brief, catchy title for the subtask",
+  "description": "Clear description of what happens in this subtask",
+  "dialogue": "The main narrative text that will be shown to the player",
   "npc_reactions": {{"npc_name": "reaction description", ...}},
   "player_options": ["option 1", "option 2", "option 3"],
-  "next_transitioning_question": ""
+  "next_transitioning_question": "What happens next?"
 }}
+
+YOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown above. Do not include any text, markdown formatting, or explanation outside of the JSON object.
 """
         
         # Call the LLM
         response = self._call_llm(prompt)
         
+        # Save the prompt and response
+        save_llm_response("scripted_subtask", prompt, response, {
+            "task_info": task_info,
+            "transitioning_question": transitioning_question
+        })
+        
+        # Try different JSON extraction methods
         try:
-            # Parse the response
+            # First, try direct JSON parsing
             subtask = json.loads(response)
-            return subtask
-        except:
-            # Fallback if parsing fails
-            print("Error parsing LLM response for scripted subtask. Using fallback.")
-            return {
-                "title": f"Response to {transitioning_question}",
-                "description": "A scripted response to the transitioning question.",
-                "dialogue": "The situation unfolds according to narrative expectations.",
-                "npc_reactions": {},
-                "player_options": ["Continue", "Ask questions", "Take another approach"],
-                "next_transitioning_question": "What happens next?"
-            }
+            if isinstance(subtask, dict) and "title" in subtask and "dialogue" in subtask:
+                return subtask
+                
+        except json.JSONDecodeError:
+            # If direct parsing fails, try to extract JSON from the response
+            try:
+                import re
+                json_match = re.search(r'\{.*\}', response, re.DOTALL)
+                if json_match:
+                    subtask = json.loads(json_match.group(0))
+                    if isinstance(subtask, dict) and "title" in subtask and "dialogue" in subtask:
+                        return subtask
+            except:
+                pass
+        
+        # Fallback if parsing fails
+        print("Error parsing LLM response for scripted subtask. Using fallback.")
+        return {
+            "title": f"Response to {transitioning_question}",
+            "description": "A scripted response to the transitioning question.",
+            "dialogue": "The situation unfolds according to narrative expectations.",
+            "npc_reactions": {},
+            "player_options": ["Continue", "Ask questions", "Take another approach"],
+            "next_transitioning_question": "What happens next?"
+        }
     
     def generate_subtask_branches(self, task_info: Dict[str, Any], transitioning_question: str, 
                                scripted_subtask: Dict[str, Any]) -> List[Dict[str, Any]]:
@@ -251,38 +359,59 @@ You should generate alternative narrative branches that could occur in response 
 Rate each possibility on a 100-point scale. Only possibilities rated over 80 should be considered viable.
 Generate no more than 3 alternative branches.
 
-Your response should be a JSON array of objects with this format:
+Your response should be a JSON array of objects with EXACTLY this format:
 [
   {{
-    "title": "",
-    "description": "",
-    "dialogue": "",
+    "title": "Brief, catchy title for the branch",
+    "description": "Clear description of what happens in this branch",
+    "dialogue": "The main narrative text that will be shown to the player",
     "npc_reactions": {{"npc_name": "reaction description", ...}},
     "player_options": ["option 1", "option 2", "option 3"],
-    "next_transitioning_question": "",
+    "next_transitioning_question": "What happens next in this branch?",
     "rating": 85
   }},
   ...
 ]
+
+YOUR RESPONSE MUST BE VALID JSON: An array containing objects with the exact keys shown above. Do not include any text, markdown formatting, or explanation outside of the JSON array.
 """
         
         # Call the LLM
         response = self._call_llm(prompt, max_tokens=2000)
         
+        # Save the prompt and response
+        save_llm_response("subtask_branches", prompt, response, {
+            "task_info": task_info,
+            "transitioning_question": transitioning_question,
+            "scripted_subtask": scripted_subtask
+        })
+        
+        # Try different JSON extraction methods
         try:
-            # Parse the response
+            # First, try direct JSON parsing
             branches = json.loads(response)
             
             # Filter by rating and limit to 3
             if isinstance(branches, list):
                 valid_branches = [b for b in branches if b.get("rating", 0) >= 80]
                 return valid_branches[:3]
-            else:
-                return []
-        except:
-            # Fallback if parsing fails
-            print("Error parsing LLM response for subtask branches. Using fallback.")
-            return []
+                
+        except json.JSONDecodeError:
+            # If direct parsing fails, try to extract JSON from the response
+            try:
+                import re
+                json_match = re.search(r'\[.*\]', response, re.DOTALL)
+                if json_match:
+                    branches = json.loads(json_match.group(0))
+                    if isinstance(branches, list):
+                        valid_branches = [b for b in branches if b.get("rating", 0) >= 80]
+                        return valid_branches[:3]
+            except:
+                pass
+                
+        # Fallback if parsing fails
+        print("Error parsing LLM response for subtask branches. Using fallback.")
+        return []
     
     def generate_subtask(self, game_state, transitioning_question, current_subtask):
         """
