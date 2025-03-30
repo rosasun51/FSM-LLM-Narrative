@@ -1,6 +1,6 @@
 """
 This module provides visualization tools for task chains and subtask branches.
-It uses langraph for generating visual representations of narrative structures.
+It uses langraph (NetworkX) for generating visual representations of narrative structures.
 """
 
 import os
@@ -305,6 +305,7 @@ class ChainVisualizer:
         
         log_message(f"Saved visualization to {file_path}", "INFO")
 
+# Jupyter notebook creation function
 def create_illustration_notebook():
     """
     Create a Jupyter notebook for task chain visualization.
@@ -490,6 +491,7 @@ def create_illustration_notebook():
     except Exception as e:
         log_message(f"Error creating illustration notebook: {e}", "ERROR")
 
+# Example function for easy testing from command line
 def visualize_task_structure_example():
     """
     Example function showing how to use the task structure visualization.

@@ -1,5 +1,11 @@
 """
-This is the main entry point for the narrative generation system.
+This is the main entry point for the FSM-LLM narrative generation system.
+
+This system creates interactive, non-linear storytelling experiences by:
+1. Loading scripted tasks from templates
+2. Using LLMs to generate key questions, scripted subtasks, and alternative branches
+3. Organizing narrative elements in a hierarchical tree structure
+4. Providing visualization tools to explore the narrative flow
 """
 
 import argparse
@@ -21,18 +27,37 @@ from Generate_branches.utils.constants import (
 def main():
     """
     Main entry point for the narrative generation system.
+
     Parses command line arguments and executes the appropriate function.
+    Available commands:
+    - --demo: Run the interactive demo game
+    - --visualize: Generate visualizations of task chains
+    - --notebook: Create a Jupyter notebook for visualization
+    - --test: Run tests
+    - --task: Specify a task to run or visualize
+    - --debug: Enable verbose debug output
     """
-    parser = argparse.ArgumentParser(description='Narrative Generation System with LLM')
+    # Create argument parser with descriptive help text
+    parser = argparse.ArgumentParser(
+        description='FSM-LLM Narrative Generation System with Hierarchical Structure',
+        epilog='Example: python -m Generate_branches.main --demo --task "Beginning"'
+    )
     
-    # Add arguments
-    parser.add_argument('--demo', action='store_true', help='Run the demo game')
-    parser.add_argument('--visualize', action='store_true', help='Generate visualizations of task chains')
-    parser.add_argument('--notebook', action='store_true', help='Create a Jupyter notebook for visualization')
-    parser.add_argument('--test', action='store_true', help='Run tests')
-    parser.add_argument('--module', type=str, default='all', help='Module to test (default: all)')
-    parser.add_argument('--task', type=str, default=TEST_TASK_NAME, help=f'Task to run or visualize (default: {TEST_TASK_NAME})')
-    parser.add_argument('--debug', action='store_true', help='Enable debug mode')
+    # Add command-line arguments with detailed help text
+    parser.add_argument('--demo', action='store_true', 
+                        help='Run the interactive demo game with narrative choices')
+    parser.add_argument('--visualize', action='store_true', 
+                        help='Generate visualizations of task chains and their hierarchical structure')
+    parser.add_argument('--notebook', action='store_true', 
+                        help='Create a Jupyter notebook for interactive visualization')
+    parser.add_argument('--test', action='store_true', 
+                        help='Run the test suite to verify system functionality')
+    parser.add_argument('--module', type=str, default='all', 
+                        help='Specific module to test (all, task, subtask, llm, game)')
+    parser.add_argument('--task', type=str, default=TEST_TASK_NAME, 
+                        help=f'Task to run or visualize (default: {TEST_TASK_NAME})')
+    parser.add_argument('--debug', action='store_true', 
+                        help='Enable debug mode with verbose logging')
     
     # Parse arguments
     args = parser.parse_args()
@@ -65,7 +90,7 @@ def run_tests(module_name="all"):
     Run unit tests for the specified module.
     
     Args:
-        module_name: Module to test (all, task, subtask, etc.)
+        module_name: Module to test (all, task, subtask, llm, game)
     """
     if module_name == "all":
         # Run all tests in the tests directory
@@ -93,8 +118,14 @@ def visualize_task_chains(task_name=None):
     """
     Generate visualizations for task chains.
     
+    This function creates three types of visualizations:
+    1. Task chain visualization (overall structure)
+    2. Subtask flow visualization (sequential flow)
+    3. Hierarchical structure visualization (parent-child relationships)
+    
     Args:
         task_name: Name of a specific task to visualize (optional)
+                  If None, visualizes all available tasks
     """
     # Create a branch manager
     branch_manager = BranchManager()
@@ -116,6 +147,9 @@ def visualize_task_chains(task_name=None):
             # Visualize the subtask flow for each task
             for task in task_chain.tasks:
                 visualizer.visualize_subtask_flow(task)
+                
+                # Generate hierarchical structure visualization
+                visualizer.visualize_hierarchical_structure(task)
     else:
         # Generate and visualize all available task chains
         for task_data in branch_manager.scripted_tasks:
@@ -133,8 +167,12 @@ def visualize_task_chains(task_name=None):
                     # Visualize the subtask flow for each task
                     for task in task_chain.tasks:
                         visualizer.visualize_subtask_flow(task)
+                        
+                        # Generate hierarchical structure visualization
+                        visualizer.visualize_hierarchical_structure(task)
     
     log_message("Visualization complete", "INFO")
+    log_message(f"Visualizations saved to Generate_branches/{VISUALIZATION_PATH}/", "INFO")
 
 if __name__ == "__main__":
     main() 

@@ -1,23 +1,21 @@
 # Core dependencies
-# python>=3.7.0
+python>=3.7.0
 openai>=1.0.0
+langchain>=0.0.10
+requests>=2.25.1
+
+# Visualization
 networkx>=2.5
 matplotlib>=3.3.4
 numpy>=1.19.5
 jupyter>=1.0.0
+ipython>=7.20.0
+# Optional but recommended for better hierarchical layouts
+# pygraphviz>=1.7
 
-# For a real implementation, you would need:
-langchain>=0.0.10
-
-# Utils
+# Command line interface
 argparse>=1.4.0
 
-# Visualization
-ipython>=7.20.0
-
-# Utilities
-tqdm>=4.56.0
-requests>=2.25.1
-
-# Testing
-pytest>=6.2.2 
+# Development and testing
+pytest>=6.2.2
+tqdm>=4.56.0 
