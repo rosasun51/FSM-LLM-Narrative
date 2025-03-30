@@ -1,0 +1,23 @@
+# Core dependencies
+python>=3.7.0
+openai>=1.0.0
+networkx>=2.5
+matplotlib>=3.3.4
+numpy>=1.19.5
+jupyter>=1.0.0
+
+# For a real implementation, you would need:
+# langchain>=0.0.10
+
+# Utils
+argparse>=1.4.0
+
+# Visualization
+ipython>=7.20.0
+
+# Utilities
+tqdm>=4.56.0
+requests>=2.25.1
+
+# Testing
+pytest>=6.2.2 

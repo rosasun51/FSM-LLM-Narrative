@@ -1,0 +1,190 @@
+[
+  {
+    "name": "Beginning",
+    "location": "0",
+    "trigger_conditions": {
+      "time_condition": "Chapter == 1 and GameDay == 1"
+    },
+    "environment": "In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic décor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.",
+    "interactive_environment_objects": null,
+    "interactive_npc": [
+      {
+        "name": "Ronan",
+        "additional_conditions": null,
+        "goal": "Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.",
+        "emotion_pool": [
+          {
+            "id": "0",
+            "trigger_condition": null,
+            "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+          },
+          {
+            "id": "1",
+            "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+            "goal": "Seriously remind the player that this task is very important."
+          }
+        ]
+      }
+    ],
+    "scene_end_state_reference": {
+      "end_condition1": "The player indicates understanding of the task",
+      "end_condition2": "The player explicitly refuses the task"
+    }
+  },
+  {
+    "scene_name": "Meet with Meredith Stout",
+    "location": "1",
+    "trigger_conditions": {
+      "time_condition": "Chapter == 1 and 2<= GameDay <4",
+      "additional_conditions": "Completed contact with Meredith Stout"
+    },
+    "environment": "The alley was a scar of cracked concrete and rusting pipes, choked by tangled wires and creeping decay. Smoke curled through the air, laced with the scent of burning oil and old metal, while weeds forced their way through fractured asphalt. Bullet casings and broken tech lay forgotten in the dirt, whispers of past violence. Beyond the oppressive walls, the neon skyline flickered—a stark contrast to the shadows that clung to this forsaken corner of the city.",
+    "interactive_environment_objects": null,
+    "interactive_npc": [
+      {
+        "name": "Meredith Stout",
+        "action_point_cost": "1",
+        "overall_goal": "Meet the player and determine if the player knows the whereabouts of the missing goods.",
+        "emotion_pool": [
+          {
+            "id": 0,
+            "trigger_condition": null,
+            "goal": "Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot."
+          },
+          {
+            "id": 1,
+            "trigger_condition": "angered by the player",
+            "goal": "Insult or threaten the player."
+          },
+          {
+            "id": 2,
+            "trigger_condition": "believes the player is cooperative",
+            "goal": "Provide the player with a chip to store cash."
+          }
+        ]
+      }
+    ],
+    "scene_end_state_reference": {
+      "end_condition1": "Whether the player accepts or rejects the chip",
+      "end_condition2": "The relationship between the player and Meredith Stout"
+    }
+  },
+  {
+    "name": "Picking Up Goods",
+    "location": "2",
+    "trigger_conditions": {
+      "time_condition": "Chapter == 1 and 3 <= GameDay < 5",
+      "additional_conditions": "Player accepted Ronan's assignment"
+    },
+    "environment": "A dimly lit room on the second floor of an appropriated chow factory, with exposed cables and pipes lining the ceiling and stuffed trashbags piling in the corners. There is a roller shutter that seems to connect the room with another unseen area.",
+    "interactive_environment_objects": null,
+    "interactive_npc": [
+      {
+        "name": "Royce",
+        "action_point_cost": "1",
+        "goal": "Sell the robot at a high price and extort money from the player",
+        "emotion_pool": [
+          {
+            "id": "0",
+            "trigger_condition": null,
+            "goal": "Indicate that the player needs to pay an extra sum of money to buy the robot"
+          },
+          {
+            "id": "1",
+            "trigger_condition": "The player mentions having already paid money to the previous boss",
+            "goal": "Refuse to refund, threaten the player, and apply pressure"
+          },
+          {
+            "id": "2",
+            "trigger_condition": "The player clearly states they will not pay extra money",
+            "goal": "Kill the player"
+          },
+          {
+            "id": "3",
+            "trigger_condition": "The player pays",
+            "goal": "Establish a friendly relationship with the player"
+          }
+        ]
+      },
+      {
+        "name": "Dum Dum",
+        "action_point_cost": "0",
+        "goal": "Assist Royce in selling the robot at a high price and extort money from the player",
+        "emotion_pool": [
+          {
+            "id": "0",
+            "trigger_condition": null,
+            "goal": "Intimidate the player, making them accept their rules"
+          },
+          {
+            "id": "1",
+            "trigger_condition": "The player refuses to accept Dum Dum's gang rules",
+            "goal": "Kill the player"
+          },
+          {
+            "id": "2",
+            "trigger_condition": "The player shows submission",
+            "goal": "Introduce the player to his boss, Royce"
+          }
+        ]
+      }
+    ],
+    "scene_end_state_reference": {
+      "end_condition1": "Player pays",
+      "end_condition2": "Player engages in direct conflict with Royce or Dum Dum"
+    }
+  },
+  {
+    "name": "Clear Virus",
+    "location": "3",
+    "trigger_conditions": {
+      "time_condition": "Chapter == 1 and 2 <= GameDay < 5",
+      "additional_conditions": "Player accepted the cash chip provided by Meredith Stout"
+    },
+    "environment": "In a dark, neon-lit backstreet, the hacker service shop buzzes with an undercurrent of digital intrigue. The storefront is a patchwork of flickering holographic ads and graffiti tags, hinting at a rebellious past. Inside, the air is heavy with the hum of servers and the faint scent of ozone. Vintage cyber gear lies intermingled with state-of-the-art tech, creating a seamless blend of retro and futuristic aesthetics. Shadows dance over cluttered workstations as faceless figures exchange encrypted data, their eyes illuminated by the glow of multi-screen setups, all encapsulating the gritty essence of a cyberpunk underworld.",
+    "interactive_environment_objects": null,
+    "interactive_npc": [
+      {
+        "name": "Joe",
+        "action_point_cost": "1",
+        "goal": "Help the player resolve hacker service needs",
+        "emotion_pool": [
+          {
+            "id": "0",
+            "trigger_condition": null,
+            "goal": "Ask the player about his needs"
+          },
+          {
+            "id": "1",
+            "trigger_condition": "If the player refuses to pay after receiving the service",
+            "goal": "Tamper with the player's identity information"
+          }
+        ]
+      }
+    ],
+    "scene_end_state_reference": {
+      "end_condition1": null,
+      "end_condition2": null
+    }
+  },
+  {
+    "name": "Contact Meredith Stout",
+    "location": "4",
+    "trigger_conditions": {
+      "time_condition": "Chapter == 1 and GameDay == 1",
+      "additional_conditions": "Player accepted Ronan's picking-up assignment"
+    },
+    "environment": "In a compact, cluttered apartment, neon lights seep through the blinds, painting the room in vibrant hues of electric blue and magenta. The space is a mixture of futuristic tech and worn, personal relics—a small workstation with multiple screens, cables tangled around vintage posters, and a battered synthesizer in the corner. The air carries a faint scent of ozone and stale coffee, and every surface seems to whisper stories of late-night coding sessions and clandestine virtual escapades. Despite the limited space, the apartment exudes a raw, lived-in energy that is both isolating and undeniably alive in the heart of the cyberpunk cityscape.",
+    "interactive_environment_objects": [
+      {
+        "name": "Computer",
+        "action_point_cost": "1"
+      }
+    ],
+    "interactive_npc": null,
+    "scene_end_state_reference": {
+      "end_condition1": "Player sends an email to Meredith Stout and mention the lost robot",
+      "end_condition2": null
+    }
+  }
+] 
