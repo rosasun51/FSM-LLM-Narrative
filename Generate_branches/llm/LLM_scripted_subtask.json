@@ -118,5 +118,849 @@
       },
       "transitioning_question": "How does the player decide to approach the task, and what are the outcomes of either accepting or refusing the task as the scene concludes?"
     }
+  },
+  {
+    "timestamp": "20250330_200937",
+    "prompt": "\nYou serve as a story teller, and your job is to generate a scripted subtask based on the task information and transitioning question provided.\n\nHere are the definitions to help you understand the task:\n- Scripted_sub_task: A predetermined narrative segment with fixed dialogue, NPC reactions, and player options.\n- Transitioning_question: A key narrative question that drives the story forward and creates branching paths.\n\nTask Information:\n{\n  \"name\": \"Beginning\",\n  \"location\": \"0\",\n  \"trigger_conditions\": {\n    \"time_condition\": \"Chapter == 1 and GameDay == 1\"\n  },\n  \"environment\": \"In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.\",\n  \"interactive_environment_objects\": null,\n  \"interactive_npc\": [\n    {\n      \"name\": \"Ronan\",\n      \"additional_conditions\": null,\n      \"goal\": \"Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.\",\n      \"emotion_pool\": [\n        {\n          \"id\": \"0\",\n          \"trigger_condition\": null,\n          \"goal\": \"Assign tasks to the player, provide advice, and answer the player's questions.\"\n        },\n        {\n          \"id\": \"1\",\n          \"trigger_condition\": \"The player asks about the task too many times or constantly goes off-topic\",\n          \"goal\": \"Seriously remind the player that this task is very important.\"\n        }\n      ]\n    }\n  ],\n  \"scene_end_state_reference\": {\n    \"end_condition1\": \"The player indicates understanding of the task\",\n    \"end_condition2\": \"The player explicitly refuses the task\"\n  }\n}\n\nTransitioning Question: What task does the gangster boss, Ronan, assign to the player during their meeting in the dimly-lit office?\n\nIMPORTANT: You are creating a scripted subtask that will serve as the main canonical path in a hierarchical story structure. This subtask will be the primary response to the transitioning question, and alternative branches will be generated as siblings to this subtask.\n\nPlease respond with a JSON object representing a scripted subtask that addresses this question. \nYour response should have EXACTLY this format:\n{\n  \"title\": \"Brief, catchy title for the subtask\",\n  \"description\": \"Clear description of what happens in this subtask\",\n  \"dialogue\": \"The main narrative text that will be shown to the player\",\n  \"npc_reactions\": {\"npc_name\": \"reaction description\", ...},\n  \"player_options\": [\"option 1\", \"option 2\", \"option 3\"],\n  \"next_transitioning_question\": \"What happens next?\"\n}\n\nThe next_transitioning_question field will be used to connect this subtask to the next layer in the story hierarchy. It should logically follow from this subtask's events.\n\nYOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown above. Do not include any text, markdown formatting, or explanation outside of the JSON object.\n",
+    "raw_response": "```json\n{\n  \"title\": \"The Ominous Task\",\n  \"description\": \"The player meets with Ronan, the gangster boss, who assigns them a crucial job to pick up goods and provides a tip on contacting Meredith Stout.\",\n  \"dialogue\": \"Ronan leans forward, the dim light casting shadows across his stern face. 'I need you to pick up a package for me. It's important\u2014you won't want to mess this up. Get in touch with Meredith Stout; she'll have the details you need. Any questions, make them quick.'\",\n  \"npc_reactions\": {\n    \"Ronan\": \"Ronan watches you intently, evaluating your response. His demeanor is calm yet firm, exuding an air of authority.\"\n  },\n  \"player_options\": [\n    \"Nod and agree to the task without hesitation.\",\n    \"Ask Ronan for more details about the package.\",\n    \"Refuse the task, feeling uneasy about the job.\"\n  ],\n  \"next_transitioning_question\": \"How does the player decide to approach Meredith Stout for more information?\"\n}\n```",
+    "task_info": {
+      "task_info": {
+        "name": "Beginning",
+        "location": "0",
+        "trigger_conditions": {
+          "time_condition": "Chapter == 1 and GameDay == 1"
+        },
+        "environment": "In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.",
+        "interactive_environment_objects": null,
+        "interactive_npc": [
+          {
+            "name": "Ronan",
+            "additional_conditions": null,
+            "goal": "Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.",
+            "emotion_pool": [
+              {
+                "id": "0",
+                "trigger_condition": null,
+                "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+              },
+              {
+                "id": "1",
+                "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+                "goal": "Seriously remind the player that this task is very important."
+              }
+            ]
+          }
+        ],
+        "scene_end_state_reference": {
+          "end_condition1": "The player indicates understanding of the task",
+          "end_condition2": "The player explicitly refuses the task"
+        }
+      },
+      "transitioning_question": "What task does the gangster boss, Ronan, assign to the player during their meeting in the dimly-lit office?"
+    }
+  },
+  {
+    "timestamp": "20250330_200942",
+    "prompt": "\nYou serve as a story teller, and your job is to generate a scripted subtask based on the task information and transitioning question provided.\n\nHere are the definitions to help you understand the task:\n- Scripted_sub_task: A predetermined narrative segment with fixed dialogue, NPC reactions, and player options.\n- Transitioning_question: A key narrative question that drives the story forward and creates branching paths.\n\nTask Information:\n{\n  \"name\": \"Beginning\",\n  \"location\": \"0\",\n  \"trigger_conditions\": {\n    \"time_condition\": \"Chapter == 1 and GameDay == 1\"\n  },\n  \"environment\": \"In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.\",\n  \"interactive_environment_objects\": null,\n  \"interactive_npc\": [\n    {\n      \"name\": \"Ronan\",\n      \"additional_conditions\": null,\n      \"goal\": \"Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.\",\n      \"emotion_pool\": [\n        {\n          \"id\": \"0\",\n          \"trigger_condition\": null,\n          \"goal\": \"Assign tasks to the player, provide advice, and answer the player's questions.\"\n        },\n        {\n          \"id\": \"1\",\n          \"trigger_condition\": \"The player asks about the task too many times or constantly goes off-topic\",\n          \"goal\": \"Seriously remind the player that this task is very important.\"\n        }\n      ]\n    }\n  ],\n  \"scene_end_state_reference\": {\n    \"end_condition1\": \"The player indicates understanding of the task\",\n    \"end_condition2\": \"The player explicitly refuses the task\"\n  }\n}\n\nTransitioning Question: What complications arise as the player tries to pick up the goods or contact Meredith Stout as advised by Ronan?\n\nIMPORTANT: You are creating a scripted subtask that will serve as the main canonical path in a hierarchical story structure. This subtask will be the primary response to the transitioning question, and alternative branches will be generated as siblings to this subtask.\n\nPlease respond with a JSON object representing a scripted subtask that addresses this question. \nYour response should have EXACTLY this format:\n{\n  \"title\": \"Brief, catchy title for the subtask\",\n  \"description\": \"Clear description of what happens in this subtask\",\n  \"dialogue\": \"The main narrative text that will be shown to the player\",\n  \"npc_reactions\": {\"npc_name\": \"reaction description\", ...},\n  \"player_options\": [\"option 1\", \"option 2\", \"option 3\"],\n  \"next_transitioning_question\": \"What happens next?\"\n}\n\nThe next_transitioning_question field will be used to connect this subtask to the next layer in the story hierarchy. It should logically follow from this subtask's events.\n\nYOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown above. Do not include any text, markdown formatting, or explanation outside of the JSON object.\n",
+    "raw_response": "```json\n{\n  \"title\": \"Unexpected Surveillance\",\n  \"description\": \"As the player attempts to pick up the goods, they are suddenly aware of being watched. It's unclear who or what is surveying their movements.\",\n  \"dialogue\": \"As you approach the location described by Ronan, the hairs on the back of your neck stand up. Glancing around, you notice a faint red dot flickering from a nearby rooftop. Cameras? Or perhaps a sniper sight? Your heart pounds as you weigh your options.\",\n  \"npc_reactions\": {\n    \"Ronan\": \"This is unexpected. If they're onto you, then someone might be making a move. Stay sharp, and don't trust anyone easily.\"\n  },\n  \"player_options\": [\n    \"Try to identify who is watching you.\",\n    \"Ignore the feeling and proceed with caution.\",\n    \"Quickly retreat to a safe distance and reassess.\"\n  ],\n  \"next_transitioning_question\": \"Who is behind the surveillance and what is their intention?\"\n}\n```",
+    "task_info": {
+      "task_info": {
+        "name": "Beginning",
+        "location": "0",
+        "trigger_conditions": {
+          "time_condition": "Chapter == 1 and GameDay == 1"
+        },
+        "environment": "In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.",
+        "interactive_environment_objects": null,
+        "interactive_npc": [
+          {
+            "name": "Ronan",
+            "additional_conditions": null,
+            "goal": "Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.",
+            "emotion_pool": [
+              {
+                "id": "0",
+                "trigger_condition": null,
+                "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+              },
+              {
+                "id": "1",
+                "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+                "goal": "Seriously remind the player that this task is very important."
+              }
+            ]
+          }
+        ],
+        "scene_end_state_reference": {
+          "end_condition1": "The player indicates understanding of the task",
+          "end_condition2": "The player explicitly refuses the task"
+        }
+      },
+      "transitioning_question": "What complications arise as the player tries to pick up the goods or contact Meredith Stout as advised by Ronan?"
+    }
+  },
+  {
+    "timestamp": "20250330_201004",
+    "prompt": "\nYou serve as a story teller, and your job is to generate a scripted subtask based on the task information and transitioning question provided.\n\nHere are the definitions to help you understand the task:\n- Scripted_sub_task: A predetermined narrative segment with fixed dialogue, NPC reactions, and player options.\n- Transitioning_question: A key narrative question that drives the story forward and creates branching paths.\n\nTask Information:\n{\n  \"name\": \"Beginning\",\n  \"location\": \"0\",\n  \"trigger_conditions\": {\n    \"time_condition\": \"Chapter == 1 and GameDay == 1\"\n  },\n  \"environment\": \"In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.\",\n  \"interactive_environment_objects\": null,\n  \"interactive_npc\": [\n    {\n      \"name\": \"Ronan\",\n      \"additional_conditions\": null,\n      \"goal\": \"Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.\",\n      \"emotion_pool\": [\n        {\n          \"id\": \"0\",\n          \"trigger_condition\": null,\n          \"goal\": \"Assign tasks to the player, provide advice, and answer the player's questions.\"\n        },\n        {\n          \"id\": \"1\",\n          \"trigger_condition\": \"The player asks about the task too many times or constantly goes off-topic\",\n          \"goal\": \"Seriously remind the player that this task is very important.\"\n        }\n      ]\n    }\n  ],\n  \"scene_end_state_reference\": {\n    \"end_condition1\": \"The player indicates understanding of the task\",\n    \"end_condition2\": \"The player explicitly refuses the task\"\n  }\n}\n\nTransitioning Question: How does the player's handling of the task and complications impact their relationship with Ronan or the outcome of the mission?\n\nIMPORTANT: You are creating a scripted subtask that will serve as the main canonical path in a hierarchical story structure. This subtask will be the primary response to the transitioning question, and alternative branches will be generated as siblings to this subtask.\n\nPlease respond with a JSON object representing a scripted subtask that addresses this question. \nYour response should have EXACTLY this format:\n{\n  \"title\": \"Brief, catchy title for the subtask\",\n  \"description\": \"Clear description of what happens in this subtask\",\n  \"dialogue\": \"The main narrative text that will be shown to the player\",\n  \"npc_reactions\": {\"npc_name\": \"reaction description\", ...},\n  \"player_options\": [\"option 1\", \"option 2\", \"option 3\"],\n  \"next_transitioning_question\": \"What happens next?\"\n}\n\nThe next_transitioning_question field will be used to connect this subtask to the next layer in the story hierarchy. It should logically follow from this subtask's events.\n\nYOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown above. Do not include any text, markdown formatting, or explanation outside of the JSON object.\n",
+    "raw_response": "```json\n{\n  \"title\": \"The Task Briefing\",\n  \"description\": \"Ronan instructs the player on picking up the goods and provides advice on contacting Meredith Stout.\",\n  \"dialogue\": \"In the dimly-lit office, you face Ronan, who leans back with an air of authority. 'Alright,' he begins, 'this job is straightforward but crucial. You'll head to the docks at 10 PM sharp. Meredith Stout's your contact. She plays things close to the vest, so keep your wits about you.' Ronan pauses, watching your reaction closely.\",\n  \"npc_reactions\": {\n    \"Ronan\": \"Ronan observes you carefully, gauging your response with a mix of expectation and calm. Depending on your questions, he remains composed but can grow serious if pressed too much.\"\n  },\n  \"player_options\": [\n    \"Nod and assure Ronan you'll get the job done.\",\n    \"Ask for more details about Meredith Stout.\",\n    \"Express hesitation or concern about the task.\"\n  ],\n  \"next_transitioning_question\": \"How does the player prepare for the task, and what challenges do they face at the docks?\"\n}\n```",
+    "task_info": {
+      "task_info": {
+        "name": "Beginning",
+        "location": "0",
+        "trigger_conditions": {
+          "time_condition": "Chapter == 1 and GameDay == 1"
+        },
+        "environment": "In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.",
+        "interactive_environment_objects": null,
+        "interactive_npc": [
+          {
+            "name": "Ronan",
+            "additional_conditions": null,
+            "goal": "Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.",
+            "emotion_pool": [
+              {
+                "id": "0",
+                "trigger_condition": null,
+                "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+              },
+              {
+                "id": "1",
+                "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+                "goal": "Seriously remind the player that this task is very important."
+              }
+            ]
+          }
+        ],
+        "scene_end_state_reference": {
+          "end_condition1": "The player indicates understanding of the task",
+          "end_condition2": "The player explicitly refuses the task"
+        }
+      },
+      "transitioning_question": "How does the player's handling of the task and complications impact their relationship with Ronan or the outcome of the mission?"
+    }
+  },
+  {
+    "timestamp": "20250330_201141",
+    "prompt": "\nYou serve as a story teller, and your job is to generate a scripted subtask based on the task information and transitioning question provided.\n\nHere are the definitions to help you understand the task:\n- Scripted_sub_task: A predetermined narrative segment with fixed dialogue, NPC reactions, and player options.\n- Transitioning_question: A key narrative question that drives the story forward and creates branching paths.\n\nTask Information:\n{\n  \"name\": \"Beginning\",\n  \"location\": \"0\",\n  \"trigger_conditions\": {\n    \"time_condition\": \"Chapter == 1 and GameDay == 1\"\n  },\n  \"environment\": \"In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.\",\n  \"interactive_environment_objects\": null,\n  \"interactive_npc\": [\n    {\n      \"name\": \"Ronan\",\n      \"additional_conditions\": null,\n      \"goal\": \"Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.\",\n      \"emotion_pool\": [\n        {\n          \"id\": \"0\",\n          \"trigger_condition\": null,\n          \"goal\": \"Assign tasks to the player, provide advice, and answer the player's questions.\"\n        },\n        {\n          \"id\": \"1\",\n          \"trigger_condition\": \"The player asks about the task too many times or constantly goes off-topic\",\n          \"goal\": \"Seriously remind the player that this task is very important.\"\n        }\n      ]\n    }\n  ],\n  \"scene_end_state_reference\": {\n    \"end_condition1\": \"The player indicates understanding of the task\",\n    \"end_condition2\": \"The player explicitly refuses the task\"\n  }\n}\n\nTransitioning Question: What task does the gangster boss, Ronan, assign to the player during their meeting in the dimly-lit office?\n\nIMPORTANT: You are creating a scripted subtask that will serve as the main canonical path in a hierarchical story structure. This subtask will be the primary response to the transitioning question, and alternative branches will be generated as siblings to this subtask.\n\nPlease respond with a JSON object representing a scripted subtask that addresses this question. \nYour response should have EXACTLY this format:\n{\n  \"title\": \"Brief, catchy title for the subtask\",\n  \"description\": \"Clear description of what happens in this subtask\",\n  \"dialogue\": \"The main narrative text that will be shown to the player\",\n  \"npc_reactions\": {\"npc_name\": \"reaction description\", ...},\n  \"player_options\": [\"option 1\", \"option 2\", \"option 3\"],\n  \"next_transitioning_question\": \"What happens next?\"\n}\n\nThe next_transitioning_question field will be used to connect this subtask to the next layer in the story hierarchy. It should logically follow from this subtask's events.\n\nYOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown above. Do not include any text, markdown formatting, or explanation outside of the JSON object.\n",
+    "raw_response": "```json\n{\n  \"title\": \"The Task Assignment\",\n  \"description\": \"Ronan, the gangster boss, assigns the player a task to pick up a suspicious shipment and offers advice on dealing with Meredith Stout.\",\n  \"dialogue\": \"Ronan leans forward, fingers interlocked. 'Listen closely, this is important,' he says, his voice low and firm. 'You're going to pick up a shipment from the docks. There's a woman, Meredith Stout, you might need her help. Be careful with how you approach her.' His eyes fix on yours, making it clear there's no room for mistakes.\",\n  \"npc_reactions\": {\n    \"Ronan\": \"Ronan watches the player intently, nodding slightly as he emphasizes the importance of the task.\"\n  },\n  \"player_options\": [\n    \"Agree to the task and ask about Meredith Stout.\",\n    \"Agree to the task without asking further questions.\",\n    \"Express hesitation about the task.\"\n  ],\n  \"next_transitioning_question\": \"How does the player proceed with the task after leaving Ronan's office?\"\n}\n```",
+    "task_info": {
+      "task_info": {
+        "name": "Beginning",
+        "location": "0",
+        "trigger_conditions": {
+          "time_condition": "Chapter == 1 and GameDay == 1"
+        },
+        "environment": "In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.",
+        "interactive_environment_objects": null,
+        "interactive_npc": [
+          {
+            "name": "Ronan",
+            "additional_conditions": null,
+            "goal": "Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.",
+            "emotion_pool": [
+              {
+                "id": "0",
+                "trigger_condition": null,
+                "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+              },
+              {
+                "id": "1",
+                "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+                "goal": "Seriously remind the player that this task is very important."
+              }
+            ]
+          }
+        ],
+        "scene_end_state_reference": {
+          "end_condition1": "The player indicates understanding of the task",
+          "end_condition2": "The player explicitly refuses the task"
+        }
+      },
+      "transitioning_question": "What task does the gangster boss, Ronan, assign to the player during their meeting in the dimly-lit office?"
+    }
+  },
+  {
+    "timestamp": "20250330_201146",
+    "prompt": "\nYou serve as a story teller, and your job is to generate a scripted subtask based on the task information and transitioning question provided.\n\nHere are the definitions to help you understand the task:\n- Scripted_sub_task: A predetermined narrative segment with fixed dialogue, NPC reactions, and player options.\n- Transitioning_question: A key narrative question that drives the story forward and creates branching paths.\n\nTask Information:\n{\n  \"name\": \"Beginning\",\n  \"location\": \"0\",\n  \"trigger_conditions\": {\n    \"time_condition\": \"Chapter == 1 and GameDay == 1\"\n  },\n  \"environment\": \"In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.\",\n  \"interactive_environment_objects\": null,\n  \"interactive_npc\": [\n    {\n      \"name\": \"Ronan\",\n      \"additional_conditions\": null,\n      \"goal\": \"Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.\",\n      \"emotion_pool\": [\n        {\n          \"id\": \"0\",\n          \"trigger_condition\": null,\n          \"goal\": \"Assign tasks to the player, provide advice, and answer the player's questions.\"\n        },\n        {\n          \"id\": \"1\",\n          \"trigger_condition\": \"The player asks about the task too many times or constantly goes off-topic\",\n          \"goal\": \"Seriously remind the player that this task is very important.\"\n        }\n      ]\n    }\n  ],\n  \"scene_end_state_reference\": {\n    \"end_condition1\": \"The player indicates understanding of the task\",\n    \"end_condition2\": \"The player explicitly refuses the task\"\n  }\n}\n\nTransitioning Question: What challenges does the player face while trying to pick up the goods and make contact with Meredith Stout?\n\nIMPORTANT: You are creating a scripted subtask that will serve as the main canonical path in a hierarchical story structure. This subtask will be the primary response to the transitioning question, and alternative branches will be generated as siblings to this subtask.\n\nPlease respond with a JSON object representing a scripted subtask that addresses this question. \nYour response should have EXACTLY this format:\n{\n  \"title\": \"Brief, catchy title for the subtask\",\n  \"description\": \"Clear description of what happens in this subtask\",\n  \"dialogue\": \"The main narrative text that will be shown to the player\",\n  \"npc_reactions\": {\"npc_name\": \"reaction description\", ...},\n  \"player_options\": [\"option 1\", \"option 2\", \"option 3\"],\n  \"next_transitioning_question\": \"What happens next?\"\n}\n\nThe next_transitioning_question field will be used to connect this subtask to the next layer in the story hierarchy. It should logically follow from this subtask's events.\n\nYOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown above. Do not include any text, markdown formatting, or explanation outside of the JSON object.\n",
+    "raw_response": "```json\n{\n  \"title\": \"Operation Pickup\",\n  \"description\": \"The player must navigate to a clandestine location to collect the goods and then make contact with Meredith Stout.\",\n  \"dialogue\": \"In the dimly-lit office, Ronan steels his gaze on you, 'This task is crucial. You'll head to the old docks. The package is in a container, number 043. Watch for security patrols. Once you've got it, Meredith Stout is your contact for the handover. Keep it low-key, and you'll be rewarded handsomely.'\",\n  \"npc_reactions\": {\n    \"Ronan\": \"His expression remains firm but allows a hint of reassurance when you agree to the task, 'You can do this. Just stick to the plan.'\"\n  },\n  \"player_options\": [\n    \"Agree to the task and ask for more details on the location.\",\n    \"Express concerns about the security patrols.\",\n    \"Decline the task and inquire about other opportunities.\"\n  ],\n  \"next_transitioning_question\": \"How does the player deal with the security patrols at the docks and ensure a safe meeting with Meredith Stout?\"\n}\n```",
+    "task_info": {
+      "task_info": {
+        "name": "Beginning",
+        "location": "0",
+        "trigger_conditions": {
+          "time_condition": "Chapter == 1 and GameDay == 1"
+        },
+        "environment": "In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.",
+        "interactive_environment_objects": null,
+        "interactive_npc": [
+          {
+            "name": "Ronan",
+            "additional_conditions": null,
+            "goal": "Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.",
+            "emotion_pool": [
+              {
+                "id": "0",
+                "trigger_condition": null,
+                "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+              },
+              {
+                "id": "1",
+                "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+                "goal": "Seriously remind the player that this task is very important."
+              }
+            ]
+          }
+        ],
+        "scene_end_state_reference": {
+          "end_condition1": "The player indicates understanding of the task",
+          "end_condition2": "The player explicitly refuses the task"
+        }
+      },
+      "transitioning_question": "What challenges does the player face while trying to pick up the goods and make contact with Meredith Stout?"
+    }
+  },
+  {
+    "timestamp": "20250330_201216",
+    "prompt": "\nYou serve as a story teller, and your job is to generate a scripted subtask based on the task information and transitioning question provided.\n\nHere are the definitions to help you understand the task:\n- Scripted_sub_task: A predetermined narrative segment with fixed dialogue, NPC reactions, and player options.\n- Transitioning_question: A key narrative question that drives the story forward and creates branching paths.\n\nTask Information:\n{\n  \"name\": \"Beginning\",\n  \"location\": \"0\",\n  \"trigger_conditions\": {\n    \"time_condition\": \"Chapter == 1 and GameDay == 1\"\n  },\n  \"environment\": \"In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.\",\n  \"interactive_environment_objects\": null,\n  \"interactive_npc\": [\n    {\n      \"name\": \"Ronan\",\n      \"additional_conditions\": null,\n      \"goal\": \"Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.\",\n      \"emotion_pool\": [\n        {\n          \"id\": \"0\",\n          \"trigger_condition\": null,\n          \"goal\": \"Assign tasks to the player, provide advice, and answer the player's questions.\"\n        },\n        {\n          \"id\": \"1\",\n          \"trigger_condition\": \"The player asks about the task too many times or constantly goes off-topic\",\n          \"goal\": \"Seriously remind the player that this task is very important.\"\n        }\n      ]\n    }\n  ],\n  \"scene_end_state_reference\": {\n    \"end_condition1\": \"The player indicates understanding of the task\",\n    \"end_condition2\": \"The player explicitly refuses the task\"\n  }\n}\n\nTransitioning Question: How does the player resolve these challenges and what is the outcome of the task assignment by Ronan?\n\nIMPORTANT: You are creating a scripted subtask that will serve as the main canonical path in a hierarchical story structure. This subtask will be the primary response to the transitioning question, and alternative branches will be generated as siblings to this subtask.\n\nPlease respond with a JSON object representing a scripted subtask that addresses this question. \nYour response should have EXACTLY this format:\n{\n  \"title\": \"Brief, catchy title for the subtask\",\n  \"description\": \"Clear description of what happens in this subtask\",\n  \"dialogue\": \"The main narrative text that will be shown to the player\",\n  \"npc_reactions\": {\"npc_name\": \"reaction description\", ...},\n  \"player_options\": [\"option 1\", \"option 2\", \"option 3\"],\n  \"next_transitioning_question\": \"What happens next?\"\n}\n\nThe next_transitioning_question field will be used to connect this subtask to the next layer in the story hierarchy. It should logically follow from this subtask's events.\n\nYOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown above. Do not include any text, markdown formatting, or explanation outside of the JSON object.\n",
+    "raw_response": "```json\n{\n  \"title\": \"Meeting with Ronan\",\n  \"description\": \"The player meets with Ronan, the gangster boss, in his dimly-lit office to receive an important task.\",\n  \"dialogue\": \"As you step into the office, the atmosphere is a mix of shadows and soft neon lights. Ronan looks up from his desk, his eyes sharp and assessing. 'I've got a job for you,' he says, the weight of his words crystal clear. 'You'll need to pick up some goods from the east side. And remember, talk to Meredith Stout if things get tricky. She's got the connections you'll need.'\",\n  \"npc_reactions\": {\n    \"Ronan\": \"Ronan leans back in his chair, studying you carefully as he waits for your response.\"\n  },\n  \"player_options\": [\n    \"Acknowledge the task and assure Ronan that you understand.\",\n    \"Ask Ronan more detailed questions about the task.\",\n    \"Express reluctance and refuse the task.\"\n  ],\n  \"next_transitioning_question\": \"What does the player do next after receiving the task from Ronan?\"\n}\n```",
+    "task_info": {
+      "task_info": {
+        "name": "Beginning",
+        "location": "0",
+        "trigger_conditions": {
+          "time_condition": "Chapter == 1 and GameDay == 1"
+        },
+        "environment": "In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.",
+        "interactive_environment_objects": null,
+        "interactive_npc": [
+          {
+            "name": "Ronan",
+            "additional_conditions": null,
+            "goal": "Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.",
+            "emotion_pool": [
+              {
+                "id": "0",
+                "trigger_condition": null,
+                "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+              },
+              {
+                "id": "1",
+                "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+                "goal": "Seriously remind the player that this task is very important."
+              }
+            ]
+          }
+        ],
+        "scene_end_state_reference": {
+          "end_condition1": "The player indicates understanding of the task",
+          "end_condition2": "The player explicitly refuses the task"
+        }
+      },
+      "transitioning_question": "How does the player resolve these challenges and what is the outcome of the task assignment by Ronan?"
+    }
+  },
+  {
+    "timestamp": "20250330_201404",
+    "prompt": "\nYou serve as a story teller, and your job is to generate a scripted subtask based on the task information and transitioning question provided.\n\nHere are the definitions to help you understand the task:\n- Scripted_sub_task: A predetermined narrative segment with fixed dialogue, NPC reactions, and player options.\n- Transitioning_question: A key narrative question that drives the story forward and creates branching paths.\n\nTask Information:\n{\n  \"name\": \"Beginning\",\n  \"location\": \"0\",\n  \"trigger_conditions\": {\n    \"time_condition\": \"Chapter == 1 and GameDay == 1\"\n  },\n  \"environment\": \"In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.\",\n  \"interactive_environment_objects\": null,\n  \"interactive_npc\": [\n    {\n      \"name\": \"Ronan\",\n      \"additional_conditions\": null,\n      \"goal\": \"Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.\",\n      \"emotion_pool\": [\n        {\n          \"id\": \"0\",\n          \"trigger_condition\": null,\n          \"goal\": \"Assign tasks to the player, provide advice, and answer the player's questions.\"\n        },\n        {\n          \"id\": \"1\",\n          \"trigger_condition\": \"The player asks about the task too many times or constantly goes off-topic\",\n          \"goal\": \"Seriously remind the player that this task is very important.\"\n        }\n      ]\n    }\n  ],\n  \"scene_end_state_reference\": {\n    \"end_condition1\": \"The player indicates understanding of the task\",\n    \"end_condition2\": \"The player explicitly refuses the task\"\n  }\n}\n\nTransitioning Question: What task does Ronan assign to the player in the dimly-lit office?\n\nIMPORTANT: You are creating a scripted subtask that will serve as the main canonical path in a hierarchical story structure. This subtask will be the primary response to the transitioning question, and alternative branches will be generated as siblings to this subtask.\n\nPlease respond with a JSON object representing a scripted subtask that addresses this question. \nYour response should have EXACTLY this format:\n{\n  \"title\": \"Brief, catchy title for the subtask\",\n  \"description\": \"Clear description of what happens in this subtask\",\n  \"dialogue\": \"The main narrative text that will be shown to the player\",\n  \"npc_reactions\": {\"npc_name\": \"reaction description\", ...},\n  \"player_options\": [\"option 1\", \"option 2\", \"option 3\"],\n  \"next_transitioning_question\": \"What happens next?\"\n}\n\nThe next_transitioning_question field will be used to connect this subtask to the next layer in the story hierarchy. It should logically follow from this subtask's events.\n\nYOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown above. Do not include any text, markdown formatting, or explanation outside of the JSON object.\n",
+    "raw_response": "```json\n{\n  \"title\": \"The Task Assignment\",\n  \"description\": \"Ronan assigns a crucial task and shares important advice with the player.\",\n  \"dialogue\": \"Ronan peers at you from behind his desk, his fingers steepled thoughtfully. 'I've got a job for you,' he says, his voice calm yet commanding. 'There's a shipment of goods that needs picking up tonight. You'll find it at the docks, Pier 13. Keep your head down and don\u2019t draw attention.' He pauses, then adds, 'And if you run into Meredith Stout, which you might, remember to handle her with care. She's a tough one.'\",\n  \"npc_reactions\": {\n    \"Ronan\": \"He nods slightly, showing confidence in your ability to handle the task but keeps a keen, observant gaze on you.\"\n  },\n  \"player_options\": [\n    \"Acknowledge the task with confidence\",\n    \"Ask for more details about the shipment\",\n    \"Question Ronan about Meredith Stout\"\n  ],\n  \"next_transitioning_question\": \"Will the player agree to take on the task at the docks, or will they refuse?\"\n}\n```",
+    "task_info": {
+      "task_info": {
+        "name": "Beginning",
+        "location": "0",
+        "trigger_conditions": {
+          "time_condition": "Chapter == 1 and GameDay == 1"
+        },
+        "environment": "In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.",
+        "interactive_environment_objects": null,
+        "interactive_npc": [
+          {
+            "name": "Ronan",
+            "additional_conditions": null,
+            "goal": "Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.",
+            "emotion_pool": [
+              {
+                "id": "0",
+                "trigger_condition": null,
+                "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+              },
+              {
+                "id": "1",
+                "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+                "goal": "Seriously remind the player that this task is very important."
+              }
+            ]
+          }
+        ],
+        "scene_end_state_reference": {
+          "end_condition1": "The player indicates understanding of the task",
+          "end_condition2": "The player explicitly refuses the task"
+        }
+      },
+      "transitioning_question": "What task does Ronan assign to the player in the dimly-lit office?"
+    }
+  },
+  {
+    "timestamp": "20250330_201410",
+    "prompt": "\nYou serve as a story teller, and your job is to generate a scripted subtask based on the task information and transitioning question provided.\n\nHere are the definitions to help you understand the task:\n- Scripted_sub_task: A predetermined narrative segment with fixed dialogue, NPC reactions, and player options.\n- Transitioning_question: A key narrative question that drives the story forward and creates branching paths.\n\nTask Information:\n{\n  \"name\": \"Beginning\",\n  \"location\": \"0\",\n  \"trigger_conditions\": {\n    \"time_condition\": \"Chapter == 1 and GameDay == 1\"\n  },\n  \"environment\": \"In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.\",\n  \"interactive_environment_objects\": null,\n  \"interactive_npc\": [\n    {\n      \"name\": \"Ronan\",\n      \"additional_conditions\": null,\n      \"goal\": \"Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.\",\n      \"emotion_pool\": [\n        {\n          \"id\": \"0\",\n          \"trigger_condition\": null,\n          \"goal\": \"Assign tasks to the player, provide advice, and answer the player's questions.\"\n        },\n        {\n          \"id\": \"1\",\n          \"trigger_condition\": \"The player asks about the task too many times or constantly goes off-topic\",\n          \"goal\": \"Seriously remind the player that this task is very important.\"\n        }\n      ]\n    }\n  ],\n  \"scene_end_state_reference\": {\n    \"end_condition1\": \"The player indicates understanding of the task\",\n    \"end_condition2\": \"The player explicitly refuses the task\"\n  }\n}\n\nTransitioning Question: What challenges does the player face while attempting to pick up the goods and seek out Meredith Stout?\n\nIMPORTANT: You are creating a scripted subtask that will serve as the main canonical path in a hierarchical story structure. This subtask will be the primary response to the transitioning question, and alternative branches will be generated as siblings to this subtask.\n\nPlease respond with a JSON object representing a scripted subtask that addresses this question. \nYour response should have EXACTLY this format:\n{\n  \"title\": \"Brief, catchy title for the subtask\",\n  \"description\": \"Clear description of what happens in this subtask\",\n  \"dialogue\": \"The main narrative text that will be shown to the player\",\n  \"npc_reactions\": {\"npc_name\": \"reaction description\", ...},\n  \"player_options\": [\"option 1\", \"option 2\", \"option 3\"],\n  \"next_transitioning_question\": \"What happens next?\"\n}\n\nThe next_transitioning_question field will be used to connect this subtask to the next layer in the story hierarchy. It should logically follow from this subtask's events.\n\nYOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown above. Do not include any text, markdown formatting, or explanation outside of the JSON object.\n",
+    "raw_response": "```json\n{\n  \"title\": \"The Mysterious Pick-up\",\n  \"description\": \"The player is tasked with retrieving goods from a discreet location while navigating potential obstacles and seeking out the elusive Meredith Stout for further instructions.\",\n  \"dialogue\": \"Ronan leans forward, the shadows across his face sharp against the dim glow. 'Listen carefully,' he says, his voice low and deliberate. 'You're picking up a package from the docks. But be careful, the streets aren't safe these days. Meredith will give you more details. Seek her out at the usual place.'\",\n  \"npc_reactions\": {\n    \"Ronan\": \"Ronan watches you intently, as if weighing your capability and trustworthiness.\"\n  },\n  \"player_options\": [\n    \"Nod and agree to the task, showing understanding.\",\n    \"Ask Ronan for more information about the dangers.\",\n    \"Refuse the task, feeling it's too risky.\"\n  ],\n  \"next_transitioning_question\": \"How does the player navigate the threats encountered on the way to the docks?\"\n}\n```",
+    "task_info": {
+      "task_info": {
+        "name": "Beginning",
+        "location": "0",
+        "trigger_conditions": {
+          "time_condition": "Chapter == 1 and GameDay == 1"
+        },
+        "environment": "In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.",
+        "interactive_environment_objects": null,
+        "interactive_npc": [
+          {
+            "name": "Ronan",
+            "additional_conditions": null,
+            "goal": "Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.",
+            "emotion_pool": [
+              {
+                "id": "0",
+                "trigger_condition": null,
+                "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+              },
+              {
+                "id": "1",
+                "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+                "goal": "Seriously remind the player that this task is very important."
+              }
+            ]
+          }
+        ],
+        "scene_end_state_reference": {
+          "end_condition1": "The player indicates understanding of the task",
+          "end_condition2": "The player explicitly refuses the task"
+        }
+      },
+      "transitioning_question": "What challenges does the player face while attempting to pick up the goods and seek out Meredith Stout?"
+    }
+  },
+  {
+    "timestamp": "20250330_201428",
+    "prompt": "\nYou serve as a story teller, and your job is to generate a scripted subtask based on the task information and transitioning question provided.\n\nHere are the definitions to help you understand the task:\n- Scripted_sub_task: A predetermined narrative segment with fixed dialogue, NPC reactions, and player options.\n- Transitioning_question: A key narrative question that drives the story forward and creates branching paths.\n\nTask Information:\n{\n  \"name\": \"Beginning\",\n  \"location\": \"0\",\n  \"trigger_conditions\": {\n    \"time_condition\": \"Chapter == 1 and GameDay == 1\"\n  },\n  \"environment\": \"In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.\",\n  \"interactive_environment_objects\": null,\n  \"interactive_npc\": [\n    {\n      \"name\": \"Ronan\",\n      \"additional_conditions\": null,\n      \"goal\": \"Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.\",\n      \"emotion_pool\": [\n        {\n          \"id\": \"0\",\n          \"trigger_condition\": null,\n          \"goal\": \"Assign tasks to the player, provide advice, and answer the player's questions.\"\n        },\n        {\n          \"id\": \"1\",\n          \"trigger_condition\": \"The player asks about the task too many times or constantly goes off-topic\",\n          \"goal\": \"Seriously remind the player that this task is very important.\"\n        }\n      ]\n    }\n  ],\n  \"scene_end_state_reference\": {\n    \"end_condition1\": \"The player indicates understanding of the task\",\n    \"end_condition2\": \"The player explicitly refuses the task\"\n  }\n}\n\nTransitioning Question: How does the player address these challenges and decide whether to accept or refuse the task, and what are the consequences of their decision?\n\nIMPORTANT: You are creating a scripted subtask that will serve as the main canonical path in a hierarchical story structure. This subtask will be the primary response to the transitioning question, and alternative branches will be generated as siblings to this subtask.\n\nPlease respond with a JSON object representing a scripted subtask that addresses this question. \nYour response should have EXACTLY this format:\n{\n  \"title\": \"Brief, catchy title for the subtask\",\n  \"description\": \"Clear description of what happens in this subtask\",\n  \"dialogue\": \"The main narrative text that will be shown to the player\",\n  \"npc_reactions\": {\"npc_name\": \"reaction description\", ...},\n  \"player_options\": [\"option 1\", \"option 2\", \"option 3\"],\n  \"next_transitioning_question\": \"What happens next?\"\n}\n\nThe next_transitioning_question field will be used to connect this subtask to the next layer in the story hierarchy. It should logically follow from this subtask's events.\n\nYOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown above. Do not include any text, markdown formatting, or explanation outside of the JSON object.\n",
+    "raw_response": "```json\n{\n  \"title\": \"The Smuggler's Choice\",\n  \"description\": \"The player meets Ronan, the gangster boss, who assigns them a task to pick up goods and advises on contacting Meredith Stout.\",\n  \"dialogue\": \"Ronan sits confidently behind the desk, his eyes piercing through the dim light. 'I've got a job for you,' he begins, a serious tone in his voice. 'I need you to pick up some goods for us tonight. And if you run into any trouble, contact Meredith Stout. She's got connections that might save your skin.' He pauses, scanning your face for a reaction, adding, 'This task is crucial. Do you understand the importance?' His words linger, leaving you with a decision to make.\",\n  \"npc_reactions\": {\n    \"Ronan\": \"Ronan watches you intently, his expression neutral but with an undercurrent of expectation.\"\n  },\n  \"player_options\": [\n    \"Agree to take on the task and assure Ronan.\",\n    \"Ask for more details about the task and potential risks.\",\n    \"Refuse the task, stating concerns or lack of readiness.\"\n  ],\n  \"next_transitioning_question\": \"Will the player follow through with their decision, and what consequences will they face as a result?\"\n}\n```",
+    "task_info": {
+      "task_info": {
+        "name": "Beginning",
+        "location": "0",
+        "trigger_conditions": {
+          "time_condition": "Chapter == 1 and GameDay == 1"
+        },
+        "environment": "In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.",
+        "interactive_environment_objects": null,
+        "interactive_npc": [
+          {
+            "name": "Ronan",
+            "additional_conditions": null,
+            "goal": "Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.",
+            "emotion_pool": [
+              {
+                "id": "0",
+                "trigger_condition": null,
+                "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+              },
+              {
+                "id": "1",
+                "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+                "goal": "Seriously remind the player that this task is very important."
+              }
+            ]
+          }
+        ],
+        "scene_end_state_reference": {
+          "end_condition1": "The player indicates understanding of the task",
+          "end_condition2": "The player explicitly refuses the task"
+        }
+      },
+      "transitioning_question": "How does the player address these challenges and decide whether to accept or refuse the task, and what are the consequences of their decision?"
+    }
+  },
+  {
+    "timestamp": "20250330_204039",
+    "prompt": "\nYou serve as a story architect for a narrative game with a hierarchical task structure. Your job is to generate a scripted subtask based on the task information and transitioning question provided.\n\nIMPORTANT STRUCTURE CONTEXT:\n- The narrative tree consists of a ROOT TASK (ID \"1\") with 3 layers of subtasks below it\n- Each subtask has a unique hierarchical ID (e.g., \"1.1\", \"1.1.1\", \"1.1.1.1\")\n- Each ID represents its position in the tree (where numbers after each dot indicate the branch number)\n- You are generating a Level 1 subtask (where the root task is Level 0)\n- Parent ID: 1\n\nTask Information:\n{\n  \"name\": \"Beginning\",\n  \"location\": \"0\",\n  \"trigger_conditions\": {\n    \"time_condition\": \"Chapter == 1 and GameDay == 1\"\n  },\n  \"environment\": \"In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.\",\n  \"interactive_environment_objects\": null,\n  \"interactive_npc\": [\n    {\n      \"name\": \"Ronan\",\n      \"additional_conditions\": null,\n      \"goal\": \"Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.\",\n      \"emotion_pool\": [\n        {\n          \"id\": \"0\",\n          \"trigger_condition\": null,\n          \"goal\": \"Assign tasks to the player, provide advice, and answer the player's questions.\"\n        },\n        {\n          \"id\": \"1\",\n          \"trigger_condition\": \"The player asks about the task too many times or constantly goes off-topic\",\n          \"goal\": \"Seriously remind the player that this task is very important.\"\n        }\n      ]\n    }\n  ],\n  \"scene_end_state_reference\": {\n    \"end_condition1\": \"The player indicates understanding of the task\",\n    \"end_condition2\": \"The player explicitly refuses the task\"\n  }\n}\n\nTransitioning Question: What crucial task does Ronan assign to the player during their meeting in the dimly-lit office?\n\nYOUR TASK: Create a scripted subtask that will serve as the main canonical path in Layer 1 of the narrative structure. This subtask:\n1. Directly addresses the transitioning question\n2. Will be the primary response at this branch level \n3. Forms a parent for the next level of subtasks \n4. Has a parent_id of \"1\"\n\nYour response MUST be a JSON object with this format:\n{\n  \"title\": \"Brief, catchy title for the subtask\",\n  \"description\": \"Clear description of what happens in this subtask\",\n  \"dialogue\": \"The main narrative text for the player\",\n  \"npc_reactions\": {\"npc_name\": \"reaction description\", ...},\n  \"player_options\": [\"option 1\", \"option 2\", \"option 3\"],\n  \"parent_id\": \"1\"\n}\n\nYOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown above.\n",
+    "raw_response": "```json\n{\n  \"title\": \"The Crucial Conversation\",\n  \"description\": \"In the dimly-lit office, Ronan, the gangster boss, entrusts the player with an essential task: to pick up sensitive goods crucial to their operations and advises on future contact strategy with Meredith Stout.\",\n  \"dialogue\": \"Ronan leans forward, his eyes narrow but intrigued. 'Listen carefully,' he says. 'There's a package at the old dock\u2014important goods for our next big move. I need you to collect it, no mistakes. And while you're at it, get in touch with Meredith Stout; she'll have her own role to play. Trust me, you don't want to keep her waiting.' His words are heavy with urgency.\",\n  \"npc_reactions\": {\n    \"Ronan\": \"Watches the player intently, gauging their reaction. He nods slowly when the player accepts the task, showing a hint of approval. If the player hesitates or asks too many questions, his voice turns gravely serious.\"\n  },\n  \"player_options\": [\n    \"Agree to pick up the goods and contact Meredith Stout.\",\n    \"Request more details about the goods and Meredith Stout.\",\n    \"Refuse the task outright.\"\n  ],\n  \"parent_id\": \"1\"\n}\n```",
+    "task_info": {
+      "task_info": {
+        "name": "Beginning",
+        "location": "0",
+        "trigger_conditions": {
+          "time_condition": "Chapter == 1 and GameDay == 1"
+        },
+        "environment": "In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.",
+        "interactive_environment_objects": null,
+        "interactive_npc": [
+          {
+            "name": "Ronan",
+            "additional_conditions": null,
+            "goal": "Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.",
+            "emotion_pool": [
+              {
+                "id": "0",
+                "trigger_condition": null,
+                "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+              },
+              {
+                "id": "1",
+                "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+                "goal": "Seriously remind the player that this task is very important."
+              }
+            ]
+          }
+        ],
+        "scene_end_state_reference": {
+          "end_condition1": "The player indicates understanding of the task",
+          "end_condition2": "The player explicitly refuses the task"
+        }
+      },
+      "transitioning_question": "What crucial task does Ronan assign to the player during their meeting in the dimly-lit office?",
+      "parent_id": "1",
+      "level": 1
+    }
+  },
+  {
+    "timestamp": "20250330_204044",
+    "prompt": "\nYou serve as a story architect for a narrative game with a hierarchical task structure. Your job is to generate a scripted subtask based on the task information and transitioning question provided.\n\nIMPORTANT STRUCTURE CONTEXT:\n- The narrative tree consists of a ROOT TASK (ID \"1\") with 3 layers of subtasks below it\n- Each subtask has a unique hierarchical ID (e.g., \"1.1\", \"1.1.1\", \"1.1.1.1\")\n- Each ID represents its position in the tree (where numbers after each dot indicate the branch number)\n- You are generating a Level 2 subtask (where the root task is Level 0)\n- Parent ID: 1.1\n\nTask Information:\n{\n  \"name\": \"Beginning\",\n  \"location\": \"0\",\n  \"trigger_conditions\": {\n    \"time_condition\": \"Chapter == 1 and GameDay == 1\"\n  },\n  \"environment\": \"In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.\",\n  \"interactive_environment_objects\": null,\n  \"interactive_npc\": [\n    {\n      \"name\": \"Ronan\",\n      \"additional_conditions\": null,\n      \"goal\": \"Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.\",\n      \"emotion_pool\": [\n        {\n          \"id\": \"0\",\n          \"trigger_condition\": null,\n          \"goal\": \"Assign tasks to the player, provide advice, and answer the player's questions.\"\n        },\n        {\n          \"id\": \"1\",\n          \"trigger_condition\": \"The player asks about the task too many times or constantly goes off-topic\",\n          \"goal\": \"Seriously remind the player that this task is very important.\"\n        }\n      ]\n    }\n  ],\n  \"scene_end_state_reference\": {\n    \"end_condition1\": \"The player indicates understanding of the task\",\n    \"end_condition2\": \"The player explicitly refuses the task\"\n  }\n}\n\nTransitioning Question: What challenges or complications arise as the player attempts to navigate Ronan's advice about contacting Meredith Stout?\n\nYOUR TASK: Create a scripted subtask that will serve as the main canonical path in Layer 2 of the narrative structure. This subtask:\n1. Directly addresses the transitioning question\n2. Will be the primary response at this branch level \n3. Forms a parent for the next level of subtasks \n4. Has a parent_id of \"1.1\"\n\nYour response MUST be a JSON object with this format:\n{\n  \"title\": \"Brief, catchy title for the subtask\",\n  \"description\": \"Clear description of what happens in this subtask\",\n  \"dialogue\": \"The main narrative text for the player\",\n  \"npc_reactions\": {\"npc_name\": \"reaction description\", ...},\n  \"player_options\": [\"option 1\", \"option 2\", \"option 3\"],\n  \"parent_id\": \"1.1\"\n}\n\nYOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown above.\n",
+    "raw_response": "```json\n{\n    \"title\": \"The Misdirected Message\",\n    \"description\": \"The player faces complications when Ronan's advice about contacting Meredith Stout turns out to be more cryptic than helpful, leading to unexpected challenges.\",\n    \"dialogue\": \"As you stand in the dimly lit office, Ronan leans forward, his face half-illuminated by the neon glow. 'Meredith's hard to reach, but you have to listen closely,' he starts, giving you a long, meaningful look. His words are layered and slightly cryptic, making you question if there\u2019s more than what meets the ear. 'She\u2019s... a puzzle, works at night, prefers shadowed alleyways to the city's lights. There\u2019s more than one way to send a message. Just be discreet.' His voice lowers, lending weight to the advice, yet leaving too much to decipher, perhaps intentionally.\",\n    \"npc_reactions\": {\n        \"Ronan\": \"After pausing briefly, Ronan nods, as though he expects you to have grasped the nuance in his advice. However, there's a hint of impatience in his eyes, signaling that he's not willing to repeat himself.\"\n    },\n    \"player_options\": [\n        \"Reflect on Ronan's words, trying to decipher the implied message.\",\n        \"Question Ronan further about the best way to actually meet Meredith.\",\n        \"Decide to investigate the shadowed alleys at night, following Ronan's indirect advice.\"\n    ],\n    \"parent_id\": \"1.1\"\n}\n```",
+    "task_info": {
+      "task_info": {
+        "name": "Beginning",
+        "location": "0",
+        "trigger_conditions": {
+          "time_condition": "Chapter == 1 and GameDay == 1"
+        },
+        "environment": "In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.",
+        "interactive_environment_objects": null,
+        "interactive_npc": [
+          {
+            "name": "Ronan",
+            "additional_conditions": null,
+            "goal": "Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.",
+            "emotion_pool": [
+              {
+                "id": "0",
+                "trigger_condition": null,
+                "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+              },
+              {
+                "id": "1",
+                "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+                "goal": "Seriously remind the player that this task is very important."
+              }
+            ]
+          }
+        ],
+        "scene_end_state_reference": {
+          "end_condition1": "The player indicates understanding of the task",
+          "end_condition2": "The player explicitly refuses the task"
+        }
+      },
+      "transitioning_question": "What challenges or complications arise as the player attempts to navigate Ronan's advice about contacting Meredith Stout?",
+      "parent_id": "1.1",
+      "level": 2
+    }
+  },
+  {
+    "timestamp": "20250330_204106",
+    "prompt": "\nYou serve as a story architect for a narrative game with a hierarchical task structure. Your job is to generate a scripted subtask based on the task information and transitioning question provided.\n\nIMPORTANT STRUCTURE CONTEXT:\n- The narrative tree consists of a ROOT TASK (ID \"1\") with 3 layers of subtasks below it\n- Each subtask has a unique hierarchical ID (e.g., \"1.1\", \"1.1.1\", \"1.1.1.1\")\n- Each ID represents its position in the tree (where numbers after each dot indicate the branch number)\n- You are generating a Level 3 subtask (where the root task is Level 0)\n- Parent ID: 1.1.1\n\nTask Information:\n{\n  \"name\": \"Beginning\",\n  \"location\": \"0\",\n  \"trigger_conditions\": {\n    \"time_condition\": \"Chapter == 1 and GameDay == 1\"\n  },\n  \"environment\": \"In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.\",\n  \"interactive_environment_objects\": null,\n  \"interactive_npc\": [\n    {\n      \"name\": \"Ronan\",\n      \"additional_conditions\": null,\n      \"goal\": \"Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.\",\n      \"emotion_pool\": [\n        {\n          \"id\": \"0\",\n          \"trigger_condition\": null,\n          \"goal\": \"Assign tasks to the player, provide advice, and answer the player's questions.\"\n        },\n        {\n          \"id\": \"1\",\n          \"trigger_condition\": \"The player asks about the task too many times or constantly goes off-topic\",\n          \"goal\": \"Seriously remind the player that this task is very important.\"\n        }\n      ]\n    }\n  ],\n  \"scene_end_state_reference\": {\n    \"end_condition1\": \"The player indicates understanding of the task\",\n    \"end_condition2\": \"The player explicitly refuses the task\"\n  }\n}\n\nTransitioning Question: How does the player resolve the situation based on their understanding of Ronan's task and the advice given about Meredith Stout?\n\nYOUR TASK: Create a scripted subtask that will serve as the main canonical path in Layer 3 of the narrative structure. This subtask:\n1. Directly addresses the transitioning question\n2. Will be the primary response at this branch level \n3. Forms a parent for the next level of subtasks \n4. Has a parent_id of \"1.1.1\"\n\nYour response MUST be a JSON object with this format:\n{\n  \"title\": \"Brief, catchy title for the subtask\",\n  \"description\": \"Clear description of what happens in this subtask\",\n  \"dialogue\": \"The main narrative text for the player\",\n  \"npc_reactions\": {\"npc_name\": \"reaction description\", ...},\n  \"player_options\": [\"option 1\", \"option 2\", \"option 3\"],\n  \"parent_id\": \"1.1.1\"\n}\n\nYOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown above.\n",
+    "raw_response": "```json\n{\n  \"title\": \"The Courier's Decision\",\n  \"description\": \"The player processes Ronan's task instructions and advice about Meredith Stout, formulating a plan to proceed with delivering the goods.\",\n  \"dialogue\": \"Standing in the dim glow of the office, the player nods as Ronan's words about the importance of discretion and trustworthiness hang in the air. Meredith Stout, a linchpin in the network yet an enigmatic figure, is the crucial contact. A choice must be made \u2014 to follow the advice or forge a different path.\",\n  \"npc_reactions\": {\n    \"Ronan\": \"Ronan watches closely, gauging the player's resolve and readiness to undertake the task. His expression is calm, but his eyes betray the weight of expectation.\"\n  },\n  \"player_options\": [\n    \"Agree to follow Ronan's guidance and seek out Meredith Stout.\",\n    \"Decide to bypass direct contact with Meredith and plan a solo approach.\",\n    \"Express hesitation and request more time to decide.\"\n  ],\n  \"parent_id\": \"1.1.1\"\n}\n```",
+    "task_info": {
+      "task_info": {
+        "name": "Beginning",
+        "location": "0",
+        "trigger_conditions": {
+          "time_condition": "Chapter == 1 and GameDay == 1"
+        },
+        "environment": "In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.",
+        "interactive_environment_objects": null,
+        "interactive_npc": [
+          {
+            "name": "Ronan",
+            "additional_conditions": null,
+            "goal": "Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.",
+            "emotion_pool": [
+              {
+                "id": "0",
+                "trigger_condition": null,
+                "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+              },
+              {
+                "id": "1",
+                "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+                "goal": "Seriously remind the player that this task is very important."
+              }
+            ]
+          }
+        ],
+        "scene_end_state_reference": {
+          "end_condition1": "The player indicates understanding of the task",
+          "end_condition2": "The player explicitly refuses the task"
+        }
+      },
+      "transitioning_question": "How does the player resolve the situation based on their understanding of Ronan's task and the advice given about Meredith Stout?",
+      "parent_id": "1.1.1",
+      "level": 3
+    }
+  },
+  {
+    "timestamp": "20250330_205005",
+    "prompt": "\nYou serve as a story architect for a narrative game with a hierarchical task structure. Your job is to generate a scripted subtask based on the task information and transitioning question provided.\n\nIMPORTANT STRUCTURE CONTEXT:\n- The narrative tree consists of a ROOT TASK (ID \"1\") with 3 layers of subtasks below it\n- Each layer has one main scripted subtask followed by generated alternatives\n- The ID structure follows this pattern:\n  - Root task: \"1\"\n  - Layer 1 scripted subtask: \"1.1\"\n  - Layer 1 generated alternatives: \"1.1.1\", \"1.1.2\", \"1.1.3\" (is_generated: true)\n  - Layer 2 scripted subtask: \"1.2\"\n  - Layer 2 generated alternatives: \"1.2.1\", \"1.2.2\", \"1.2.3\" (is_generated: true)\n  - Layer 3 scripted subtask: \"1.3\"\n  - Layer 3 generated alternatives: \"1.3.1\", \"1.3.2\", \"1.3.3\" (is_generated: true)\n\nYou are generating a scripted subtask for Layer 1 with ID \"1.1\" that has parent_id \"1\".\n\n\nTask Information:\n{\n  \"name\": \"Beginning\",\n  \"location\": \"0\",\n  \"trigger_conditions\": {\n    \"time_condition\": \"Chapter == 1 and GameDay == 1\"\n  },\n  \"environment\": \"In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.\",\n  \"interactive_environment_objects\": null,\n  \"interactive_npc\": [\n    {\n      \"name\": \"Ronan\",\n      \"additional_conditions\": null,\n      \"goal\": \"Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.\",\n      \"emotion_pool\": [\n        {\n          \"id\": \"0\",\n          \"trigger_condition\": null,\n          \"goal\": \"Assign tasks to the player, provide advice, and answer the player's questions.\"\n        },\n        {\n          \"id\": \"1\",\n          \"trigger_condition\": \"The player asks about the task too many times or constantly goes off-topic\",\n          \"goal\": \"Seriously remind the player that this task is very important.\"\n        }\n      ]\n    }\n  ],\n  \"scene_end_state_reference\": {\n    \"end_condition1\": \"The player indicates understanding of the task\",\n    \"end_condition2\": \"The player explicitly refuses the task\"\n  }\n}\n\nTransitioning Question: What task does the gangster boss, Ronan, assign to the player in the dimly-lit office environment?\n\nYOUR TASK: Create a scripted subtask that will serve as the main canonical path in Layer 1 of the narrative structure. This subtask:\n1. Directly addresses the transitioning question\n2. Will be the primary response at this layer level \n3. Forms a parent for the next level's subtask or alternatives\n4. Has a parent_id of \"1\"\n5. Has is_generated set to \"False\" (as this is a scripted, not generated subtask)\n\nYour response MUST be a JSON object with this format:\n{\n  \"subtask_id\": \"1.1\",\n  \"title\": \"Brief, catchy title for the subtask\",\n  \"description\": \"Clear description of what happens in this subtask\",\n  \"dialogue\": \"The main narrative text for the player\",\n  \"npc_reactions\": {\"npc_name\": \"reaction description\", ...},\n  \"player_options\": [\"option 1\", \"option 2\", \"option 3\"],\n  \"parent_id\": \"1\",\n  \"layer\": 1,\n  \"is_generated\": false\n}\n\nYOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown above.\n",
+    "raw_response": "```json\n{\n  \"subtask_id\": \"1.1\",\n  \"title\": \"The Assignment\",\n  \"description\": \"In the dimly-lit office, Ronan, the gangster boss, lays out a clandestine task for the player to retrieve goods and provides crucial advice.\",\n  \"dialogue\": \"Ronan looks up from his desk, fixing his gaze on you. 'I've got a job for you,' he says. 'There's a package that needs picking up; discreetly, of course. You'll meet my contact at the docks. And if you run into any trouble, reach out to Meredith Stout. She's got the resources you'll need. Do you understand the importance of this task?'\",\n  \"npc_reactions\": {\n    \"Ronan\": \"Ronan maintains a calm demeanor but with an underlying seriousness as he explains the task, emphasizing its importance.\"\n  },\n  \"player_options\": [\n    \"Agree to take on the task and seek further details.\",\n    \"Question the nature of the goods to be picked up.\",\n    \"Express doubts about meeting Meredith Stout.\"\n  ],\n  \"parent_id\": \"1\",\n  \"layer\": 1,\n  \"is_generated\": false\n}\n```",
+    "task_info": {
+      "task_info": {
+        "name": "Beginning",
+        "location": "0",
+        "trigger_conditions": {
+          "time_condition": "Chapter == 1 and GameDay == 1"
+        },
+        "environment": "In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.",
+        "interactive_environment_objects": null,
+        "interactive_npc": [
+          {
+            "name": "Ronan",
+            "additional_conditions": null,
+            "goal": "Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.",
+            "emotion_pool": [
+              {
+                "id": "0",
+                "trigger_condition": null,
+                "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+              },
+              {
+                "id": "1",
+                "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+                "goal": "Seriously remind the player that this task is very important."
+              }
+            ]
+          }
+        ],
+        "scene_end_state_reference": {
+          "end_condition1": "The player indicates understanding of the task",
+          "end_condition2": "The player explicitly refuses the task"
+        }
+      },
+      "transitioning_question": "What task does the gangster boss, Ronan, assign to the player in the dimly-lit office environment?",
+      "layer": 1,
+      "previous_subtasks": null
+    }
+  },
+  {
+    "timestamp": "20250330_205010",
+    "prompt": "\nYou serve as a story architect for a narrative game with a hierarchical task structure. Your job is to generate a scripted subtask based on the task information and transitioning question provided.\n\nIMPORTANT STRUCTURE CONTEXT:\n- The narrative tree consists of a ROOT TASK (ID \"1\") with 3 layers of subtasks below it\n- Each layer has one main scripted subtask followed by generated alternatives\n- The ID structure follows this pattern:\n  - Root task: \"1\"\n  - Layer 1 scripted subtask: \"1.1\"\n  - Layer 1 generated alternatives: \"1.1.1\", \"1.1.2\", \"1.1.3\" (is_generated: true)\n  - Layer 2 scripted subtask: \"1.2\"\n  - Layer 2 generated alternatives: \"1.2.1\", \"1.2.2\", \"1.2.3\" (is_generated: true)\n  - Layer 3 scripted subtask: \"1.3\"\n  - Layer 3 generated alternatives: \"1.3.1\", \"1.3.2\", \"1.3.3\" (is_generated: true)\n\nYou are generating a scripted subtask for Layer 2 with ID \"1.2\" that has parent_id \"1.1\".\n\nPreviously generated subtasks:\n- Layer 1 Subtask: The Assignment\n  Description: In the dimly-lit office, Ronan, the gangster boss, lays out a clandestine task for the player to retrieve goods and provides crucial advice.\n\n\nTask Information:\n{\n  \"name\": \"Beginning\",\n  \"location\": \"0\",\n  \"trigger_conditions\": {\n    \"time_condition\": \"Chapter == 1 and GameDay == 1\"\n  },\n  \"environment\": \"In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.\",\n  \"interactive_environment_objects\": null,\n  \"interactive_npc\": [\n    {\n      \"name\": \"Ronan\",\n      \"additional_conditions\": null,\n      \"goal\": \"Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.\",\n      \"emotion_pool\": [\n        {\n          \"id\": \"0\",\n          \"trigger_condition\": null,\n          \"goal\": \"Assign tasks to the player, provide advice, and answer the player's questions.\"\n        },\n        {\n          \"id\": \"1\",\n          \"trigger_condition\": \"The player asks about the task too many times or constantly goes off-topic\",\n          \"goal\": \"Seriously remind the player that this task is very important.\"\n        }\n      ]\n    }\n  ],\n  \"scene_end_state_reference\": {\n    \"end_condition1\": \"The player indicates understanding of the task\",\n    \"end_condition2\": \"The player explicitly refuses the task\"\n  }\n}\n\nTransitioning Question: What complications arise when Ronan advises the player on contacting Meredith Stout for the task?\n\nYOUR TASK: Create a scripted subtask that will serve as the main canonical path in Layer 2 of the narrative structure. This subtask:\n1. Directly addresses the transitioning question\n2. Will be the primary response at this layer level \n3. Forms a parent for the next level's subtask or alternatives\n4. Has a parent_id of \"1.1\"\n5. Has is_generated set to \"False\" (as this is a scripted, not generated subtask)\n\nYour response MUST be a JSON object with this format:\n{\n  \"subtask_id\": \"1.2\",\n  \"title\": \"Brief, catchy title for the subtask\",\n  \"description\": \"Clear description of what happens in this subtask\",\n  \"dialogue\": \"The main narrative text for the player\",\n  \"npc_reactions\": {\"npc_name\": \"reaction description\", ...},\n  \"player_options\": [\"option 1\", \"option 2\", \"option 3\"],\n  \"parent_id\": \"1.1\",\n  \"layer\": 2,\n  \"is_generated\": false\n}\n\nYOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown above.\n",
+    "raw_response": "```json\n{\n  \"subtask_id\": \"1.2\",\n  \"title\": \"The Complication with Stout\",\n  \"description\": \"As Ronan delves into the specifics of the task, he advises on the challenges of reaching Meredith Stout, revealing layered dangers and trust issues. The player must navigate these underworld dynamics.\",\n  \"dialogue\": \"Ronan leans forward, the shadows from his desk creeping over his face. 'Listen, Meredith Stout is your contact, but she doesn't trust easily. She's got a reputation for double-crossing those who seem too eager. You'll need to play it cool, convince her that you're reliable. But there's something else you should know\u2014she's been on edge lately, a mess from a botched deal. Approach her with caution; the wrong move, and she'll turn on you.'\",\n  \"npc_reactions\": {\n    \"Ronan\": \"Ronan is initially stern but becomes cautious and almost concerned as he discusses the intricacies of dealing with Meredith Stout.\"\n  },\n  \"player_options\": [\n    \"Agree to proceed carefully.\",\n    \"Express doubt about dealing with Meredith Stout.\",\n    \"Ask Ronan for more advice on handling potential betrayal.\"\n  ],\n  \"parent_id\": \"1.1\",\n  \"layer\": 2,\n  \"is_generated\": false\n}\n```",
+    "task_info": {
+      "task_info": {
+        "name": "Beginning",
+        "location": "0",
+        "trigger_conditions": {
+          "time_condition": "Chapter == 1 and GameDay == 1"
+        },
+        "environment": "In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.",
+        "interactive_environment_objects": null,
+        "interactive_npc": [
+          {
+            "name": "Ronan",
+            "additional_conditions": null,
+            "goal": "Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.",
+            "emotion_pool": [
+              {
+                "id": "0",
+                "trigger_condition": null,
+                "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+              },
+              {
+                "id": "1",
+                "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+                "goal": "Seriously remind the player that this task is very important."
+              }
+            ]
+          }
+        ],
+        "scene_end_state_reference": {
+          "end_condition1": "The player indicates understanding of the task",
+          "end_condition2": "The player explicitly refuses the task"
+        }
+      },
+      "transitioning_question": "What complications arise when Ronan advises the player on contacting Meredith Stout for the task?",
+      "layer": 2,
+      "previous_subtasks": [
+        {
+          "subtask_id": "1.1",
+          "title": "The Assignment",
+          "description": "In the dimly-lit office, Ronan, the gangster boss, lays out a clandestine task for the player to retrieve goods and provides crucial advice.",
+          "dialogue": "Ronan looks up from his desk, fixing his gaze on you. 'I've got a job for you,' he says. 'There's a package that needs picking up; discreetly, of course. You'll meet my contact at the docks. And if you run into any trouble, reach out to Meredith Stout. She's got the resources you'll need. Do you understand the importance of this task?'",
+          "npc_reactions": {
+            "Ronan": "Ronan maintains a calm demeanor but with an underlying seriousness as he explains the task, emphasizing its importance."
+          },
+          "player_options": [
+            "Agree to take on the task and seek further details.",
+            "Question the nature of the goods to be picked up.",
+            "Express doubts about meeting Meredith Stout."
+          ],
+          "parent_id": "1",
+          "layer": 1,
+          "is_generated": false
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "20250330_205018",
+    "prompt": "\nYou serve as a story architect for a narrative game with a hierarchical task structure. Your job is to generate a scripted subtask based on the task information and transitioning question provided.\n\nIMPORTANT STRUCTURE CONTEXT:\n- The narrative tree consists of a ROOT TASK (ID \"1\") with 3 layers of subtasks below it\n- Each layer has one main scripted subtask followed by generated alternatives\n- The ID structure follows this pattern:\n  - Root task: \"1\"\n  - Layer 1 scripted subtask: \"1.1\"\n  - Layer 1 generated alternatives: \"1.1.1\", \"1.1.2\", \"1.1.3\" (is_generated: true)\n  - Layer 2 scripted subtask: \"1.2\"\n  - Layer 2 generated alternatives: \"1.2.1\", \"1.2.2\", \"1.2.3\" (is_generated: true)\n  - Layer 3 scripted subtask: \"1.3\"\n  - Layer 3 generated alternatives: \"1.3.1\", \"1.3.2\", \"1.3.3\" (is_generated: true)\n\nYou are generating a scripted subtask for Layer 3 with ID \"1.3\" that has parent_id \"1.2\".\n\nPreviously generated subtasks:\n- Layer 1 Subtask: The Assignment\n  Description: In the dimly-lit office, Ronan, the gangster boss, lays out a clandestine task for the player to retrieve goods and provides crucial advice.\n- Layer 2 Subtask: The Complication with Stout\n  Description: As Ronan delves into the specifics of the task, he advises on the challenges of reaching Meredith Stout, revealing layered dangers and trust issues. The player must navigate these underworld dynamics.\n\n\nTask Information:\n{\n  \"name\": \"Beginning\",\n  \"location\": \"0\",\n  \"trigger_conditions\": {\n    \"time_condition\": \"Chapter == 1 and GameDay == 1\"\n  },\n  \"environment\": \"In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.\",\n  \"interactive_environment_objects\": null,\n  \"interactive_npc\": [\n    {\n      \"name\": \"Ronan\",\n      \"additional_conditions\": null,\n      \"goal\": \"Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.\",\n      \"emotion_pool\": [\n        {\n          \"id\": \"0\",\n          \"trigger_condition\": null,\n          \"goal\": \"Assign tasks to the player, provide advice, and answer the player's questions.\"\n        },\n        {\n          \"id\": \"1\",\n          \"trigger_condition\": \"The player asks about the task too many times or constantly goes off-topic\",\n          \"goal\": \"Seriously remind the player that this task is very important.\"\n        }\n      ]\n    }\n  ],\n  \"scene_end_state_reference\": {\n    \"end_condition1\": \"The player indicates understanding of the task\",\n    \"end_condition2\": \"The player explicitly refuses the task\"\n  }\n}\n\nTransitioning Question: How does the player decide to either accept or refuse the task, and what are the implications of their decision on future interactions with Ronan and Meredith Stout?\n\nYOUR TASK: Create a scripted subtask that will serve as the main canonical path in Layer 3 of the narrative structure. This subtask:\n1. Directly addresses the transitioning question\n2. Will be the primary response at this layer level \n3. Forms a parent for the next level's subtask or alternatives\n4. Has a parent_id of \"1.2\"\n5. Has is_generated set to \"False\" (as this is a scripted, not generated subtask)\n\nYour response MUST be a JSON object with this format:\n{\n  \"subtask_id\": \"1.3\",\n  \"title\": \"Brief, catchy title for the subtask\",\n  \"description\": \"Clear description of what happens in this subtask\",\n  \"dialogue\": \"The main narrative text for the player\",\n  \"npc_reactions\": {\"npc_name\": \"reaction description\", ...},\n  \"player_options\": [\"option 1\", \"option 2\", \"option 3\"],\n  \"parent_id\": \"1.2\",\n  \"layer\": 3,\n  \"is_generated\": false\n}\n\nYOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown above.\n",
+    "raw_response": "```json\n{\n  \"subtask_id\": \"1.3\",\n  \"title\": \"Moment of Decision\",\n  \"description\": \"The player confronts the significant choice of accepting or refusing Ronan's task, affecting future interactions with both Ronan and Meredith Stout.\",\n  \"dialogue\": \"As Ronan leans back in his chair, the room falls silent. The gentle hum of the hidden devices ceases to be background noise, focusing on the gravity of the decision at hand. Ronan's eyes, a sharp mix of calculation and expectation, rest unyieldingly on you. 'So, what's it going to be?' he asks, a subtle test of loyalty and foresight. The weight of your choice sits heavy, casting long shadows over what may come next.\",\n  \"npc_reactions\": {\n    \"Ronan\": \"If you accept, Ronan nods with a subtle air of approval, signaling trust but reminding you of the stakes. If you refuse, his expression tightens, masking disappointment with a neutral facade but signaling that gaining his trust again might be an uphill journey.\"\n  },\n  \"player_options\": [\n    \"Accept the task and nod in agreement.\",\n    \"Refuse the task, explaining your reasons.\",\n    \"Request more time to consider the implications.\"\n  ],\n  \"parent_id\": \"1.2\",\n  \"layer\": 3,\n  \"is_generated\": false\n}\n```",
+    "task_info": {
+      "task_info": {
+        "name": "Beginning",
+        "location": "0",
+        "trigger_conditions": {
+          "time_condition": "Chapter == 1 and GameDay == 1"
+        },
+        "environment": "In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.",
+        "interactive_environment_objects": null,
+        "interactive_npc": [
+          {
+            "name": "Ronan",
+            "additional_conditions": null,
+            "goal": "Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.",
+            "emotion_pool": [
+              {
+                "id": "0",
+                "trigger_condition": null,
+                "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+              },
+              {
+                "id": "1",
+                "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+                "goal": "Seriously remind the player that this task is very important."
+              }
+            ]
+          }
+        ],
+        "scene_end_state_reference": {
+          "end_condition1": "The player indicates understanding of the task",
+          "end_condition2": "The player explicitly refuses the task"
+        }
+      },
+      "transitioning_question": "How does the player decide to either accept or refuse the task, and what are the implications of their decision on future interactions with Ronan and Meredith Stout?",
+      "layer": 3,
+      "previous_subtasks": [
+        {
+          "subtask_id": "1.1",
+          "title": "The Assignment",
+          "description": "In the dimly-lit office, Ronan, the gangster boss, lays out a clandestine task for the player to retrieve goods and provides crucial advice.",
+          "dialogue": "Ronan looks up from his desk, fixing his gaze on you. 'I've got a job for you,' he says. 'There's a package that needs picking up; discreetly, of course. You'll meet my contact at the docks. And if you run into any trouble, reach out to Meredith Stout. She's got the resources you'll need. Do you understand the importance of this task?'",
+          "npc_reactions": {
+            "Ronan": "Ronan maintains a calm demeanor but with an underlying seriousness as he explains the task, emphasizing its importance."
+          },
+          "player_options": [
+            "Agree to take on the task and seek further details.",
+            "Question the nature of the goods to be picked up.",
+            "Express doubts about meeting Meredith Stout."
+          ],
+          "parent_id": "1",
+          "layer": 1,
+          "is_generated": false
+        },
+        {
+          "subtask_id": "1.2",
+          "title": "The Complication with Stout",
+          "description": "As Ronan delves into the specifics of the task, he advises on the challenges of reaching Meredith Stout, revealing layered dangers and trust issues. The player must navigate these underworld dynamics.",
+          "dialogue": "Ronan leans forward, the shadows from his desk creeping over his face. 'Listen, Meredith Stout is your contact, but she doesn't trust easily. She's got a reputation for double-crossing those who seem too eager. You'll need to play it cool, convince her that you're reliable. But there's something else you should know\u2014she's been on edge lately, a mess from a botched deal. Approach her with caution; the wrong move, and she'll turn on you.'",
+          "npc_reactions": {
+            "Ronan": "Ronan is initially stern but becomes cautious and almost concerned as he discusses the intricacies of dealing with Meredith Stout."
+          },
+          "player_options": [
+            "Agree to proceed carefully.",
+            "Express doubt about dealing with Meredith Stout.",
+            "Ask Ronan for more advice on handling potential betrayal."
+          ],
+          "parent_id": "1.1",
+          "layer": 2,
+          "is_generated": false
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "20250330_210118",
+    "prompt": "\nYou serve as a story architect for a narrative game with a hierarchical task structure. Your job is to generate a scripted subtask based on the task information and transitioning question provided.\n\nIMPORTANT STRUCTURE CONTEXT:\n- The narrative tree consists of a ROOT TASK (ID \"1\") with 3 layers of subtasks below it\n- Each layer has one main scripted subtask followed by generated alternatives\n- The ID structure follows this pattern:\n  - Root task: \"1\"\n  - Layer 1 scripted subtask: \"1.1\"\n  - Layer 1 generated alternatives: \"1.1.1\", \"1.1.2\", \"1.1.3\" (is_generated: true)\n  - Layer 2 scripted subtask: \"1.2\"\n  - Layer 2 generated alternatives: \"1.2.1\", \"1.2.2\", \"1.2.3\" (is_generated: true)\n  - Layer 3 scripted subtask: \"1.3\"\n  - Layer 3 generated alternatives: \"1.3.1\", \"1.3.2\", \"1.3.3\" (is_generated: true)\n\nYou are generating a scripted subtask for Layer 1 with ID \"1.1\" that has parent_id \"1\".\n\n\nTask Information:\n{\n  \"name\": \"Beginning\",\n  \"location\": \"0\",\n  \"trigger_conditions\": {\n    \"time_condition\": \"Chapter == 1 and GameDay == 1\"\n  },\n  \"environment\": \"In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.\",\n  \"interactive_environment_objects\": null,\n  \"interactive_npc\": [\n    {\n      \"name\": \"Ronan\",\n      \"additional_conditions\": null,\n      \"goal\": \"Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.\",\n      \"emotion_pool\": [\n        {\n          \"id\": \"0\",\n          \"trigger_condition\": null,\n          \"goal\": \"Assign tasks to the player, provide advice, and answer the player's questions.\"\n        },\n        {\n          \"id\": \"1\",\n          \"trigger_condition\": \"The player asks about the task too many times or constantly goes off-topic\",\n          \"goal\": \"Seriously remind the player that this task is very important.\"\n        }\n      ]\n    }\n  ],\n  \"scene_end_state_reference\": {\n    \"end_condition1\": \"The player indicates understanding of the task\",\n    \"end_condition2\": \"The player explicitly refuses the task\"\n  }\n}\n\nTransitioning Question: What task does Ronan assign to the player during their initial meeting, and what advice is given regarding Meredith Stout?\n\nYOUR TASK: Create a scripted subtask that will serve as the main canonical path in Layer 1 of the narrative structure. This subtask:\n1. Directly addresses the transitioning question\n2. Will be the primary response at this layer level \n3. Forms a parent for the next level's subtask or alternatives\n4. Has a parent_id of \"1\"\n5. Has is_generated set to \"False\" (as this is a scripted, not generated subtask)\n\nYour response MUST be a JSON object with this format:\n{\n  \"subtask_id\": \"1.1\",\n  \"title\": \"Brief, catchy title for the subtask\",\n  \"description\": \"Clear description of what happens in this subtask\",\n  \"dialogue\": \"The main narrative text for the player\",\n  \"npc_reactions\": {\"npc_name\": \"reaction description\", ...},\n  \"player_options\": [\"option 1\", \"option 2\", \"option 3\"],\n  \"parent_id\": \"1\",\n  \"layer\": 1,\n  \"is_generated\": false\n}\n\nYOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown above.\n",
+    "raw_response": "```json\n{\n  \"subtask_id\": \"1.1\",\n  \"title\": \"The Assignment\",\n  \"description\": \"Ronan assigns the player a crucial task to pick up goods and provides vital advice on contacting Meredith Stout.\",\n  \"dialogue\": \"As the neon glow flickers softly, Ronan leans forward, his fingers interlaced. 'I've got a job for you,' he begins, his voice steady and commanding. 'There's a package waiting at the old docks \u2014 you'll need to pick it up. And listen carefully; when you contact Meredith Stout, you'll need to use the phrase 'Skyline at sunset.' She'll know what it means.'\",\n  \"npc_reactions\": {\n    \"Ronan\": \"Ronan maintains a calm demeanor but emphasizes the importance of the task. His eyes narrow if the player appears hesitant.\"\n  },\n  \"player_options\": [\n    \"Agree to take the task\",\n    \"Ask for more details about Meredith Stout\",\n    \"Express doubt about handling the task\"\n  ],\n  \"parent_id\": \"1\",\n  \"layer\": 1,\n  \"is_generated\": false\n}\n```",
+    "task_info": {
+      "task_info": {
+        "name": "Beginning",
+        "location": "0",
+        "trigger_conditions": {
+          "time_condition": "Chapter == 1 and GameDay == 1"
+        },
+        "environment": "In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.",
+        "interactive_environment_objects": null,
+        "interactive_npc": [
+          {
+            "name": "Ronan",
+            "additional_conditions": null,
+            "goal": "Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.",
+            "emotion_pool": [
+              {
+                "id": "0",
+                "trigger_condition": null,
+                "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+              },
+              {
+                "id": "1",
+                "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+                "goal": "Seriously remind the player that this task is very important."
+              }
+            ]
+          }
+        ],
+        "scene_end_state_reference": {
+          "end_condition1": "The player indicates understanding of the task",
+          "end_condition2": "The player explicitly refuses the task"
+        }
+      },
+      "transitioning_question": "What task does Ronan assign to the player during their initial meeting, and what advice is given regarding Meredith Stout?",
+      "layer": 1,
+      "previous_subtasks": null
+    }
+  },
+  {
+    "timestamp": "20250330_210126",
+    "prompt": "\nYou serve as a story architect for a narrative game with a hierarchical task structure. Your job is to generate a scripted subtask based on the task information and transitioning question provided.\n\nIMPORTANT STRUCTURE CONTEXT:\n- The narrative tree consists of a ROOT TASK (ID \"1\") with 3 layers of subtasks below it\n- Each layer has one main scripted subtask followed by generated alternatives\n- The ID structure follows this pattern:\n  - Root task: \"1\"\n  - Layer 1 scripted subtask: \"1.1\"\n  - Layer 1 generated alternatives: \"1.1.1\", \"1.1.2\", \"1.1.3\" (is_generated: true)\n  - Layer 2 scripted subtask: \"1.2\"\n  - Layer 2 generated alternatives: \"1.2.1\", \"1.2.2\", \"1.2.3\" (is_generated: true)\n  - Layer 3 scripted subtask: \"1.3\"\n  - Layer 3 generated alternatives: \"1.3.1\", \"1.3.2\", \"1.3.3\" (is_generated: true)\n\nYou are generating a scripted subtask for Layer 2 with ID \"1.2\" that has parent_id \"1.1\".\n\nPreviously generated subtasks:\n- Layer 1 Subtask: The Assignment\n  Description: Ronan assigns the player a crucial task to pick up goods and provides vital advice on contacting Meredith Stout.\n\n\nTask Information:\n{\n  \"name\": \"Beginning\",\n  \"location\": \"0\",\n  \"trigger_conditions\": {\n    \"time_condition\": \"Chapter == 1 and GameDay == 1\"\n  },\n  \"environment\": \"In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.\",\n  \"interactive_environment_objects\": null,\n  \"interactive_npc\": [\n    {\n      \"name\": \"Ronan\",\n      \"additional_conditions\": null,\n      \"goal\": \"Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.\",\n      \"emotion_pool\": [\n        {\n          \"id\": \"0\",\n          \"trigger_condition\": null,\n          \"goal\": \"Assign tasks to the player, provide advice, and answer the player's questions.\"\n        },\n        {\n          \"id\": \"1\",\n          \"trigger_condition\": \"The player asks about the task too many times or constantly goes off-topic\",\n          \"goal\": \"Seriously remind the player that this task is very important.\"\n        }\n      ]\n    }\n  ],\n  \"scene_end_state_reference\": {\n    \"end_condition1\": \"The player indicates understanding of the task\",\n    \"end_condition2\": \"The player explicitly refuses the task\"\n  }\n}\n\nTransitioning Question: As the player prepares to pick up the goods, what challenges and unexpected complications arise in carrying out Ronan's instructions?\n\nYOUR TASK: Create a scripted subtask that will serve as the main canonical path in Layer 2 of the narrative structure. This subtask:\n1. Directly addresses the transitioning question\n2. Will be the primary response at this layer level \n3. Forms a parent for the next level's subtask or alternatives\n4. Has a parent_id of \"1.1\"\n5. Has is_generated set to \"False\" (as this is a scripted, not generated subtask)\n\nYour response MUST be a JSON object with this format:\n{\n  \"subtask_id\": \"1.2\",\n  \"title\": \"Brief, catchy title for the subtask\",\n  \"description\": \"Clear description of what happens in this subtask\",\n  \"dialogue\": \"The main narrative text for the player\",\n  \"npc_reactions\": {\"npc_name\": \"reaction description\", ...},\n  \"player_options\": [\"option 1\", \"option 2\", \"option 3\"],\n  \"parent_id\": \"1.1\",\n  \"layer\": 2,\n  \"is_generated\": false\n}\n\nYOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown above.\n",
+    "raw_response": "```json\n{\n  \"subtask_id\": \"1.2\",\n  \"title\": \"Unforeseen Obstacles\",\n  \"description\": \"As the player heads to retrieve the goods, they encounter unexpected interference from a rival gang.\",\n  \"dialogue\": \"You step out of the office, the dim neon lights fading into the night as you head towards the alley meeting point. Suddenly, you hear footsteps echoing closer. Emerging from the shadows, members of a rival gang block your path, demanding to know your business.\",\n  \"npc_reactions\": {\n    \"Ronan\": \"When informed later, Ronan nods grimly, acknowledging the complications.\"\n  },\n  \"player_options\": [\n    \"Negotiate with the rival gang to let you pass peacefully.\",\n    \"Attempt to slip by undetected using the shadows.\",\n    \"Stand your ground and prepare for confrontation.\"\n  ],\n  \"parent_id\": \"1.1\",\n  \"layer\": 2,\n  \"is_generated\": false\n}\n```",
+    "task_info": {
+      "task_info": {
+        "name": "Beginning",
+        "location": "0",
+        "trigger_conditions": {
+          "time_condition": "Chapter == 1 and GameDay == 1"
+        },
+        "environment": "In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.",
+        "interactive_environment_objects": null,
+        "interactive_npc": [
+          {
+            "name": "Ronan",
+            "additional_conditions": null,
+            "goal": "Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.",
+            "emotion_pool": [
+              {
+                "id": "0",
+                "trigger_condition": null,
+                "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+              },
+              {
+                "id": "1",
+                "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+                "goal": "Seriously remind the player that this task is very important."
+              }
+            ]
+          }
+        ],
+        "scene_end_state_reference": {
+          "end_condition1": "The player indicates understanding of the task",
+          "end_condition2": "The player explicitly refuses the task"
+        }
+      },
+      "transitioning_question": "As the player prepares to pick up the goods, what challenges and unexpected complications arise in carrying out Ronan's instructions?",
+      "layer": 2,
+      "previous_subtasks": [
+        {
+          "subtask_id": "1.1",
+          "title": "The Assignment",
+          "description": "Ronan assigns the player a crucial task to pick up goods and provides vital advice on contacting Meredith Stout.",
+          "dialogue": "As the neon glow flickers softly, Ronan leans forward, his fingers interlaced. 'I've got a job for you,' he begins, his voice steady and commanding. 'There's a package waiting at the old docks \u2014 you'll need to pick it up. And listen carefully; when you contact Meredith Stout, you'll need to use the phrase 'Skyline at sunset.' She'll know what it means.'",
+          "npc_reactions": {
+            "Ronan": "Ronan maintains a calm demeanor but emphasizes the importance of the task. His eyes narrow if the player appears hesitant."
+          },
+          "player_options": [
+            "Agree to take the task",
+            "Ask for more details about Meredith Stout",
+            "Express doubt about handling the task"
+          ],
+          "parent_id": "1",
+          "layer": 1,
+          "is_generated": false
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "20250330_210134",
+    "prompt": "\nYou serve as a story architect for a narrative game with a hierarchical task structure. Your job is to generate a scripted subtask based on the task information and transitioning question provided.\n\nIMPORTANT STRUCTURE CONTEXT:\n- The narrative tree consists of a ROOT TASK (ID \"1\") with 3 layers of subtasks below it\n- Each layer has one main scripted subtask followed by generated alternatives\n- The ID structure follows this pattern:\n  - Root task: \"1\"\n  - Layer 1 scripted subtask: \"1.1\"\n  - Layer 1 generated alternatives: \"1.1.1\", \"1.1.2\", \"1.1.3\" (is_generated: true)\n  - Layer 2 scripted subtask: \"1.2\"\n  - Layer 2 generated alternatives: \"1.2.1\", \"1.2.2\", \"1.2.3\" (is_generated: true)\n  - Layer 3 scripted subtask: \"1.3\"\n  - Layer 3 generated alternatives: \"1.3.1\", \"1.3.2\", \"1.3.3\" (is_generated: true)\n\nYou are generating a scripted subtask for Layer 3 with ID \"1.3\" that has parent_id \"1.2\".\n\nPreviously generated subtasks:\n- Layer 1 Subtask: The Assignment\n  Description: Ronan assigns the player a crucial task to pick up goods and provides vital advice on contacting Meredith Stout.\n- Layer 2 Subtask: Unforeseen Obstacles\n  Description: As the player heads to retrieve the goods, they encounter unexpected interference from a rival gang.\n\n\nTask Information:\n{\n  \"name\": \"Beginning\",\n  \"location\": \"0\",\n  \"trigger_conditions\": {\n    \"time_condition\": \"Chapter == 1 and GameDay == 1\"\n  },\n  \"environment\": \"In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.\",\n  \"interactive_environment_objects\": null,\n  \"interactive_npc\": [\n    {\n      \"name\": \"Ronan\",\n      \"additional_conditions\": null,\n      \"goal\": \"Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.\",\n      \"emotion_pool\": [\n        {\n          \"id\": \"0\",\n          \"trigger_condition\": null,\n          \"goal\": \"Assign tasks to the player, provide advice, and answer the player's questions.\"\n        },\n        {\n          \"id\": \"1\",\n          \"trigger_condition\": \"The player asks about the task too many times or constantly goes off-topic\",\n          \"goal\": \"Seriously remind the player that this task is very important.\"\n        }\n      ]\n    }\n  ],\n  \"scene_end_state_reference\": {\n    \"end_condition1\": \"The player indicates understanding of the task\",\n    \"end_condition2\": \"The player explicitly refuses the task\"\n  }\n}\n\nTransitioning Question: How does the player ultimately resolve these challenges and decide whether to follow through with Ronan's task or refuse it altogether?\n\nYOUR TASK: Create a scripted subtask that will serve as the main canonical path in Layer 3 of the narrative structure. This subtask:\n1. Directly addresses the transitioning question\n2. Will be the primary response at this layer level \n3. Forms a parent for the next level's subtask or alternatives\n4. Has a parent_id of \"1.2\"\n5. Has is_generated set to \"False\" (as this is a scripted, not generated subtask)\n\nYour response MUST be a JSON object with this format:\n{\n  \"subtask_id\": \"1.3\",\n  \"title\": \"Brief, catchy title for the subtask\",\n  \"description\": \"Clear description of what happens in this subtask\",\n  \"dialogue\": \"The main narrative text for the player\",\n  \"npc_reactions\": {\"npc_name\": \"reaction description\", ...},\n  \"player_options\": [\"option 1\", \"option 2\", \"option 3\"],\n  \"parent_id\": \"1.2\",\n  \"layer\": 3,\n  \"is_generated\": false\n}\n\nYOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown above.\n",
+    "raw_response": "```json\n{\n  \"subtask_id\": \"1.3\",\n  \"title\": \"Crossroads of Choice\",\n  \"description\": \"Faced with the rival gang's obstruction and Ronan's pressing task, the player must find a path forward, weighing their loyalty against the unforeseen challenges.\",\n  \"dialogue\": \"In the dim shadows, Ronan's words echo through your mind, a sense of urgency driving you to confront the rival gang. Negotiations begin tentatively, with each side probing for weaknesses. As the discussions progress, the weight of your decision looms large\u2014follow Ronan's orders or chart your own course?\",\n  \"npc_reactions\": {\n    \"Ronan\": \"Ronan's eyes narrow as he surveys your decision, his demeanor a mix of impatience and expectation.\",\n    \"Rival Gang Leader\": \"The rival gang leader smirks, ready to seize the upper hand depending on your choice.\"\n  },\n  \"player_options\": [\n    \"Negotiate a truce and honor Ronan's task.\",\n    \"Challenge the gang alone, risking Ronan's ire.\",\n    \"Refuse both paths and forge a new alliance.\"\n  ],\n  \"parent_id\": \"1.2\",\n  \"layer\": 3,\n  \"is_generated\": false\n}\n```",
+    "task_info": {
+      "task_info": {
+        "name": "Beginning",
+        "location": "0",
+        "trigger_conditions": {
+          "time_condition": "Chapter == 1 and GameDay == 1"
+        },
+        "environment": "In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.",
+        "interactive_environment_objects": null,
+        "interactive_npc": [
+          {
+            "name": "Ronan",
+            "additional_conditions": null,
+            "goal": "Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.",
+            "emotion_pool": [
+              {
+                "id": "0",
+                "trigger_condition": null,
+                "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+              },
+              {
+                "id": "1",
+                "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+                "goal": "Seriously remind the player that this task is very important."
+              }
+            ]
+          }
+        ],
+        "scene_end_state_reference": {
+          "end_condition1": "The player indicates understanding of the task",
+          "end_condition2": "The player explicitly refuses the task"
+        }
+      },
+      "transitioning_question": "How does the player ultimately resolve these challenges and decide whether to follow through with Ronan's task or refuse it altogether?",
+      "layer": 3,
+      "previous_subtasks": [
+        {
+          "subtask_id": "1.1",
+          "title": "The Assignment",
+          "description": "Ronan assigns the player a crucial task to pick up goods and provides vital advice on contacting Meredith Stout.",
+          "dialogue": "As the neon glow flickers softly, Ronan leans forward, his fingers interlaced. 'I've got a job for you,' he begins, his voice steady and commanding. 'There's a package waiting at the old docks \u2014 you'll need to pick it up. And listen carefully; when you contact Meredith Stout, you'll need to use the phrase 'Skyline at sunset.' She'll know what it means.'",
+          "npc_reactions": {
+            "Ronan": "Ronan maintains a calm demeanor but emphasizes the importance of the task. His eyes narrow if the player appears hesitant."
+          },
+          "player_options": [
+            "Agree to take the task",
+            "Ask for more details about Meredith Stout",
+            "Express doubt about handling the task"
+          ],
+          "parent_id": "1",
+          "layer": 1,
+          "is_generated": false
+        },
+        {
+          "subtask_id": "1.2",
+          "title": "Unforeseen Obstacles",
+          "description": "As the player heads to retrieve the goods, they encounter unexpected interference from a rival gang.",
+          "dialogue": "You step out of the office, the dim neon lights fading into the night as you head towards the alley meeting point. Suddenly, you hear footsteps echoing closer. Emerging from the shadows, members of a rival gang block your path, demanding to know your business.",
+          "npc_reactions": {
+            "Ronan": "When informed later, Ronan nods grimly, acknowledging the complications."
+          },
+          "player_options": [
+            "Negotiate with the rival gang to let you pass peacefully.",
+            "Attempt to slip by undetected using the shadows.",
+            "Stand your ground and prepare for confrontation."
+          ],
+          "parent_id": "1.1",
+          "layer": 2,
+          "is_generated": false
+        }
+      ]
+    }
   }
 ]

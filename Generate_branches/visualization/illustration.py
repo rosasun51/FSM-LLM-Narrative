@@ -5,19 +5,34 @@ It uses langraph for generating visual representations of narrative structures.
 
 import os
 import json
+import datetime
 from typing import Dict, List, Any, Optional
 
 try:
     import networkx as nx
     import matplotlib.pyplot as plt
     from IPython.display import display
+    
+    # Try to import pygraphviz for better hierarchical layouts
+    try:
+        import pygraphviz
+        HAS_PYGRAPHVIZ = True
+    except ImportError:
+        HAS_PYGRAPHVIZ = False
+        
 except ImportError:
     print("Warning: Visualization requires networkx, matplotlib, and IPython")
+    HAS_PYGRAPHVIZ = False
 
 from Generate_branches.game.task_chain import TaskChain
 from Generate_branches.models.task import Task
 from Generate_branches.models.subtask import ScriptedSubTask, GeneratedSubTask
 from Generate_branches.utils.helpers import log_message
+from Generate_branches.utils.constants import (
+    VISUALIZATION_PATH,
+    ROOT_TASK_ID,
+    TEST_TASK_NAME
+)
 
 class ChainVisualizer:
     """
@@ -27,7 +42,7 @@ class ChainVisualizer:
     structures, including task chains, subtask flows, and branching possibilities.
     """
     
-    def __init__(self, output_dir: str = "visualization"):
+    def __init__(self, output_dir: str = VISUALIZATION_PATH):
         """
         Initialize the visualizer.
         
@@ -39,6 +54,12 @@ class ChainVisualizer:
         # Create output directory if it doesn't exist
         full_path = os.path.join("Generate_branches", output_dir)
         os.makedirs(full_path, exist_ok=True)
+        
+        # Log available visualization features
+        if HAS_PYGRAPHVIZ:
+            log_message("Hierarchical layout available using pygraphviz", "INFO")
+        else:
+            log_message("Pygraphviz not found, using spring layout for visualizations", "INFO")
     
     def visualize_task_chain(self, task_chain: TaskChain, save_to_file: bool = True) -> Optional[nx.DiGraph]:
         """
@@ -120,6 +141,65 @@ class ChainVisualizer:
             log_message(f"Error visualizing subtask flow: {e}", "ERROR")
             return None
     
+    def visualize_hierarchical_structure(self, task: Task, save_to_file: bool = True) -> Optional[nx.DiGraph]:
+        """
+        Create a visualization of the complete hierarchical structure of a task including all subtasks.
+        
+        This creates a detailed tree-like visualization that shows:
+        - The task as the root node
+        - All subtasks organized by their layers
+        - Clear parent-child relationships between subtasks
+        - Visual differentiation between scripted and generated subtasks
+        
+        Args:
+            task: The task containing subtasks to visualize
+            save_to_file: Whether to save the visualization to a file
+            
+        Returns:
+            The generated graph or None if visualization failed
+        """
+        try:
+            # Create directed graph
+            G = nx.DiGraph()
+            
+            # Add task node
+            task_id = task.task_id
+            G.add_node(task_id, label=task.title, type="task")
+            
+            # Create a mapping of parent_id to subtask_id for connecting nodes
+            subtask_map = {}
+            
+            # First pass: Add all subtasks to the graph
+            for subtask in sorted(task.subtasks, key=lambda x: x.layer):
+                subtask_id = subtask.subtask_id
+                parent_id = subtask.parent_id if subtask.parent_id else task_id
+                
+                # Store for second pass
+                subtask_map[subtask_id] = subtask
+                
+                # Add node
+                node_type = "scripted" if isinstance(subtask, ScriptedSubTask) else "generated"
+                is_generated = "Gen" if node_type == "generated" else "Scripted"
+                label = f"{subtask.title} (L{subtask.layer}, {is_generated})"
+                G.add_node(subtask_id, label=label, type=node_type, layer=subtask.layer)
+            
+            # Second pass: Connect nodes based on parent-child relationships
+            for subtask_id, subtask in subtask_map.items():
+                parent_id = subtask.parent_id if subtask.parent_id else task_id
+                G.add_edge(parent_id, subtask_id)
+            
+            # Draw the graph
+            if save_to_file:
+                # Generate timestamp for unique filename
+                timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+                safe_title = task.title.replace(' ', '_').replace('/', '_').replace('\\', '_')
+                self._draw_and_save_graph(G, f"{safe_title}_structure_{timestamp}")
+            
+            return G
+        except Exception as e:
+            log_message(f"Error visualizing hierarchical structure: {e}", "ERROR")
+            return None
+    
     def _add_task_to_graph(self, G: nx.DiGraph, task: Task, parent_id: str):
         """
         Add a task and its subtasks to the graph.
@@ -165,7 +245,7 @@ class ChainVisualizer:
             filename: Base filename to save as
         """
         # Create figure
-        plt.figure(figsize=(12, 8))
+        plt.figure(figsize=(16, 10))
         
         # Get node types for coloring
         node_types = nx.get_node_attributes(G, 'type')
@@ -181,18 +261,40 @@ class ChainVisualizer:
         # Set node colors
         node_colors = [color_map.get(node_types.get(node, 'default'), 'gray') for node in G.nodes()]
         
-        # Define node positions
-        pos = nx.spring_layout(G, k=0.5, iterations=50)
+        # Check if we have layer information (for hierarchical structure)
+        has_layers = 'layer' in list(G.nodes(data=True))[0][1] if G.nodes(data=True) else False
+        
+        # Determine layout based on graph type and available libraries
+        if has_layers and HAS_PYGRAPHVIZ:
+            # Use graphviz for hierarchical layout if available
+            try:
+                pos = nx.nx_agraph.graphviz_layout(G, prog='dot')
+                log_message("Using graphviz hierarchical layout", "INFO")
+            except Exception as e:
+                log_message(f"Graphviz layout failed: {e}. Using spring layout.", "WARNING")
+                pos = nx.spring_layout(G, k=0.9, iterations=100)
+        else:
+            # Use spring layout
+            pos = nx.spring_layout(G, k=0.9, iterations=100)
         
         # Draw nodes
-        nx.draw_networkx_nodes(G, pos, node_color=node_colors, node_size=1500, alpha=0.8)
+        nx.draw_networkx_nodes(G, pos, node_color=node_colors, node_size=2000, alpha=0.8)
         
         # Draw edges
         nx.draw_networkx_edges(G, pos, width=1.5, arrows=True, arrowsize=20)
         
         # Draw labels
         labels = {node: G.nodes[node].get('label', node) for node in G.nodes()}
-        nx.draw_networkx_labels(G, pos, labels=labels, font_size=10)
+        nx.draw_networkx_labels(G, pos, labels=labels, font_size=9, font_weight='bold')
+        
+        # Add title and legend
+        plt.title(f"Task Structure: {filename}", fontsize=16)
+        legend_elements = [
+            plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='lightgreen', markersize=15, label='Task'),
+            plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='orange', markersize=15, label='Scripted Subtask'),
+            plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='pink', markersize=15, label='Generated Subtask')
+        ]
+        plt.legend(handles=legend_elements, loc='upper right')
         
         # Save figure
         file_path = os.path.join("Generate_branches", self.output_dir, f"{filename}.png")
@@ -234,7 +336,8 @@ def create_illustration_notebook():
                     "\n",
                     "from Generate_branches.game.task_chain import TaskChain\n",
                     "from Generate_branches.game.branch_manager import BranchManager\n",
-                    "from Generate_branches.visualization.illustration import ChainVisualizer"
+                    "from Generate_branches.visualization.illustration import ChainVisualizer\n",
+                    "from Generate_branches.utils.constants import TEST_TASK_NAME, VISUALIZATION_PATH"
                 ]
             },
             {
@@ -290,7 +393,11 @@ def create_illustration_notebook():
                     "    # Visualize subtask flow for each task\n",
                     "    for task in task_chain.tasks:\n",
                     "        print(f\"Visualizing subtask flow for task: {task.title}\")\n",
-                    "        visualizer.visualize_subtask_flow(task)"
+                    "        visualizer.visualize_subtask_flow(task)\n",
+                    "        \n",
+                    "        # Visualize hierarchical structure for each task\n",
+                    "        print(f\"Visualizing hierarchical structure for task: {task.title}\")\n",
+                    "        visualizer.visualize_hierarchical_structure(task)"
                 ]
             },
             {
@@ -309,11 +416,44 @@ def create_illustration_notebook():
                     "from IPython.display import Image, display\n",
                     "\n",
                     "# Display the generated visualizations\n",
-                    "visualization_dir = os.path.join('Generate_branches', 'visualization')\n",
+                    "visualization_dir = os.path.join('Generate_branches', VISUALIZATION_PATH)\n",
                     "for filename in os.listdir(visualization_dir):\n",
                     "    if filename.endswith('.png'):\n",
                     "        print(f\"\\n## {filename}\")\n",
                     "        display(Image(os.path.join(visualization_dir, filename)))"
+                ]
+            },
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "## Hierarchical Structure Visualization Guide\n",
+                    "\n",
+                    "The hierarchical structure visualization shows the complete structure of subtasks within a task:\n",
+                    "\n",
+                    "- **Root Node (Light Green)**: The task itself\n",
+                    "- **Orange Nodes**: Scripted subtasks (manually defined)\n",
+                    "- **Pink Nodes**: Generated subtasks (created by LLM)\n",
+                    "- **Node Labels**: Format is \"SubtaskTitle (LX, Type)\" where X is the layer number and Type is Scripted/Gen\n",
+                    "- **Connections**: Represent parent-child relationships\n",
+                    "\n",
+                    "Each visualization is saved with a timestamp in the filename: `TaskName_structure_YYYYMMDD_HHMMSS.png`\n",
+                    "\n",
+                    "To visualize a single task's hierarchical structure programmatically:\n",
+                    "\n",
+                    "```python\n",
+                    "from Generate_branches.visualization.illustration import ChainVisualizer\n",
+                    "from Generate_branches.game.branch_manager import BranchManager\n",
+                    "\n",
+                    "# Create a branch manager and load the task\n",
+                    "branch_manager = BranchManager()\n",
+                    "task_chain = branch_manager.generate_task_chain(\"Beginning\")\n",
+                    "task = task_chain.tasks[0]  # Get the first task\n",
+                    "\n",
+                    "# Create visualizer and generate hierarchical structure visualization\n",
+                    "visualizer = ChainVisualizer()\n",
+                    "visualizer.visualize_hierarchical_structure(task)\n",
+                    "```"
                 ]
             }
         ],
@@ -342,10 +482,46 @@ def create_illustration_notebook():
     
     # Save the notebook
     try:
-        notebook_path = os.path.join("Generate_branches", "visualization", "illustration.ipynb")
+        notebook_path = os.path.join("Generate_branches", VISUALIZATION_PATH, "illustration.ipynb")
         with open(notebook_path, 'w') as f:
             json.dump(notebook_content, f, indent=2)
         
         log_message(f"Created illustration notebook at {notebook_path}", "INFO")
     except Exception as e:
-        log_message(f"Error creating illustration notebook: {e}", "ERROR") 
+        log_message(f"Error creating illustration notebook: {e}", "ERROR")
+
+def visualize_task_structure_example():
+    """
+    Example function showing how to use the task structure visualization.
+    
+    This can be run directly to generate an example visualization
+    of the hierarchical structure of a task with all its subtasks.
+    """
+    from Generate_branches.game.branch_manager import BranchManager
+    
+    # Create a branch manager and load a task
+    branch_manager = BranchManager()
+    task_chain = branch_manager.generate_task_chain(TEST_TASK_NAME)
+    
+    if task_chain and task_chain.tasks:
+        # Get the first task in the chain
+        task = task_chain.tasks[0]
+        
+        # Create visualizer
+        visualizer = ChainVisualizer()
+        
+        # Generate hierarchical structure visualization
+        visualizer.visualize_hierarchical_structure(task)
+        
+        log_message(f"Generated hierarchical structure visualization for task: {task.title}", "INFO")
+        
+        # Return path to generated file for easy access
+        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        safe_title = task.title.replace(' ', '_').replace('/', '_').replace('\\', '_')
+        filename = f"{safe_title}_structure_{timestamp}.png"
+        file_path = os.path.join("Generate_branches", VISUALIZATION_PATH, filename)
+        
+        return file_path
+    else:
+        log_message(f"Failed to generate task chain for {TEST_TASK_NAME}", "ERROR")
+        return None 

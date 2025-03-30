@@ -1,0 +1,24 @@
+{
+  "task_name": "Beginning",
+  "key_questions": [
+    {
+      "level": 1,
+      "id": "Q1",
+      "question": "What task does Ronan assign to the player in their meeting at the dimly-lit office?",
+      "purpose": "Establishes the initial situation and task parameters for the narrative"
+    },
+    {
+      "level": 2,
+      "id": "Q2",
+      "question": "What challenges and obstacles does the player face while attempting to pick up the goods and contact Meredith Stout?",
+      "purpose": "Introduces complications and challenges arising from the initial situation"
+    },
+    {
+      "level": 3,
+      "id": "Q3",
+      "question": "How does the player resolve these challenges and what is the outcome of their decision regarding Ronan's task?",
+      "purpose": "Addresses the resolution of the situation based on previous developments"
+    }
+  ],
+  "explanation": "These three questions follow a clear hierarchical structure where each builds upon the previous one. The first establishes the task, the second introduces complications, and the third addresses the resolution. This structure ensures a cohesive narrative flow across the three layers of subtasks."
+} 
