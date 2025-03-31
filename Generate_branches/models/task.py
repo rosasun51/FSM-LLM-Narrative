@@ -23,26 +23,39 @@ class Task:
         self.subtasks.sort(key=lambda x: x.layer)
         
     def get_active_subtask(self, game_state):
-        """Get the currently active subtask based on game state."""
-        # Default to the first subtask if none have been completed
+        """
+        Get the currently active subtask based on game state.
+        
+        This method returns the first uncompleted subtask in order.
+        If all subtasks are completed, the task is marked as completed.
+        
+        Args:
+            game_state: Current game state containing completion information
+            
+        Returns:
+            The active subtask or None if all are completed or no subtasks exist
+        """
+        # Quick return if there are no subtasks
         if not self.subtasks:
             return None
-            
-        completed_subtasks = []
-        for subtask in self.subtasks:
-            if subtask.is_completed(game_state):
-                completed_subtasks.append(subtask)
         
-        # If all subtasks are completed, the task is completed
+        # Check for completed subtasks
+        completed_subtasks = [
+            subtask for subtask in self.subtasks 
+            if subtask.is_completed(game_state)
+        ]
+        
+        # If all subtasks are completed, mark the task as completed
         if len(completed_subtasks) == len(self.subtasks):
             self.completed = True
             return None
-            
-        # Find the next uncompleted subtask
+        
+        # Find the first uncompleted subtask (they're already sorted by layer)
         for subtask in self.subtasks:
             if subtask not in completed_subtasks:
                 return subtask
-                
+        
+        # Fallback (should not reach here if logic is correct)
         return None
         
     def mark_completed(self):
