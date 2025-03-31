@@ -15,7 +15,7 @@ import unittest
 import sys
 
 from Generate_branches.game.branch_manager import BranchManager
-from Generate_branches.visualization.illustration import ChainVisualizer, create_illustration_notebook
+from Generate_branches.visualization.illustration import ChainVisualizer
 from Generate_branches.demo.demo_game import run_demo, create_demo_game
 from Generate_branches.utils.helpers import log_message
 from Generate_branches.utils.constants import (

@@ -14,249 +14,253 @@
       "subtasks": [
         {
           "subtask_id": "1.1",
-          "title": "The Assignment",
-          "description": "In the dimly-lit office, Ronan, the gangster boss, lays out a clandestine task for the player to retrieve goods and provides crucial advice.",
+          "title": "The Task Begins",
+          "description": "Ronan assigns the player an important task: to pick up goods and provides crucial advice on contacting Meredith Stout.",
           "layer": 1,
           "parent_id": "1",
           "completed": false,
           "is_generated": false,
           "type": "ScriptedSubTask",
-          "dialogue": "Ronan looks up from his desk, fixing his gaze on you. 'I've got a job for you,' he says. 'There's a package that needs picking up; discreetly, of course. You'll meet my contact at the docks. And if you run into any trouble, reach out to Meredith Stout. She's got the resources you'll need. Do you understand the importance of this task?'",
+          "dialogue": "As you step into the dimly-lit office, the shadowy figure behind the desk comes into focus. It's Ronan, the notorious gangster boss. He motions for you to sit, leaning forward with a serious expression. 'I have a job for you,' he says, his voice carrying a weight of authority. 'You need to pick up a package for me, no questions asked. Once you have it, seek out Meredith Stout. She\u2019s in control of what happens next. Remember, no detours\u2014this is crucial.'",
           "npc_reactions": {
-            "Ronan": "Ronan maintains a calm demeanor but with an underlying seriousness as he explains the task, emphasizing its importance."
+            "Ronan": "Ronan watches you intently, gauging your reaction. He nods in appreciation if you accept immediately, but frowns with concern if you hesitate."
           },
           "player_options": [
-            "Agree to take on the task and seek further details.",
-            "Question the nature of the goods to be picked up.",
-            "Express doubts about meeting Meredith Stout."
+            "Nod and agree to take on the task",
+            "Ask Ronan for more details about Meredith Stout",
+            "Express concerns about the dangers involved"
           ],
-          "next_transitioning_question": "What complications arise when Ronan advises the player on contacting Meredith Stout for the task?"
+          "next_transitioning_question": "What unforeseen challenges arise as the player attempts to contact Meredith Stout and pick up the goods?"
         },
         {
           "subtask_id": "1.1.1",
-          "title": "Rendezvous at Midnight",
-          "description": "Ronan gives the player a task to meet a mysterious figure at midnight to exchange encrypted data drives, with strict instructions to avoid attracting attention.",
+          "title": "Secret Liaison",
+          "description": "Ronan assigns the player to meet a mysterious contact in a secluded alleyway after dusk, providing an encrypted message to deliver.",
           "layer": 1,
           "parent_id": "1.1",
           "completed": false,
           "is_generated": true,
           "type": "GeneratedSubTask",
-          "dialogue": "Ronan glances at his watch, then back at you. 'There's a data exchange tonight. My contact will be waiting at the old clock tower at midnight. No lights, no sound, and avoid the main roads. Use the shadows, and make sure no one sees you. If you see Meredith Stout, get her help if needed.'",
+          "dialogue": "Ronan shifts in his seat, eyes gleaming slightly as he leans forward to speak. 'Your task tonight is discreet and crucial. Meet my contact in the alley on 5th and Central,' he says, handing you a small, unmarked envelope. 'Deliver this message. Keep it hidden, and don't open it\u2014others may want what's inside.'",
           "npc_reactions": {
-            "Ronan": "Ronan speaks softly but with intensity, emphasizing the need for stealth and discretion."
+            "Ronan": "Ronan's gaze remains sharp, studying your every move. If you show understanding, his expression eases with a trace of a smile. If you seem uncertain, he narrows his eyes, reminding you of the task's significance."
           },
           "player_options": [
-            "Accept the task and inquire about the data drives.",
-            "Ask why the exchange must occur at midnight.",
-            "Express concern about being seen by rivals."
+            "Accept the task and pocket the envelope",
+            "Ask about the message's contents",
+            "Express worries about being followed"
           ],
           "generation_score": 85,
           "transitioning_question": ""
         },
         {
           "subtask_id": "1.1.2",
-          "title": "Beneath the Surface",
-          "description": "Ronan entrusts the player with an underground delivery job, involving a hidden passage network below the city.",
+          "title": "The Courier's Run",
+          "description": "Ronan entrusts the player with ensuring a vital supply run reaches its destination, emphasizing urgency and speed.",
           "layer": 1,
           "parent_id": "1.1",
           "completed": false,
           "is_generated": true,
           "type": "GeneratedSubTask",
-          "dialogue": "Ronan leans forward, lowering his voice. 'There's a shipment due for discreet delivery. You'll use the underground paths. They're tricky, but Meredith Stout can guide you. No one else knows about these passages, and it needs to stay that way. Are you capable of this?'",
+          "dialogue": "In the office's shadowy ambiance, Ronan stands, adjusting his suit jacket briskly. 'There's a critical delivery that must reach the Eastside warehouse by midnight,' he orders, voice clipped with urgency. 'Time is against us, so move swiftly and avoid any distractions.'",
           "npc_reactions": {
-            "Ronan": "Ronan's eyes narrow, assessing your confidence as he mentions the network\u2019s secrecy."
+            "Ronan": "Ronan observes you closely, offering a curt nod if you appear ready. Doubt or delay in your demeanor causes him to glower, outlining the severity of the situation."
           },
           "player_options": [
-            "Agree to the delivery and ask about the passage network.",
-            "Question why the underground is necessary.",
-            "Express hesitation and ask about potential risks."
+            "Confirm and prepare for the delivery",
+            "Clarify the nature of the items",
+            "Mention potential obstacles in the path"
           ],
           "generation_score": 82,
           "transitioning_question": ""
         },
         {
           "subtask_id": "1.1.3",
-          "title": "The Decoy Operation",
-          "description": "Ronan proposes a risky diversion plan, tasking the player with creating a distraction while he secures valuable intelligence.",
+          "title": "Gathering Intel",
+          "description": "Ronan assigns the player to gather critical intel on rival operations, focusing on stealth and information accuracy.",
           "layer": 1,
           "parent_id": "1.1",
           "completed": false,
           "is_generated": true,
           "type": "GeneratedSubTask",
-          "dialogue": "Ronan nods thoughtfully before speaking. 'I need you to draw their attention. Cause a commotion at Bourbon Street. Meanwhile, I'll be extracting sensitive files. Make sure they think you're the main act, but if you run into complications, Stout can back you up.\u2019",
+          "dialogue": "The hum of hidden machines fills the silence as Ronan fixes you with a penetrating stare. 'We need eyes in the rival's camp. Infiltrate, gather data, and leave no trace,' he instructs coolly, sliding a small data drive across the desk. 'This mission requires finesse\u2014failure is not an option.'",
           "npc_reactions": {
-            "Ronan": "Ronan watches carefully, gauging your reaction to the dangerous nature of the task."
+            "Ronan": "Ronan's expression is inscrutable, the weight of unspoken expectations hanging in the air. Agreeing quickly earns a subtle nod of approval, while hesitance fosters a critical frown."
           },
           "player_options": [
-            "Agree to create the diversion and ask for further details.",
-            "Question the potential fallout from the distraction.",
-            "Show reluctance and request more resources for backup."
+            "Agree and take the data drive",
+            "Inquire about the methods of gathering intel",
+            "Voice concerns about enemy awareness"
           ],
           "generation_score": 80,
           "transitioning_question": ""
         },
         {
           "subtask_id": "1.2",
-          "title": "The Complication with Stout",
-          "description": "As Ronan delves into the specifics of the task, he advises on the challenges of reaching Meredith Stout, revealing layered dangers and trust issues. The player must navigate these underworld dynamics.",
+          "title": "Echoes in the Shadows",
+          "description": "As the player starts the journey to contact Meredith Stout and pick up the goods, unexpected obstacles arise. The player's path is fraught with cryptic messages, guarding figures, and the need to decipher clues carefully laid out by an unseen hand.",
           "layer": 2,
           "parent_id": "1.1",
           "completed": false,
           "is_generated": false,
           "type": "ScriptedSubTask",
-          "dialogue": "Ronan leans forward, the shadows from his desk creeping over his face. 'Listen, Meredith Stout is your contact, but she doesn't trust easily. She's got a reputation for double-crossing those who seem too eager. You'll need to play it cool, convince her that you're reliable. But there's something else you should know\u2014she's been on edge lately, a mess from a botched deal. Approach her with caution; the wrong move, and she'll turn on you.'",
+          "dialogue": "With Ronan's words still echoing, you step into the neon-tinged streets, the task buzzing at the back of your mind. As you make your way towards the meeting point for Meredith Stout, you receive a mysterious message: 'Beware of those who seek to mislead. Trust in the signals of the city.' Ahead, a group of shadowy figures emerges, obstructing your path. Their intentions are unclear, but their presence speaks volumes. The air is thick with tension, and you realize the task is far from simple. You must find Meredith, but first, these obstacles demand your attention.",
           "npc_reactions": {
-            "Ronan": "Ronan is initially stern but becomes cautious and almost concerned as he discusses the intricacies of dealing with Meredith Stout."
+            "Ronan": "Ronan watches with a knowing look as you commence your mission. He seems confident yet slightly concerned, aware of the challenges ahead.",
+            "Shadowy figures": "The figures remain silent, their posture more ominous than welcoming. They shift uneasily as you approach, a silent warning of the possible confrontation."
           },
           "player_options": [
-            "Agree to proceed carefully.",
-            "Express doubt about dealing with Meredith Stout.",
-            "Ask Ronan for more advice on handling potential betrayal."
+            "Approach the figures and attempt to negotiate passage.",
+            "Look for an alternate route to circumvent the figures.",
+            "Retreat to reconsider the approach to Meredith Stout."
           ],
-          "next_transitioning_question": "How does the player decide to either accept or refuse the task, and what are the implications of their decision on future interactions with Ronan and Meredith Stout?"
+          "next_transitioning_question": "How does the player's confrontation with these challenges affect their decision to either proceed with or refuse Ronan's task?"
         },
         {
           "subtask_id": "1.2.1",
-          "title": "The Price of Trust",
-          "description": "Ronan suggests an unexpected twist: Meredith Stout demands a 'trust fee'\u2014a valuable item or information that proves the player's loyalty before any business can proceed.",
+          "title": "Whispers of a Hidden Alliance",
+          "description": "While attempting to contact Meredith Stout, the player receives insider intelligence suggesting a secret alliance opposing Ronan. During the mission, cryptic messages from an unknown ally guide the player to avoid hostile encounters.",
           "layer": 2,
           "parent_id": "1.2",
           "completed": false,
           "is_generated": true,
           "type": "GeneratedSubTask",
-          "dialogue": "Ronan adjusts his tie, his eyes narrowing. 'Stout is straightforward when it comes to trust... meaning she'll want something from you upfront. Call it a 'trust fee.' Maybe it's information, maybe something valuable. Whatever it is, she won't deal without it. Think about what you can offer.'",
+          "dialogue": "As you move through the city's labyrinthine alleys, a voice whispers through your earpiece: 'They watch from the shadows, but an ally is near.' A mysterious figure slips you a note, hinting at a hidden network aiding you in your quest. With new paths revealed by these unforeseen allies, the journey takes a strange turn, promising both danger and unexpected support.",
           "npc_reactions": {
-            "Ronan": "Ronan occasionally gives a knowing nod, understanding the complexities of dealing with Stout."
+            "Ronan": "Ronan remains oblivious to the hidden alliance, focused solely on the player's progress.",
+            "Mysterious Ally": "The ally remains distant yet supportive, hinting at a larger conspiracy at play."
           },
           "player_options": [
-            "Consider what you could offer as a 'trust fee.'",
-            "Question Ronan about previous similar situations.",
-            "Decide to confront Stout empty-handed and improvise."
+            "Follow the ally's guidance and navigate using the provided hints.",
+            "Attempt to uncover more about the alliance's motives.",
+            "Ignore the messages and proceed directly to Meredith Stout."
           ],
           "generation_score": 85,
           "transitioning_question": ""
         },
         {
           "subtask_id": "1.2.2",
-          "title": "The Brink of War",
-          "description": "In this scenario, Ronan reveals that a gang war looms due to a secret alliance involving Stout, affecting the player's approach.",
+          "title": "Echoes of the Past",
+          "description": "An unexpected encounter with a figure from the player's past adds complexity to the mission. As rival interests converge, old friendships or enmities resurface, impacting the player's journey towards Stout.",
           "layer": 2,
           "parent_id": "1.2",
           "completed": false,
           "is_generated": true,
           "type": "GeneratedSubTask",
-          "dialogue": "Ronan leans back, a shadow of worry crossing his face. 'Stout's position is precarious. She's entangled in some alliance that's on the brink of setting off a gang war. If you get tangled in that web, you could become collateral damage. Lead with caution, and consider who your real allies are.'",
+          "dialogue": "The familiar clang of boots echoes as a past rival, once thought vanquished, appears. 'We meet again, but under different terms,' they utter, their intentions shrouded in enigma. The air tingles with history as unresolved business intertwines with your current task.",
           "npc_reactions": {
-            "Ronan": "Ronan speaks with urgency, aware of the violence that could erupt."
+            "Ronan": "Ronan's interest piques upon hearing of this reunion, using it as leverage.",
+            "Past Rival": "The rival wears a cryptic smile, hinting at motivations both personal and professional."
           },
           "player_options": [
-            "Seek more information about the alliance and its members.",
-            "Express concern over becoming involved in a gang war.",
-            "Resolve to maintain neutrality while dealing with Stout."
+            "Try to negotiate a temporary truce with the rival.",
+            "Probe for information that might give an edge in the current mission.",
+            "Escalate the confrontation, prioritizing the mission's completion."
           ],
           "generation_score": 82,
           "transitioning_question": ""
         },
         {
           "subtask_id": "1.2.3",
-          "title": "A Ghost from the Past",
-          "description": "Ronan reveals Meredith Stout is haunted by past betrayals, affecting her interactions and demanding a different strategy from the player.",
+          "title": "Chase Through Neon",
+          "description": "The player is suddenly pursued by unknown assailants, adding urgency and danger to the mission. The chase through the city's neon-lit streets pushes the player's skills to the limit as they grapple with the threat of capture.",
           "layer": 2,
           "parent_id": "1.2",
           "completed": false,
           "is_generated": true,
           "type": "GeneratedSubTask",
-          "dialogue": "Ronan stares into the distance for a moment. 'Stout's past is full of betrayals. People she's trusted have left her scarred. Approach her knowing the past is never far from her mind. Show her you're different, that you understand her paranoia. That might be your edge.'",
+          "dialogue": "Your heartbeat quickens as footsteps close in. A surge of adrenaline propels you forward, weaving through the chaos of night markets and grimy alleys. 'They know your path,' a garbled voice warns over the comms, urging haste and cunning.",
           "npc_reactions": {
-            "Ronan": "Ronan becomes pensive, reflecting on the personal history of Stout."
+            "Ronan": "Ronan is displeased, viewing the pursuit as a potential failure of secrecy.",
+            "Unknown Assailants": "The pursuers remain relentless, communicating only through silence and precision."
           },
           "player_options": [
-            "Empathize with Stout's distrust and plan a careful approach.",
-            "Inquire about Stout's previous betrayals and her current state.",
-            "Decide to face Stout with directness, addressing her past upfront."
+            "Find a way to lose the pursuers through careful navigation.",
+            "Set a trap to turn the tables on the assailants.",
+            "Seek refuge in a safe house, delaying the mission's progress."
           ],
           "generation_score": 80,
           "transitioning_question": ""
         },
         {
           "subtask_id": "1.3",
-          "title": "Moment of Decision",
-          "description": "The player confronts the significant choice of accepting or refusing Ronan's task, affecting future interactions with both Ronan and Meredith Stout.",
+          "title": "Turning the Tide",
+          "description": "The player faces crucial challenges that test their resolve to continue with Ronan's mission. As the barriers multiply, the player must decide whether to overcome these trials or abandon the quest.",
           "layer": 3,
           "parent_id": "1.2",
           "completed": false,
           "is_generated": false,
           "type": "ScriptedSubTask",
-          "dialogue": "As Ronan leans back in his chair, the room falls silent. The gentle hum of the hidden devices ceases to be background noise, focusing on the gravity of the decision at hand. Ronan's eyes, a sharp mix of calculation and expectation, rest unyieldingly on you. 'So, what's it going to be?' he asks, a subtle test of loyalty and foresight. The weight of your choice sits heavy, casting long shadows over what may come next.",
+          "dialogue": "Amidst the shadows and echoes, the cryptic messages and guarding figures seem overwhelming. Yet, amid the chaos, there's a glimmer of opportunity. 'Do I push forward against the unknown or step back to reconsider?' the player pondered, each step marked by an increasing intensity of challenges. The player's mind races with possibilities, the choice weighing heavily on their conscience.",
           "npc_reactions": {
-            "Ronan": "If you accept, Ronan nods with a subtle air of approval, signaling trust but reminding you of the stakes. If you refuse, his expression tightens, masking disappointment with a neutral facade but signaling that gaining his trust again might be an uphill journey."
+            "Ronan": "Ronan watches cautiously, his expression unreadable. He knows this decision is crucial, and he nods subtly as the player makes their choice, a silent acknowledgment of the gravity of the path they choose."
           },
           "player_options": [
-            "Accept the task and nod in agreement.",
-            "Refuse the task, explaining your reasons.",
-            "Request more time to consider the implications."
+            "Proceed with determination, determined to unravel the mysteries and fulfill Ronan's task.",
+            "Question the wisdom of continuing and seek further guidance or reconsider the task.",
+            "Decide to abandon the task, feeling the growing risks outweigh the benefits."
           ],
           "next_transitioning_question": ""
         },
         {
           "subtask_id": "1.3.1",
-          "title": "Trust in the Shadows",
-          "description": "The player decides to trust Ronan's intentions and delve into the hidden aspects of the task, seeking deeper understanding.",
+          "title": "A Shadowed Decision",
+          "description": "Faced with mounting pressures and sinister whispers, the player must navigate a web of intrigue that tears at their very notions of loyalty and fear. It is here they realize information can be the most dangerous weapon.",
           "layer": 3,
           "parent_id": "1.3",
           "completed": false,
           "is_generated": true,
           "type": "GeneratedSubTask",
-          "dialogue": "With a measured calm, you agree to help Ronan. 'I'll do it,' you say, leaning forward as if to peer into the very shadows that seem alive in the office. The murmur of hidden devices fades into the background as you lock eyes with Ronan, signalling your commitment to unraveling the mysteries ahead.",
+          "dialogue": "Amidst the dim lights and cryptic whispers, the player stands on the precipice of uncertainty. 'Every whispered secret carries weight, and every step forward is shrouded in darkness,' the player muses. The gravity of choices resonates with every heartbeat.",
           "npc_reactions": {
-            "Ronan": "Ronan's eyes glint with a rare flicker of camaraderie, acknowledging your willingness to walk into the unknown together. 'Good choice,' he murmurs, almost to himself."
+            "Ronan": "Ronan's eyes glint with a mix of expectation and caution. He leans forward as if weighing the player's potential actions, subtly signaling the gravity of their next move."
           },
           "player_options": [
-            "Ask Ronan for more details on the task.",
-            "Request additional resources to ensure success.",
-            "Prepare a strategic plan with Ronan, focusing on potential obstacles."
+            "Delve deeper into the shadows, ready to risk everything for the truth.",
+            "Seek an unconventional ally who might provide clarity amidst the chaos.",
+            "Reconsider the path entirely, recognizing the danger of swimming in troubled waters."
           ],
           "generation_score": 85,
           "transitioning_question": ""
         },
         {
           "subtask_id": "1.3.2",
-          "title": "Silent Rebellion",
-          "description": "The player decides to refuse the task but without direct confrontation, choosing a diplomatic yet firm stance.",
+          "title": "Echoes of Choice",
+          "description": "As the sound of distant echoes fill the room, each reverberation is a reminder of the potential pitfalls of the mission. The player is pressed to balance risk with intuition and decide their course.",
           "layer": 3,
           "parent_id": "1.3",
           "completed": false,
           "is_generated": true,
           "type": "GeneratedSubTask",
-          "dialogue": "You take a deep breath and stand your ground, weaving your refusal into a tapestry of politeness and confident detachment. 'I respect your position, Ronan, but this isn't my path,' you state, letting each word drop like a pebble into the still waters of the room, rippling with implicit defiance.",
+          "dialogue": "Muted echoes bounce off the walls as the player stands at the crossroads. 'Each echo is both an opportunity and a pitfall,' they contemplate, struggling to decipher the truth among the noise.",
           "npc_reactions": {
-            "Ronan": "While his expression remains neutral, a flicker of understanding passes through Ronan's eyes, mingled with unspoken disappointment. 'Fair enough,' he replies, his voice devoid of malice, yet a warning lingers on the horizon."
+            "Ronan": "Ronan waits quietly, a knowing smile playing at his lips. He understands the player's struggle, acknowledging the tension in the room with a slow, deliberate nod."
           },
           "player_options": [
-            "Reassure Ronan of future collaborations.",
-            "Inquire about alternative ways to support his endeavors.",
-            "Suggest a need for clarity in future proposals."
+            "Follow the echoes towards a possible hidden advantage in the mission.",
+            "Pause to consider what the echoes may truly signify, seeking Ronan's insight.",
+            "Let the echoes guide them away from danger, choosing safety over intrigue."
           ],
           "generation_score": 82,
           "transitioning_question": ""
         },
         {
           "subtask_id": "1.3.3",
-          "title": "Bound by Curiosity",
-          "description": "The player doesn't immediately accept or refuse, instead deciding to play the curious observer, probing for hints of a larger game.",
+          "title": "The Lure of Reprisal",
+          "description": "In a moment of fleeting clarity amid the tumult, the player contemplates the allure of reprisal against the shadows encroaching upon their path. Their decision will hinge on the risks they're willing to embrace.",
           "layer": 3,
           "parent_id": "1.3",
           "completed": false,
           "is_generated": true,
           "type": "GeneratedSubTask",
-          "dialogue": "Fiddling pensively with a small trinket on Ronan's desk, you decide to probe further, neither committing to acceptance nor outright refusing. 'What aren't you telling me, Ronan?' you query, voice steady and contemplative, as you seek to peel back the layers of the enigmatic task laid before you.",
+          "dialogue": "Caught in the turbulence of shadowed threats and looming opportunities, a moment of clarity pierces through, promising both peril and power. 'Do I seize this opportunity for retribution, or retreat into safety?' the player wonders.",
           "npc_reactions": {
-            "Ronan": "A small smirk breaks the fa\u00e7ade, his eyes alight with admiration for your discerning nature. 'Ah, the observant one,' he notes, leaning slightly, as if inviting you into the depths of his schemes."
+            "Ronan": "Ronan's visage remains inscrutable, but beneath the surface, there is a flicker of respect for the player's internal battle\u2014a recognition that will shape his future dealings with them."
           },
           "player_options": [
-            "Continue to gather information before making a decision.",
-            "Test Ronan's patience with more questions.",
-            "Align temporarily, promising a decision after more clarification."
+            "Embrace the snap of retaliation, striking at unseen foes with renewed vigor.",
+            "Pause to reflect on the balance of power, reassessing allies and foes alike.",
+            "Turn away from the path of vengeance, opting for a strategy of peace and safety."
           ],
           "generation_score": 80,
           "transitioning_question": ""
