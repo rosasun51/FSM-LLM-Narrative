@@ -52,6 +52,9 @@ def create_demo_game(task_name: str = None):
     """
     Create a demo game with the cyberpunk narrative.
     
+    This function creates a game manager, initializes relevant NPCs based on the task,
+    and sets up the initial game state.
+    
     Args:
         task_name: Optional specific task to start with
         
@@ -64,76 +67,6 @@ def create_demo_game(task_name: str = None):
     # Create branch manager to handle tasks
     branch_manager = BranchManager()
     
-    # Create NPCs based on our task data
-    ronan = NPC(
-        npc_id="ronan",
-        name="Ronan",
-        initial_traits={
-            "authority": 90,
-            "intimidation": 85,
-            "cunning": 80
-        },
-        background="A powerful gangster boss who controls the local criminal activities. Known for being calculating and ruthless."
-    )
-    
-    meredith = NPC(
-        npc_id="meredith_stout",
-        name="Meredith Stout",
-        initial_traits={
-            "aggression": 85,
-            "caution": 80,
-            "corporate": 90
-        },
-        background="A corporate agent who's investigating the missing goods. She's known for her no-nonsense approach and aggressive tactics."
-    )
-    
-    royce = NPC(
-        npc_id="royce",
-        name="Royce",
-        initial_traits={
-            "greed": 90,
-            "volatility": 85,
-            "tech_savvy": 75
-        },
-        background="The leader of the Maelstrom gang, who currently possesses the robot. He's unpredictable and opportunistic."
-    )
-    
-    dum_dum = NPC(
-        npc_id="dum_dum",
-        name="Dum Dum",
-        initial_traits={
-            "loyalty": 90,
-            "aggression": 85,
-            "cybernetic": 95
-        },
-        background="Royce's right-hand man, heavily enhanced with cybernetics. He's intimidating and fiercely loyal to Royce."
-    )
-    
-    joe = NPC(
-        npc_id="joe",
-        name="Joe",
-        initial_traits={
-            "tech_expertise": 95,
-            "street_smarts": 80,
-            "pragmatism": 85
-        },
-        background="A skilled hacker who runs an underground tech shop. He's known for his practical approach to business and his technical knowledge."
-    )
-    
-    # Register NPCs
-    game_manager.game_state.register_npc(ronan.state)
-    game_manager.game_state.register_npc(meredith.state)
-    game_manager.game_state.register_npc(royce.state)
-    game_manager.game_state.register_npc(dum_dum.state)
-    game_manager.game_state.register_npc(joe.state)
-    
-    # Set initial locations for NPCs based on tasks
-    ronan.state.move_to_location("0")  # Ronan's Office
-    meredith.state.move_to_location("1")  # Alley
-    royce.state.move_to_location("2")  # Factory
-    dum_dum.state.move_to_location("2")  # Factory
-    joe.state.move_to_location("3")  # Hacker Shop
-    
     # Determine which task to load
     task_to_load = task_name if task_name else DEMO_TASKS["beginning"]
     
@@ -143,6 +76,73 @@ def create_demo_game(task_name: str = None):
     if not task_chain:
         # Fallback to a simple chain if generation fails
         task_chain = create_fallback_chain(task_to_load)
+    
+    # Determine task location for initializing relevant NPCs
+    location_id = task_chain.location_id if task_chain else "0"
+    
+    # Dictionary mapping task names to required NPCs
+    task_npcs = {
+        "Beginning": ["ronan"],
+        "Meet with Meredith Stout": ["meredith_stout"],
+        "Picking Up Goods": ["royce", "dum_dum"],
+        "Clear Virus": ["joe"],
+        "Contact Meredith Stout": ["meredith_stout"]
+    }
+    
+    # Default NPCs to initialize for all tasks
+    default_npcs = ["ronan"]  # Always include key NPCs
+    
+    # Determine which NPCs to initialize based on the current task
+    required_npcs = set(default_npcs).union(task_npcs.get(task_to_load, []))
+    
+    # Define all possible NPCs (only initialize those needed)
+    available_npcs = {
+        "ronan": {
+            "name": "Ronan",
+            "traits": {"authority": 90, "intimidation": 85, "cunning": 80},
+            "background": "A powerful gangster boss who controls the local criminal activities. Known for being calculating and ruthless.",
+            "location": "0"  # Ronan's Office
+        },
+        "meredith_stout": {
+            "name": "Meredith Stout",
+            "traits": {"aggression": 85, "caution": 80, "corporate": 90},
+            "background": "A corporate agent who's investigating the missing goods. She's known for her no-nonsense approach and aggressive tactics.",
+            "location": "1"  # Alley
+        },
+        "royce": {
+            "name": "Royce",
+            "traits": {"greed": 90, "volatility": 85, "tech_savvy": 75},
+            "background": "The leader of the Maelstrom gang, who currently possesses the robot. He's unpredictable and opportunistic.",
+            "location": "2"  # Factory
+        },
+        "dum_dum": {
+            "name": "Dum Dum",
+            "traits": {"loyalty": 90, "aggression": 85, "cybernetic": 95},
+            "background": "Royce's right-hand man, heavily enhanced with cybernetics. He's intimidating and fiercely loyal to Royce.",
+            "location": "2"  # Factory
+        },
+        "joe": {
+            "name": "Joe",
+            "traits": {"tech_expertise": 95, "street_smarts": 80, "pragmatism": 85},
+            "background": "A skilled hacker who runs an underground tech shop. He's known for his practical approach to business and his technical knowledge.",
+            "location": "3"  # Hacker Shop
+        }
+    }
+    
+    # Initialize only the needed NPCs
+    for npc_id in required_npcs:
+        if npc_id in available_npcs:
+            npc_data = available_npcs[npc_id]
+            npc = NPC(
+                npc_id=npc_id,
+                name=npc_data["name"],
+                initial_traits=npc_data["traits"],
+                background=npc_data["background"]
+            )
+            
+            # Register NPC and set location
+            game_manager.game_state.register_npc(npc.state)
+            npc.state.move_to_location(npc_data["location"])
     
     # Add task chain to game manager
     game_manager.add_task_chain(task_chain)
@@ -157,7 +157,6 @@ def create_demo_game(task_name: str = None):
             game_manager.current_subtask_id = task_chain.tasks[0].subtasks[0].subtask_id
     
     # Set player's initial location based on the task
-    location_id = task_chain.location_id if task_chain else "0"
     game_manager.game_state.player_location = location_id
     
     return game_manager

@@ -494,35 +494,55 @@ def create_illustration_notebook():
 # Example function for easy testing from command line
 def visualize_task_structure_example():
     """
-    Example function showing how to use the task structure visualization.
+    EXAMPLE FUNCTION: Demonstrates how to generate a hierarchical task structure visualization.
     
-    This can be run directly to generate an example visualization
-    of the hierarchical structure of a task with all its subtasks.
+    This function is provided as a demonstration and for documentation purposes.
+    It shows how to visualize the hierarchical structure of narrative tasks,
+    which is useful for understanding the relationships between subtasks.
+    
+    Usage examples:
+        # Direct import and call:
+        from Generate_branches.visualization.illustration import visualize_task_structure_example
+        visualize_task_structure_example()
+        
+        # From command line:
+        python -c "from Generate_branches.visualization.illustration import visualize_task_structure_example; visualize_task_structure_example()"
+    
+    Returns:
+        str: Path to the generated visualization file, or None if generation failed
     """
     from Generate_branches.game.branch_manager import BranchManager
+    from Generate_branches.utils.helpers import log_message
     
-    # Create a branch manager and load a task
+    # Step 1: Create a branch manager to generate the narrative structure
     branch_manager = BranchManager()
+    
+    # Step 2: Generate a task chain using the default test task name
+    log_message(f"Generating task chain for the example visualization using '{TEST_TASK_NAME}'", "INFO")
     task_chain = branch_manager.generate_task_chain(TEST_TASK_NAME)
     
     if task_chain and task_chain.tasks:
-        # Get the first task in the chain
+        # Step 3: Extract the first task from the chain for visualization
         task = task_chain.tasks[0]
+        log_message(f"Using task '{task.title}' for visualization", "INFO")
         
-        # Create visualizer
+        # Step 4: Create the visualizer 
         visualizer = ChainVisualizer()
         
-        # Generate hierarchical structure visualization
+        # Step 5: Generate the hierarchical structure visualization
+        # This will create a tree showing all subtasks and their relationships
+        log_message("Generating hierarchical structure visualization...", "INFO")
         visualizer.visualize_hierarchical_structure(task)
         
         log_message(f"Generated hierarchical structure visualization for task: {task.title}", "INFO")
         
-        # Return path to generated file for easy access
+        # Step 6: Create the path to the generated file for return value
         timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         safe_title = task.title.replace(' ', '_').replace('/', '_').replace('\\', '_')
         filename = f"{safe_title}_structure_{timestamp}.png"
         file_path = os.path.join("Generate_branches", VISUALIZATION_PATH, filename)
         
+        log_message(f"Visualization saved to: {file_path}", "INFO")
         return file_path
     else:
         log_message(f"Failed to generate task chain for {TEST_TASK_NAME}", "ERROR")

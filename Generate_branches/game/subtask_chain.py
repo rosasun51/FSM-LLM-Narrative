@@ -66,6 +66,9 @@ class SubTaskChain:
         """
         Generate subtasks using the LLM based on a transitioning question.
         
+        This method now uses the hierarchical narrative structure approach internally,
+        while maintaining backward compatibility with the original interface.
+        
         Args:
             transitioning_question: Question that transitions between subtasks
             previous_subtask: The subtask that led to this generation
@@ -78,43 +81,98 @@ class SubTaskChain:
         """
         generated_subtasks = []
         
-        # Generate multiple subtask possibilities
-        for i in range(count):
-            generated_data = self.llm_handler.generate_subtask(
-                game_state, 
+        try:
+            # Create a minimal task_info for the hierarchical generator
+            task_info = {
+                "name": f"Generated from {transitioning_question}",
+                "description": transitioning_question,
+                "environment": "Continuing from previous narrative context"
+            }
+            
+            # Get current layer if available
+            current_layer = 1
+            if hasattr(previous_subtask, 'layer'):
+                current_layer = previous_subtask.layer
+            
+            # Get parent ID
+            parent_id = getattr(previous_subtask, 'subtask_id', "1")
+            
+            # Use the hierarchical narrative generator internally
+            narrative_structure = self.llm_handler.generate_hierarchical_narrative(task_info)
+            
+            # Extract only the generated alternatives that are relevant
+            alt_subtasks = [
+                subtask for subtask in narrative_structure.get("generated_subtasks", [])
+                if subtask.get("layer", 0) == current_layer
+            ]
+            
+            # Sort by rating if available and limit to requested count
+            alt_subtasks.sort(
+                key=lambda x: x.get("rating", 0), 
+                reverse=True
+            )
+            alt_subtasks = alt_subtasks[:count]
+            
+            # Convert to GeneratedSubTask objects
+            for i, subtask_data in enumerate(alt_subtasks):
+                subtask = GeneratedSubTask(
+                    subtask_id=f"gen_{self.task_id}_{i}",
+                    title=subtask_data.get("title", f"Alternative {i+1}"),
+                    description=subtask_data.get("description", ""),
+                    dialogue=subtask_data.get("dialogue", ""),
+                    npc_reactions=subtask_data.get("npc_reactions", {}),
+                    player_options=subtask_data.get("player_options", []),
+                    layer=current_layer,
+                    generation_score=subtask_data.get("rating", 80),
+                    transitioning_question=transitioning_question,
+                    parent_id=parent_id
+                )
+                generated_subtasks.append(subtask)
+                
+            return generated_subtasks
+            
+        except Exception as e:
+            # Fallback to original implementation for backward compatibility
+            from Generate_branches.utils.helpers import log_message
+            log_message(f"Error using hierarchical generation: {e}. Falling back to legacy method.", "WARNING")
+            
+            # Generate multiple subtask possibilities
+            for i in range(count):
+                generated_data = self.llm_handler.generate_subtask(
+                    game_state, 
+                    transitioning_question,
+                    previous_subtask
+                )
+                
+                # Create a generated subtask from the data
+                subtask = GeneratedSubTask(
+                    subtask_id=f"gen_{self.task_id}_{len(generated_subtasks)}",
+                    title=generated_data["title"],
+                    description=generated_data["description"],
+                    dialogue=generated_data["dialogue"],
+                    npc_reactions=generated_data.get("npc_reactions", {}),
+                    player_options=generated_data.get("player_options", []),
+                    transitioning_question=transitioning_question
+                )
+                
+                generated_subtasks.append(subtask)
+                
+            # Rate the generated subtasks
+            rated_subtasks = self.llm_handler.rate_generated_subtasks(
+                game_state,
                 transitioning_question,
-                previous_subtask
+                previous_subtask,
+                [subtask.__dict__ for subtask in generated_subtasks],
+                threshold
             )
             
-            # Create a generated subtask from the data
-            subtask = GeneratedSubTask(
-                subtask_id=f"gen_{self.task_id}_{len(generated_subtasks)}",
-                title=generated_data["title"],
-                description=generated_data["description"],
-                dialogue=generated_data["dialogue"],
-                npc_reactions=generated_data.get("npc_reactions", {}),
-                player_options=generated_data.get("player_options", []),
-                transitioning_question=transitioning_question
-            )
-            
-            generated_subtasks.append(subtask)
-            
-        # Rate the generated subtasks
-        rated_subtasks = self.llm_handler.rate_generated_subtasks(
-            game_state,
-            transitioning_question,
-            previous_subtask,
-            [subtask.__dict__ for subtask in generated_subtasks],
-            threshold
-        )
-        
-        # Update subtasks with their ratings and return those that pass the threshold
-        result_subtasks = []
-        for i, (subtask_dict, rating) in enumerate(rated_subtasks):
-            generated_subtasks[i].generation_score = rating
-            result_subtasks.append(generated_subtasks[i])
-            
-        return result_subtasks
+            # Update subtasks with their ratings and return those that pass the threshold
+            result_subtasks = []
+            for i, (subtask_dict, rating) in enumerate(rated_subtasks):
+                generated_subtasks[i].generation_score = rating
+                result_subtasks.append(generated_subtasks[i])
+                
+            return result_subtasks
     
     def to_dict(self):
         """Convert subtask chain to dictionary for storage/serialization."""

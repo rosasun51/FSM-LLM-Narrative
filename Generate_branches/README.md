@@ -11,6 +11,7 @@ The FSM-LLM Narrative system implements:
 3. Integration with LLM services to generate narrative branches and alternative paths
 4. Rich visualization tools for exploring narrative structures
 5. Configurable constants for easy testing and customization
+6. Transitioning questions that guide the narrative flow across layers
 
 ## Directory Structure
 
@@ -33,6 +34,7 @@ Generate_branches/
 │   └── task_chain.py          # Manages task sequences
 ├── llm/
 │   ├── LLM_integration.py     # LLM API integration
+│   ├── LLM_key_questions.json # Sample LLM responses for key questions
 │   └── prompt_templates.py    # Templates for LLM calls
 ├── models/
 │   ├── layer.py               # Layer model
@@ -52,6 +54,7 @@ Generate_branches/
 │   ├── illustration.py        # Visualization tools
 │   └── README.md              # Visualization guide
 ├── main.py                    # Main entry point
+├── QUICKSTART.md              # Quick start guide for new users
 └── requirements.txt           # Project dependencies
 ```
 
@@ -92,7 +95,13 @@ export OPENAI_API_KEY="your-api-key-here"
 set OPENAI_API_KEY="your-api-key-here"
 ```
 
-5. (Optional) Install additional visualization dependencies:
+5. Create necessary directories:
+
+```bash
+mkdir -p Generate_branches/data/key_questions Generate_branches/data/subtasks Generate_branches/visualization
+```
+
+6. (Optional) Install additional visualization dependencies:
 
 ```bash
 # For better hierarchical visualizations
@@ -158,22 +167,44 @@ python -m Generate_branches.main --debug
 
 ### Hierarchical Narrative Structure
 
-The system organizes narrative elements in a hierarchical tree structure:
+The system organizes narrative elements in a hierarchical tree structure with a clear parent-child relationship:
 
 - **Root Task (ID: 1)**: The main narrative task (e.g., "Beginning")
 - **Layer 1 (ID: 1.1)**: Initial situation and task parameters
 - **Layer 2 (ID: 1.2)**: Complications and challenges
 - **Layer 3 (ID: 1.3)**: Resolution and outcomes
 
+Each layer is guided by transitioning questions that define narrative progression:
+1. First question: Establishes the initial situation and task parameters
+2. Second question: Introduces complications and challenges arising from the initial situation
+3. Third question: Addresses how the situation resolves based on previous developments
+
 Each layer contains:
-- One scripted subtask (manually defined)
-- Multiple generated subtasks (created by LLM) that serve as alternatives
+- One scripted subtask (manually defined, is_generated: False)
+- Multiple generated alternatives (created by LLM, is_generated: True)
+
+For example, a full hierarchy might look like:
+```
+Root Task (ID: 1)
+└── Layer 1 Scripted Subtask (ID: 1.1)
+    ├── Layer 1 Generated Alternative 1 (ID: 1.1.1)
+    ├── Layer 1 Generated Alternative 2 (ID: 1.1.2)
+    └── Layer 1 Generated Alternative 3 (ID: 1.1.3)
+    └── Layer 2 Scripted Subtask (ID: 1.2)
+        ├── Layer 2 Generated Alternative 1 (ID: 1.2.1)
+        ├── Layer 2 Generated Alternative 2 (ID: 1.2.2)
+        └── Layer 2 Generated Alternative 3 (ID: 1.2.3)
+        └── Layer 3 Scripted Subtask (ID: 1.3)
+            ├── Layer 3 Generated Alternative 1 (ID: 1.3.1)
+            ├── Layer 3 Generated Alternative 2 (ID: 1.3.2)
+            └── Layer 3 Generated Alternative 3 (ID: 1.3.3)
+```
 
 ### Visualization Tools
 
 The system provides three visualization types:
 
-1. **Task Chain Visualization**: Shows the overall structure of a task chain
+1. **Task Chain Visualization**: Shows the overall structure of a task chain, including all tasks in the chain and their sequential relationships.
    ```bash
    python -c "from Generate_branches.visualization.illustration import ChainVisualizer; \
               from Generate_branches.game.branch_manager import BranchManager; \
@@ -183,7 +214,7 @@ The system provides three visualization types:
               visualizer.visualize_task_chain(task_chain)"
    ```
 
-2. **Subtask Flow Visualization**: Shows the sequential flow of subtasks
+2. **Subtask Flow Visualization**: Shows the sequential flow of subtasks within a task, including all alternatives and their relationships.
    ```bash
    python -c "from Generate_branches.visualization.illustration import ChainVisualizer; \
               from Generate_branches.game.branch_manager import BranchManager; \
@@ -193,7 +224,12 @@ The system provides three visualization types:
               visualizer.visualize_subtask_flow(task_chain.tasks[0])"
    ```
 
-3. **Hierarchical Structure Visualization**: Shows complete parent-child relationships
+3. **Hierarchical Structure Visualization**: Shows complete parent-child relationships within a task, displaying the tree structure with:
+   - Root node (light green): The main task
+   - Orange nodes: Scripted subtasks (is_generated: False)
+   - Pink nodes: Generated alternatives (is_generated: True)
+   - Node labels showing subtask titles and layer numbers
+   
    ```bash
    python -c "from Generate_branches.visualization.illustration import ChainVisualizer; \
               from Generate_branches.game.branch_manager import BranchManager; \
@@ -202,6 +238,11 @@ The system provides three visualization types:
               visualizer = ChainVisualizer(); \
               visualizer.visualize_hierarchical_structure(task_chain.tasks[0])"
    ```
+
+For a quick demonstration, use the built-in example function:
+```bash
+python -c "from Generate_branches.visualization.illustration import visualize_task_structure_example; visualize_task_structure_example()"
+```
 
 ### Centralized Configuration
 
@@ -294,13 +335,23 @@ Edit `utils/constants.py` to change:
 - **Missing API Key**
   - Set the `LLM_API_KEY` in `utils/constants.py` or as an environment variable
 
+- **ModuleNotFoundError: No module named 'langchain_openai'**
+  - Ensure you have installed the LangChain OpenAI package: `pip install langchain_openai`
+  - Check that your installation is up to date: `pip install --upgrade langchain_openai langchain`
+
 - **Visualization Issues**
-  - Install optional dependencies: `pip install pygraphviz networkx matplotlib ipython`
-  - Ensure the visualization directory exists: `mkdir -p Generate_branches/visualization`
+  - Install visualization dependencies: `pip install networkx matplotlib ipython`
+  - If you encounter "Pygraphviz not found" warnings, the system will fall back to a spring layout
+  - For better hierarchical layouts, install: `pip install pygraphviz`
+  - Ensure all visualization directories exist: `mkdir -p Generate_branches/visualization`
 
 - **LLM Generation Errors**
   - Check your API key and internet connection
   - Verify the LLM model is available and correctly set in `constants.py`
+  - Try increasing the timeout settings in `constants.py` if requests are timing out
+
+- **Missing Directories Error**
+  - Create required directories: `mkdir -p Generate_branches/data/key_questions Generate_branches/data/subtasks Generate_branches/visualization`
 
 ## Development Guidelines
 
