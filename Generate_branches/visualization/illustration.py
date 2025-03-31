@@ -305,191 +305,191 @@ class ChainVisualizer:
         
         log_message(f"Saved visualization to {file_path}", "INFO")
 
-# Jupyter notebook creation function
-def create_illustration_notebook():
-    """
-    Create a Jupyter notebook for task chain visualization.
+# # Jupyter notebook creation function
+# def create_illustration_notebook():
+#     """
+#     Create a Jupyter notebook for task chain visualization.
     
-    This generates an illustration.ipynb file with code to visualize
-    task chains using the ChainVisualizer.
-    """
-    notebook_content = {
-        "cells": [
-            {
-                "cell_type": "markdown",
-                "metadata": {},
-                "source": [
-                    "# Task Chain Visualization\n",
-                    "\n",
-                    "This notebook demonstrates how to visualize task chains and narrative branches."
-                ]
-            },
-            {
-                "cell_type": "code",
-                "execution_count": None,
-                "metadata": {},
-                "source": [
-                    "import os\n",
-                    "import json\n",
-                    "import sys\n",
-                    "# Add parent directory to path\n",
-                    "sys.path.append('..')\n",
-                    "\n",
-                    "from Generate_branches.game.task_chain import TaskChain\n",
-                    "from Generate_branches.game.branch_manager import BranchManager\n",
-                    "from Generate_branches.visualization.illustration import ChainVisualizer\n",
-                    "from Generate_branches.utils.constants import TEST_TASK_NAME, VISUALIZATION_PATH"
-                ]
-            },
-            {
-                "cell_type": "markdown",
-                "metadata": {},
-                "source": [
-                    "## Load and Generate Task Chains"
-                ]
-            },
-            {
-                "cell_type": "code",
-                "execution_count": None,
-                "metadata": {},
-                "source": [
-                    "# Initialize branch manager\n",
-                    "branch_manager = BranchManager()\n",
-                    "\n",
-                    "# Generate task chains\n",
-                    "task_chains = []\n",
-                    "task_names = ['Beginning', 'Meet with Meredith Stout', 'Picking Up Goods', 'Clear Virus', 'Contact Meredith Stout']\n",
-                    "\n",
-                    "for task_name in task_names:\n",
-                    "    print(f\"Generating task chain for: {task_name}\")\n",
-                    "    task_chain = branch_manager.generate_task_chain(task_name)\n",
-                    "    if task_chain:\n",
-                    "        task_chains.append(task_chain)\n",
-                    "        # Save the chain\n",
-                    "        branch_manager.save_task_chain(task_chain.chain_id)\n",
-                    "\n",
-                    "print(f\"Generated {len(task_chains)} task chains\")"
-                ]
-            },
-            {
-                "cell_type": "markdown",
-                "metadata": {},
-                "source": [
-                    "## Create Visualizations"
-                ]
-            },
-            {
-                "cell_type": "code",
-                "execution_count": None,
-                "metadata": {},
-                "source": [
-                    "# Initialize visualizer\n",
-                    "visualizer = ChainVisualizer()\n",
-                    "\n",
-                    "# Visualize each task chain\n",
-                    "for task_chain in task_chains:\n",
-                    "    print(f\"Visualizing task chain: {task_chain.name}\")\n",
-                    "    visualizer.visualize_task_chain(task_chain)\n",
-                    "    \n",
-                    "    # Visualize subtask flow for each task\n",
-                    "    for task in task_chain.tasks:\n",
-                    "        print(f\"Visualizing subtask flow for task: {task.title}\")\n",
-                    "        visualizer.visualize_subtask_flow(task)\n",
-                    "        \n",
-                    "        # Visualize hierarchical structure for each task\n",
-                    "        print(f\"Visualizing hierarchical structure for task: {task.title}\")\n",
-                    "        visualizer.visualize_hierarchical_structure(task)"
-                ]
-            },
-            {
-                "cell_type": "markdown",
-                "metadata": {},
-                "source": [
-                    "## Display Visualizations"
-                ]
-            },
-            {
-                "cell_type": "code",
-                "execution_count": None,
-                "metadata": {},
-                "source": [
-                    "import matplotlib.pyplot as plt\n",
-                    "from IPython.display import Image, display\n",
-                    "\n",
-                    "# Display the generated visualizations\n",
-                    "visualization_dir = os.path.join('Generate_branches', VISUALIZATION_PATH)\n",
-                    "for filename in os.listdir(visualization_dir):\n",
-                    "    if filename.endswith('.png'):\n",
-                    "        print(f\"\\n## {filename}\")\n",
-                    "        display(Image(os.path.join(visualization_dir, filename)))"
-                ]
-            },
-            {
-                "cell_type": "markdown",
-                "metadata": {},
-                "source": [
-                    "## Hierarchical Structure Visualization Guide\n",
-                    "\n",
-                    "The hierarchical structure visualization shows the complete structure of subtasks within a task:\n",
-                    "\n",
-                    "- **Root Node (Light Green)**: The task itself\n",
-                    "- **Orange Nodes**: Scripted subtasks (manually defined)\n",
-                    "- **Pink Nodes**: Generated subtasks (created by LLM)\n",
-                    "- **Node Labels**: Format is \"SubtaskTitle (LX, Type)\" where X is the layer number and Type is Scripted/Gen\n",
-                    "- **Connections**: Represent parent-child relationships\n",
-                    "\n",
-                    "Each visualization is saved with a timestamp in the filename: `TaskName_structure_YYYYMMDD_HHMMSS.png`\n",
-                    "\n",
-                    "To visualize a single task's hierarchical structure programmatically:\n",
-                    "\n",
-                    "```python\n",
-                    "from Generate_branches.visualization.illustration import ChainVisualizer\n",
-                    "from Generate_branches.game.branch_manager import BranchManager\n",
-                    "\n",
-                    "# Create a branch manager and load the task\n",
-                    "branch_manager = BranchManager()\n",
-                    "task_chain = branch_manager.generate_task_chain(\"Beginning\")\n",
-                    "task = task_chain.tasks[0]  # Get the first task\n",
-                    "\n",
-                    "# Create visualizer and generate hierarchical structure visualization\n",
-                    "visualizer = ChainVisualizer()\n",
-                    "visualizer.visualize_hierarchical_structure(task)\n",
-                    "```"
-                ]
-            }
-        ],
-        "metadata": {
-            "kernelspec": {
-                "display_name": "Python 3",
-                "language": "python",
-                "name": "python3"
-            },
-            "language_info": {
-                "codemirror_mode": {
-                    "name": "ipython",
-                    "version": 3
-                },
-                "file_extension": ".py",
-                "mimetype": "text/x-python",
-                "name": "python",
-                "nbconvert_exporter": "python",
-                "pygments_lexer": "ipython3",
-                "version": "3.8.5"
-            }
-        },
-        "nbformat": 4,
-        "nbformat_minor": 4
-    }
+#     This generates an illustration.ipynb file with code to visualize
+#     task chains using the ChainVisualizer.
+#     """
+#     notebook_content = {
+#         "cells": [
+#             {
+#                 "cell_type": "markdown",
+#                 "metadata": {},
+#                 "source": [
+#                     "# Task Chain Visualization\n",
+#                     "\n",
+#                     "This notebook demonstrates how to visualize task chains and narrative branches."
+#                 ]
+#             },
+#             {
+#                 "cell_type": "code",
+#                 "execution_count": None,
+#                 "metadata": {},
+#                 "source": [
+#                     "import os\n",
+#                     "import json\n",
+#                     "import sys\n",
+#                     "# Add parent directory to path\n",
+#                     "sys.path.append('..')\n",
+#                     "\n",
+#                     "from Generate_branches.game.task_chain import TaskChain\n",
+#                     "from Generate_branches.game.branch_manager import BranchManager\n",
+#                     "from Generate_branches.visualization.illustration import ChainVisualizer\n",
+#                     "from Generate_branches.utils.constants import TEST_TASK_NAME, VISUALIZATION_PATH"
+#                 ]
+#             },
+#             {
+#                 "cell_type": "markdown",
+#                 "metadata": {},
+#                 "source": [
+#                     "## Load and Generate Task Chains"
+#                 ]
+#             },
+#             {
+#                 "cell_type": "code",
+#                 "execution_count": None,
+#                 "metadata": {},
+#                 "source": [
+#                     "# Initialize branch manager\n",
+#                     "branch_manager = BranchManager()\n",
+#                     "\n",
+#                     "# Generate task chains\n",
+#                     "task_chains = []\n",
+#                     "task_names = ['Beginning', 'Meet with Meredith Stout', 'Picking Up Goods', 'Clear Virus', 'Contact Meredith Stout']\n",
+#                     "\n",
+#                     "for task_name in task_names:\n",
+#                     "    print(f\"Generating task chain for: {task_name}\")\n",
+#                     "    task_chain = branch_manager.generate_task_chain(task_name)\n",
+#                     "    if task_chain:\n",
+#                     "        task_chains.append(task_chain)\n",
+#                     "        # Save the chain\n",
+#                     "        branch_manager.save_task_chain(task_chain.chain_id)\n",
+#                     "\n",
+#                     "print(f\"Generated {len(task_chains)} task chains\")"
+#                 ]
+#             },
+#             {
+#                 "cell_type": "markdown",
+#                 "metadata": {},
+#                 "source": [
+#                     "## Create Visualizations"
+#                 ]
+#             },
+#             {
+#                 "cell_type": "code",
+#                 "execution_count": None,
+#                 "metadata": {},
+#                 "source": [
+#                     "# Initialize visualizer\n",
+#                     "visualizer = ChainVisualizer()\n",
+#                     "\n",
+#                     "# Visualize each task chain\n",
+#                     "for task_chain in task_chains:\n",
+#                     "    print(f\"Visualizing task chain: {task_chain.name}\")\n",
+#                     "    visualizer.visualize_task_chain(task_chain)\n",
+#                     "    \n",
+#                     "    # Visualize subtask flow for each task\n",
+#                     "    for task in task_chain.tasks:\n",
+#                     "        print(f\"Visualizing subtask flow for task: {task.title}\")\n",
+#                     "        visualizer.visualize_subtask_flow(task)\n",
+#                     "        \n",
+#                     "        # Visualize hierarchical structure for each task\n",
+#                     "        print(f\"Visualizing hierarchical structure for task: {task.title}\")\n",
+#                     "        visualizer.visualize_hierarchical_structure(task)"
+#                 ]
+#             },
+#             {
+#                 "cell_type": "markdown",
+#                 "metadata": {},
+#                 "source": [
+#                     "## Display Visualizations"
+#                 ]
+#             },
+#             {
+#                 "cell_type": "code",
+#                 "execution_count": None,
+#                 "metadata": {},
+#                 "source": [
+#                     "import matplotlib.pyplot as plt\n",
+#                     "from IPython.display import Image, display\n",
+#                     "\n",
+#                     "# Display the generated visualizations\n",
+#                     "visualization_dir = os.path.join('Generate_branches', VISUALIZATION_PATH)\n",
+#                     "for filename in os.listdir(visualization_dir):\n",
+#                     "    if filename.endswith('.png'):\n",
+#                     "        print(f\"\\n## {filename}\")\n",
+#                     "        display(Image(os.path.join(visualization_dir, filename)))"
+#                 ]
+#             },
+#             {
+#                 "cell_type": "markdown",
+#                 "metadata": {},
+#                 "source": [
+#                     "## Hierarchical Structure Visualization Guide\n",
+#                     "\n",
+#                     "The hierarchical structure visualization shows the complete structure of subtasks within a task:\n",
+#                     "\n",
+#                     "- **Root Node (Light Green)**: The task itself\n",
+#                     "- **Orange Nodes**: Scripted subtasks (manually defined)\n",
+#                     "- **Pink Nodes**: Generated subtasks (created by LLM)\n",
+#                     "- **Node Labels**: Format is \"SubtaskTitle (LX, Type)\" where X is the layer number and Type is Scripted/Gen\n",
+#                     "- **Connections**: Represent parent-child relationships\n",
+#                     "\n",
+#                     "Each visualization is saved with a timestamp in the filename: `TaskName_structure_YYYYMMDD_HHMMSS.png`\n",
+#                     "\n",
+#                     "To visualize a single task's hierarchical structure programmatically:\n",
+#                     "\n",
+#                     "```python\n",
+#                     "from Generate_branches.visualization.illustration import ChainVisualizer\n",
+#                     "from Generate_branches.game.branch_manager import BranchManager\n",
+#                     "\n",
+#                     "# Create a branch manager and load the task\n",
+#                     "branch_manager = BranchManager()\n",
+#                     "task_chain = branch_manager.generate_task_chain(\"Beginning\")\n",
+#                     "task = task_chain.tasks[0]  # Get the first task\n",
+#                     "\n",
+#                     "# Create visualizer and generate hierarchical structure visualization\n",
+#                     "visualizer = ChainVisualizer()\n",
+#                     "visualizer.visualize_hierarchical_structure(task)\n",
+#                     "```"
+#                 ]
+#             }
+#         ],
+#         "metadata": {
+#             "kernelspec": {
+#                 "display_name": "Python 3",
+#                 "language": "python",
+#                 "name": "python3"
+#             },
+#             "language_info": {
+#                 "codemirror_mode": {
+#                     "name": "ipython",
+#                     "version": 3
+#                 },
+#                 "file_extension": ".py",
+#                 "mimetype": "text/x-python",
+#                 "name": "python",
+#                 "nbconvert_exporter": "python",
+#                 "pygments_lexer": "ipython3",
+#                 "version": "3.8.5"
+#             }
+#         },
+#         "nbformat": 4,
+#         "nbformat_minor": 4
+#     }
     
-    # Save the notebook
-    try:
-        notebook_path = os.path.join("Generate_branches", VISUALIZATION_PATH, "illustration.ipynb")
-        with open(notebook_path, 'w') as f:
-            json.dump(notebook_content, f, indent=2)
+#     # Save the notebook
+#     try:
+#         notebook_path = os.path.join("Generate_branches", VISUALIZATION_PATH, "illustration.ipynb")
+#         with open(notebook_path, 'w') as f:
+#             json.dump(notebook_content, f, indent=2)
         
-        log_message(f"Created illustration notebook at {notebook_path}", "INFO")
-    except Exception as e:
-        log_message(f"Error creating illustration notebook: {e}", "ERROR")
+#         log_message(f"Created illustration notebook at {notebook_path}", "INFO")
+#     except Exception as e:
+#         log_message(f"Error creating illustration notebook: {e}", "ERROR")
 
 # Example function for easy testing from command line
 def visualize_task_structure_example():
