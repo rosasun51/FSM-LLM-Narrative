@@ -41,8 +41,12 @@ def save_llm_response(response_type, prompt, response, task_info=None):
     # Create the responses directory if it doesn't exist
     os.makedirs("Generate_branches/llm/responses", exist_ok=True)
     
-    # Create a unique filename
-    filename = f"Generate_branches/llm/responses/{response_type}_{timestamp}.json"
+    # Create a unique filename with layer number if applicable
+    if response_type in ["scripted_subtask", "subtask_branches"] and task_info and "layer" in task_info:
+        layer = task_info["layer"]
+        filename = f"Generate_branches/llm/responses/{response_type}_layer{layer}_{timestamp}.json"
+    else:
+        filename = f"Generate_branches/llm/responses/{response_type}_{timestamp}.json"
     
     # Prepare the data to save
     data = {
@@ -57,7 +61,11 @@ def save_llm_response(response_type, prompt, response, task_info=None):
         json.dump(data, f, indent=2)
     
     # Also append to aggregated file
-    aggregated_file = f"Generate_branches/llm/LLM_{response_type}.json"
+    if response_type in ["scripted_subtask", "subtask_branches"] and task_info and "layer" in task_info:
+        layer = task_info["layer"]
+        aggregated_file = f"Generate_branches/llm/LLM_{response_type}_layer{layer}.json"
+    else:
+        aggregated_file = f"Generate_branches/llm/LLM_{response_type}.json"
     
     # If the file exists, load existing data
     if os.path.exists(aggregated_file):
@@ -279,7 +287,7 @@ YOUR RESPONSE MUST BE VALID JSON: A single array containing exactly three string
             "How does the situation ultimately resolve?"
         ]
     
-    def generate_scripted_subtask(self, task_info: Dict[str, Any], transitioning_question: str, layer: int = 1, previous_subtasks: List[Dict[str, Any]] = None) -> Dict[str, Any]:
+    def generate_scripted_subtask(self, task_info: Dict[str, Any], transitioning_question: str, layer: int = 1, previous_subtasks: List[Dict[str, Any]] = None, root_id: str = ROOT_TASK_ID) -> Dict[str, Any]:
         """
         Generate a scripted subtask based on a transitioning question.
         
@@ -291,13 +299,14 @@ YOUR RESPONSE MUST BE VALID JSON: A single array containing exactly three string
             transitioning_question: The question to base the subtask on
             layer: The layer number (1, 2, or 3) for this subtask
             previous_subtasks: Optional list of previously generated subtasks
+            root_id: ID for the root task (default: ROOT_TASK_ID from constants)
             
         Returns:
             Dictionary with the generated subtask data
         """
         # Determine the layer ID based on the layer
-        layer_id = f"1.{layer}"
-        parent_id = ROOT_TASK_ID if layer == 1 else f"1.{layer-1}"
+        layer_id = f"{root_id}.{layer}"
+        parent_id = root_id if layer == 1 else f"{root_id}.{layer-1}"
         
         # Prepare context from previous subtasks if available
         previous_context = ""
@@ -312,16 +321,16 @@ YOUR RESPONSE MUST BE VALID JSON: A single array containing exactly three string
 You serve as a story architect for a narrative game with a hierarchical task structure. Your job is to generate a scripted subtask based on the task information and transitioning question provided.
 
 IMPORTANT STRUCTURE CONTEXT:
-- The narrative tree consists of a ROOT TASK (ID "{ROOT_TASK_ID}") with {NUM_LAYERS} layers of subtasks below it
+- The narrative tree consists of a ROOT TASK (ID "{root_id}") with {NUM_LAYERS} layers of subtasks below it
 - Each layer has one main scripted subtask followed by generated alternatives
 - The ID structure follows this pattern:
-  - Root task: "{ROOT_TASK_ID}"
-  - Layer 1 scripted subtask: "1.1"
-  - Layer 1 generated alternatives: "1.1.1", "1.1.2", "1.1.3" (is_generated: true)
-  - Layer 2 scripted subtask: "1.2"
-  - Layer 2 generated alternatives: "1.2.1", "1.2.2", "1.2.3" (is_generated: true)
-  - Layer 3 scripted subtask: "1.3"
-  - Layer 3 generated alternatives: "1.3.1", "1.3.2", "1.3.3" (is_generated: true)
+  - Root task: "{root_id}"
+  - Layer 1 scripted subtask: "{root_id}.1"
+  - Layer 1 generated alternatives: "{root_id}.1.1", "{root_id}.1.2", "{root_id}.1.3" (is_generated: true)
+  - Layer 2 scripted subtask: "{root_id}.2"
+  - Layer 2 generated alternatives: "{root_id}.2.1", "{root_id}.2.2", "{root_id}.2.3" (is_generated: true)
+  - Layer 3 scripted subtask: "{root_id}.3"
+  - Layer 3 generated alternatives: "{root_id}.3.1", "{root_id}.3.2", "{root_id}.3.3" (is_generated: true)
 
 You are generating a scripted subtask for Layer {layer} with ID "{layer_id}" that has parent_id "{parent_id}".
 {previous_context}
@@ -362,7 +371,8 @@ YOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown
             "task_info": task_info,
             "transitioning_question": transitioning_question,
             "layer": layer,
-            "previous_subtasks": previous_subtasks
+            "previous_subtasks": previous_subtasks,
+            "root_id": root_id
         })
         
         # Try different JSON extraction methods
@@ -409,7 +419,7 @@ YOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown
         }
     
     def generate_subtask_branches(self, task_info: Dict[str, Any], transitioning_question: str, 
-                             scripted_subtask: Dict[str, Any], layer: int) -> List[Dict[str, Any]]:
+                             scripted_subtask: Dict[str, Any], layer: int, root_id: str = ROOT_TASK_ID) -> List[Dict[str, Any]]:
         """
         Generate alternative subtask branches based on a transitioning question.
         
@@ -421,12 +431,13 @@ YOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown
             transitioning_question: The question to base the branches on
             scripted_subtask: The scripted subtask to branch from
             layer: The layer (1, 2, or 3) these alternatives belong to
+            root_id: ID for the root task (default: ROOT_TASK_ID from constants)
             
         Returns:
             List of dictionaries with generated subtask data (maximum of {DEFAULT_NUM_ALTERNATIVES})
         """
         # Get parent ID and base ID pattern
-        parent_id = scripted_subtask.get("subtask_id", f"1.{layer}")
+        parent_id = scripted_subtask.get("subtask_id", f"{root_id}.{layer}")
         base_id = f"{parent_id}."
         
         # Prepare the prompt
@@ -434,16 +445,16 @@ YOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown
 You serve as a story architect for a narrative game with a hierarchical task structure. Your job is to generate alternative narrative branches in response to a transitioning question.
 
 IMPORTANT STRUCTURE CONTEXT:
-- The narrative tree has a ROOT TASK (ID "{ROOT_TASK_ID}") with {NUM_LAYERS} layers of subtasks
+- The narrative tree has a ROOT TASK (ID "{root_id}") with {NUM_LAYERS} layers of subtasks
 - Each layer has one main scripted subtask followed by generated alternatives
 - The ID structure follows this pattern:
-  - Root task: "{ROOT_TASK_ID}"
-  - Layer 1 scripted subtask: "1.1"
-  - Layer 1 generated alternatives: "1.1.1", "1.1.2", "1.1.3" (is_generated: true)
-  - Layer 2 scripted subtask: "1.2"
-  - Layer 2 generated alternatives: "1.2.1", "1.2.2", "1.2.3" (is_generated: true)
-  - Layer 3 scripted subtask: "1.3"
-  - Layer 3 generated alternatives: "1.3.1", "1.3.2", "1.3.3" (is_generated: true)
+  - Root task: "{root_id}"
+  - Layer 1 scripted subtask: "{root_id}.1"
+  - Layer 1 generated alternatives: "{root_id}.1.1", "{root_id}.1.2", "{root_id}.1.3" (is_generated: true)
+  - Layer 2 scripted subtask: "{root_id}.2"
+  - Layer 2 generated alternatives: "{root_id}.2.1", "{root_id}.2.2", "{root_id}.2.3" (is_generated: true)
+  - Layer 3 scripted subtask: "{root_id}.3"
+  - Layer 3 generated alternatives: "{root_id}.3.1", "{root_id}.3.2", "{root_id}.3.3" (is_generated: true)
 
 You are generating {DEFAULT_NUM_ALTERNATIVES} alternative branches for Layer {layer}.
 These alternatives will have:
@@ -519,7 +530,8 @@ YOUR RESPONSE MUST BE VALID JSON: An array with EXACTLY {DEFAULT_NUM_ALTERNATIVE
             "task_info": task_info,
             "transitioning_question": transitioning_question,
             "scripted_subtask": scripted_subtask,
-            "layer": layer
+            "layer": layer,
+            "root_id": root_id
         })
         
         # Try different JSON extraction methods
@@ -699,8 +711,8 @@ YOUR RESPONSE MUST BE VALID JSON: An array with EXACTLY {DEFAULT_NUM_ALTERNATIVE
             for subtask in subtasks:
                 # Mock rating between 70 and 95
                 rating = random.randint(70, 95)
-                if rating >= threshold:
-                    rated_subtasks.append((subtask, rating))
+            if rating >= threshold:
+                rated_subtasks.append((subtask, rating))
                 
             return rated_subtasks
     
@@ -719,7 +731,7 @@ YOUR RESPONSE MUST BE VALID JSON: An array with EXACTLY {DEFAULT_NUM_ALTERNATIVE
         # For demo purposes, we'll return a mock response
         return f"{npc_state.name} considers your words briefly before responding in a way that aligns with their character."
 
-    def generate_hierarchical_narrative(self, task_info: Dict[str, Any]) -> Dict[str, Any]:
+    def generate_hierarchical_narrative(self, task_info: Dict[str, Any], root_id: str = ROOT_TASK_ID) -> Dict[str, Any]:
         """
         Generate a complete hierarchical narrative structure based on task info.
         
@@ -730,6 +742,7 @@ YOUR RESPONSE MUST BE VALID JSON: An array with EXACTLY {DEFAULT_NUM_ALTERNATIVE
         
         Args:
             task_info: Dictionary containing task information
+            root_id: ID for the root task (default: ROOT_TASK_ID from constants)
             
         Returns:
             Dictionary with the complete narrative structure
@@ -758,7 +771,8 @@ YOUR RESPONSE MUST BE VALID JSON: An array with EXACTLY {DEFAULT_NUM_ALTERNATIVE
         layer1_subtask = self.generate_scripted_subtask(
             task_info, 
             questions[0], 
-            layer=1
+            layer=1,
+            root_id=root_id
         )
         scripted_subtasks.append(layer1_subtask)
         
@@ -768,7 +782,8 @@ YOUR RESPONSE MUST BE VALID JSON: An array with EXACTLY {DEFAULT_NUM_ALTERNATIVE
             task_info, 
             questions[1], 
             layer=2, 
-            previous_subtasks=[layer1_subtask]
+            previous_subtasks=[layer1_subtask],
+            root_id=root_id
         )
         scripted_subtasks.append(layer2_subtask)
         
@@ -778,7 +793,8 @@ YOUR RESPONSE MUST BE VALID JSON: An array with EXACTLY {DEFAULT_NUM_ALTERNATIVE
             task_info, 
             questions[2], 
             layer=3, 
-            previous_subtasks=[layer1_subtask, layer2_subtask]
+            previous_subtasks=[layer1_subtask, layer2_subtask],
+            root_id=root_id
         )
         scripted_subtasks.append(layer3_subtask)
         
@@ -791,7 +807,8 @@ YOUR RESPONSE MUST BE VALID JSON: An array with EXACTLY {DEFAULT_NUM_ALTERNATIVE
             task_info,
             questions[0],
             layer1_subtask,
-            layer=1
+            layer=1,
+            root_id=root_id
         )
         generated_subtasks.extend(layer1_alternatives)
         
@@ -801,7 +818,8 @@ YOUR RESPONSE MUST BE VALID JSON: An array with EXACTLY {DEFAULT_NUM_ALTERNATIVE
             task_info,
             questions[1],
             layer2_subtask,
-            layer=2
+            layer=2,
+            root_id=root_id
         )
         generated_subtasks.extend(layer2_alternatives)
         
@@ -811,7 +829,8 @@ YOUR RESPONSE MUST BE VALID JSON: An array with EXACTLY {DEFAULT_NUM_ALTERNATIVE
             task_info,
             questions[2],
             layer3_subtask,
-            layer=3
+            layer=3,
+            root_id=root_id
         )
         generated_subtasks.extend(layer3_alternatives)
         

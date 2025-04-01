@@ -131,9 +131,9 @@ class BranchManager:
             task_name = task_data.get("name", task_data.get("scene_name", ""))
             task_id = task_name.lower().replace(' ', '_')
             
-            # Create the task (this is the root node with ID "1")
+            # Create the task (this is the root node with the proper task_id)
             task = Task(
-                task_id=ROOT_TASK_ID,  # Root task always has ID "1"
+                task_id=task_id,  # Use the derived task_id instead of hardcoded ROOT_TASK_ID
                 title=task_name,
                 description=task_data.get("environment", ""),
                 location_id=task_data.get("location", "unknown"),
@@ -141,8 +141,9 @@ class BranchManager:
             )
             
             # Use the new method to generate the complete narrative structure
+            # Pass the task_id to use for the root ID instead of hardcoded "1"
             log_message(f"Generating hierarchical narrative for {task_name}", "INFO")
-            narrative_structure = self.llm_handler.generate_hierarchical_narrative(task_data)
+            narrative_structure = self.llm_handler.generate_hierarchical_narrative(task_data, task_id)
             
             # Create layers for organization
             layers = {}
@@ -159,7 +160,7 @@ class BranchManager:
                 layer = subtask_data.get("layer", 1)
                 
                 scripted_subtask = ScriptedSubTask(
-                    subtask_id=subtask_data.get("subtask_id", f"1.{layer}"),
+                    subtask_id=subtask_data.get("subtask_id", f"{task_id}.{layer}"),
                     title=subtask_data.get("title", f"Layer {layer} Subtask"),
                     description=subtask_data.get("description", ""),
                     dialogue=subtask_data.get("dialogue", ""),
@@ -167,7 +168,7 @@ class BranchManager:
                     player_options=subtask_data.get("player_options", []),
                     layer=layer,
                     next_transitioning_question="",  # Will be set later if needed
-                    parent_id=subtask_data.get("parent_id", ROOT_TASK_ID)
+                    parent_id=subtask_data.get("parent_id", task_id)
                 )
                 
                 # Set next transitioning question if not the last layer
@@ -183,7 +184,7 @@ class BranchManager:
                 layer = subtask_data.get("layer", 1)
                 
                 generated_subtask = GeneratedSubTask(
-                    subtask_id=subtask_data.get("subtask_id", f"1.{layer}.{0}"),
+                    subtask_id=subtask_data.get("subtask_id", f"{task_id}.{layer}.{0}"),
                     title=subtask_data.get("title", f"Alternative for Layer {layer}"),
                     description=subtask_data.get("description", ""),
                     dialogue=subtask_data.get("dialogue", ""),
@@ -192,7 +193,7 @@ class BranchManager:
                     transitioning_question=subtask_data.get("next_transitioning_question", ""),
                     layer=layer,
                     generation_score=subtask_data.get("rating", 80),
-                    parent_id=subtask_data.get("parent_id", f"1.{layer}")
+                    parent_id=subtask_data.get("parent_id", f"{task_id}.{layer}")
                 )
                 
                 # Add to layer and task

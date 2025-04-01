@@ -25,14 +25,14 @@ NUM_LAYERS = 3                  # Number of layers in the task hierarchy
 ROOT_TASK_ID = "1"              # ID of the root task
 
 # ID format patterns for each layer
-LAYER_1_ID_FORMAT = "1.1"       # Layer 1 scripted subtask ID
-LAYER_2_ID_FORMAT = "1.2"       # Layer 2 scripted subtask ID
-LAYER_3_ID_FORMAT = "1.3"       # Layer 3 scripted subtask ID
+LAYER_1_ID_FORMAT = "{}.1"       # Layer 1 scripted subtask ID
+LAYER_2_ID_FORMAT = "{}.2"       # Layer 2 scripted subtask ID
+LAYER_3_ID_FORMAT = "{}.3"       # Layer 3 scripted subtask ID
 
 # Generated subtask ID formats
-LAYER_1_GEN_ID_FORMAT = "1.1.{}"  # Format for Layer 1 generated subtask IDs (e.g., "1.1.1")
-LAYER_2_GEN_ID_FORMAT = "1.2.{}"  # Format for Layer 2 generated subtask IDs (e.g., "1.2.1")
-LAYER_3_GEN_ID_FORMAT = "1.3.{}"  # Format for Layer 3 generated subtask IDs (e.g., "1.3.1")
+LAYER_1_GEN_ID_FORMAT = "{}.1.{}"  # Format for Layer 1 generated subtask IDs (e.g., "task_id.1.1")
+LAYER_2_GEN_ID_FORMAT = "{}.2.{}"  # Format for Layer 2 generated subtask IDs (e.g., "task_id.2.1")
+LAYER_3_GEN_ID_FORMAT = "{}.3.{}"  # Format for Layer 3 generated subtask IDs (e.g., "task_id.3.1")
 
 # Layer names and descriptions
 LAYER_NAMES = {
@@ -68,4 +68,5 @@ VISUALIZATION_PATH = "visualization"
 # ---------------------------
 DEBUG_MODE = True
 TEST_CHAIN_ID = "test_chain"
-TEST_TASK_NAME = "Beginning" 
+#TEST_TASK_NAME = "Beginning" 
+TEST_TASK_NAME = "Meet with Meredith Stout"
