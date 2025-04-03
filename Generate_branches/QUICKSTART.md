@@ -91,6 +91,12 @@ This will generate three types of visualizations in the `Generate_branches/visua
    python -c "from Generate_branches.visualization.illustration import visualize_task_structure_example; visualize_task_structure_example()"
    ```
 
+5. **Extract narrative content to a text file**:
+   ```bash
+   python -m Generate_branches.utils.extract_narratives --task "Beginning"
+   ```
+   This creates a readable text file with all narrative content from key questions, scripted subtasks, and alternatives.
+
 ## Common Commands Reference
 
 | Command | Description |
@@ -99,6 +105,7 @@ This will generate three types of visualizations in the `Generate_branches/visua
 | `python -m Generate_branches.main --visualize` | Generate visualizations |
 | `python -m Generate_branches.main --notebook` | Create visualization notebook |
 | `python -m Generate_branches.main --test` | Run all tests |
+| `python -m Generate_branches.utils.extract_narratives` | Extract narrative content from task folders |
 | `python -m Generate_branches.main --help` | Show help with all options |
 
 ## Interactive Demo Commands
