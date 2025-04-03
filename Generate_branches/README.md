@@ -48,6 +48,7 @@ Generate_branches/
 ├── utils/
 │   ├── config.py              # Configuration settings
 │   ├── constants.py           # Centralized constants
+│   ├── extract_narratives.py  # Utility for extracting narrative content from JSON files
 │   └── helpers.py             # Utility functions
 ├── visualization/
 │   ├── illustration.ipynb     # Jupyter notebook for visualizations
@@ -199,6 +200,40 @@ Root Task (ID: 1)
             ├── Layer 3 Generated Alternative 2 (ID: 1.3.2)
             └── Layer 3 Generated Alternative 3 (ID: 1.3.3)
 ```
+
+### Extracting Narrative Content
+
+The system provides a utility for extracting narrative content from JSON files and formatting it into a readable text document. This is useful for analyzing generated narratives, creating documentation, or reviewing the narrative structure without visualizations.
+
+The `extract_narratives.py` utility in the `utils` folder:
+- Consolidates content from key questions, scripted subtasks, and subtask branches
+- Formats all content into a human-readable text file
+- Organizes content by layer with appropriate headings and formatting
+- Preserves important narrative details like dialogue, player options, and NPC reactions
+
+**Usage:**
+
+List all available task folders:
+```bash
+python -m Generate_branches.utils.extract_narratives
+```
+
+Extract narrative from a specific task:
+```bash
+python -m Generate_branches.utils.extract_narratives --task "Beginning"
+```
+
+Extract with a custom output file:
+```bash
+python -m Generate_branches.utils.extract_narratives --task "Meet_with_Meredith" --output "my_narrative_summary.txt"
+```
+
+The generated text file includes:
+- Key transitioning questions
+- Scripted subtasks for each layer with title, description, dialogue, options, and NPC reactions
+- Generated alternatives for each layer with their respective details and ratings
+
+Each narrative summary is saved with the task folder name and a "_narrative.txt" suffix by default.
 
 ### Visualization Tools
 
