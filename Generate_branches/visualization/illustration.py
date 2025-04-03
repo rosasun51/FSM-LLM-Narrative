@@ -31,7 +31,8 @@ from Generate_branches.utils.helpers import log_message
 from Generate_branches.utils.constants import (
     VISUALIZATION_PATH,
     ROOT_TASK_ID,
-    TEST_TASK_NAME
+    TEST_TASK_NAME,
+    DATA_ROOT_PATH
 )
 
 class ChainVisualizer:
@@ -193,7 +194,20 @@ class ChainVisualizer:
                 # Generate timestamp for unique filename
                 timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
                 safe_title = task.title.replace(' ', '_').replace('/', '_').replace('\\', '_')
-                self._draw_and_save_graph(G, f"{safe_title}_structure_{timestamp}")
+                
+                # Check if we should save to the new task-specific folder structure
+                task_dir = os.path.join("Generate_branches", DATA_ROOT_PATH, f"{safe_title}_{timestamp}")
+                
+                # If the task directory already exists (created by LLM response saving), use it
+                # Otherwise, save to the default visualization path
+                if os.path.exists(task_dir):
+                    # Save to the task-specific directory
+                    file_path = os.path.join(task_dir, f"{safe_title}_{timestamp}.png")
+                    self._draw_and_save_graph(G, f"{safe_title}_structure", custom_path=file_path)
+                    log_message(f"Saved visualization to task folder: {file_path}", "INFO")
+                else:
+                    # Save to the default visualization directory
+                    self._draw_and_save_graph(G, f"{safe_title}_structure_{timestamp}")
             
             return G
         except Exception as e:
@@ -236,56 +250,49 @@ class ChainVisualizer:
             
             last_subtask_id = subtask_id
     
-    def _draw_and_save_graph(self, G: nx.DiGraph, filename: str):
+    def _draw_and_save_graph(self, G: nx.DiGraph, filename: str, custom_path: str = None):
         """
         Draw and save a graph visualization.
         
         Args:
             G: The graph to draw
             filename: Base filename to save as
+            custom_path: Custom path to save the file to (overrides standard path)
         """
         # Create figure
-        plt.figure(figsize=(16, 10))
+        plt.figure(figsize=(12, 8))
+        
+        # Use pygraphviz for better hierarchical layout if available
+        if HAS_PYGRAPHVIZ:
+            pos = nx.drawing.nx_agraph.graphviz_layout(G, prog='dot')
+        else:
+            pos = nx.spring_layout(G, k=0.5, iterations=50)
         
         # Get node types for coloring
         node_types = nx.get_node_attributes(G, 'type')
         
-        # Define colors for node types
-        color_map = {
-            'chain': 'lightblue',
-            'task': 'lightgreen',
-            'scripted': 'orange',
-            'generated': 'pink'
-        }
+        # Prepare node colors based on type
+        node_colors = []
+        for node in G.nodes():
+            node_type = node_types.get(node, 'unknown')
+            if node_type == 'task':
+                node_colors.append('lightgreen')
+            elif node_type == 'scripted':
+                node_colors.append('orange')
+            elif node_type == 'generated':
+                node_colors.append('pink')
+            elif node_type == 'chain':
+                node_colors.append('lightblue')
+            else:
+                node_colors.append('gray')
         
-        # Set node colors
-        node_colors = [color_map.get(node_types.get(node, 'default'), 'gray') for node in G.nodes()]
-        
-        # Check if we have layer information (for hierarchical structure)
-        has_layers = 'layer' in list(G.nodes(data=True))[0][1] if G.nodes(data=True) else False
-        
-        # Determine layout based on graph type and available libraries
-        if has_layers and HAS_PYGRAPHVIZ:
-            # Use graphviz for hierarchical layout if available
-            try:
-                pos = nx.nx_agraph.graphviz_layout(G, prog='dot')
-                log_message("Using graphviz hierarchical layout", "INFO")
-            except Exception as e:
-                log_message(f"Graphviz layout failed: {e}. Using spring layout.", "WARNING")
-                pos = nx.spring_layout(G, k=0.9, iterations=100)
-        else:
-            # Use spring layout
-            pos = nx.spring_layout(G, k=0.9, iterations=100)
-        
-        # Draw nodes
-        nx.draw_networkx_nodes(G, pos, node_color=node_colors, node_size=2000, alpha=0.8)
+        # Draw nodes with labels
+        labels = nx.get_node_attributes(G, 'label')
+        nx.draw_networkx_nodes(G, pos, node_size=500, node_color=node_colors, alpha=0.8)
+        nx.draw_networkx_labels(G, pos, labels=labels, font_size=10, font_weight='bold')
         
         # Draw edges
-        nx.draw_networkx_edges(G, pos, width=1.5, arrows=True, arrowsize=20)
-        
-        # Draw labels
-        labels = {node: G.nodes[node].get('label', node) for node in G.nodes()}
-        nx.draw_networkx_labels(G, pos, labels=labels, font_size=9, font_weight='bold')
+        nx.draw_networkx_edges(G, pos, edge_color='gray', arrows=True, arrowsize=15, min_target_margin=15)
         
         # Add title and legend
         plt.title(f"Task Structure: {filename}", fontsize=16)
@@ -297,7 +304,15 @@ class ChainVisualizer:
         plt.legend(handles=legend_elements, loc='upper right')
         
         # Save figure
-        file_path = os.path.join("Generate_branches", self.output_dir, f"{filename}.png")
+        if custom_path:
+            # Ensure directory exists
+            os.makedirs(os.path.dirname(custom_path), exist_ok=True)
+            file_path = custom_path
+        else:
+            # Use default path
+            file_path = os.path.join("Generate_branches", self.output_dir, f"{filename}.png")
+            os.makedirs(os.path.dirname(file_path), exist_ok=True)
+            
         plt.tight_layout()
         plt.axis('off')
         plt.savefig(file_path, dpi=300, bbox_inches='tight')
@@ -494,23 +509,24 @@ class ChainVisualizer:
 # Example function for easy testing from command line
 def visualize_task_structure_example():
     """
-    EXAMPLE FUNCTION: Demonstrates how to generate a hierarchical task structure visualization.
+    Example function to generate a hierarchical task structure visualization.
     
-    This function is provided as a demonstration and for documentation purposes.
-    It shows how to visualize the hierarchical structure of narrative tasks,
-    which is useful for understanding the relationships between subtasks.
-    
-    Usage examples:
-        # Direct import and call:
-        from Generate_branches.visualization.illustration import visualize_task_structure_example
-        visualize_task_structure_example()
-        
-        # From command line:
-        python -c "from Generate_branches.visualization.illustration import visualize_task_structure_example; visualize_task_structure_example()"
+    This function demonstrates the process of visualizing a task's hierarchical structure:
+    1. Create a branch manager to generate a task chain
+    2. Extract a task from the chain
+    3. Create a visualizer to generate a hierarchical structure visualization
+    4. Return the file path to the generated visualization
     
     Returns:
-        str: Path to the generated visualization file, or None if generation failed
+        String path to the generated visualization file or None if generation fails
     """
+    import os
+    import datetime
+    from Generate_branches.utils.constants import (
+        TEST_TASK_NAME,
+        VISUALIZATION_PATH,
+        DATA_ROOT_PATH
+    )
     from Generate_branches.game.branch_manager import BranchManager
     from Generate_branches.utils.helpers import log_message
     
@@ -529,21 +545,51 @@ def visualize_task_structure_example():
         # Step 4: Create the visualizer 
         visualizer = ChainVisualizer()
         
-        # Step 5: Generate the hierarchical structure visualization
-        # This will create a tree showing all subtasks and their relationships
-        log_message("Generating hierarchical structure visualization...", "INFO")
-        visualizer.visualize_hierarchical_structure(task)
-        
-        log_message(f"Generated hierarchical structure visualization for task: {task.title}", "INFO")
-        
-        # Step 6: Create the path to the generated file for return value
+        # Step 5: Find or create a task-specific directory to save the visualization
         timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         safe_title = task.title.replace(' ', '_').replace('/', '_').replace('\\', '_')
-        filename = f"{safe_title}_structure_{timestamp}.png"
-        file_path = os.path.join("Generate_branches", VISUALIZATION_PATH, filename)
         
-        log_message(f"Visualization saved to: {file_path}", "INFO")
-        return file_path
+        # Check if a task directory already exists in the data path
+        data_root = os.path.join("Generate_branches", DATA_ROOT_PATH)
+        task_specific_dir = None
+        
+        # Look for existing task directories that match our task name
+        if os.path.exists(data_root):
+            matching_dirs = [d for d in os.listdir(data_root) 
+                            if os.path.isdir(os.path.join(data_root, d)) and d.startswith(safe_title)]
+            
+            if matching_dirs:
+                # Use the most recent directory if multiple exist
+                matching_dirs.sort(reverse=True)  # Sort by timestamp (newest first)
+                task_specific_dir = os.path.join(data_root, matching_dirs[0])
+                log_message(f"Found existing task directory: {task_specific_dir}", "INFO")
+        
+        # If no existing directory found, create a new one
+        if not task_specific_dir:
+            task_specific_dir = os.path.join(data_root, f"{safe_title}_{timestamp}")
+            os.makedirs(task_specific_dir, exist_ok=True)
+            log_message(f"Created new task directory: {task_specific_dir}", "INFO")
+            
+            # Save the task chain to this new directory
+            branch_manager.save_task_chain(task_chain.chain_id)
+        
+        # Step 6: Generate the hierarchical structure visualization with custom path
+        log_message("Generating hierarchical structure visualization...", "INFO")
+        
+        # Define the custom path for the visualization file
+        custom_file_path = os.path.join(task_specific_dir, f"{safe_title}_{timestamp}.png")
+        
+        # Call visualize_hierarchical_structure on the visualizer instance with a custom path
+        G = visualizer.visualize_hierarchical_structure(task)
+        
+        # Save the visualization using the custom path
+        if G is not None:
+            visualizer._draw_and_save_graph(G, f"{safe_title}_structure", custom_path=custom_file_path)
+        
+        log_message(f"Generated hierarchical structure visualization for task: {task.title}", "INFO")
+        log_message(f"Visualization saved to: {custom_file_path}", "INFO")
+        
+        return custom_file_path
     else:
         log_message(f"Failed to generate task chain for {TEST_TASK_NAME}", "ERROR")
         return None 

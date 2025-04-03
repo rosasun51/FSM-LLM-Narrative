@@ -1,5 +1,6 @@
 import json, os
 from typing import Dict, List, Any, Optional
+import datetime
 
 from Generate_branches.llm.LLM_integration import LLMHandler
 from Generate_branches.utils.helpers import log_message
@@ -18,7 +19,8 @@ from Generate_branches.utils.constants import (
     LAYER_PRIORITIES,
     DEFAULT_NUM_ALTERNATIVES,
     SCRIPTED_TASKS_PATH,
-    GENERATED_CHAINS_PATH
+    GENERATED_CHAINS_PATH,
+    DATA_ROOT_PATH
 )
 
 class BranchManager:
@@ -212,7 +214,7 @@ class BranchManager:
         
         Args:
             chain_id: ID of the chain to save
-            output_path: Directory to save the file in
+            output_path: Directory to save the file in (default will be overridden if task-specific directory exists)
         """
         try:
             # Check if chain exists
@@ -223,12 +225,45 @@ class BranchManager:
             # Get the chain
             chain = self.task_chains[chain_id]
             
-            # Create output directory if it doesn't exist
-            full_path = os.path.join("Generate_branches", output_path)
-            os.makedirs(full_path, exist_ok=True)
+            # Try to find a task-specific directory if one of the tasks has been processed
+            task_specific_dir = None
+            if chain.tasks:
+                # Use first task in the chain for the directory name
+                task = chain.tasks[0]
+                timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+                safe_title = task.title.replace(' ', '_').replace('/', '_').replace('\\', '_')
+                
+                # Check if a task directory already exists in the data path
+                data_root = os.path.join("Generate_branches", DATA_ROOT_PATH)
+                
+                # Look for existing task directories that match our task name
+                if os.path.exists(data_root):
+                    matching_dirs = [d for d in os.listdir(data_root) 
+                                    if os.path.isdir(os.path.join(data_root, d)) and d.startswith(safe_title)]
+                    
+                    if matching_dirs:
+                        # Use the most recent directory if multiple exist
+                        matching_dirs.sort(reverse=True)  # Sort by timestamp (newest first)
+                        task_specific_dir = os.path.join(data_root, matching_dirs[0])
+                        log_message(f"Found existing task directory: {task_specific_dir}", "INFO")
+                
+                # If no existing directory found, create a new one
+                if not task_specific_dir:
+                    task_specific_dir = os.path.join(data_root, f"{safe_title}_{timestamp}")
+                    os.makedirs(task_specific_dir, exist_ok=True)
+                    log_message(f"Created new task directory: {task_specific_dir}", "INFO")
+            
+            # Determine where to save the file
+            if task_specific_dir:
+                # Save to the task-specific directory
+                file_path = os.path.join(task_specific_dir, f"task_chain_{chain_id}.json")
+            else:
+                # Fall back to the default path
+                full_path = os.path.join("Generate_branches", output_path)
+                os.makedirs(full_path, exist_ok=True)
+                file_path = os.path.join(full_path, f"{chain_id}.json")
             
             # Save to JSON file
-            file_path = os.path.join(full_path, f"{chain_id}.json")
             with open(file_path, 'w') as f:
                 json.dump(chain.to_dict(), f, indent=2)
             

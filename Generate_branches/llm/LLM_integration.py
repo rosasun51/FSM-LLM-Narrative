@@ -21,9 +21,71 @@ from Generate_branches.utils.constants import (
     DEFAULT_NUM_ALTERNATIVES,
     MIN_RATING_THRESHOLD,
     NUM_LAYERS,
-    ROOT_TASK_ID
+    ROOT_TASK_ID,
+    DATA_ROOT_PATH,
+    SCRIPTED_SUBTASK_FOLDER,
+    SUBTASK_BRANCHES_FOLDER,
+    KEY_QUESTIONS_FILE
 )
 from Generate_branches.utils.helpers import log_message
+
+def _ensure_consistent_folder_structure(task_name: str) -> Tuple[str, str]:
+    """
+    Ensure consistent folder structure for a given task name.
+    
+    This helper function finds or creates the appropriate folder structure for a task,
+    ensuring all files are saved with consistent organization and timestamps.
+    
+    Args:
+        task_name: The name of the task
+        
+    Returns:
+        Tuple of (task_dir, timestamp) where task_dir is the path to the task directory
+        and timestamp is the timestamp to use for file naming
+    """
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    
+    # Format task name for file system use
+    safe_task_name = task_name.replace(' ', '_').replace('/', '_').replace('\\', '_')
+    
+    # Check if we already have an existing directory for this task
+    existing_dir = None
+    data_root = os.path.join("Generate_branches", DATA_ROOT_PATH)
+    
+    if os.path.exists(data_root):
+        # Look for folders starting with the task name
+        matching_dirs = [
+            d for d in os.listdir(data_root) 
+            if os.path.isdir(os.path.join(data_root, d)) and d.startswith(safe_task_name)
+        ]
+        
+        if matching_dirs:
+            # Use the most recent directory if multiple exist
+            matching_dirs.sort(reverse=True)  # Sort by timestamp (newest first)
+            existing_dir = matching_dirs[0]
+    
+    if existing_dir:
+        # Use existing directory and extract its timestamp
+        task_dir = os.path.join(data_root, existing_dir)
+        # Extract timestamp from directory name
+        dir_timestamp = existing_dir.replace(f"{safe_task_name}_", "")
+        # Use the directory's timestamp for consistent naming
+        timestamp = dir_timestamp
+    else:
+        # Create a new task-specific directory with a fresh timestamp
+        task_dir = os.path.join(data_root, f"{safe_task_name}_{timestamp}")
+    
+    # Create the main task directory if it doesn't exist
+    os.makedirs(task_dir, exist_ok=True)
+    
+    # Create subdirectories with the same timestamp
+    scripted_subtask_dir = os.path.join(task_dir, f"{SCRIPTED_SUBTASK_FOLDER}_{timestamp}")
+    os.makedirs(scripted_subtask_dir, exist_ok=True)
+    
+    branches_dir = os.path.join(task_dir, f"{SUBTASK_BRANCHES_FOLDER}_{timestamp}")
+    os.makedirs(branches_dir, exist_ok=True)
+    
+    return task_dir, timestamp
 
 # Add a function to save responses to JSON files
 def save_llm_response(response_type, prompt, response, task_info=None):
@@ -38,6 +100,62 @@ def save_llm_response(response_type, prompt, response, task_info=None):
     """
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     
+    # Prepare data to save
+    data = {
+        "timestamp": timestamp,
+        "prompt": prompt,
+        "raw_response": response,
+        "task_info": task_info
+    }
+    
+    # If we have task info with a name, use the organized folder structure
+    if task_info and ('name' in task_info or 'scene_name' in task_info):
+        # Get task name from task_info
+        task_name = task_info.get('name', task_info.get('scene_name', ''))
+        if task_name:
+            # Use our helper function to ensure consistent folder structure
+            task_dir, timestamp = _ensure_consistent_folder_structure(task_name)
+            
+            # Save files based on response type
+            if response_type == "key_questions":
+                # Save key questions to the task root directory
+                file_path = os.path.join(task_dir, f"{KEY_QUESTIONS_FILE}_{timestamp}.json")
+                with open(file_path, 'w') as f:
+                    json.dump(data, f, indent=2)
+                log_message(f"Saved key questions to {file_path}", "INFO")
+                
+            elif response_type == "scripted_subtask":
+                # Extract layer information
+                layer = task_info.get("layer", "unknown_layer") if isinstance(task_info, dict) else "unknown_layer"
+                
+                # Save to the scripted subtask directory
+                subtask_dir = os.path.join(task_dir, f"{SCRIPTED_SUBTASK_FOLDER}_{timestamp}")
+                file_path = os.path.join(subtask_dir, f"{response_type}_layer{layer}_{timestamp}.json")
+                with open(file_path, 'w') as f:
+                    json.dump(data, f, indent=2)
+                log_message(f"Saved scripted subtask (layer {layer}) to {file_path}", "INFO")
+                
+            elif response_type == "subtask_branches":
+                # Extract layer information
+                layer = task_info.get("layer", "unknown_layer") if isinstance(task_info, dict) else "unknown_layer"
+                
+                # Save to the subtask branches directory
+                branches_dir = os.path.join(task_dir, f"{SUBTASK_BRANCHES_FOLDER}_{timestamp}")
+                file_path = os.path.join(branches_dir, f"{response_type}_layer{layer}_{timestamp}.json")
+                with open(file_path, 'w') as f:
+                    json.dump(data, f, indent=2)
+                log_message(f"Saved subtask branches (layer {layer}) to {file_path}", "INFO")
+                
+            else:
+                # For other types, save to the task root directory
+                file_path = os.path.join(task_dir, f"{response_type}_{timestamp}.json")
+                with open(file_path, 'w') as f:
+                    json.dump(data, f, indent=2)
+                log_message(f"Saved {response_type} to {file_path}", "INFO")
+                
+            return
+    
+    # Legacy path fallback (for backward compatibility or if we don't have task_info)
     # Create the responses directory if it doesn't exist
     os.makedirs("Generate_branches/llm/responses", exist_ok=True)
     
@@ -48,19 +166,11 @@ def save_llm_response(response_type, prompt, response, task_info=None):
     else:
         filename = f"Generate_branches/llm/responses/{response_type}_{timestamp}.json"
     
-    # Prepare the data to save
-    data = {
-        "timestamp": timestamp,
-        "prompt": prompt,
-        "raw_response": response,
-        "task_info": task_info
-    }
-    
     # Save to file
     with open(filename, 'w') as f:
         json.dump(data, f, indent=2)
     
-    # Also append to aggregated file
+    # Also append to aggregated file (legacy format)
     if response_type in ["scripted_subtask", "subtask_branches"] and task_info and "layer" in task_info:
         layer = task_info["layer"]
         aggregated_file = f"Generate_branches/llm/LLM_{response_type}_layer{layer}.json"
@@ -368,11 +478,11 @@ YOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown
         
         # Save the prompt and response
         save_llm_response("scripted_subtask", prompt, response, {
-            "task_info": task_info,
-            "transitioning_question": transitioning_question,
+            **task_info,  # Include original task_info fields directly 
             "layer": layer,
             "previous_subtasks": previous_subtasks,
-            "root_id": root_id
+            "root_id": root_id,
+            "_original_task_info": task_info  # Keep original for reference if needed
         })
         
         # Try different JSON extraction methods
@@ -527,11 +637,12 @@ YOUR RESPONSE MUST BE VALID JSON: An array with EXACTLY {DEFAULT_NUM_ALTERNATIVE
         
         # Save the prompt and response
         save_llm_response("subtask_branches", prompt, response, {
-            "task_info": task_info,
+            **task_info,  # Include original task_info fields directly
             "transitioning_question": transitioning_question,
             "scripted_subtask": scripted_subtask,
             "layer": layer,
-            "root_id": root_id
+            "root_id": root_id,
+            "_original_task_info": task_info  # Keep original for reference if needed
         })
         
         # Try different JSON extraction methods
