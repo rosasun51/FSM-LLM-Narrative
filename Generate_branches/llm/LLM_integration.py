@@ -211,17 +211,12 @@ class LLMHandler:
         Args:
             api_key: API key for the LLM service (optional, defaults to env var)
         """
-        # Use provided API key or try to get from environment
         self.api_key = api_key or os.getenv("OPENAI_API_KEY", LLM_API_KEY)
-        
-        # Set up the LangChain ChatOpenAI client with custom base URL
         self.llm = ChatOpenAI(
             model=LLM_MODEL,
             base_url=LLM_BASE_URL,
             api_key=self.api_key
         )
-        
-        # Default model
         self.model = LLM_MODEL
         log_message(f"Initialized LLMHandler with model: {self.model}", "INFO")
     
@@ -238,7 +233,6 @@ class LLMHandler:
         """
         try:
             if self.api_key:
-                # Call the LLM using LangChain's ChatOpenAI
                 messages = [
                     SystemMessage(content="You are a helpful storytelling assistant who always responds in valid JSON format."),
                     HumanMessage(content=prompt)
@@ -249,71 +243,69 @@ class LLMHandler:
                     max_tokens=max_tokens
                 )
                 
-                # Extract content from the response
                 return response.content
             else:
-                # Mock response for demo/testing when no API key is available
                 log_message("No API key provided, using mock LLM response", "WARNING")
                 return self._mock_llm_response(prompt)
         except Exception as e:
             log_message(f"Error calling LLM: {e}", "ERROR")
             return self._mock_llm_response(prompt)
     
-    def _mock_llm_response(self, prompt: str) -> str:
-        """
-        Generate a mock LLM response for demo/testing.
+    # def _mock_llm_response(self, prompt: str) -> str:
+    #     """
+    #     Generate a mock LLM response for demo/testing.
         
-        Args:
-            prompt: The prompt that would be sent to the LLM
+    #     Args:
+    #         prompt: The prompt that would be sent to the LLM
             
-        Returns:
-            Mock generated text
-        """
-        # Simple mock responses based on prompt content for demo purposes
-        if "transitioning_question" in prompt.lower():
-            return json.dumps({
-                "title": "Unexpected Development",
-                "description": "The situation takes an unexpected turn.",
-                "dialogue": "Just as the conversation reaches a crucial point, the sound of footsteps approaching from the hallway catches everyone's attention.",
-                "player_options": [
-                    "Prepare for trouble",
-                    "Maintain the conversation",
-                    "Look for an exit"
-                ],
-                "npc_reactions": {
-                    "npc_1": "looks anxiously toward the door",
-                    "npc_2": "reaches subtly for a concealed weapon"
-                }
-            })
+    #     Returns:
+    #         Mock generated text
+    #     """
+    #     # Simple mock responses based on prompt content for demo purposes
+    #     if "transitioning_question" in prompt.lower():
+    #         return json.dumps({
+    #             "title": "Unexpected Development",
+    #             "description": "The situation takes an unexpected turn.",
+    #             "dialogue": "Just as the conversation reaches a crucial point, the sound of footsteps approaching from the hallway catches everyone's attention.",
+    #             "player_options": [
+    #                 "Prepare for trouble",
+    #                 "Maintain the conversation",
+    #                 "Look for an exit"
+    #             ],
+    #             "npc_reactions": {
+    #                 "npc_1": "looks anxiously toward the door",
+    #                 "npc_2": "reaches subtly for a concealed weapon"
+    #             }
+    #         })
         
-        elif "generate_subtask" in prompt.lower():
-            return json.dumps({
-                "title": "The Decision",
-                "description": "A moment of truth that will shape the path forward.",
-                "dialogue": "The choice before you is clear, but the consequences remain shrouded in uncertainty.",
-                "player_options": [
-                    "Accept the deal",
-                    "Reject the offer",
-                    "Attempt to negotiate"
-                ],
-                "npc_reactions": {
-                    "npc_1": "watches you intently, awaiting your decision",
-                    "npc_2": "seems indifferent, but you notice a subtle tension"
-                }
-            })
+    #     elif "generate_subtask" in prompt.lower():
+    #         return json.dumps({
+    #             "title": "The Decision",
+    #             "description": "A moment of truth that will shape the path forward.",
+    #             "dialogue": "The choice before you is clear, but the consequences remain shrouded in uncertainty.",
+    #             "player_options": [
+    #                 "Accept the deal",
+    #                 "Reject the offer",
+    #                 "Attempt to negotiate"
+    #             ],
+    #             "npc_reactions": {
+    #                 "npc_1": "watches you intently, awaiting your decision",
+    #                 "npc_2": "seems indifferent, but you notice a subtle tension"
+    #             }
+    #         })
         
-        elif "npc_response" in prompt.lower():
-            return "The character considers your words carefully before responding with measured caution."
+    #     elif "npc_response" in prompt.lower():
+    #         return "The character considers your words carefully before responding with measured caution."
         
-        elif "key questions" in prompt.lower():
-            return json.dumps([
-                "How does the initial interaction unfold?",
-                "What complications arise during the task?",
-                "How does the situation resolve?"
-            ])
+    #     elif "key questions" in prompt.lower():
+    #         return json.dumps([
+    #             "How does the initial interaction unfold?",
+    #             "What complications arise during the task?",
+    #             "How does the situation resolve?"
+    #         ])
         
-        else:
-            return "The narrative continues with unexpected developments and emerging challenges."
+    #     else:
+    #         return "The narrative continues with unexpected developments and emerging challenges."
     
     def generate_key_questions(self, task_info: Dict[str, Any]) -> List[str]:
         """
@@ -363,23 +355,17 @@ You MUST respond with a JSON array containing EXACTLY THREE transitioning questi
 YOUR RESPONSE MUST BE VALID JSON: A single array containing exactly three string elements.
 """
         
-        # Call the LLM
         response = self._call_llm(prompt)
         
-        # Save the prompt and response
         save_llm_response("key_questions", prompt, response, task_info)
         
-        # Try different JSON extraction methods
         try:
-            # First, try direct JSON parsing
             questions = json.loads(response)
             if isinstance(questions, list) and len(questions) > 0:
                 return questions[:3]  # Ensure we have at most 3 questions
                 
         except json.JSONDecodeError:
-            # If direct parsing fails, try to extract JSON from the response
             try:
-                # Look for anything that looks like a JSON array
                 import re
                 json_match = re.search(r'\[.*\]', response, re.DOTALL)
                 if json_match:
@@ -389,7 +375,6 @@ YOUR RESPONSE MUST BE VALID JSON: A single array containing exactly three string
             except:
                 pass
                 
-        # Fallback if all parsing methods fail
         log_message("Error parsing LLM response for key questions. Using fallback.", "ERROR")
         return [
             "How does the initial situation unfold?",
@@ -414,11 +399,9 @@ YOUR RESPONSE MUST BE VALID JSON: A single array containing exactly three string
         Returns:
             Dictionary with the generated subtask data
         """
-        # Determine the layer ID based on the layer
         layer_id = f"{root_id}.{layer}"
         parent_id = root_id if layer == 1 else f"{root_id}.{layer-1}"
         
-        # Prepare context from previous subtasks if available
         previous_context = ""
         if previous_subtasks and len(previous_subtasks) > 0:
             previous_context = "\nPreviously generated subtasks:\n"
@@ -426,7 +409,6 @@ YOUR RESPONSE MUST BE VALID JSON: A single array containing exactly three string
                 previous_context += f"- Layer {subtask.get('layer', '?')} Subtask: {subtask.get('title', 'Unknown')}\n"
                 previous_context += f"  Description: {subtask.get('description', 'No description')}\n"
         
-        # Prepare the prompt
         prompt = f"""
 You serve as a story architect for a narrative game with a hierarchical task structure. Your job is to generate a scripted subtask based on the task information and transitioning question provided.
 
@@ -473,10 +455,8 @@ Your response MUST be a JSON object with this format:
 YOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown above.
 """
         
-        # Call the LLM
         response = self._call_llm(prompt)
         
-        # Save the prompt and response
         save_llm_response("scripted_subtask", prompt, response, {
             **task_info,  # Include original task_info fields directly 
             "layer": layer,
@@ -485,12 +465,9 @@ YOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown
             "_original_task_info": task_info  # Keep original for reference if needed
         })
         
-        # Try different JSON extraction methods
         try:
-            # First, try direct JSON parsing
             subtask = json.loads(response)
             if isinstance(subtask, dict) and "title" in subtask and "dialogue" in subtask:
-                # Ensure required fields are set
                 subtask["subtask_id"] = layer_id
                 subtask["parent_id"] = parent_id
                 subtask["layer"] = layer
@@ -498,14 +475,12 @@ YOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown
                 return subtask
                 
         except json.JSONDecodeError:
-            # If direct parsing fails, try to extract JSON from the response
             try:
                 import re
                 json_match = re.search(r'\{.*\}', response, re.DOTALL)
                 if json_match:
                     subtask = json.loads(json_match.group(0))
                     if isinstance(subtask, dict) and "title" in subtask and "dialogue" in subtask:
-                        # Ensure required fields are set
                         subtask["subtask_id"] = layer_id
                         subtask["parent_id"] = parent_id
                         subtask["layer"] = layer
@@ -514,7 +489,6 @@ YOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown
             except:
                 pass
         
-        # Fallback if parsing fails
         log_message("Error parsing LLM response for scripted subtask. Using fallback.", "ERROR")
         return {
             "subtask_id": layer_id,
@@ -546,11 +520,9 @@ YOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown
         Returns:
             List of dictionaries with generated subtask data (maximum of {DEFAULT_NUM_ALTERNATIVES})
         """
-        # Get parent ID and base ID pattern
         parent_id = scripted_subtask.get("subtask_id", f"{root_id}.{layer}")
         base_id = f"{parent_id}."
         
-        # Prepare the prompt
         prompt = f"""
 You serve as a story architect for a narrative game with a hierarchical task structure. Your job is to generate alternative narrative branches in response to a transitioning question.
 
@@ -632,10 +604,8 @@ Your response MUST be a JSON array of EXACTLY {DEFAULT_NUM_ALTERNATIVES} objects
 YOUR RESPONSE MUST BE VALID JSON: An array with EXACTLY {DEFAULT_NUM_ALTERNATIVES} objects.
 """
         
-        # Call the LLM
-        response = self._call_llm(prompt, max_tokens=LLM_MAX_TOKENS_BRANCHES)
+        response = self._call_llm(prompt)
         
-        # Save the prompt and response
         save_llm_response("subtask_branches", prompt, response, {
             **task_info,  # Include original task_info fields directly
             "transitioning_question": transitioning_question,
@@ -645,16 +615,12 @@ YOUR RESPONSE MUST BE VALID JSON: An array with EXACTLY {DEFAULT_NUM_ALTERNATIVE
             "_original_task_info": task_info  # Keep original for reference if needed
         })
         
-        # Try different JSON extraction methods
         try:
-            # First, try direct JSON parsing
             branches = json.loads(response)
             
-            # Filter by rating and limit to DEFAULT_NUM_ALTERNATIVES
             if isinstance(branches, list):
                 valid_branches = [b for b in branches if b.get("rating", 0) >= MIN_RATING_THRESHOLD]
                 
-                # Ensure required fields are set on all branches
                 for i, branch in enumerate(valid_branches):
                     branch["subtask_id"] = f"{base_id}{i+1}"
                     branch["parent_id"] = parent_id
@@ -664,7 +630,6 @@ YOUR RESPONSE MUST BE VALID JSON: An array with EXACTLY {DEFAULT_NUM_ALTERNATIVE
                 return valid_branches[:DEFAULT_NUM_ALTERNATIVES]  # Ensure we return no more than DEFAULT_NUM_ALTERNATIVES
                 
         except json.JSONDecodeError:
-            # If direct parsing fails, try to extract JSON from the response
             try:
                 import re
                 json_match = re.search(r'\[.*\]', response, re.DOTALL)
@@ -673,7 +638,6 @@ YOUR RESPONSE MUST BE VALID JSON: An array with EXACTLY {DEFAULT_NUM_ALTERNATIVE
                     if isinstance(branches, list):
                         valid_branches = [b for b in branches if b.get("rating", 0) >= MIN_RATING_THRESHOLD]
                         
-                        # Ensure required fields are set on all branches
                         for i, branch in enumerate(valid_branches):
                             branch["subtask_id"] = f"{base_id}{i+1}"
                             branch["parent_id"] = parent_id
@@ -684,10 +648,8 @@ YOUR RESPONSE MUST BE VALID JSON: An array with EXACTLY {DEFAULT_NUM_ALTERNATIVE
             except:
                 pass
                 
-        # Fallback if parsing fails
         log_message("Error parsing LLM response for subtask branches. Using fallback.", "ERROR")
         
-        # Create fallback branches
         fallback_branches = []
         for i in range(DEFAULT_NUM_ALTERNATIVES):
             fallback_branches.append({
@@ -727,10 +689,8 @@ YOUR RESPONSE MUST BE VALID JSON: An array with EXACTLY {DEFAULT_NUM_ALTERNATIVE
             stacklevel=2
         )
         
-        # For backward compatibility, we'll create a properly structured response
-        # that matches the expected format but uses the modern implementation
         try:
-            # Attempt to create a simple task_info for compatibility
+            
             task_info = {
                 "name": "Generated Task",
                 "description": transitioning_question
@@ -772,75 +732,67 @@ YOUR RESPONSE MUST BE VALID JSON: An array with EXACTLY {DEFAULT_NUM_ALTERNATIVE
                 }
             }
     
-    def rate_generated_subtasks(self, game_state, transitioning_question, current_subtask, subtasks, threshold=MIN_RATING_THRESHOLD):
-        """
-        DEPRECATED: Legacy method for demo compatibility.
-        Please use generate_hierarchical_narrative() for new code.
+    # def rate_generated_subtasks(self, game_state, transitioning_question, current_subtask, subtasks, threshold=MIN_RATING_THRESHOLD):
+    #     """
+    #     DEPRECATED: Legacy method for demo compatibility.
+    #     Please use generate_hierarchical_narrative() for new code.
         
-        Rate multiple generated subtasks based on relevance and coherence.
-        This method is maintained for backward compatibility.
+    #     Rate multiple generated subtasks based on relevance and coherence.
+    #     This method is maintained for backward compatibility.
         
-        Args:
-            game_state: Current game state
-            transitioning_question: Question that generated the subtasks
-            current_subtask: The current subtask
-            subtasks: List of subtasks to rate
-            threshold: Minimum rating threshold
+    #     Args:
+    #         game_state: Current game state
+    #         transitioning_question: Question that generated the subtasks
+    #         current_subtask: The current subtask
+    #         subtasks: List of subtasks to rate
+    #         threshold: Minimum rating threshold
             
-        Returns:
-            List of (subtask, rating) tuples for subtasks that meet the threshold
-        """
-        warnings.warn(
-            "rate_generated_subtasks() is deprecated. Use generate_hierarchical_narrative() instead.",
-            DeprecationWarning, 
-            stacklevel=2
-        )
+    #     Returns:
+    #         List of (subtask, rating) tuples for subtasks that meet the threshold
+    #     """
+    #     warnings.warn(
+    #         "rate_generated_subtasks() is deprecated. Use generate_hierarchical_narrative() instead.",
+    #         DeprecationWarning, 
+    #         stacklevel=2
+    #     )
         
-        # For backward compatibility, we'll create ratings that match the 
-        # expected format but are more consistent than random
-        try:
-            rated_subtasks = []
-            for i, subtask in enumerate(subtasks):
-                # Generate a consistent rating based on subtask properties
-                base_rating = 85  # Start with a good base rating
+    #     try:
+    #         rated_subtasks = []
+    #         for i, subtask in enumerate(subtasks):
+    #             base_rating = 85  # Start with a good base rating
                 
-                # Adjust rating based on basic heuristics
-                title_length = len(subtask.get("title", "")) if isinstance(subtask, dict) else 0
-                options_count = len(subtask.get("player_options", [])) if isinstance(subtask, dict) else 0
+    #             title_length = len(subtask.get("title", "")) if isinstance(subtask, dict) else 0
+    #             options_count = len(subtask.get("player_options", [])) if isinstance(subtask, dict) else 0
                 
-                # Simple rating calculation
-                rating = min(95, base_rating + (title_length // 10) + (options_count * 2))
+    #             rating = min(95, base_rating + (title_length // 10) + (options_count * 2))
                 
-                if rating >= threshold:
-                    rated_subtasks.append((subtask, rating))
+    #             if rating >= threshold:
+    #                 rated_subtasks.append((subtask, rating))
         
-            return rated_subtasks
-        except Exception as e:
-            log_message(f"Error in deprecated rate_generated_subtasks: {e}", "WARNING")
-            # Fall back to the original mock implementation
-            rated_subtasks = []
-            for subtask in subtasks:
-                # Mock rating between 70 and 95
-                rating = random.randint(70, 95)
-            if rating >= threshold:
-                rated_subtasks.append((subtask, rating))
+    #         return rated_subtasks
+    #     except Exception as e:
+    #         log_message(f"Error in deprecated rate_generated_subtasks: {e}", "WARNING")
+    #         rated_subtasks = []
+    #         for subtask in subtasks:
+    #             rating = random.randint(70, 95)
+    #         if rating >= threshold:
+    #             rated_subtasks.append((subtask, rating))
                 
-            return rated_subtasks
+    #         return rated_subtasks
     
-    def generate_npc_response(self, npc_state, player_input, game_state):
-        """
-        Generate an NPC response based on the player's input and game state.
+    # def generate_npc_response(self, npc_state, player_input, game_state):
+    #     """
+    #     Generate an NPC response based on the player's input and game state.
         
-        Args:
-            npc_state: The NPC's current state
-            player_input: The player's input
-            game_state: Current game state
+    #     Args:
+    #         npc_state: The NPC's current state
+    #         player_input: The player's input
+    #         game_state: Current game state
             
-        Returns:
-            The NPC's response
-        """
-        # For demo purposes, we'll return a mock response
-        return f"{npc_state.name} considers your words briefly before responding in a way that aligns with their character."
+    #     Returns:
+    #         The NPC's response
+    #     """
+    #     return f"{npc_state.name} considers your words briefly before responding in a way that aligns with their character."
 
     def generate_hierarchical_narrative(self, task_info: Dict[str, Any], root_id: str = ROOT_TASK_ID) -> Dict[str, Any]:
         """
@@ -860,11 +812,9 @@ YOUR RESPONSE MUST BE VALID JSON: An array with EXACTLY {DEFAULT_NUM_ALTERNATIVE
         """
         log_message("Generating hierarchical narrative structure", "INFO")
         
-        # Step 1: Generate the 3 transitioning questions
         log_message("Generating transitioning questions", "INFO")
         questions = self.generate_key_questions(task_info)
         
-        # Ensure we have exactly 3 questions
         if len(questions) < 3:
             log_message(f"Only {len(questions)} questions generated, filling with defaults", "WARNING")
             default_questions = [
@@ -874,10 +824,8 @@ YOUR RESPONSE MUST BE VALID JSON: An array with EXACTLY {DEFAULT_NUM_ALTERNATIVE
             ]
             questions.extend(default_questions[len(questions):3])
         
-        # Step 2: Generate all scripted subtasks first
         scripted_subtasks = []
         
-        # Layer 1 scripted subtask (first question)
         log_message("Generating Layer 1 scripted subtask", "INFO")
         layer1_subtask = self.generate_scripted_subtask(
             task_info, 
@@ -887,7 +835,6 @@ YOUR RESPONSE MUST BE VALID JSON: An array with EXACTLY {DEFAULT_NUM_ALTERNATIVE
         )
         scripted_subtasks.append(layer1_subtask)
         
-        # Layer 2 scripted subtask (second question)
         log_message("Generating Layer 2 scripted subtask", "INFO")
         layer2_subtask = self.generate_scripted_subtask(
             task_info, 
@@ -898,7 +845,6 @@ YOUR RESPONSE MUST BE VALID JSON: An array with EXACTLY {DEFAULT_NUM_ALTERNATIVE
         )
         scripted_subtasks.append(layer2_subtask)
         
-        # Layer 3 scripted subtask (third question)
         log_message("Generating Layer 3 scripted subtask", "INFO")
         layer3_subtask = self.generate_scripted_subtask(
             task_info, 
