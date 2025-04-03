@@ -34,18 +34,18 @@ LAYER_1_GEN_ID_FORMAT = "{}.1.{}"  # Format for Layer 1 generated subtask IDs (e
 LAYER_2_GEN_ID_FORMAT = "{}.2.{}"  # Format for Layer 2 generated subtask IDs (e.g., "task_id.2.1")
 LAYER_3_GEN_ID_FORMAT = "{}.3.{}"  # Format for Layer 3 generated subtask IDs (e.g., "task_id.3.1")
 
-# # Layer names and descriptions
-# LAYER_NAMES = {
-#     1: "Layer 1 - Initial Situation",
-#     2: "Layer 2 - Complications",
-#     3: "Layer 3 - Resolution"
-# }
+# Layer names and descriptions
+LAYER_NAMES = {
+    1: "Layer 1",
+    2: "Layer 2",
+    3: "Layer 3"
+}
 
-# LAYER_DESCRIPTIONS = {
-#     1: "First layer below root - initial scenario (Layer 1)",
-#     2: "Second layer - complications and challenges (Layer 2)",
-#     3: "Third layer - resolution and outcomes (Layer 3)"
-# }
+LAYER_DESCRIPTIONS = {
+    1: "First layer below root - initial scenario (Layer 1)",
+    2: "Second layer - complications and challenges (Layer 2)",
+    3: "Third layer - resolution and outcomes (Layer 3)"
+}
 
 LAYER_PRIORITIES = {
     1: 100,
@@ -85,4 +85,4 @@ KEY_QUESTIONS_FILE = "key_questions"
 DEBUG_MODE = True
 TEST_CHAIN_ID = "test_chain"
 #TEST_TASK_NAME = "Beginning" 
-TEST_TASK_NAME = "Meet with Meredith Stout"
+TEST_TASK_NAME = "Beginning"
