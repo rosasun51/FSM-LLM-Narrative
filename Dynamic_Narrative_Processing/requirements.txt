@@ -1,3 +1,17 @@
+<<<<<<< HEAD
+numpy>=1.21.0
+openai>=1.0.0
+networkx>=2.6.3
+matplotlib>=3.4.3
+argparse>=1.4.0
+python-dotenv>=0.19.0
+tqdm>=4.62.0
+scikit-learn>=0.24.0
+langchain>=0.1.0
+langchain-openai>=0.0.2
+python-json-logger>=2.0.0 
+||||||| 73f7c15e6
+=======
 numpy>=1.21.0
 sentence-transformers==2.2.2
 huggingface-hub==0.16.4
@@ -13,3 +27,4 @@ openai>=1.0.0
 langchain>=0.1.0
 langchain-openai>=0.0.2
 python-json-logger>=2.0.0 
+>>>>>>> fe5206a7596bb44889a38717f23363f9e0fbf95e
