@@ -75,14 +75,30 @@
       }
     ],
       "key_questions":[
-     {
-        "id":"0",
-        "content":""
-       },
-      {
-        "id":"1",
-        "content":""
-       }
+        {
+          "id": 1,
+          "english": "Will the player pose a threat to Meredith Stout?"
+        },
+        {
+          "id": 2,
+          "english": "Is the player's identity connected to Meredith Stout?"
+        },
+        {
+          "id": 3,
+          "english": "Does the player have what Meredith Stout desires?"
+        },
+        {
+          "id": 4,
+          "english": "Does the player want to trade with Meredith Stout?"
+        },
+        {
+          "id": 5,
+          "english": "Is the price proposed by the player within the range acceptable to Meredith Stout?"
+        },
+        {
+          "id": 6,
+          "english": "In what way does Meredith Stout use the player to achieve her own goals?"
+        }
     ],
     "scene_end_state_reference": {
       "end_condition1": "Whether the player accepts or rejects the chip",
@@ -93,7 +109,7 @@
     "name": "Picking Up Goods",
     "location": "2",
     "trigger_conditions": {
-      "time_condition": "Chapter == 1 and 3 <= GameDay < 5",
+      "time_condition": "1;3,4",
       "additional_conditions": "Player accepted Ronan's assignment"
     },
     "environment": "A dimly lit room on the second floor of an appropriated chow factory, with exposed cables and pipes lining the ceiling and stuffed trashbags piling in the corners. There is a roller shutter that seems to connect the room with another unseen area.",
@@ -148,6 +164,23 @@
           }
         ]
       }
+    ],"key_questions":[
+      {
+        "id": 1,
+        "english": "What means will the player use to obtain the robot?"
+      },
+      {
+        "id": 2,
+        "english": "What is the player's attitude toward these two NPCs and the Spiral Gang?"
+      },
+      {
+        "id": 3,
+        "english": "Does the player follow the rules of the Spiral Gang?"
+      },
+      {
+        "id": 4,
+        "english": "What are the potential consequences if the player disobeys the Spiral Gang's rules?"
+      }
     ],
     "scene_end_state_reference": {
       "end_condition1": "Player pays",
@@ -158,7 +191,7 @@
     "name": "Clear Virus",
     "location": "3",
     "trigger_conditions": {
-      "time_condition": "Chapter == 1 and 2 <= GameDay < 5",
+      "time_condition": "1;2,4",
       "additional_conditions": "Player accepted the cash chip provided by Meredith Stout"
     },
     "environment": "In a dark, neon-lit backstreet, the hacker service shop buzzes with an undercurrent of digital intrigue. The storefront is a patchwork of flickering holographic ads and graffiti tags, hinting at a rebellious past. Inside, the air is heavy with the hum of servers and the faint scent of ozone. Vintage cyber gear lies intermingled with state-of-the-art tech, creating a seamless blend of retro and futuristic aesthetics. Shadows dance over cluttered workstations as faceless figures exchange encrypted data, their eyes illuminated by the glow of multi-screen setups, all encapsulating the gritty essence of a cyberpunk underworld.",
@@ -181,6 +214,23 @@
           }
         ]
       }
+    ],"key_questions":[
+      {
+        "id": 1,
+        "english": "What are the player's needs?"
+      },
+      {
+        "id": 2,
+        "english": "Is the player willing to pay an appropriate price to request Joe's assistance?"
+      },
+      {
+        "id": 3,
+        "english": "What is the player's attitude?"
+      },
+      {
+        "id": 4,
+        "english": "What potential obstacles might affect the player's plans to secure Joe's help?"
+      }
     ],
     "scene_end_state_reference": {
       "end_condition1": null,
@@ -191,7 +241,7 @@
     "name": "Contact Meredith Stout",
     "location": "4",
     "trigger_conditions": {
-      "time_condition": "Chapter == 1 and GameDay == 1",
+      "time_condition": "1;1",
       "additional_conditions": "Player accepted Ronan's picking-up assignment"
     },
     "environment": "In a compact, cluttered apartment, neon lights seep through the blinds, painting the room in vibrant hues of electric blue and magenta. The space is a mixture of futuristic tech and worn, personal relics—a small workstation with multiple screens, cables tangled around vintage posters, and a battered synthesizer in the corner. The air carries a faint scent of ozone and stale coffee, and every surface seems to whisper stories of late-night coding sessions and clandestine virtual escapades. Despite the limited space, the apartment exudes a raw, lived-in energy that is both isolating and undeniably alive in the heart of the cyberpunk cityscape.",
@@ -202,6 +252,7 @@
       }
     ],
     "interactive_npc": null,
+    "key_questions":null,
     "scene_end_state_reference": {
       "end_condition1": "Player sends an email to Meredith Stout and mention the lost robot",
       "end_condition2": null

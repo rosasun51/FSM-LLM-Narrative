@@ -118,10 +118,11 @@ def visualize_task_chains(task_name=None):
     """
     Generate visualizations for task chains.
     
-    This function creates three types of visualizations:
+    This function creates four types of visualizations:
     1. Task chain visualization (overall structure)
     2. Subtask flow visualization (sequential flow)
     3. Hierarchical structure visualization (parent-child relationships)
+    4. Subtask relationships visualization (scripted vs generated relationships)
     
     Args:
         task_name: Name of a specific task to visualize (optional)
@@ -133,43 +134,91 @@ def visualize_task_chains(task_name=None):
     # Create a visualizer
     visualizer = ChainVisualizer()
     
+    # Track success/failure
+    success_count = 0
+    failure_count = 0
+    
     if task_name:
         # Generate and visualize a specific task chain
         log_message(f"Generating visualization for task: {task_name}", "INFO")
         task_chain = branch_manager.generate_task_chain(task_name)
         if task_chain:
-            # Save the task chain for later use
-            branch_manager.save_task_chain(task_chain.chain_id)
-            
-            # Visualize the task chain
-            visualizer.visualize_task_chain(task_chain)
-            
-            # Visualize the subtask flow for each task
-            for task in task_chain.tasks:
-                visualizer.visualize_subtask_flow(task)
+            try:
+                # Save the task chain for later use
+                branch_manager.save_task_chain(task_chain.chain_id)
                 
-                # Generate hierarchical structure visualization
-                visualizer.visualize_hierarchical_structure(task)
+                # Visualize the task chain
+                visualizer.visualize_task_chain(task_chain)
+                
+                # Visualize the subtask flow for each task
+                for task in task_chain.tasks:
+                    visualizer.visualize_subtask_flow(task)
+                    
+                    # Generate hierarchical structure visualization
+                    visualizer.visualize_hierarchical_structure(task)
+                    
+                    # Generate subtask relationships visualization
+                    visualizer.visualize_subtask_relationships(task)
+                
+                success_count += 1
+                log_message(f"Successfully visualized task: {task_name}", "INFO")
+            except Exception as e:
+                failure_count += 1
+                log_message(f"Error visualizing task {task_name}: {e}", "ERROR")
+                
+                # Try fallback task if this was the default task
+                if task_name == TEST_TASK_NAME:
+                    fallback_task = "Beginning" if TEST_TASK_NAME != "Beginning" else "Meet with Meredith Stout"
+                    log_message(f"Attempting fallback visualization with task: {fallback_task}", "INFO")
+                    visualize_task_chains(fallback_task)
+        else:
+            failure_count += 1
+            log_message(f"Could not generate task chain for {task_name}", "ERROR")
+            
+            # Try fallback task if this was the default task
+            if task_name == TEST_TASK_NAME:
+                fallback_task = "Beginning" if TEST_TASK_NAME != "Beginning" else "Meet with Meredith Stout"
+                log_message(f"Attempting fallback visualization with task: {fallback_task}", "INFO")
+                visualize_task_chains(fallback_task)
     else:
         # Generate and visualize all available task chains
         for task_data in branch_manager.scripted_tasks:
-            task_name = task_data.get("name")
+            task_name = task_data.get("name") or task_data.get("scene_name")
             if task_name:
                 log_message(f"Generating visualization for task: {task_name}", "INFO")
-                task_chain = branch_manager.generate_task_chain(task_name)
-                if task_chain:
-                    # Save the task chain for later use
-                    branch_manager.save_task_chain(task_chain.chain_id)
-                    
-                    # Visualize the task chain
-                    visualizer.visualize_task_chain(task_chain)
-                    
-                    # Visualize the subtask flow for each task
-                    for task in task_chain.tasks:
-                        visualizer.visualize_subtask_flow(task)
+                try:
+                    task_chain = branch_manager.generate_task_chain(task_name)
+                    if task_chain:
+                        # Save the task chain for later use
+                        branch_manager.save_task_chain(task_chain.chain_id)
                         
-                        # Generate hierarchical structure visualization
-                        visualizer.visualize_hierarchical_structure(task)
+                        # Visualize the task chain
+                        visualizer.visualize_task_chain(task_chain)
+                        
+                        # Visualize the subtask flow for each task
+                        for task in task_chain.tasks:
+                            visualizer.visualize_subtask_flow(task)
+                            
+                            # Generate hierarchical structure visualization
+                            visualizer.visualize_hierarchical_structure(task)
+                            
+                            # Generate subtask relationships visualization
+                            visualizer.visualize_subtask_relationships(task)
+                        
+                        success_count += 1
+                        log_message(f"Successfully visualized task: {task_name}", "INFO")
+                    else:
+                        failure_count += 1
+                        log_message(f"Could not generate task chain for {task_name}", "ERROR")
+                except Exception as e:
+                    failure_count += 1
+                    log_message(f"Error visualizing task {task_name}: {e}", "ERROR")
+    
+    # Report overall results
+    if success_count > 0:
+        log_message(f"Successfully visualized {success_count} task(s)", "INFO")
+    if failure_count > 0:
+        log_message(f"Failed to visualize {failure_count} task(s)", "WARNING")
     
     log_message("Visualization complete", "INFO")
     log_message(f"Visualizations saved to Generate_branches/{VISUALIZATION_PATH}/", "INFO")

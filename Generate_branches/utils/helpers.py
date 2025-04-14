@@ -8,7 +8,7 @@ import datetime
 import re
 from typing import Dict, Any, List, Optional
 
-from Generate_branches.utils.constants import DEBUG_MODE
+from Generate_branches.utils.constants import DEBUG_MODE, SCRIPTED_TASKS_PATH
 
 def generate_id(prefix=""):
     """
@@ -185,4 +185,67 @@ def parse_player_input(input_text, available_options=None):
             return option
             
     # Return the original input if no matches found
-    return standardized_input 
+    return standardized_input
+
+def extract_key_questions(task_name: str) -> List[str]:
+    """
+    Extract key questions from Scripted_tasks.json based on the task name.
+    
+    Args:
+        task_name: The name of the task to find key questions for
+        
+    Returns:
+        List of key questions as strings
+    """
+    try:
+        # Load the Scripted_tasks.json file
+        tasks_data = load_json(SCRIPTED_TASKS_PATH)
+        
+        if not tasks_data:
+            log_message(f"Failed to load tasks from {SCRIPTED_TASKS_PATH}", "ERROR")
+            return []
+        
+        if not task_name:
+            log_message("No task name provided to extract_key_questions", "ERROR")
+            return []
+            
+        # Find the task with the matching name
+        matching_task = None
+        for task in tasks_data:
+            # Check for both 'name' and 'scene_name' fields since both are used
+            task_name_value = task.get('name', task.get('scene_name', ''))
+            if task_name_value and task_name_value.lower() == task_name.lower():
+                matching_task = task
+                break
+        
+        if not matching_task:
+            log_message(f"No task found with name '{task_name}' in Scripted_tasks.json", "WARNING")
+            return []
+        
+        # Extract the key questions
+        key_questions_data = matching_task.get('key_questions', [])
+        
+        if not key_questions_data:
+            log_message(f"Task '{task_name}' exists but has no key_questions field", "WARNING")
+            return []
+        
+        # Extract the question content based on the structure
+        questions = []
+        for q in key_questions_data:
+            # Check different possible formats of the question content
+            if 'content' in q:
+                questions.append(q['content'])
+            elif 'english' in q:
+                questions.append(q['english'])
+            # Add other formats if needed
+        
+        if not questions:
+            log_message(f"No question content found in key_questions for task '{task_name}'", "WARNING")
+            return []
+            
+        log_message(f"Extracted {len(questions)} key questions for '{task_name}'", "INFO")
+        return questions
+        
+    except Exception as e:
+        log_message(f"Error extracting key questions: {e}", "ERROR")
+        return [] 

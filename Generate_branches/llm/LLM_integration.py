@@ -25,14 +25,12 @@ from Generate_branches.utils.constants import (
     DATA_ROOT_PATH,
     SCRIPTED_SUBTASK_FOLDER,
     SUBTASK_BRANCHES_FOLDER,
-    KEY_QUESTIONS_FILE
+    KEY_QUESTIONS_FILE,
+    BASE_DIR
 )
-from Generate_branches.utils.helpers import log_message
+from Generate_branches.utils.helpers import log_message, extract_key_questions
 from Generate_branches.llm.prompt_templates import (
     SYSTEM_PROMPT,
-    GENERATE_SUBTASK_PROMPT,
-    GENERATE_NPC_RESPONSE_PROMPT,
-    GENERATE_KEY_QUESTIONS_PROMPT
 )
 
 def _ensure_consistent_folder_structure(task_name: str) -> Tuple[str, str]:
@@ -56,7 +54,7 @@ def _ensure_consistent_folder_structure(task_name: str) -> Tuple[str, str]:
     
     # Check if we already have an existing directory for this task
     existing_dir = None
-    data_root = os.path.join("Generate_branches", DATA_ROOT_PATH)
+    data_root = os.path.join(BASE_DIR, DATA_ROOT_PATH)
     
     if os.path.exists(data_root):
         # Look for folders starting with the task name
@@ -104,6 +102,8 @@ def save_llm_response(response_type, prompt, response, task_info=None):
         response: The raw response from the LLM
         task_info: Optional task information for context
     """
+    from Generate_branches.utils.constants import BASE_DIR, DATA_ROOT_PATH
+    
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     
     # Prepare data to save
@@ -163,14 +163,15 @@ def save_llm_response(response_type, prompt, response, task_info=None):
     
     # Legacy path fallback (for backward compatibility or if we don't have task_info)
     # Create the responses directory if it doesn't exist
-    os.makedirs("Generate_branches/llm/responses", exist_ok=True)
+    responses_dir = os.path.join(BASE_DIR, "llm", "responses")
+    os.makedirs(responses_dir, exist_ok=True)
     
     # Create a unique filename with layer number if applicable
     if response_type in ["scripted_subtask", "subtask_branches"] and task_info and "layer" in task_info:
         layer = task_info["layer"]
-        filename = f"Generate_branches/llm/responses/{response_type}_layer{layer}_{timestamp}.json"
+        filename = os.path.join(responses_dir, f"{response_type}_layer{layer}_{timestamp}.json")
     else:
-        filename = f"Generate_branches/llm/responses/{response_type}_{timestamp}.json"
+        filename = os.path.join(responses_dir, f"{response_type}_{timestamp}.json")
     
     # Save to file
     with open(filename, 'w') as f:
@@ -179,9 +180,9 @@ def save_llm_response(response_type, prompt, response, task_info=None):
     # Also append to aggregated file (legacy format)
     if response_type in ["scripted_subtask", "subtask_branches"] and task_info and "layer" in task_info:
         layer = task_info["layer"]
-        aggregated_file = f"Generate_branches/llm/LLM_{response_type}_layer{layer}.json"
+        aggregated_file = os.path.join(BASE_DIR, "llm", f"LLM_{response_type}_layer{layer}.json")
     else:
-        aggregated_file = f"Generate_branches/llm/LLM_{response_type}.json"
+        aggregated_file = os.path.join(BASE_DIR, "llm", f"LLM_{response_type}.json")
     
     # If the file exists, load existing data
     if os.path.exists(aggregated_file):
@@ -313,80 +314,23 @@ class LLMHandler:
     #     else:
     #         return "The narrative continues with unexpected developments and emerging challenges."
     
-    def generate_key_questions(self, task_info: Dict[str, Any]) -> List[str]: # ToDo: use  extract_key_questions() to obtain the questions from Scripted_tasks.json
+    def generate_key_questions(self, task_info: Dict[str, Any]) -> List[str]:
         """
-        Generate three key transitioning questions for a task.
-        
-        These questions form a sequential, hierarchical narrative flow:
-        1. First question: Initial situation and first narrative twist
-        2. Second question: Complications arising from the first situation
-        3. Third question: Resolution based on both previous stages
+        Extract key questions from Scripted_tasks.json instead of generating them with an LLM.
         
         Args:
             task_info: Dictionary containing task information
             
         Returns:
-            List of three transitioning questions
+            List of key questions from the scripted tasks file
         """
-        # Prepare the prompt
-        prompt = f"""
-You serve as a story architect for a narrative game with a hierarchical task structure. Your job is to analyze the task information and generate THREE key transitioning questions that form a sequential narrative flow for this task.
-
-IMPORTANT STRUCTURE: 
-The narrative structure consists of a ROOT TASK (Level 0) with {NUM_LAYERS} layers of subtasks below it:
-- Level 1: Main scripted subtasks responding to the first transitioning question
-- Level 2: Subtasks branching from Level 1, responding to the second transitioning question
-- Level 3: Subtasks branching from Level 2, responding to the third transitioning question
-
-The ID structure follows this hierarchical pattern:
-- Root task has ID "{ROOT_TASK_ID}"
-- Layer 1 scripted subtask: "1.1"
-- Layer 1 generated subtasks: "1.1.1", "1.1.2", "1.1.3" (alternatives, is_generated: True)
-- Layer 2 scripted subtask: "1.2"
-- Layer 2 generated subtasks: "1.2.1", "1.2.2", "1.2.3" (alternatives, is_generated: True)
-- Layer 3 scripted subtask: "1.3"
-- Layer 3 generated subtasks: "1.3.1", "1.3.2", "1.3.3" (alternatives, is_generated: True)
-
-YOUR TASK: Generate THREE key transitioning questions that MUST follow this structure:
-1. First question: Establishes the initial situation and task parameters
-2. Second question: Directly builds upon the first question, introducing complications/challenges
-3. Third question: Addresses how the situation resolves based on developments from questions 1 and 2
-
-Task Information:
-{json.dumps(task_info, indent=2)}
-
-You MUST respond with a JSON array containing EXACTLY THREE transitioning questions in sequential order:
-["First question about the initial situation?", "Second question about complications?", "Third question about resolution?"]
-
-YOUR RESPONSE MUST BE VALID JSON: A single array containing exactly three string elements.
-"""
+        # Get the task name from task_info
+        task_name = task_info.get('name', task_info.get('scene_name', ''))
         
-        response = self._call_llm(prompt)
+        # Use the extract_key_questions function from helpers.py
+        questions = extract_key_questions(task_name)
         
-        save_llm_response("key_questions", prompt, response, task_info)
-        
-        try:
-            questions = json.loads(response)
-            if isinstance(questions, list) and len(questions) > 0:
-                return questions[:3]  # Ensure we have at most 3 questions
-                
-        except json.JSONDecodeError:
-            try:
-                import re
-                json_match = re.search(r'\[.*\]', response, re.DOTALL)
-                if json_match:
-                    questions = json.loads(json_match.group(0))
-                    if isinstance(questions, list) and len(questions) > 0:
-                        return questions[:3]
-            except:
-                pass
-                
-        log_message("Error parsing LLM response for key questions. Using fallback.", "ERROR")
-        return [
-            "How does the initial situation unfold?",
-            "What complications arise from this initial situation?",
-            "How does the situation ultimately resolve?"
-        ]
+        return questions
     
     def generate_scripted_subtask(self, task_info: Dict[str, Any], transitioning_question: str, layer: int = 1, previous_subtasks: List[Dict[str, Any]] = None, root_id: str = ROOT_TASK_ID) -> Dict[str, Any]:
         """
@@ -521,7 +465,7 @@ YOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown
             task_info: Dictionary containing task information
             transitioning_question: The question to base the branches on
             scripted_subtask: The scripted subtask to branch from
-            layer: The layer (1, 2, or 3) these alternatives belong to
+            layer: The layer (1, 2,3,4,5,etc.) these alternatives belong to
             root_id: ID for the root task (default: ROOT_TASK_ID from constants)
             
         Returns:
@@ -550,7 +494,7 @@ You are generating {DEFAULT_NUM_ALTERNATIVES} alternative branches for Layer {la
 These alternatives will have:
 - Parent ID: "{parent_id}" (the scripted subtask of this layer)
 - Layer: {layer}
-- IDs: "{base_id}1", "{base_id}2", "{base_id}3" (for each alternative)
+- IDs: "{base_id}1", "{base_id}2", "{base_id}3" and so on (for each alternative)
 - is_generated: true (as these are generated alternatives)
 
 Task Information:
@@ -561,7 +505,7 @@ Transitioning Question: {transitioning_question}
 Scripted Subtask (the main path for Layer {layer}):
 {json.dumps(scripted_subtask, indent=2)}
 
-YOUR TASK: Generate EXACTLY {DEFAULT_NUM_ALTERNATIVES} alternative narrative branches that could occur in response to the transitioning question. These alternatives should:
+YOUR TASK: Generate main alternative narrative branches that could occur in response to the transitioning question (no more than {DEFAULT_NUM_ALTERNATIVES}). These alternatives should:
 1. Be alternative responses to the same transitioning question as the scripted subtask
 2. Offer meaningfully different narrative paths than the scripted subtask
 3. Maintain logical consistency with the task information
@@ -569,7 +513,7 @@ YOUR TASK: Generate EXACTLY {DEFAULT_NUM_ALTERNATIVES} alternative narrative bra
 
 Rate each possibility on a 100-point scale (only those rated {MIN_RATING_THRESHOLD}+ will be considered viable).
 
-Your response MUST be a JSON array of EXACTLY {DEFAULT_NUM_ALTERNATIVES} objects with this format:
+Your response MUST be a JSON array of not more than {DEFAULT_NUM_ALTERNATIVES} objects with this format:
 [
   {{
     "subtask_id": "{base_id}1",
@@ -581,7 +525,6 @@ Your response MUST be a JSON array of EXACTLY {DEFAULT_NUM_ALTERNATIVES} objects
     "parent_id": "{parent_id}",
     "layer": {layer},
     "is_generated": true,
-    "rating": 85
   }},
   {{
     "subtask_id": "{base_id}2",
@@ -593,7 +536,6 @@ Your response MUST be a JSON array of EXACTLY {DEFAULT_NUM_ALTERNATIVES} objects
     "parent_id": "{parent_id}",
     "layer": {layer},
     "is_generated": true,
-    "rating": 82
   }},
   {{
     "subtask_id": "{base_id}3",
@@ -605,11 +547,10 @@ Your response MUST be a JSON array of EXACTLY {DEFAULT_NUM_ALTERNATIVES} objects
     "parent_id": "{parent_id}",
     "layer": {layer},
     "is_generated": true,
-    "rating": 80
   }}
 ]
 
-YOUR RESPONSE MUST BE VALID JSON: An array with EXACTLY {DEFAULT_NUM_ALTERNATIVES} objects.
+YOUR RESPONSE MUST BE VALID JSON: An array with not more than {DEFAULT_NUM_ALTERNATIVES} objects.
 """
         
         response = self._call_llm(prompt)
@@ -670,7 +611,6 @@ YOUR RESPONSE MUST BE VALID JSON: An array with EXACTLY {DEFAULT_NUM_ALTERNATIVE
                 "parent_id": parent_id,
                 "layer": layer,
                 "is_generated": True,
-                "rating": 80
             })
         
         return fallback_branches
@@ -807,7 +747,7 @@ YOUR RESPONSE MUST BE VALID JSON: An array with EXACTLY {DEFAULT_NUM_ALTERNATIVE
         Generate a complete hierarchical narrative structure based on task info.
         
         This method implements the full process of:
-        1. Generating 3 transitioning questions
+        1. Extracting transitioning questions from Scripted_tasks.json
         2. Generating all scripted subtasks for each layer
         3. Generating alternatives (generated subtasks) for each layer
         
@@ -820,75 +760,46 @@ YOUR RESPONSE MUST BE VALID JSON: An array with EXACTLY {DEFAULT_NUM_ALTERNATIVE
         """
         log_message("Generating hierarchical narrative structure", "INFO")
         
-        log_message("Generating transitioning questions", "INFO")
-        questions = self.generate_key_questions(task_info)## ToDo: use  extract_key_questions() to obtain the questions
+        log_message("Extracting transitioning questions from Scripted_tasks.json", "INFO")
+        questions = self.generate_key_questions(task_info)
+        
+        # Handle case where no questions were found
+        if not questions:
+            log_message("No key questions found. Using default questions.", "WARNING")
+            questions = [
+                "How does the initial situation unfold?",
+                "What complications arise from this initial situation?",
+                "How does the situation ultimately resolve?"
+            ]
         
         scripted_subtasks = []
-        
-        log_message("Generating Layer 1 scripted subtask", "INFO")
-        layer1_subtask = self.generate_scripted_subtask(
-            task_info, 
-            questions[0], 
-            layer=1,
-            root_id=root_id
-        )
-        scripted_subtasks.append(layer1_subtask)
-        
-        log_message("Generating Layer 2 scripted subtask", "INFO")
-        layer2_subtask = self.generate_scripted_subtask(
-            task_info, 
-            questions[1], 
-            layer=2, 
-            previous_subtasks=[layer1_subtask],
-            root_id=root_id
-        )
-        scripted_subtasks.append(layer2_subtask)
-        
-        log_message("Generating Layer 3 scripted subtask", "INFO")
-        layer3_subtask = self.generate_scripted_subtask(
-            task_info, 
-            questions[2], 
-            layer=3, 
-            previous_subtasks=[layer1_subtask, layer2_subtask],
-            root_id=root_id
-        )
-        scripted_subtasks.append(layer3_subtask)
-        
-        # Step 3: Go back and generate alternatives for each layer
         generated_subtasks = []
         
-        # Layer 1 alternatives
-        log_message("Generating Layer 1 alternatives", "INFO")
-        layer1_alternatives = self.generate_subtask_branches(
-            task_info,
-            questions[0],
-            layer1_subtask,
-            layer=1,
-            root_id=root_id
-        )
-        generated_subtasks.extend(layer1_alternatives)
-        
-        # Layer 2 alternatives
-        log_message("Generating Layer 2 alternatives", "INFO")
-        layer2_alternatives = self.generate_subtask_branches(
-            task_info,
-            questions[1],
-            layer2_subtask,
-            layer=2,
-            root_id=root_id
-        )
-        generated_subtasks.extend(layer2_alternatives)
-        
-        # Layer 3 alternatives
-        log_message("Generating Layer 3 alternatives", "INFO")
-        layer3_alternatives = self.generate_subtask_branches(
-            task_info,
-            questions[2],
-            layer3_subtask,
-            layer=3,
-            root_id=root_id
-        )
-        generated_subtasks.extend(layer3_alternatives)
+        # Generate scripted subtasks and alternatives for each question/layer
+        for i, question in enumerate(questions, 1):
+            layer = i  # Layer number corresponds to question index (1-indexed)
+            
+            log_message(f"Generating Layer {layer} scripted subtask", "INFO")
+            # Generate the scripted subtask for this layer
+            subtask = self.generate_scripted_subtask(
+                task_info,
+                question,
+                layer=layer,
+                previous_subtasks=scripted_subtasks.copy(),
+                root_id=root_id
+            )
+            scripted_subtasks.append(subtask)
+            
+            # Generate alternative branches for this layer
+            log_message(f"Generating Layer {layer} alternatives", "INFO")
+            alternatives = self.generate_subtask_branches(
+                task_info,
+                question,
+                subtask,
+                layer=layer,
+                root_id=root_id
+            )
+            generated_subtasks.extend(alternatives)
         
         # Combine everything into a complete structure
         narrative_structure = {

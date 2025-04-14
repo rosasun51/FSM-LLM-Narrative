@@ -1,409 +1,499 @@
 """
-This module provides visualization tools for task chains and subtask branches.
-It uses langraph (NetworkX) for generating visual representations of narrative structures.
+This module provides visualizations of task chains, subtask flows, and hierarchical structures.
+It creates visual representations of the narrative tree, showing relationships between
+scripted subtasks and generated subtasks.
 """
 
 import os
-import json
-import datetime
-from typing import Dict, List, Any, Optional
+import networkx as nx
+import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+from datetime import datetime
+import matplotlib.patches as mpatches
 
-try:
-    import networkx as nx
-    import matplotlib.pyplot as plt
-    from IPython.display import display
-    
-    # Try to import pygraphviz for better hierarchical layouts
-    try:
-        import pygraphviz
-        HAS_PYGRAPHVIZ = True
-    except ImportError:
-        HAS_PYGRAPHVIZ = False
-        
-except ImportError:
-    print("Warning: Visualization requires networkx, matplotlib, and IPython")
-    HAS_PYGRAPHVIZ = False
-
-from Generate_branches.game.task_chain import TaskChain
-from Generate_branches.models.task import Task
-from Generate_branches.models.subtask import ScriptedSubTask, GeneratedSubTask
-from Generate_branches.utils.helpers import log_message
-from Generate_branches.utils.constants import (
-    VISUALIZATION_PATH,
-    ROOT_TASK_ID,
-    TEST_TASK_NAME,
-    DATA_ROOT_PATH
-)
+from Generate_branches.utils.constants import VISUALIZATION_PATH
+from Generate_branches.utils.helpers import log_message, ensure_directory_exists
+from Generate_branches.game.branch_manager import BranchManager
 
 class ChainVisualizer:
     """
-    Visualizer for task chains and subtask branches.
-    
-    This class provides methods for creating visual representations of narrative
-    structures, including task chains, subtask flows, and branching possibilities.
+    Provides visualization tools for task chains and subtask structures.
     """
-    
-    def __init__(self, output_dir: str = VISUALIZATION_PATH):
+    def __init__(self):
         """
-        Initialize the visualizer.
+        Initialize the chain visualizer.
+        """
+        self.visualization_dir = os.path.join("Generate_branches", VISUALIZATION_PATH)
+        ensure_directory_exists(self.visualization_dir)
+        
+    def visualize_task_chain(self, task_chain):
+        """
+        Visualize a task chain as a graph.
         
         Args:
-            output_dir: Directory to save visualizations in
+            task_chain: TaskChain object to visualize
         """
-        self.output_dir = output_dir
+        G = nx.DiGraph()
         
-        # Create output directory if it doesn't exist
-        full_path = os.path.join("Generate_branches", output_dir)
-        os.makedirs(full_path, exist_ok=True)
+        # Add the chain as the root node
+        G.add_node(task_chain.chain_id, type="chain")
         
-        # Log available visualization features
-        if HAS_PYGRAPHVIZ:
-            log_message("Hierarchical layout available using pygraphviz", "INFO")
-        else:
-            log_message("Pygraphviz not found, using spring layout for visualizations", "INFO")
-    
-    def visualize_task_chain(self, task_chain: TaskChain, save_to_file: bool = True) -> Optional[nx.DiGraph]:
-        """
-        Create a visualization of a task chain.
+        # Add tasks and connect to chain
+        for task in task_chain.tasks:
+            G.add_node(task.task_id, type="task")
+            G.add_edge(task_chain.chain_id, task.task_id)
+            
+            # Add the root subtask
+            G.add_node(f"{task.task_id}_root", type="subtask_root")
+            G.add_edge(task.task_id, f"{task.task_id}_root")
+            
+            # Add first level subtasks
+            for subtask in task.subtasks:
+                G.add_node(subtask.subtask_id, type="subtask", is_generated=subtask.is_generated)
+                G.add_edge(f"{task.task_id}_root", subtask.subtask_id)
         
-        Args:
-            task_chain: The task chain to visualize
-            save_to_file: Whether to save the visualization to a file
-            
-        Returns:
-            The generated graph or None if visualization failed
-        """
-        try:
-            # Create directed graph
-            G = nx.DiGraph()
-            
-            # Add chain node
-            chain_id = task_chain.chain_id
-            G.add_node(chain_id, label=task_chain.name, type="chain")
-            
-            # Process tasks
-            for task in task_chain.tasks:
-                self._add_task_to_graph(G, task, chain_id)
-            
-            # Draw the graph
-            if save_to_file:
-                self._draw_and_save_graph(G, f"task_chain_{chain_id}")
-            
-            return G
-        except Exception as e:
-            log_message(f"Error visualizing task chain: {e}", "ERROR")
-            return None
-    
-    def visualize_subtask_flow(self, task: Task, save_to_file: bool = True) -> Optional[nx.DiGraph]:
-        """
-        Create a visualization of subtask flow within a task.
-        
-        Args:
-            task: The task containing subtasks to visualize
-            save_to_file: Whether to save the visualization to a file
-            
-        Returns:
-            The generated graph or None if visualization failed
-        """
-        try:
-            # Create directed graph
-            G = nx.DiGraph()
-            
-            # Add task node
-            task_id = task.task_id
-            G.add_node(task_id, label=task.title, type="task")
-            
-            # Add subtasks
-            last_subtask_id = None
-            for layer_id in range(2):  # Layer 0 is main path, Layer 1 is alternatives
-                for subtask in task.subtasks:
-                    if subtask.layer == layer_id:
-                        subtask_id = subtask.subtask_id
-                        
-                        # Add node
-                        node_type = "scripted" if isinstance(subtask, ScriptedSubTask) else "generated"
-                        G.add_node(subtask_id, label=subtask.title, type=node_type)
-                        
-                        # Connect to task
-                        G.add_edge(task_id, subtask_id)
-                        
-                        # Connect sequential subtasks in the same layer
-                        if last_subtask_id and subtask.layer == 0:
-                            G.add_edge(last_subtask_id, subtask_id)
-                        
-                        last_subtask_id = subtask_id if subtask.layer == 0 else last_subtask_id
-            
-            # Draw the graph
-            if save_to_file:
-                self._draw_and_save_graph(G, f"subtask_flow_{task_id}")
-            
-            return G
-        except Exception as e:
-            log_message(f"Error visualizing subtask flow: {e}", "ERROR")
-            return None
-    
-    def visualize_hierarchical_structure(self, task: Task, save_to_file: bool = True) -> Optional[nx.DiGraph]:
-        """
-        Create a visualization of the complete hierarchical structure of a task including all subtasks.
-        
-        This creates a detailed tree-like visualization that shows:
-        - The task as the root node
-        - All subtasks organized by their layers
-        - Clear parent-child relationships between subtasks
-        - Visual differentiation between scripted and generated subtasks
-        
-        Args:
-            task: The task containing subtasks to visualize
-            save_to_file: Whether to save the visualization to a file
-            
-        Returns:
-            The generated graph or None if visualization failed
-        """
-        try:
-            # Create directed graph
-            G = nx.DiGraph()
-            
-            # Add task node
-            task_id = task.task_id
-            G.add_node(task_id, label=task.title, type="task")
-            
-            # Create a mapping of parent_id to subtask_id for connecting nodes
-            subtask_map = {}
-            
-            # First pass: Add all subtasks to the graph
-            for subtask in sorted(task.subtasks, key=lambda x: x.layer):
-                subtask_id = subtask.subtask_id
-                parent_id = subtask.parent_id if subtask.parent_id else task_id
-                
-                # Store for second pass
-                subtask_map[subtask_id] = subtask
-                
-                # Add node
-                node_type = "scripted" if isinstance(subtask, ScriptedSubTask) else "generated"
-                is_generated = "Gen" if node_type == "generated" else "Scripted"
-                label = f"{subtask.title} (L{subtask.layer}, {is_generated})"
-                G.add_node(subtask_id, label=label, type=node_type, layer=subtask.layer)
-            
-            # Second pass: Connect nodes based on parent-child relationships
-            for subtask_id, subtask in subtask_map.items():
-                parent_id = subtask.parent_id if subtask.parent_id else task_id
-                G.add_edge(parent_id, subtask_id)
-            
-            # Draw the graph
-            if save_to_file:
-                # Generate timestamp for unique filename
-                timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-                safe_title = task.title.replace(' ', '_').replace('/', '_').replace('\\', '_')
-                
-                # Check if we should save to the new task-specific folder structure
-                task_dir = os.path.join("Generate_branches", DATA_ROOT_PATH, f"{safe_title}_{timestamp}")
-                
-                # If the task directory already exists (created by LLM response saving), use it
-                # Otherwise, save to the default visualization path
-                if os.path.exists(task_dir):
-                    # Save to the task-specific directory
-                    file_path = os.path.join(task_dir, f"{safe_title}_{timestamp}.png")
-                    self._draw_and_save_graph(G, f"{safe_title}_structure", custom_path=file_path)
-                    log_message(f"Saved visualization to task folder: {file_path}", "INFO")
-                else:
-                    # Save to the default visualization directory
-                    self._draw_and_save_graph(G, f"{safe_title}_structure_{timestamp}")
-            
-            return G
-        except Exception as e:
-            log_message(f"Error visualizing hierarchical structure: {e}", "ERROR")
-            return None
-    
-    def _add_task_to_graph(self, G: nx.DiGraph, task: Task, parent_id: str):
-        """
-        Add a task and its subtasks to the graph.
-        
-        Args:
-            G: The graph to add to
-            task: The task to add
-            parent_id: ID of the parent node
-        """
-        task_id = task.task_id
-        
-        # Add task node
-        G.add_node(task_id, label=task.title, type="task")
-        
-        # Connect to parent
-        G.add_edge(parent_id, task_id)
-        
-        # Add scripted subtasks (main path only)
-        scripted_subtasks = [s for s in task.subtasks if isinstance(s, ScriptedSubTask) and s.layer == 0]
-        
-        last_subtask_id = None
-        for subtask in scripted_subtasks:
-            subtask_id = subtask.subtask_id
-            
-            # Add node
-            G.add_node(subtask_id, label=subtask.title, type="scripted")
-            
-            # Connect to task
-            G.add_edge(task_id, subtask_id)
-            
-            # Connect sequential subtasks
-            if last_subtask_id:
-                G.add_edge(last_subtask_id, subtask_id)
-            
-            last_subtask_id = subtask_id
-    
-    def _draw_and_save_graph(self, G: nx.DiGraph, filename: str, custom_path: str = None):
-        """
-        Draw and save a graph visualization.
-        
-        Args:
-            G: The graph to draw
-            filename: Base filename to save as
-            custom_path: Custom path to save the file to (overrides standard path)
-        """
-        # Create figure
+        # Create the plot
         plt.figure(figsize=(12, 8))
+        pos = nx.spring_layout(G, seed=42)
         
-        # Use pygraphviz for better hierarchical layout if available
-        if HAS_PYGRAPHVIZ:
-            pos = nx.drawing.nx_agraph.graphviz_layout(G, prog='dot')
-        else:
-            pos = nx.spring_layout(G, k=0.5, iterations=50)
-        
-        # Get node types for coloring
-        node_types = nx.get_node_attributes(G, 'type')
-        
-        # Prepare node colors based on type
-        node_colors = []
-        for node in G.nodes():
-            node_type = node_types.get(node, 'unknown')
-            if node_type == 'task':
-                node_colors.append('lightgreen')
-            elif node_type == 'scripted':
-                node_colors.append('orange')
-            elif node_type == 'generated':
-                node_colors.append('pink')
-            elif node_type == 'chain':
-                node_colors.append('lightblue')
-            else:
-                node_colors.append('gray')
-        
-        # Draw nodes with labels
-        labels = nx.get_node_attributes(G, 'label')
-        nx.draw_networkx_nodes(G, pos, node_size=500, node_color=node_colors, alpha=0.8)
-        nx.draw_networkx_labels(G, pos, labels=labels, font_size=10, font_weight='bold')
+        # Draw nodes with different colors based on type
+        nx.draw_networkx_nodes(G, pos, nodelist=[n for n, d in G.nodes(data=True) if d['type'] == "chain"], 
+                            node_color='skyblue', node_size=1500)
+        nx.draw_networkx_nodes(G, pos, nodelist=[n for n, d in G.nodes(data=True) if d['type'] == "task"], 
+                            node_color='lightgreen', node_size=1200)
+        nx.draw_networkx_nodes(G, pos, nodelist=[n for n, d in G.nodes(data=True) if d['type'] == "subtask_root"], 
+                            node_color='yellow', node_size=800)
+        nx.draw_networkx_nodes(G, pos, nodelist=[n for n, d in G.nodes(data=True) if d['type'] == "subtask" and not d['is_generated']], 
+                            node_color='orange', node_size=600)
+        nx.draw_networkx_nodes(G, pos, nodelist=[n for n, d in G.nodes(data=True) if d['type'] == "subtask" and d['is_generated']], 
+                            node_color='pink', node_size=600)
         
         # Draw edges
-        nx.draw_networkx_edges(G, pos, edge_color='gray', arrows=True, arrowsize=15, min_target_margin=15)
+        nx.draw_networkx_edges(G, pos, width=1.0, alpha=0.7)
         
-        # Add title and legend
-        plt.title(f"Task Structure: {filename}", fontsize=16)
+        # Draw labels with smaller font
+        node_labels = {n: n.split('_')[-1] for n in G.nodes()}
+        nx.draw_networkx_labels(G, pos, labels=node_labels, font_size=8)
+        
+        # Create a legend
         legend_elements = [
-            plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='lightgreen', markersize=15, label='Task'),
-            plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='orange', markersize=15, label='Scripted Subtask'),
-            plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='pink', markersize=15, label='Generated Subtask')
+            mpatches.Patch(color='skyblue', label='Chain'),
+            mpatches.Patch(color='lightgreen', label='Task'),
+            mpatches.Patch(color='yellow', label='Subtask Root'),
+            mpatches.Patch(color='orange', label='Scripted Subtask'),
+            mpatches.Patch(color='pink', label='Generated Subtask')
+        ]
+        plt.legend(handles=legend_elements, loc='best')
+        
+        # Set title and remove axes
+        plt.title(f"Task Chain: {task_chain.name}")
+        plt.axis('off')
+        
+        # Save the visualization
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"task_chain_{task_chain.chain_id}.png"
+        filepath = os.path.join(self.visualization_dir, filename)
+        plt.savefig(filepath, dpi=300, bbox_inches='tight')
+        plt.close()
+        
+        log_message(f"Task chain visualization saved to {filepath}", "INFO")
+        
+    def visualize_subtask_flow(self, task):
+        """
+        Visualize the sequential flow of subtasks within a task.
+        
+        Args:
+            task: Task object to visualize
+        """
+        # Create a directed graph
+        G = nx.DiGraph()
+        
+        # Add subtasks by layer
+        subtasks_by_layer = {}
+        for subtask in task.subtasks:
+            layer = subtask.layer
+            if layer not in subtasks_by_layer:
+                subtasks_by_layer[layer] = []
+            subtasks_by_layer[layer].append(subtask)
+            
+            # Add the node
+            G.add_node(subtask.subtask_id, 
+                    title=subtask.title,
+                    layer=layer,
+                    is_generated=subtask.is_generated)
+            
+            # Add edge from parent to this subtask
+            if subtask.parent_id:
+                G.add_edge(subtask.parent_id, subtask.subtask_id)
+        
+        # Create the plot
+        plt.figure(figsize=(15, 10))
+        
+        # Use hierarchical layout
+        try:
+            pos = nx.nx_agraph.graphviz_layout(G, prog='dot', args='-Grankdir=LR')
+        except:
+            # Fall back to normal layout if graphviz is not available
+            pos = nx.spring_layout(G, seed=42)
+        
+        # Draw nodes by layer and type
+        for layer in sorted(subtasks_by_layer.keys()):
+            # Get scripted subtasks for this layer
+            scripted_nodes = [s.subtask_id for s in subtasks_by_layer[layer] if not s.is_generated]
+            if scripted_nodes:
+                nx.draw_networkx_nodes(G, pos, nodelist=scripted_nodes, 
+                                    node_color='orange', node_size=800)
+            
+            # Get generated subtasks for this layer
+            generated_nodes = [s.subtask_id for s in subtasks_by_layer[layer] if s.is_generated]
+            if generated_nodes:
+                nx.draw_networkx_nodes(G, pos, nodelist=generated_nodes, 
+                                    node_color='pink', node_size=800)
+        
+        # Draw edges
+        nx.draw_networkx_edges(G, pos, width=1.0, alpha=0.7)
+        
+        # Prepare labels
+        labels = {}
+        for subtask in task.subtasks:
+            labels[subtask.subtask_id] = f"{subtask.title}\n(Layer {subtask.layer})"
+        
+        # Draw labels
+        nx.draw_networkx_labels(G, pos, labels=labels, font_size=6)
+        
+        # Create a legend
+        legend_elements = [
+            mpatches.Patch(color='orange', label='Scripted Subtask'),
+            mpatches.Patch(color='pink', label='Generated Subtask')
         ]
         plt.legend(handles=legend_elements, loc='upper right')
         
-        # Save figure
-        if custom_path:
-            # Ensure directory exists
-            os.makedirs(os.path.dirname(custom_path), exist_ok=True)
-            file_path = custom_path
-        else:
-            # Use default path
-            file_path = os.path.join("Generate_branches", self.output_dir, f"{filename}.png")
-            os.makedirs(os.path.dirname(file_path), exist_ok=True)
-            
-        plt.tight_layout()
+        # Set title and remove axes
+        plt.title(f"Subtask Flow: {task.title}")
         plt.axis('off')
-        plt.savefig(file_path, dpi=300, bbox_inches='tight')
+        
+        # Save the visualization
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"{task.title.replace(' ', '_')}_subtask_chain_{timestamp}.png"
+        filepath = os.path.join(self.visualization_dir, filename)
+        plt.savefig(filepath, dpi=300, bbox_inches='tight')
         plt.close()
         
-        log_message(f"Saved visualization to {file_path}", "INFO")
+        log_message(f"Subtask flow visualization saved to {filepath}", "INFO")
+        
+    def visualize_hierarchical_structure(self, task):
+        """
+        Visualize the hierarchical structure of a task with its subtasks.
+        
+        Args:
+            task: Task object to visualize
+        """
+        # Create a directed graph
+        G = nx.DiGraph()
+        
+        # Add the task as root node
+        G.add_node(task.task_id, title=task.title, type="task")
+        
+        # Add subtasks
+        for subtask in task.subtasks:
+            G.add_node(subtask.subtask_id, 
+                      title=subtask.title,
+                      layer=subtask.layer,
+                      is_generated=subtask.is_generated)
+            
+            # Add edge from parent (task or another subtask)
+            if subtask.parent_id == task.task_id:
+                G.add_edge(task.task_id, subtask.subtask_id)
+            elif subtask.parent_id:
+                G.add_edge(subtask.parent_id, subtask.subtask_id)
+            else:
+                # Connect to task if no parent specified
+                G.add_edge(task.task_id, subtask.subtask_id)
+        
+        # Create the plot
+        plt.figure(figsize=(15, 10))
+        
+        # Use hierarchical layout
+        try:
+            pos = nx.nx_agraph.graphviz_layout(G, prog='dot')
+        except:
+            # Fall back to normal layout if graphviz is not available
+            pos = nx.spring_layout(G, seed=42)
+        
+        # Draw task node (root)
+        nx.draw_networkx_nodes(G, pos, nodelist=[task.task_id], 
+                            node_color='lightgreen', node_size=1000)
+        
+        # Draw scripted subtasks
+        scripted_nodes = [n for n, d in G.nodes(data=True) 
+                         if n != task.task_id and 'is_generated' in d and not d['is_generated']]
+        if scripted_nodes:
+            nx.draw_networkx_nodes(G, pos, nodelist=scripted_nodes, 
+                                node_color='orange', node_size=700)
+        
+        # Draw generated subtasks
+        generated_nodes = [n for n, d in G.nodes(data=True) 
+                          if n != task.task_id and 'is_generated' in d and d['is_generated']]
+        if generated_nodes:
+            nx.draw_networkx_nodes(G, pos, nodelist=generated_nodes, 
+                                node_color='pink', node_size=700)
+        
+        # Draw edges
+        nx.draw_networkx_edges(G, pos, width=1.0, alpha=0.7, arrows=True, arrowsize=15)
+        
+        # Prepare labels
+        labels = {task.task_id: f"{task.title}"}
+        for subtask in task.subtasks:
+            labels[subtask.subtask_id] = f"{subtask.title} (L{subtask.layer})"
+        
+        # Draw labels
+        nx.draw_networkx_labels(G, pos, labels=labels, font_size=8)
+        
+        # Create a legend
+        legend_elements = [
+            mpatches.Patch(color='lightgreen', label='Task (Root)'),
+            mpatches.Patch(color='orange', label='Scripted Subtask'),
+            mpatches.Patch(color='pink', label='Generated Subtask')
+        ]
+        plt.legend(handles=legend_elements, loc='best')
+        
+        # Set title and remove axes
+        plt.title(f"Hierarchical Structure: {task.title}")
+        plt.axis('off')
+        
+        # Save the visualization
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"{task.title.replace(' ', '_')}_hierarchical_{timestamp}.png"
+        filepath = os.path.join(self.visualization_dir, filename)
+        plt.savefig(filepath, dpi=300, bbox_inches='tight')
+        plt.close()
+        
+        log_message(f"Hierarchical structure visualization saved to {filepath}", "INFO")
 
+    def visualize_subtask_relationships(self, task):
+        """
+        Visualize the relationships between scripted_subtasks and generated_subtasks 
+        within a task, emphasizing the branching structure.
+        
+        Args:
+            task: Task object to visualize
+        """
+        # Create a directed graph
+        G = nx.DiGraph()
+        
+        # Add the task as root node
+        G.add_node(task.task_id, title=task.title, type="task")
+        
+        # Add subtasks and track relationships
+        subtasks_by_parent = {}
+        
+        # First pass: add all nodes
+        for subtask in task.subtasks:
+            G.add_node(subtask.subtask_id, 
+                      title=subtask.title,
+                      layer=subtask.layer,
+                      is_generated=subtask.is_generated)
+            
+            # Group subtasks by parent
+            parent_id = subtask.parent_id if subtask.parent_id else task.task_id
+            if parent_id not in subtasks_by_parent:
+                subtasks_by_parent[parent_id] = []
+            subtasks_by_parent[parent_id].append(subtask)
+        
+        # Second pass: add all edges
+        for subtask in task.subtasks:
+            parent_id = subtask.parent_id if subtask.parent_id else task.task_id
+            G.add_edge(parent_id, subtask.subtask_id)
+        
+        # Create the plot
+        plt.figure(figsize=(15, 10))
+        
+        # Use hierarchical layout
+        try:
+            pos = nx.nx_agraph.graphviz_layout(G, prog='dot')
+        except:
+            # Fall back to normal layout if graphviz is not available
+            pos = nx.spring_layout(G, seed=42)
+        
+        # Draw task node (root)
+        nx.draw_networkx_nodes(G, pos, nodelist=[task.task_id], 
+                            node_color='lightgreen', node_size=1000)
+        
+        # Collect nodes by layer and type for better visualization
+        scripted_by_layer = {}
+        generated_by_layer = {}
+        
+        for subtask in task.subtasks:
+            layer = subtask.layer
+            if subtask.is_generated:
+                if layer not in generated_by_layer:
+                    generated_by_layer[layer] = []
+                generated_by_layer[layer].append(subtask.subtask_id)
+            else:
+                if layer not in scripted_by_layer:
+                    scripted_by_layer[layer] = []
+                scripted_by_layer[layer].append(subtask.subtask_id)
+        
+        # Draw scripted subtasks by layer with different color intensities
+        orange_cmap = plt.cm.Oranges
+        for i, layer in enumerate(sorted(scripted_by_layer.keys())):
+            nodes = scripted_by_layer[layer]
+            if nodes:
+                color_val = 0.5 + (i * 0.5 / (len(scripted_by_layer) or 1))  # Avoid division by zero
+                nx.draw_networkx_nodes(G, pos, nodelist=nodes, 
+                                    node_color=[orange_cmap(color_val)], 
+                                    node_size=700)
+        
+        # Draw generated subtasks by layer with different color intensities
+        pink_cmap = plt.cm.RdPu
+        for i, layer in enumerate(sorted(generated_by_layer.keys())):
+            nodes = generated_by_layer[layer]
+            if nodes:
+                color_val = 0.5 + (i * 0.5 / (len(generated_by_layer) or 1))  # Avoid division by zero
+                nx.draw_networkx_nodes(G, pos, nodelist=nodes, 
+                                    node_color=[pink_cmap(color_val)], 
+                                    node_size=700)
+        
+        # Draw edges differently between different types of nodes
+        # Scripted-to-scripted edges
+        scripted_edges = [(u, v) for u, v in G.edges() 
+                          if u != task.task_id and v != task.task_id and 
+                          not G.nodes[u].get('is_generated', False) and 
+                          not G.nodes[v].get('is_generated', False)]
+        if scripted_edges:
+            nx.draw_networkx_edges(G, pos, edgelist=scripted_edges, 
+                                width=1.5, alpha=0.8, edge_color='darkorange', 
+                                arrows=True, arrowsize=15)
+        
+        # Generated-to-generated edges
+        generated_edges = [(u, v) for u, v in G.edges() 
+                           if u != task.task_id and v != task.task_id and 
+                           G.nodes[u].get('is_generated', False) and 
+                           G.nodes[v].get('is_generated', False)]
+        if generated_edges:
+            nx.draw_networkx_edges(G, pos, edgelist=generated_edges, 
+                                width=1.5, alpha=0.8, edge_color='hotpink', 
+                                arrows=True, arrowsize=15)
+        
+        # Scripted-to-generated edges
+        mixed_edges_1 = [(u, v) for u, v in G.edges() 
+                        if u != task.task_id and v != task.task_id and 
+                        not G.nodes[u].get('is_generated', False) and 
+                        G.nodes[v].get('is_generated', False)]
+        if mixed_edges_1:
+            nx.draw_networkx_edges(G, pos, edgelist=mixed_edges_1, 
+                                width=1.5, alpha=0.8, edge_color='purple', 
+                                style='dashed', arrows=True, arrowsize=15)
+        
+        # Generated-to-scripted edges
+        mixed_edges_2 = [(u, v) for u, v in G.edges() 
+                        if u != task.task_id and v != task.task_id and 
+                        G.nodes[u].get('is_generated', False) and 
+                        not G.nodes[v].get('is_generated', False)]
+        if mixed_edges_2:
+            nx.draw_networkx_edges(G, pos, edgelist=mixed_edges_2, 
+                                width=1.5, alpha=0.8, edge_color='blue', 
+                                style='dotted', arrows=True, arrowsize=15)
+        
+        # Root-to-any edges
+        root_edges = [(u, v) for u, v in G.edges() if u == task.task_id]
+        if root_edges:
+            nx.draw_networkx_edges(G, pos, edgelist=root_edges, 
+                                width=2.0, alpha=0.9, edge_color='green', 
+                                arrows=True, arrowsize=20)
+        
+        # Prepare labels
+        labels = {task.task_id: f"{task.title} (Root)"}
+        for subtask in task.subtasks:
+            labels[subtask.subtask_id] = f"{subtask.title} (L{subtask.layer})"
+        
+        # Draw labels
+        nx.draw_networkx_labels(G, pos, labels=labels, font_size=8)
+        
+        # Create a legend
+        legend_elements = [
+            mpatches.Patch(color='lightgreen', label='Task (Root)'),
+            mpatches.Patch(color=orange_cmap(0.7), label='Scripted Subtask'),
+            mpatches.Patch(color=pink_cmap(0.7), label='Generated Subtask'),
+            mpatches.Patch(color='green', label='Root Connection'),
+            mpatches.Patch(color='darkorange', label='Scripted-to-Scripted'),
+            mpatches.Patch(color='hotpink', label='Generated-to-Generated'),
+            mpatches.Patch(color='purple', label='Scripted-to-Generated'),
+            mpatches.Patch(color='blue', label='Generated-to-Scripted')
+        ]
+        plt.legend(handles=legend_elements, loc='best')
+        
+        # Set title and remove axes
+        plt.title(f"Subtask Relationships in {task.title}")
+        plt.axis('off')
+        
+        # Save the visualization
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"{task.title.replace(' ', '_')}_subtask_relationships_{timestamp}.png"
+        filepath = os.path.join(self.visualization_dir, filename)
+        plt.savefig(filepath, dpi=300, bbox_inches='tight')
+        plt.close()
+        
+        log_message(f"Subtask relationships visualization saved to {filepath}", "INFO")
 
-def visualize_task_structure_example():
+def visualize_task_structure_example(task_name=None):
     """
-    Example function to generate a hierarchical task structure visualization.
+    Run a simple example that demonstrates the structure visualization capabilities.
     
-    This function demonstrates the process of visualizing a task's hierarchical structure:
-    1. Create a branch manager to generate a task chain
-    2. Extract a task from the chain
-    3. Create a visualizer to generate a hierarchical structure visualization
-    4. Return the file path to the generated visualization
+    This function loads the specified task or default test task and generates visualizations for it.
     
+    Args:
+        task_name: Optional task name to visualize. If None, uses the default TEST_TASK_NAME
+                  
     Returns:
-        String path to the generated visualization file or None if generation fails
+        bool: True if visualization succeeded, False otherwise
     """
-    import os
-    import datetime
-    from Generate_branches.utils.constants import (
-        TEST_TASK_NAME,
-        VISUALIZATION_PATH,
-        DATA_ROOT_PATH
-    )
-    from Generate_branches.game.branch_manager import BranchManager
-    from Generate_branches.utils.helpers import log_message
+    from Generate_branches.utils.constants import TEST_TASK_NAME
     
-    # Step 1: Create a branch manager to generate the narrative structure
+    # Use provided task name or fall back to default
+    task_name = task_name or TEST_TASK_NAME
+    log_message(f"Attempting to visualize task: {task_name}", "INFO")
+    
+    # Create a branch manager
     branch_manager = BranchManager()
     
-    # Step 2: Generate a task chain using the default test task name
-    log_message(f"Generating task chain for the example visualization using '{TEST_TASK_NAME}'", "INFO")
-    task_chain = branch_manager.generate_task_chain(TEST_TASK_NAME)
+    # Generate a task chain
+    task_chain = branch_manager.generate_task_chain(task_name)
     
-    if task_chain and task_chain.tasks:
-        # Step 3: Extract the first task from the chain for visualization
-        task = task_chain.tasks[0]
-        log_message(f"Using task '{task.title}' for visualization", "INFO")
+    # Check if task_chain generation was successful
+    if not task_chain or not task_chain.tasks:
+        log_message(f"Could not generate task chain for {task_name}", "ERROR")
         
-        # Step 4: Create the visualizer 
+        # If using the default task failed, try with a fallback task
+        if task_name == TEST_TASK_NAME:
+            fallback_task = "Beginning" if TEST_TASK_NAME != "Beginning" else "Meet with Meredith Stout"
+            log_message(f"Attempting fallback visualization with task: {fallback_task}", "INFO")
+            return visualize_task_structure_example(fallback_task)
+        
+        return False
+    
+    try:
+        # Create a visualizer
         visualizer = ChainVisualizer()
         
-        # Step 5: Find or create a task-specific directory to save the visualization
-        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-        safe_title = task.title.replace(' ', '_').replace('/', '_').replace('\\', '_')
+        # Get the task
+        task = task_chain.tasks[0]
         
-        # Check if a task directory already exists in the data path
-        data_root = os.path.join("Generate_branches", DATA_ROOT_PATH)
-        task_specific_dir = None
+        # Save the task chain for reference
+        branch_manager.save_task_chain(task_chain.chain_id)
         
-        # Look for existing task directories that match our task name
-        if os.path.exists(data_root):
-            matching_dirs = [d for d in os.listdir(data_root) 
-                            if os.path.isdir(os.path.join(data_root, d)) and d.startswith(safe_title)]
-            
-            if matching_dirs:
-                # Use the most recent directory if multiple exist
-                matching_dirs.sort(reverse=True)  # Sort by timestamp (newest first)
-                task_specific_dir = os.path.join(data_root, matching_dirs[0])
-                log_message(f"Found existing task directory: {task_specific_dir}", "INFO")
+        # Visualize the hierarchical structure
+        visualizer.visualize_hierarchical_structure(task)
         
-        # If no existing directory found, create a new one
-        if not task_specific_dir:
-            task_specific_dir = os.path.join(data_root, f"{safe_title}_{timestamp}")
-            os.makedirs(task_specific_dir, exist_ok=True)
-            log_message(f"Created new task directory: {task_specific_dir}", "INFO")
-            
-            # Save the task chain to this new directory
-            branch_manager.save_task_chain(task_chain.chain_id)
+        # Visualize the relationship structure
+        visualizer.visualize_subtask_relationships(task)
         
-        # Step 6: Generate the hierarchical structure visualization with custom path
-        log_message("Generating hierarchical structure visualization...", "INFO")
-        
-        # Define the custom path for the visualization file
-        custom_file_path = os.path.join(task_specific_dir, f"{safe_title}_{timestamp}.png")
-        
-        # Call visualize_hierarchical_structure on the visualizer instance with a custom path
-        G = visualizer.visualize_hierarchical_structure(task)
-        
-        # Save the visualization using the custom path
-        if G is not None:
-            visualizer._draw_and_save_graph(G, f"{safe_title}_structure", custom_path=custom_file_path)
-        
-        log_message(f"Generated hierarchical structure visualization for task: {task.title}", "INFO")
-        log_message(f"Visualization saved to: {custom_file_path}", "INFO")
-        
-        return custom_file_path
-    else:
-        log_message(f"Failed to generate task chain for {TEST_TASK_NAME}", "ERROR")
-        return None 
+        log_message(f"Task structure visualizations created for {task.title}", "INFO")
+        return True
+    
+    except Exception as e:
+        log_message(f"Error generating visualizations: {e}", "ERROR")
+        return False
+
+if __name__ == "__main__":
+    visualize_task_structure_example()
