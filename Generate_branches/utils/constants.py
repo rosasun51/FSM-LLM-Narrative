@@ -3,11 +3,16 @@ This module contains constant values used throughout the FSM-LLM-Narrative syste
 These centralized constants make it easier to configure and test the system.
 """
 
+import os
+
+# Get the absolute path to the Generate_branches directory
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 # ---------------------------
 # LLM Integration Constants
 # ---------------------------
 # Model configuration
-LLM_MODEL = "gpt-4o"
+LLM_MODEL = "gpt-4o-mini"
 LLM_BASE_URL = "https://api2.aigcbest.top/v1"
 LLM_API_KEY = "sk-SdjbKZ455Psww0ZoKvSl4as8dKai9i3CUQWikdz4w2QBA4Vq"  # Default test key, replace with your own
 LLM_MAX_TOKENS = 1000
@@ -60,11 +65,11 @@ LAYER_PRIORITIES = {
 DATA_ROOT_PATH = "data"  # Main data directory
 
 # Legacy paths (for backward compatibility)
-SCRIPTED_TASKS_PATH = "data/Scripted_tasks.json"
-GENERATED_CHAINS_PATH = "data/generated_chains"
-KEY_QUESTIONS_PATH = "data/key_questions"
-SUBTASKS_PATH = "data/subtasks"
-VISUALIZATION_PATH = "visualization"
+SCRIPTED_TASKS_PATH = os.path.join(BASE_DIR, "data", "Scripted_tasks.json")
+GENERATED_CHAINS_PATH = os.path.join(BASE_DIR, "data", "generated_chains")
+KEY_QUESTIONS_PATH = os.path.join(BASE_DIR, "data", "key_questions")
+SUBTASKS_PATH = os.path.join(BASE_DIR, "data", "subtasks")
+VISUALIZATION_PATH = os.path.join(BASE_DIR, "visualization")
 
 # New organized folder structure directories
 # These will be created dynamically with task name and timestamp
@@ -84,5 +89,5 @@ KEY_QUESTIONS_FILE = "key_questions"
 # ---------------------------
 DEBUG_MODE = True
 TEST_CHAIN_ID = "test_chain"
-#TEST_TASK_NAME = "Beginning" 
-TEST_TASK_NAME = "Beginning"
+TEST_TASK_NAME = "Clear Virus" 
+#TEST_TASK_NAME = "Picking Up Goods"
