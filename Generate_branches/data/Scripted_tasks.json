@@ -3,7 +3,7 @@
     "name": "Beginning",
     "location": "0",
     "trigger_conditions": {
-      "time_condition": "Chapter == 1 and GameDay == 1"
+      "time_condition": "1;1"
     },
     "environment": "In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic décor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.",
     "interactive_environment_objects": null,
@@ -26,6 +26,16 @@
         ]
       }
     ],
+    "key_questions":[
+       {
+        "id":"0",
+        "content":"What's player's reaction after knowing this task?"
+        },
+        {
+          "id":"1",
+          "content":"Is the player willing to accept Ronan's task?"
+        }
+    ],
     "scene_end_state_reference": {
       "end_condition1": "The player indicates understanding of the task",
       "end_condition2": "The player explicitly refuses the task"
@@ -35,7 +45,7 @@
     "scene_name": "Meet with Meredith Stout",
     "location": "1",
     "trigger_conditions": {
-      "time_condition": "Chapter == 1 and 2<= GameDay <4",
+      "time_condition": "1;2,3",
       "additional_conditions": "Completed contact with Meredith Stout"
     },
     "environment": "The alley was a scar of cracked concrete and rusting pipes, choked by tangled wires and creeping decay. Smoke curled through the air, laced with the scent of burning oil and old metal, while weeds forced their way through fractured asphalt. Bullet casings and broken tech lay forgotten in the dirt, whispers of past violence. Beyond the oppressive walls, the neon skyline flickered—a stark contrast to the shadows that clung to this forsaken corner of the city.",
@@ -63,6 +73,16 @@
           }
         ]
       }
+    ],
+      "key_questions":[
+     {
+        "id":"0",
+        "content":""
+       },
+      {
+        "id":"1",
+        "content":""
+       }
     ],
     "scene_end_state_reference": {
       "end_condition1": "Whether the player accepts or rejects the chip",

@@ -28,6 +28,12 @@ from Generate_branches.utils.constants import (
     KEY_QUESTIONS_FILE
 )
 from Generate_branches.utils.helpers import log_message
+from Generate_branches.llm.prompt_templates import (
+    SYSTEM_PROMPT,
+    GENERATE_SUBTASK_PROMPT,
+    GENERATE_NPC_RESPONSE_PROMPT,
+    GENERATE_KEY_QUESTIONS_PROMPT
+)
 
 def _ensure_consistent_folder_structure(task_name: str) -> Tuple[str, str]:
     """
@@ -234,7 +240,7 @@ class LLMHandler:
         try:
             if self.api_key:
                 messages = [
-                    SystemMessage(content="You are a helpful storytelling assistant who always responds in valid JSON format."),
+                    SystemMessage(content=SYSTEM_PROMPT),
                     HumanMessage(content=prompt)
                 ]
                 
@@ -246,10 +252,10 @@ class LLMHandler:
                 return response.content
             else:
                 log_message("No API key provided, using mock LLM response", "WARNING")
-                return self._mock_llm_response(prompt)
+                return log_message("No API key provided, using mock LLM response", "WARNING")
         except Exception as e:
             log_message(f"Error calling LLM: {e}", "ERROR")
-            return self._mock_llm_response(prompt)
+            return log_message(f"Error calling LLM: {e}", "ERROR")
     
     # def _mock_llm_response(self, prompt: str) -> str:
     #     """
@@ -307,7 +313,7 @@ class LLMHandler:
     #     else:
     #         return "The narrative continues with unexpected developments and emerging challenges."
     
-    def generate_key_questions(self, task_info: Dict[str, Any]) -> List[str]:
+    def generate_key_questions(self, task_info: Dict[str, Any]) -> List[str]: # ToDo: use  extract_key_questions() to obtain the questions from Scripted_tasks.json
         """
         Generate three key transitioning questions for a task.
         
@@ -423,6 +429,7 @@ IMPORTANT STRUCTURE CONTEXT:
   - Layer 2 generated alternatives: "{root_id}.2.1", "{root_id}.2.2", "{root_id}.2.3" (is_generated: true)
   - Layer 3 scripted subtask: "{root_id}.3"
   - Layer 3 generated alternatives: "{root_id}.3.1", "{root_id}.3.2", "{root_id}.3.3" (is_generated: true)
+  the following layers have the same structure (Layer 4, Layer 5, etc.)
 
 You are generating a scripted subtask for Layer {layer} with ID "{layer_id}" that has parent_id "{parent_id}".
 {previous_context}
@@ -537,6 +544,7 @@ IMPORTANT STRUCTURE CONTEXT:
   - Layer 2 generated alternatives: "{root_id}.2.1", "{root_id}.2.2", "{root_id}.2.3" (is_generated: true)
   - Layer 3 scripted subtask: "{root_id}.3"
   - Layer 3 generated alternatives: "{root_id}.3.1", "{root_id}.3.2", "{root_id}.3.3" (is_generated: true)
+  the following layers have the same structure (Layer 4, Layer 5, etc.)
 
 You are generating {DEFAULT_NUM_ALTERNATIVES} alternative branches for Layer {layer}.
 These alternatives will have:
@@ -667,70 +675,70 @@ YOUR RESPONSE MUST BE VALID JSON: An array with EXACTLY {DEFAULT_NUM_ALTERNATIVE
         
         return fallback_branches
     
-    def generate_subtask(self, game_state, transitioning_question, current_subtask):
-        """
-        DEPRECATED: Legacy method for demo compatibility.
-        Please use generate_hierarchical_narrative() for new code.
+    # def generate_subtask(self, game_state, transitioning_question, current_subtask):
+    #     """
+    #     DEPRECATED: Legacy method for demo compatibility.
+    #     Please use generate_hierarchical_narrative() for new code.
         
-        Generate a new subtask based on the current state and a transitioning question.
-        This method is maintained for backward compatibility.
+    #     Generate a new subtask based on the current state and a transitioning question.
+    #     This method is maintained for backward compatibility.
         
-        Args:
-            game_state: Current game state
-            transitioning_question: Question to base the new subtask on
-            current_subtask: The current subtask
+    #     Args:
+    #         game_state: Current game state
+    #         transitioning_question: Question to base the new subtask on
+    #         current_subtask: The current subtask
             
-        Returns:
-            Dictionary with the generated subtask data
-        """
-        warnings.warn(
-            "generate_subtask() is deprecated. Use generate_hierarchical_narrative() instead.",
-            DeprecationWarning, 
-            stacklevel=2
-        )
+    #     Returns:
+    #         Dictionary with the generated subtask data
+    #     """
+    #     warnings.warn(
+    #         "generate_subtask() is deprecated. Use generate_hierarchical_narrative() instead.",
+    #         DeprecationWarning, 
+    #         stacklevel=2
+    #     )
         
-        try:
+    #     try:
             
-            task_info = {
-                "name": "Generated Task",
-                "description": transitioning_question
-            }
+    #         task_info = {
+    #             "name": "Generated Task",
+    #             "description": transitioning_question
+    #         }
             
-            # Get parent info if available
-            parent_id = getattr(current_subtask, "subtask_id", ROOT_TASK_ID)
-            parent_layer = getattr(current_subtask, "layer", 0)
+    #         # Get parent info if available
+    #         parent_id = getattr(current_subtask, "subtask_id", ROOT_TASK_ID)
+    #         parent_layer = getattr(current_subtask, "layer", 0)
             
-            # Generate a simple subtask using the modern approach internals
-            subtask_data = {
-                "title": f"Response to {transitioning_question[:30]}...",
-                "description": f"Generated response to the question.",
-                "dialogue": f"The situation continues to develop. {transitioning_question}",
-                "player_options": [
-                    "Continue with the current approach",
-                    "Take a different direction",
-                    "Ask for more information"
-                ],
-                "npc_reactions": {}
-            }
+    #         # Generate a simple subtask using the modern approach internals
+    #         subtask_data = {
+    #             "title": f"Response to {transitioning_question[:30]}...",
+    #             "description": f"Generated response to the question.",
+    #             "dialogue": f"The situation continues to develop. {transitioning_question}",
+    #             "player_options": [
+    #                 "Continue with the current approach",
+    #                 "Take a different direction",
+    #                 "Ask for more information"
+    #             ],
+    #             "npc_reactions": {}
+    #         }
             
-            return subtask_data
-        except Exception as e:
-            log_message(f"Error in deprecated generate_subtask: {e}", "WARNING")
-            # Fall back to the original mock implementation
-            return {
-                "title": "The Next Development",
-                "description": "The narrative progresses with new challenges.",
-                "dialogue": "As the situation unfolds, new factors come into play that require your attention.",
-                "player_options": [
-                    "Address the immediate concern",
-                    "Focus on the long-term goal",
-                    "Seek more information"
-                ],
-                "npc_reactions": {
-                    "npc_1": "watches the situation with interest",
-                    "npc_2": "seems to be calculating the implications"
-                }
-            }
+    #         return subtask_data
+    #     except Exception as e:
+    #         log_message(f"Error in deprecated generate_subtask: {e}", "WARNING")
+    #         # Fall back to the original mock implementation
+    #         return {
+    #             "title": "The Next Development",
+    #             "description": "The narrative progresses with new challenges.",
+    #             "dialogue": "As the situation unfolds, new factors come into play that require your attention.",
+    #             "player_options": [
+    #                 "Address the immediate concern",
+    #                 "Focus on the long-term goal",
+    #                 "Seek more information"
+    #             ],
+    #             "npc_reactions": {
+    #                 "npc_1": "watches the situation with interest",
+    #                 "npc_2": "seems to be calculating the implications"
+    #             }
+    #         }
     
     # def rate_generated_subtasks(self, game_state, transitioning_question, current_subtask, subtasks, threshold=MIN_RATING_THRESHOLD):
     #     """
@@ -813,16 +821,7 @@ YOUR RESPONSE MUST BE VALID JSON: An array with EXACTLY {DEFAULT_NUM_ALTERNATIVE
         log_message("Generating hierarchical narrative structure", "INFO")
         
         log_message("Generating transitioning questions", "INFO")
-        questions = self.generate_key_questions(task_info)
-        
-        if len(questions) < 3:
-            log_message(f"Only {len(questions)} questions generated, filling with defaults", "WARNING")
-            default_questions = [
-                "How does the initial situation unfold?",
-                "What complications arise from this initial situation?",
-                "How does the situation ultimately resolve?"
-            ]
-            questions.extend(default_questions[len(questions):3])
+        questions = self.generate_key_questions(task_info)## ToDo: use  extract_key_questions() to obtain the questions
         
         scripted_subtasks = []
         
