@@ -11,43 +11,40 @@ You should maintain consistency with established characters, locations, and plot
 
 Game world context:
 - {game_world_description}
-
-Current narrative state:
-- {current_state_summary}
 """
 
 # Template for generating subtasks based on a transitioning question
-GENERATE_SUBTASK_PROMPT = """
-Based on the current game state and the transitioning question, create a possible next subtask
-that would make sense in the narrative flow.
+# GENERATE_SUBTASK_PROMPT = """
+# Based on the current game state and the transitioning question, create a possible next subtask
+# that would make sense in the narrative flow.
 
-Current subtask: {current_subtask_title}
-Current subtask description: {current_subtask_description}
-Current dialogue: {current_subtask_dialogue}
+# Current subtask: {current_subtask_title}
+# Current subtask description: {current_subtask_description}
+# Current dialogue: {current_subtask_dialogue}
 
-Transitioning question: {transitioning_question}
+# Transitioning question: {transitioning_question}
 
-Generate a new possible subtask that answers this transitioning question and advances the narrative.
-The subtask should be creative but consistent with the established narrative.
+# Generate a new possible subtask that answers this transitioning question and advances the narrative.
+# The subtask should be creative but consistent with the established narrative.
 
-Your response should be in JSON format with the following structure:
-{{
-  "title": "Brief, catchy title for the subtask",
-  "description": "Clear description of what happens in this subtask",
-  "dialogue": "The main narrative text that will be shown to the player",
-  "npc_reactions": {{ 
-    "npc_id1": "How this NPC reacts to the situation",
-    "npc_id2": "How another NPC reacts to the situation"
-  }},
-  "player_options": [
-    "First option for the player to choose",
-    "Second option for the player to choose",
-    "Third option for the player to choose"
-  ]
-}}
+# Your response should be in JSON format with the following structure:
+# {{
+#   "title": "Brief, catchy title for the subtask",
+#   "description": "Clear description of what happens in this subtask",
+#   "dialogue": "The main narrative text that will be shown to the player",
+#   "npc_reactions": {{ 
+#     "npc_id1": "How this NPC reacts to the situation",
+#     "npc_id2": "How another NPC reacts to the situation"
+#   }},
+#   "player_options": [
+#     "First option for the player to choose",
+#     "Second option for the player to choose",
+#     "Third option for the player to choose"
+#   ]
+# }}
 
-Make your generated subtask surprising but logical given the context.
-"""
+# Make your generated subtask surprising but logical given the context.
+# """
 
 # Template for rating generated subtasks
 RATE_SUBTASK_PROMPT = """
@@ -75,30 +72,30 @@ of your reasoning.
 """
 
 # Template for generating NPC responses
-GENERATE_NPC_RESPONSE_PROMPT = """
-Generate a response from the character {npc_name} to the player's input.
+# GENERATE_NPC_RESPONSE_PROMPT = """
+# Generate a response from the character {npc_name} to the player's input.
 
-Character background:
-{npc_background}
+# Character background:
+# {npc_background}
 
-Character traits:
-{npc_traits}
+# Character traits:
+# {npc_traits}
 
-Current relationships:
-{npc_relationships}
+# Current relationships:
+# {npc_relationships}
 
-Recent interactions:
-{npc_recent_memories}
+# Recent interactions:
+# {npc_recent_memories}
 
-Current scene context:
-{scene_description}
+# Current scene context:
+# {scene_description}
 
-Player's input: "{player_input}"
+# Player's input: "{player_input}"
 
-Generate {npc_name}'s response in a way that's consistent with their character,
-traits, relationships, and memories. The response should feel natural and reflect
-the character's personality.
-"""
+# Generate {npc_name}'s response in a way that's consistent with their character,
+# traits, relationships, and memories. The response should feel natural and reflect
+# the character's personality.
+# """
 
 # Template for dynamic branching evaluation
 EVALUATE_BRANCH_PROMPT = """
@@ -124,22 +121,22 @@ Provide your rating as a single number between 0 and 100, followed by a brief ex
 of your reasoning.
 """
 
-def get_prompt_template(prompt_type):
-    """
-    Get a prompt template by type.
+# def get_prompt_template(prompt_type):
+#     """
+#     Get a prompt template by type.
     
-    Args:
-        prompt_type: Type of prompt template to return
+#     Args:
+#         prompt_type: Type of prompt template to return
         
-    Returns:
-        Prompt template string
-    """
-    prompt_map = {
-        "system": SYSTEM_PROMPT,
-        "generate_subtask": GENERATE_SUBTASK_PROMPT,
-        "rate_subtask": RATE_SUBTASK_PROMPT,
-        "npc_response": GENERATE_NPC_RESPONSE_PROMPT,
-        "evaluate_branch": EVALUATE_BRANCH_PROMPT,
-    }
+#     Returns:
+#         Prompt template string
+#     """
+#     prompt_map = {
+#         "system": SYSTEM_PROMPT,
+#         "generate_subtask": GENERATE_SUBTASK_PROMPT,
+#         "rate_subtask": RATE_SUBTASK_PROMPT,
+#         "npc_response": GENERATE_NPC_RESPONSE_PROMPT,
+#         "evaluate_branch": EVALUATE_BRANCH_PROMPT,
+#     }
     
-    return prompt_map.get(prompt_type.lower(), "") 
+#     return prompt_map.get(prompt_type.lower(), "") 

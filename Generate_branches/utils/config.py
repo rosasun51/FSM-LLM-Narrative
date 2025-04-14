@@ -41,22 +41,22 @@
 #     "max_subtasks_per_layer": 5,     # Maximum subtasks per layer
 # }
 
-def get_config(config_type):
-    """
-    Get configuration settings by type.
+# def get_config(config_type):
+#     """
+#     Get configuration settings by type.
     
-    Args:
-        config_type: Type of configuration to return (llm, generation, game, npc, task)
+#     Args:
+#         config_type: Type of configuration to return (llm, generation, game, npc, task)
         
-    Returns:
-        Dictionary of configuration settings
-    """
-    config_map = {
-        "llm": LLM_CONFIG,
-        "generation": GENERATION_CONFIG,
-        "game": GAME_CONFIG,
-        "npc": NPC_CONFIG,
-        "task": TASK_CONFIG,
-    }
+#     Returns:
+#         Dictionary of configuration settings
+#     """
+#     config_map = {
+#         "llm": LLM_CONFIG,
+#         "generation": GENERATION_CONFIG,
+#         "game": GAME_CONFIG,
+#         "npc": NPC_CONFIG,
+#         "task": TASK_CONFIG,
+#     }
     
-    return config_map.get(config_type.lower(), {}) 
+#     return config_map.get(config_type.lower(), {}) 
