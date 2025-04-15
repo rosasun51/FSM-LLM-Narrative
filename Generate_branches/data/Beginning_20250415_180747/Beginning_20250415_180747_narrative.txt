@@ -1,0 +1,154 @@
+Narrative Summary for: Beginning_20250415_180747
+================================================================================
+
+KEY QUESTIONS
+--------------------------------------------------------------------------------
+No key questions file found
+
+SCRIPTED SUBTASKS
+--------------------------------------------------------------------------------
+
+Layer 1 Scripted Subtask:
+Title: The Weight of Responsibility
+Description: Ronan leans forward, his expression serious as he outlines the task at hand. You feel the implications of your actions pressing down as he details the importance of picking up the goods and connecting with Meredith Stout.
+Dialogue: Ronan's voice echoes in the dim-lit office, "I've got a job for you. It involves some goods that need retrieving. This isn't just picking up packages; it's about proving yourself to those who matter. Are you ready to take this on?" You can sense the weight of his words, hinting at the power dynamics at play.
+Player Options:
+  1. I accept the task and will do my best.
+  2. I need more information before I decide.
+  3. I can't take this task.
+NPC Reactions:
+  Ronan: Looks at you intently, gauging your response, a flicker of hope mixed with expectation on his face.
+
+Layer 2 Scripted Subtask:
+Title: The Weight of Choice
+Description: You contemplate Ronan's request, feeling the weight of his expectation. The dim light of the office casts long shadows as you weigh your options, knowing this decision could have significant repercussions.
+Dialogue: Ronan watches you closely, his intense gaze fixed on your face. 'This isn't just any task,' he says, his voice low and serious. 'Picking up the goods is crucial. Are you in or out?'
+Player Options:
+  1. I accept the task.
+  2. I need more time to think.
+  3. I can't take this on right now.
+NPC Reactions:
+  Ronan: Ronan leans back slightly, his expression revealing a mix of hope and urgency as he awaits your response.
+
+Layer 3 Scripted Subtask:
+No scripted subtask file found for layer 3
+
+SUBTASK BRANCHES (ALTERNATIVES)
+--------------------------------------------------------------------------------
+
+Layer 1 Alternatives:
+Raw response: ```json
+[
+  {
+    "subtask_id": "beginning.1.1",
+    "title": "A Leap of Faith",
+    "description": "Overwhelmed by the stakes involved, you pause and reflect deeply on the potential consequences of taking on such a weighty responsibility. You consider both the risks and the rewards, feeling a mix of fear and excitement take root in your heart.",
+    "dialogue": "You take a deep breath and respond, \"Ronan, this is more than just a simple task for me. It feels like a leap of faith into something bigger than myself. I need to think about how this could change everything for me.\" Ronan nods, understanding your hesitation, and leans back, allowing you a moment to gather your thoughts.",
+    "npc_reactions": {
+      "Ronan": "Nods thoughtfully, giving you space, but the flicker of concern becomes more pronounced in his eyes."
+    },
+    "player_options": [
+      "I will take my time to decide.",
+      "I want more information about the risks.",
+      "I think I might back out of this."
+    ],
+    "parent_id": "beginning.1",
+    "layer": 1,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "beginning.1.2",
+    "title": "Confronting Doubts",
+    "description": "You voice your concerns about the dangers tied to the task, afraid of the uncertainties and potential fallout. Your doubts linger in the air, creating a palpable tension in the room.",
+    "dialogue": "With a furrowed brow, you say, \"Ronan, what if things go wrong? Picking up goods sounds easy, but I have a feeling it’s not as straightforward. Can you assure me that I will be safe?\" Ronan's expression hardens slightly, recognizing your apprehension as he prepares to reassure you.",
+    "npc_reactions": {
+      "Ronan": "Furrows his brow, responding firmly, 'I understand your doubts, but you have to trust me and understand the importance of this task.'"
+    },
+    "player_options": [
+      "I need a guarantee of my safety.",
+      "I appreciate the warning, but I need to accept this.",
+      "Maybe I should reconsider my decision."
+    ],
+    "parent_id": "beginning.1",
+    "layer": 1,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "beginning.1.3",
+    "title": "Embracing the Challenge",
+    "description": "Rather than shying away from the task, you feel invigorated by the challenge it presents. The potential to prove yourself becomes more enticing than the fear of failure.",
+    "dialogue": "With newfound resolve, you declare, \"You know what, Ronan? This could be my chance to show what I’m made of. I’ll take the task! I'm ready to step up to the plate and prove myself to you and the others.\" Ronan’s eyes glimmer with approval as a smile breaks across his face.",
+    "npc_reactions": {
+      "Ronan": "Brightens up, a smile of approval spreading on his face as he sees your determination."
+    },
+    "player_options": [
+      "Tell me the details right away!",
+      "I won’t let you down, I promise.",
+      "What do I need to know about Meredith?"
+    ],
+    "parent_id": "beginning.1",
+    "layer": 1,
+    "is_generated": true
+  }
+]
+```
+
+Layer 2 Alternatives:
+Raw response: ```json
+[
+  {
+    "subtask_id": "beginning.2.1",
+    "title": "A Dangerous Gamble",
+    "description": "Feeling the weight of Ronan's expectations, you decide to accept the task but with a condition. You want to know the risks involved before committing fully.",
+    "dialogue": "You look Ronan in the eye, determination mingled with caution. 'I'll take on the task, but I need to know what I'm getting into. What dangers lie ahead?'",
+    "npc_reactions": {
+      "Ronan": "Ronan's brow furrows, and he nods slowly. 'You’re a smart one. There are risks, yes, but nothing I can’t help you navigate. Let’s talk.'"
+    },
+    "player_options": [
+      "Tell me about the risks.",
+      "I’m willing to take the gamble.",
+      "I need more assurance first."
+    ],
+    "parent_id": "beginning.2",
+    "layer": 2,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "beginning.2.2",
+    "title": "Seeking Alternatives",
+    "description": "Uncertain about the task's implications, you ask Ronan if there are other options available, hoping to find a less risky path.",
+    "dialogue": "'Ronan, is there any way to avoid this task? It feels bigger than what I bargained for.' You try to gauge his response cautiously.",
+    "npc_reactions": {
+      "Ronan": "Ronan’s face tightens momentarily, his posture shifting. 'Options exist, but they come with their own consequences. Are you sure you want to explore this?'"
+    },
+    "player_options": [
+      "Yes, I need to know my options.",
+      "No, I’d rather face this head-on.",
+      "Let’s stick to the original task."
+    ],
+    "parent_id": "beginning.2",
+    "layer": 2,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "beginning.2.3",
+    "title": "Backing Down",
+    "description": "Realizing the magnitude of Ronan's request, you decide that this task is too dangerous and that you must decline outright.",
+    "dialogue": "'I can't do this, Ronan. It’s too much for me right now. I need to back out.' Your voice is steadier than you feel.",
+    "npc_reactions": {
+      "Ronan": "Ronan’s expression darkens, disappointment etched on his face. 'You don’t grasp the importance of this. You could be turning your back on a chance.'"
+    },
+    "player_options": [
+      "I understand, but I can’t.",
+      "Maybe I can think of something later.",
+      "Is there any other task I can do?"
+    ],
+    "parent_id": "beginning.2",
+    "layer": 2,
+    "is_generated": true
+  }
+]
+```
+
+Layer 3 Alternatives:
+No subtask branches file found for layer 3

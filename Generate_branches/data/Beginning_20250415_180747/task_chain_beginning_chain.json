@@ -1,0 +1,58 @@
+{
+  "chain_id": "beginning_chain",
+  "location_id": "0",
+  "name": "Beginning",
+  "description": "In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.",
+  "tasks": [
+    {
+      "task_id": "beginning",
+      "title": "Beginning",
+      "description": "In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.",
+      "location_id": "0",
+      "timestamp": 0,
+      "completed": false,
+      "subtasks": [
+        {
+          "subtask_id": "beginning.1",
+          "title": "The Weight of Responsibility",
+          "description": "Ronan leans forward, his expression serious as he outlines the task at hand. You feel the implications of your actions pressing down as he details the importance of picking up the goods and connecting with Meredith Stout.",
+          "layer": 1,
+          "parent_id": "beginning",
+          "completed": false,
+          "is_generated": false,
+          "type": "ScriptedSubTask",
+          "dialogue": "Ronan's voice echoes in the dim-lit office, \"I've got a job for you. It involves some goods that need retrieving. This isn't just picking up packages; it's about proving yourself to those who matter. Are you ready to take this on?\" You can sense the weight of his words, hinting at the power dynamics at play.",
+          "npc_reactions": {
+            "Ronan": "Looks at you intently, gauging your response, a flicker of hope mixed with expectation on his face."
+          },
+          "player_options": [
+            "I accept the task and will do my best.",
+            "I need more information before I decide.",
+            "I can't take this task."
+          ],
+          "next_transitioning_question": "Is the player willing to accept Ronan's task?"
+        },
+        {
+          "subtask_id": "beginning.2",
+          "title": "The Weight of Choice",
+          "description": "You contemplate Ronan's request, feeling the weight of his expectation. The dim light of the office casts long shadows as you weigh your options, knowing this decision could have significant repercussions.",
+          "layer": 2,
+          "parent_id": "beginning.1",
+          "completed": false,
+          "is_generated": false,
+          "type": "ScriptedSubTask",
+          "dialogue": "Ronan watches you closely, his intense gaze fixed on your face. 'This isn't just any task,' he says, his voice low and serious. 'Picking up the goods is crucial. Are you in or out?'",
+          "npc_reactions": {
+            "Ronan": "Ronan leans back slightly, his expression revealing a mix of hope and urgency as he awaits your response."
+          },
+          "player_options": [
+            "I accept the task.",
+            "I need more time to think.",
+            "I can't take this on right now."
+          ],
+          "next_transitioning_question": ""
+        }
+      ]
+    }
+  ]
+}

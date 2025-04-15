@@ -3,6 +3,13 @@ import os
 import sys
 from typing import Dict, List, Optional, Union, Tuple
 
+# Import the SceneController
+try:
+    from utils.scene_controller import SceneController
+except ImportError:
+    # Handle relative import
+    from scene_controller import SceneController
+
 class BackgroundSimulator:
     def __init__(self, json_path: str = "../data/Scripted_tasks.json"):
         """Initialize the simulator with default values and load scene data"""
@@ -15,6 +22,9 @@ class BackgroundSimulator:
         # Load scene data
         self.scenes = self.load_scenes(json_path)
         self.current_scene = None
+        
+        # Initialize scene controller
+        self.scene_controller = SceneController()
         
     def load_scenes(self, json_path: str) -> List[Dict]:
         """Load scenes from the JSON file"""
@@ -106,7 +116,22 @@ class BackgroundSimulator:
         scene_display_name = scene.get("name") or scene.get("scene_name")
         print(f"Entered scene: {scene_display_name}")
         print(f"Energy points: {self.energy_pt}")
+        
+        # Launch scene controller for this scene
+        self._launch_scene_controller()
+        
         return True
+    
+    def _launch_scene_controller(self):
+        """Launch the scene controller for the current scene"""
+        if not self.current_scene:
+            return
+            
+        # Load the scene into the scene controller
+        success = self.scene_controller.load_scene(self.current_scene)
+        if success:
+            # Run the scene controller
+            self.scene_controller.run()
     
     def exit_scene(self):
         """Exit the current scene"""
