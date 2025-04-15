@@ -89,5 +89,5 @@ KEY_QUESTIONS_FILE = "key_questions"
 # ---------------------------
 DEBUG_MODE = True
 TEST_CHAIN_ID = "test_chain"
-TEST_TASK_NAME = "Clear Virus" 
+TEST_TASK_NAME = "Beginning" 
 #TEST_TASK_NAME = "Picking Up Goods"
