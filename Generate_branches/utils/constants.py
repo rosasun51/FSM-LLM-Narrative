@@ -4,6 +4,10 @@ These centralized constants make it easier to configure and test the system.
 """
 
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Get the absolute path to the Generate_branches directory
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -13,8 +17,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # ---------------------------
 # Model configuration
 LLM_MODEL = "gpt-4o-mini"
-LLM_BASE_URL = "https://api2.aigcbest.top/v1"
-LLM_API_KEY = "sk-SdjbKZ455Psww0ZoKvSl4as8dKai9i3CUQWikdz4w2QBA4Vq"  # Default test key, replace with your own
+LLM_BASE_URL = os.getenv("OPENAI_API_BASE")
+LLM_API_KEY = os.getenv("OPENAI_API_KEY")
 LLM_MAX_TOKENS = 1000
 LLM_MAX_TOKENS_BRANCHES = 2500  # Higher token limit for generating branches
 
@@ -89,5 +93,5 @@ KEY_QUESTIONS_FILE = "key_questions"
 # ---------------------------
 DEBUG_MODE = True
 TEST_CHAIN_ID = "test_chain"
-TEST_TASK_NAME = "Beginning" 
+TEST_TASK_NAME = "Contact Meredith Stout" 
 #TEST_TASK_NAME = "Picking Up Goods"
