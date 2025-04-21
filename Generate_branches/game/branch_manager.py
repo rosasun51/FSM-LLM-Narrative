@@ -1,5 +1,4 @@
 import json, os
-from typing import Dict, List, Any, Optional
 import datetime
 
 from Generate_branches.llm.LLM_integration import LLMHandler
@@ -10,14 +9,9 @@ from Generate_branches.models.layer import Layer
 from Generate_branches.game.task_chain import TaskChain
 from Generate_branches.utils.constants import (
     NUM_LAYERS,
-    ROOT_TASK_ID,
-    LAYER_1_ID_FORMAT,
-    LAYER_2_ID_FORMAT,
-    LAYER_3_ID_FORMAT,
     LAYER_NAMES,
     LAYER_DESCRIPTIONS,
     LAYER_PRIORITIES,
-    DEFAULT_NUM_ALTERNATIVES,
     SCRIPTED_TASKS_PATH,
     GENERATED_CHAINS_PATH,
     DATA_ROOT_PATH

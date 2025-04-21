@@ -14,41 +14,41 @@
       "subtasks": [
         {
           "subtask_id": "beginning.1",
-          "title": "The Weight of Responsibility",
-          "description": "Ronan leans forward, his expression serious as he outlines the task at hand. You feel the implications of your actions pressing down as he details the importance of picking up the goods and connecting with Meredith Stout.",
+          "title": "A Dangerous Assignment",
+          "description": "The player learns about the task assigned by Ronan, which involves picking up valuable goods and delivering them to a specific location. The atmosphere grows tense as Ronan emphasizes the importance of the mission.",
           "layer": 1,
           "parent_id": "beginning",
           "completed": false,
           "is_generated": false,
           "type": "ScriptedSubTask",
-          "dialogue": "Ronan's voice echoes in the dim-lit office, \"I've got a job for you. It involves some goods that need retrieving. This isn't just picking up packages; it's about proving yourself to those who matter. Are you ready to take this on?\" You can sense the weight of his words, hinting at the power dynamics at play.",
+          "dialogue": "Ronan leans forward, his fingers steepled as he looks you dead in the eye. 'I've got a job for you. It's simple, but the stakes are high. You need to pick up some goods for me. They can't fall into the wrong hands. Are you in or out?' His tone is serious, the weight of his words sinking in. You can feel the gravity of the task \u2013 this isn't just a delivery; it's a matter of life and death in Night City.",
           "npc_reactions": {
-            "Ronan": "Looks at you intently, gauging your response, a flicker of hope mixed with expectation on his face."
+            "Ronan": "Ronan watches closely, gauging your reaction. If you show hesitation, he leans back, his expression turning steely."
           },
           "player_options": [
-            "I accept the task and will do my best.",
-            "I need more information before I decide.",
-            "I can't take this task."
+            "I accept the task.",
+            "I need more information before deciding.",
+            "I refuse. This sounds too dangerous."
           ],
           "next_transitioning_question": "Is the player willing to accept Ronan's task?"
         },
         {
           "subtask_id": "beginning.2",
-          "title": "The Weight of Choice",
-          "description": "You contemplate Ronan's request, feeling the weight of his expectation. The dim light of the office casts long shadows as you weigh your options, knowing this decision could have significant repercussions.",
+          "title": "Accept the Challenge",
+          "description": "The player considers Ronan\u2019s task, weighing the risks against the potential rewards. An uneasy feeling stirs within, but the allure of the promised loot beckons. Will the player step into the shadows and accept the mission?",
           "layer": 2,
           "parent_id": "beginning.1",
           "completed": false,
           "is_generated": false,
           "type": "ScriptedSubTask",
-          "dialogue": "Ronan watches you closely, his intense gaze fixed on your face. 'This isn't just any task,' he says, his voice low and serious. 'Picking up the goods is crucial. Are you in or out?'",
+          "dialogue": "You take a deep breath, contemplating Ronan's words. The stakes are high, and you can sense the weight of his expectation. The flickering neon lights cast long shadows, adding to the tension in the air. You know the city doesn\u2019t wait for anyone. Do you risk stepping into this dark underground world for what could be a life-changing payday?",
           "npc_reactions": {
-            "Ronan": "Ronan leans back slightly, his expression revealing a mix of hope and urgency as he awaits your response."
+            "Ronan": "He leans forward, eyes piercing, as he awaits your decision, knowing that your answer could seal your fate in this unforgiving metropolis."
           },
           "player_options": [
-            "I accept the task.",
-            "I need more time to think.",
-            "I can't take this on right now."
+            "I accept the task and will get it done.",
+            "I need more information before making a decision.",
+            "No, I\u2019m not interested in this job."
           ],
           "next_transitioning_question": ""
         }

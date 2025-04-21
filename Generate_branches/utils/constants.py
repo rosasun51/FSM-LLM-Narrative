@@ -93,5 +93,6 @@ KEY_QUESTIONS_FILE = "key_questions"
 # ---------------------------
 DEBUG_MODE = True
 TEST_CHAIN_ID = "test_chain"
-TEST_TASK_NAME = "Contact Meredith Stout" 
+#TEST_TASK_NAME = "Contact Meredith Stout" 
 #TEST_TASK_NAME = "Picking Up Goods"
+TEST_TASK_NAME = "Meet with Meredith Stout"

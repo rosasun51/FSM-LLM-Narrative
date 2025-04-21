@@ -1,0 +1,199 @@
+Narrative Summary for: Clear_Virus_20250414_234502
+================================================================================
+
+KEY QUESTIONS
+--------------------------------------------------------------------------------
+No key questions file found
+
+SCRIPTED SUBTASKS
+--------------------------------------------------------------------------------
+
+Layer 1 Scripted Subtask:
+Title: Assessing the Digital Needs
+Description: As you step deeper into the hacker service shop, the atmosphere hums with anticipation. Joe, the owner's weathered face illuminated by the glow of multiple screens, leans forward. He senses your presence before you even speak, ready to dive into the digital abyss with you. It's time to clarify your needs to secure Joe's assistance in clearing the virus plaguing your system.
+Dialogue: Joe's eyes narrow as he meets your gaze. 'Alright, friend, what is it you need help with? Gotta be specific if you want my best service. That virus won't just clear itself, and I have a few tricks up my sleeve—if you can pay the price.'
+Player Options:
+  1. I need to clear a dangerous virus that's corrupted my files.
+  2. I've got some sensitive data that needs protection against malware.
+  3. I'm looking to upgrade my cybersecurity options.
+NPC Reactions:
+  Joe: Joe looks expectantly at you, his brow slightly raised, ready to jot down your needs.
+
+Layer 2 Scripted Subtask:
+Raw response: ```json
+{
+  "subtask_id": "clear_virus.2",
+  "title": "Negotiating the Price",
+  "description": "As the flickering lights cast dancing shadows across the walls, you face Joe, weighing your options carefully. The tension in the air is palpable as he leans back in his chair, expectantly waiting for your response. Will you meet his demand, or will you haggle for a better deal?",
+  "dialogue": "You clear your throat, trying to focus amidst the chaotic energy of the hacker shop. 'So, Joe,' you begin, 'what’s it going to cost me to clear this virus? I'm ready to negotiate.'",
+  "npc_reactions": {
+    "Joe": "His eyes narrow as he assesses you, gauging your demeanor and potential to pay. A smirk plays at the corners of his lips, revealing he enjoys a good negotiation."
+  },
+  "player_options": [
+    "Offer Joe the full amount he asks for without question.",
+    "Haggle and propose a lower price, citing your limited resources.",
+    "Refuse to pay upfront and suggest a trade of services instead."
+  ],
+  "parent_id": "clear_virus.1",
+  "layer": 2,
+  "is_generated": false
+}
+```
+
+Layer 3 Scripted Subtask:
+Raw response: ```json
+{
+  "subtask_id": "clear_virus.3",
+  "title": "Stance on the Deal",
+  "description": "As you deliberate your next move, Joe studies your demeanor, trying to gauge your attitude towards the precarious arrangement. The flickering neon lights reflect off his glasses as he leans in, awaiting your sentiment. Are you eager to secure his help, or are you hesitant and ready to negotiate further?",
+  "dialogue": "Joe tilts his head slightly, his curiosity piqued. 'So, what’ll it be? Are you in this to get your system cleared, or are you feeling skittish about the cost? Your vibe's critical here, my friend.'",
+  "npc_reactions": {
+    "Joe": "Leans closer with interest, analyzing the player's body language and tone."
+  },
+  "player_options": [
+    "I'm ready to move forward and can pay what it takes.",
+    "I’m unsure about the price. Can we discuss it a bit more?",
+    "I’m not fully convinced; maybe I should rethink this."
+  ],
+  "parent_id": "clear_virus.2",
+  "layer": 3,
+  "is_generated": false
+}
+```
+
+SUBTASK BRANCHES (ALTERNATIVES)
+--------------------------------------------------------------------------------
+
+Layer 1 Alternatives:
+Raw response: ```json
+[
+  {
+    "subtask_id": "clear_virus.1.1",
+    "title": "Seeking Data Recovery",
+    "description": "You explain to Joe that your primary concern is recovering critical data lost due to the virus. The tension in the air thickens as Joe evaluates the urgency of your request, knowing that some data is worth more than currency in this cybernetic underbelly.",
+    "dialogue": "Joe's eyebrows raise in concern. 'Ah, I see. Data recovery, huh? That can get tricky, especially if it's been corrupted. I'll need to run a full diagnostic on your system and salvage what we can. Just know, it might cost you more than some basic virus cleanse.'",
+    "npc_reactions": {
+      "Joe": "Joe leans back, folding his arms, a serious expression crossing his face as he begins considering the tools needed for the job."
+    },
+    "player_options": [
+      "I can pay extra for a faster recovery.",
+      "What kind of tools will you need?",
+      "Can you guarantee the data will be safe?"
+    ],
+    "parent_id": "clear_virus.1",
+    "layer": 1,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "clear_virus.1.2",
+    "title": "Focusing on Malware Protection",
+    "description": "You inform Joe that your primary goal is to enhance your system’s defenses against future attacks, indicating the virus is just the tip of the iceberg in your ongoing struggles with cybersecurity.",
+    "dialogue": "Joe nods thoughtfully, his fingers drumming lightly on the counter. 'So, you want a robust barrier against these digital pests, huh? That's a wise move. I can set you up with some solid protocols, but it's going to require a hefty investment.'",
+    "npc_reactions": {
+      "Joe": "Joe shifts his weight, intrigued by your commitment to cybersecurity, as he starts to take note of your needs."
+    },
+    "player_options": [
+      "How much will it cost for a complete upgrade?",
+      "Can you recommend specific security software?",
+      "What if I don't have enough credits?"
+    ],
+    "parent_id": "clear_virus.1",
+    "layer": 1,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "clear_virus.1.3",
+    "title": "Infiltrating a Competitive Network",
+    "description": "You tell Joe that you need more than just virus removal; you want to infiltrate a competitive network to gather intelligence on a rival. The air grows tense with the prospect of such a bold request.",
+    "dialogue": "Joe raises an eyebrow, his curiosity piqued. 'You’re looking to play in the big leagues, huh? That’s a different game entirely. I can help, but you’ll need to be ready for the potential backlash.'",
+    "npc_reactions": {
+      "Joe": "Joe's expression shifts from interest to caution, weighing the gravity of your request as he considers the risks involved."
+    },
+    "player_options": [
+      "What tools will you provide for this operation?",
+      "Are you sure it’s safe to go after them?",
+      "Do you have contacts in that network?"
+    ],
+    "parent_id": "clear_virus.1",
+    "layer": 1,
+    "is_generated": true
+  }
+]
+```
+
+Layer 2 Alternatives:
+Raw response: ```json
+[
+  {
+    "subtask_id": "clear_virus.2.1",
+    "title": "The Art of the Bargain",
+    "description": "You propose a price that's significantly lower than what Joe expected, but offer to help him on a side project in return. This intrigues him, and he starts to consider the deal, revealing his own needs and weaknesses.",
+    "dialogue": "You lean in closer, lowering your voice. 'Listen, Joe, I can't pay your full price, but I’ve got skills. How about I handle a little job for you to cover the rest?'",
+    "npc_reactions": {"Joe": "He raises an eyebrow, interest piqued. A glimmer of curiosity crosses his face as he weighs the potential benefits of your offer."},
+    "player_options": ["Outline the job you have in mind for Joe.", "Insist on keeping your price the same without the job.", "Try to sweeten the deal with an additional favor."],
+    "parent_id": "clear_virus.2",
+    "layer": 2,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "clear_virus.2.2",
+    "title": "Threat of the Streets",
+    "description": "Understanding the risks of the back alleys, you decide to use Joe’s fear of rivals to your advantage. You hint that you have connections outside and that crossing you could have consequences.",
+    "dialogue": "You lean back, crossing your arms. 'I’d think twice about pushing me, Joe. My friends in the city aren't the forgiving type if they find out a hacker's screwing over a paying customer.'",
+    "npc_reactions": {"Joe": "His demeanor shifts, an element of caution creeping into his expression. He seems to consider your threats seriously, pondering the implications."},
+    "player_options": ["Press further and escalate the threat.", "Back off and reassure Joe you're just joking.", "Offer to pay a little more, only if he guarantees the service will be delivered promptly."],
+    "parent_id": "clear_virus.2",
+    "layer": 2,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "clear_virus.2.3",
+    "title": "Emotional Appeal",
+    "description": "Instead of negotiating hardball, you decide to share your personal story, hoping to evoke sympathy from Joe and convince him to lower his price.",
+    "dialogue": "You take a deep breath and begin, 'Look, Joe, I really need this. It’s not just about the money; it’s about my family's safety and my reputation. Can you help me out?'",
+    "npc_reactions": {"Joe": "His tough exterior cracks slightly as he listens. There's a moment where you can see genuine empathy, and he appears open to reconsidering his price."},
+    "player_options": ["Continue sharing your story, emphasizing the stakes.", "Request a favor in return if he agrees to lower the price.", "Offer a personal item of value instead of cash."],
+    "parent_id": "clear_virus.2",
+    "layer": 2,
+    "is_generated": true
+  }
+]
+```
+
+Layer 3 Alternatives:
+
+Alternative 1:
+Title: Confident Bargainer
+Description: You project an air of confidence, willing to negotiate terms instead of simply agreeing. You're ready to leverage your position to get a better deal while still hinting at your readiness to pay if needed.
+Dialogue: You set your chin up and respond, 'I can handle the cost, but I need to know what this offers in return. Let’s make this a deal worth remembering.'
+Rating: No rating
+Player Options:
+  1. What can you offer to sweeten the deal?
+  2. Can you lower the price if I agree to help you later?
+  3. I’ll pay, but I want to know more about the risks involved.
+NPC Reactions:
+  Joe: Raises an eyebrow, impressed by your confidence and ready to engage in a negotiation.
+
+Alternative 2:
+Title: Skeptical Strategist
+Description: Adopting a strategic mindset, you voice your skepticism and request to see credentials or a proven track record from Joe. You want assurance before committing to anything.
+Dialogue: You lean back slightly and assert, 'Before I drop any credits, I need to see what you’re bringing to the table. Show me a success story.'
+Rating: No rating
+Player Options:
+  1. Alright, show me a success story.
+  2. What guarantees can you offer?
+  3. Maybe I should rethink this. Can you impress me?
+NPC Reactions:
+  Joe: Looks slightly taken aback but recovers quickly, ready to prove his worth.
+
+Alternative 3:
+Title: Cautious Observer
+Description: You express your hesitations openly, emphasizing your doubts about the potential risks involved in the transaction. You seek to understand the ramifications of the deal before moving forward.
+Dialogue: You shake your head slightly, saying, 'I’m feeling a bit uneasy. What happens if this goes south? I need some clarity on the risks.'
+Rating: No rating
+Player Options:
+  1. Explain the risks involved in this operation.
+  2. What assurance do I have that this will even work?
+  3. Perhaps I should look for another option.
+NPC Reactions:
+  Joe: Frowns, sensing your trepidation, and tries to reassure you with examples of his prior wins.

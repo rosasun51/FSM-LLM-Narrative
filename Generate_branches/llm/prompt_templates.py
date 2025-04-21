@@ -18,7 +18,7 @@ Some essential definitions about your task:
 4.  Layer: To align each Sub_task better in the Sub_task_chain, we use layer to regulate the Sub_tasks.
 
 Game world context:
-- {game_world_description}
+- {The game is set in the dystopian metropolis of Night City, located in the Free State of Northern California. Night City lies south of San Francisco, in the area once known as Morro Bay. During the events of Cyberpunk 2020, the city was said to have a population of over five million inhabitants, though by 2077, this number is believed to have grown significantly due to mass urban migration and corporate-driven expansion. Following an economic collapse in the early 21st century, the United States fragmented, and national governance weakened. In the resulting power vacuum, massive corporations rose to dominance, becoming the true architects of society. These corporations operate across a wide range of sectors—including weapons, robotics, cybernetics, pharmaceuticals, communications, and biotechnology—and most exist above the law, protected by private armies and unrestricted by government oversight. Night City serves as both a beacon of technological advancement and a cautionary tale of corporate overreach, where the line between human and machine is blurred, and survival often depends on loyalty to the highest bidder.}
 """
 
 # Template for generating subtasks based on a transitioning question
