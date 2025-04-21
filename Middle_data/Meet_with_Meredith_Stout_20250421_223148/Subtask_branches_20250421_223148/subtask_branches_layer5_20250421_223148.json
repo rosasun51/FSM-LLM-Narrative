@@ -1,0 +1,100 @@
+[
+  {
+    "subtask_id": "meet_with_meredith_stout.5.1",
+    "title": "A Dangerous Gamble",
+    "description": "The player proposes a risky trade involving dubious contacts that could anger powerful factions. Meredith Stout weighs the consequences of involvement with such dangerous players.",
+    "dialogue": "You lean in, lowering your voice. 'How about I set you up with my contacts in the underground? Sure, they’re a little... unsavory, but they know things. Great things.' Meredith's brow furrows, skepticism churning in her gaze. 'You think the risks of associating with scum like that would be worth it? You better be sure you can control the fallout.'",
+    "npc_reactions": {
+      "Meredith Stout": "She raises an eyebrow, intrigued yet wary. The tension in her posture suggests she's weighing the potential rewards against the risk of inciting a corporate war."
+    },
+    "npc_emotion_pools": {
+      "Meredith Stout": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Express concern over the implications of the player's contacts."
+        },
+        {
+          "id": 1,
+          "trigger_condition": "feels intrigued by potential rewards",
+          "goal": "Consider how to manipulate the situation for her benefit."
+        },
+        {
+          "id": 2,
+          "trigger_condition": "concerned about the risks",
+          "goal": "Demand further details and guarantees about the player's connections."
+        }
+      ]
+    },
+    "player_options": [
+      "Provide evidence of your contacts' credibility.",
+      "Reassure Meredith about control over the situation.",
+      "Withdraw the offer, sensing its danger."
+    ],
+    "parent_id": "meet_with_meredith_stout.5",
+    "layer": 5,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "meet_with_meredith_stout.5.2",
+    "title": "Offer the Unexpected",
+    "description": "The player presents an unconventional offer that involves a high-value item rather than monetary compensation, catching Meredith off guard.",
+    "dialogue": "You pull out a sleek data chip, its surface gleaming under the dim alley light. 'How about a prototype tech from Arasaka? It's worth more than money right now.' Meredith's eyes widen, momentarily breaking her icy facade. 'You have a prototype? Now that could be interesting... but I need to know if it's legit.'",
+    "npc_reactions": {
+      "Meredith Stout": "Initially shocked, she quickly regains her composure, her demeanor becoming more calculating as she considers the implications."
+    },
+    "npc_emotion_pools": {
+      "Meredith Stout": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Curiosity about the legitimacy of the prototype."
+        },
+        {
+          "id": 1,
+          "trigger_condition": "interested by a unique offer",
+          "goal": "Explore the potential benefits of obtaining the prototype."
+        }
+      ]
+    },
+    "player_options": [
+      "Describe the prototype's unique features.",
+      "Offer to fetch documentation to prove its legitimacy.",
+      "Negotiate for a higher price based on its rarity."
+    ],
+    "parent_id": "meet_with_meredith_stout.5",
+    "layer": 5,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "meet_with_meredith_stout.5.3",
+    "title": "Bargain with Fury",
+    "description": "The player stubbornly stands by their original offer, insisting it's fair. Meredith's anger flares, and her patience wears thin.",
+    "dialogue": "You stand firm, crossing your arms defiantly. 'I’m not budging. It’s a fair offer, and I expect you to recognize its value.' Meredith's expression darkens, her cold demeanor shifting into open hostility. 'Fair? You think your deal is fair? You're wasting my time, and I don't like being insulted.'",
+    "npc_reactions": {
+      "Meredith Stout": "Furious, she leans forward, ready to lash out verbally, emphasizing her power in this negotiation."
+    },
+    "npc_emotion_pools": {
+      "Meredith Stout": [
+        {
+          "id": 1,
+          "trigger_condition": "angered by the player's refusal to negotiate",
+          "goal": "Deliver a sharp insult to the player, threatening their chances of cooperation."
+        },
+        {
+          "id": 3,
+          "trigger_condition": "sensitive to wasting time",
+          "goal": "Demand a conclusive answer quickly before she abruptly ends the meeting."
+        }
+      ]
+    },
+    "player_options": [
+      "Apologize and attempt to salvage the deal.",
+      "Stand firmer and challenge her authority.",
+      "Escalate the confrontation, threatening to walk away."
+    ],
+    "parent_id": "meet_with_meredith_stout.5",
+    "layer": 5,
+    "is_generated": true
+  }
+]

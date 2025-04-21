@@ -1,0 +1,125 @@
+[
+  {
+    "subtask_id": "meet_with_meredith_stout.6.1",
+    "title": "Deflecting Blame",
+    "description": "The player suggests that Meredith herself might be partly responsible for the theft due to Militech's internal conflicts. This accusation forces Meredith to justify her position while deflecting potential blame back to the player. Tension builds as they navigate the delicate line between ally and adversary.",
+    "dialogue": "Player: 'You know, Meredith, if Militech hadn't been so secretive about everything, maybe this would never have happened. Maybe you're as much to blame as anyone.'",
+    "npc_reactions": {
+      "Meredith Stout": "Meredith's demeanor shifts from assertive to defensive, her cold glare sharpened as she considers the implications of the player's words."
+    },
+    "npc_emotion_pools": {
+      "Meredith Stout": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Pressure the player to learn more about their motivations."
+        },
+        {
+          "id": 1,
+          "trigger_condition": "feeling insulted",
+          "goal": "Retaliate verbally, challenging the player's understanding of the situation."
+        },
+        {
+          "id": 2,
+          "trigger_condition": "believes the player is cooperative",
+          "goal": "Reveal more about her own position of power within Militech."
+        },
+        {
+          "id": 3,
+          "trigger_condition": "defensive stance taken by player",
+          "goal": "Counter the blame by emphasizing the demands of her role."
+        }
+      ]
+    },
+    "player_options": [
+      "Continue to challenge Meredith's leadership",
+      "Offer a compromise on the investigation",
+      "Try to calm the situation down"
+    ],
+    "parent_id": "meet_with_meredith_stout.6",
+    "layer": 6,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "meet_with_meredith_stout.6.2",
+    "title": "Blackmailing for Information",
+    "description": "The player threatens to expose some hidden secrets about Militech's dealings unless Meredith provides them with vital information. This power play pushes Meredith to negotiate from a position of weakness, revealing new aspects of her character as she weighs her options.",
+    "dialogue": "Player: 'I have some very interesting intel about Militech's dealings that could ruin your career, Meredith. Let's make a trade.'",
+    "npc_reactions": {
+      "Meredith Stout": "Meredith's eyes narrow in realization, acknowledging the sudden shift in power dynamics with a calculating smile."
+    },
+    "npc_emotion_pools": {
+      "Meredith Stout": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Explore what leverage the player could have over her."
+        },
+        {
+          "id": 1,
+          "trigger_condition": "feeling threatened",
+          "goal": "Attempt to intimidate the player back."
+        },
+        {
+          "id": 2,
+          "trigger_condition": "perceives player as valuable",
+          "goal": "Consider forging an alliance out of necessity."
+        },
+        {
+          "id": 3,
+          "trigger_condition": "realizing player holds significant information",
+          "goal": "Explore what information the player truly has."
+        }
+      ]
+    },
+    "player_options": [
+      "Proceed with the blackmail",
+      "Back off and negotiate",
+      "Offer a different kind of deal for information"
+    ],
+    "parent_id": "meet_with_meredith_stout.6",
+    "layer": 6,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "meet_with_meredith_stout.6.3",
+    "title": "Playing for Time",
+    "description": "The player suggests postponing any commitment until they gather more information about the situation. Meredith is initially frustrated, but gradually sees the strategic advantage in this delay as it allows her to assess the player's true loyalty.",
+    "dialogue": "Player: 'Before I dive in, I need some time to prepare. This is all too risky for immediate action.'",
+    "npc_reactions": {
+      "Meredith Stout": "Meredith's frustration gives way to reluctant understanding as she realizes the player's cautious approach might serve them both in the long run."
+    },
+    "npc_emotion_pools": {
+      "Meredith Stout": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Push the player for more immediate commitment."
+        },
+        {
+          "id": 1,
+          "trigger_condition": "feeling annoyed about delay",
+          "goal": "Express her discontent with the player's hesitation."
+        },
+        {
+          "id": 2,
+          "trigger_condition": "recognizes player's cautious nature",
+          "goal": "Consider that the player's strategy might be wise."
+        },
+        {
+          "id": 3,
+          "trigger_condition": null,
+          "goal": "Plot how to use the player's delay to her advantage."
+        }
+      ]
+    },
+    "player_options": [
+      "Agree to gather more intel",
+      "Offer to investigate Militech internally",
+      "Propose a meeting somewhere safer"
+    ],
+    "parent_id": "meet_with_meredith_stout.6",
+    "layer": 6,
+    "is_generated": true
+  }
+]

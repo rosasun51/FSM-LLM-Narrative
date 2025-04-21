@@ -1,0 +1,110 @@
+[
+  {
+    "subtask_id": "meet_with_meredith_stout.2.1",
+    "title": "Shifting Allegiances",
+    "description": "The player reveals a connection to a rival corporation, claiming they are on a job for them. This revelation triggers Meredith's suspicion, but also her interest in leveraging the player's insider knowledge.",
+    "dialogue": "You lean back and say, 'I do know a thing or two, but you should know—I work for a different corporate outfit now. Maybe I could help you, for a price.'",
+    "npc_reactions": {
+      "Meredith Stout": "Meredith's cold demeanor becomes sharper, her interest piqued as she sees the potential for information but remains wary of betrayal."
+    },
+    "npc_emotion_pools": {
+      "Meredith Stout": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Pressure the player to provide valuable information regarding their rival corporation."
+        },
+        {
+          "id": 3,
+          "trigger_condition": "suspicion about the player's ties",
+          "goal": "Investigate the player's background and intentions."
+        },
+        {
+          "id": 4,
+          "trigger_condition": "interested in the player's insider information",
+          "goal": "Negotiate a deal to gain valuable insights."
+        }
+      ]
+    },
+    "player_options": [
+      "I have details about their operations you might find useful.",
+      "Why would I share anything with you?",
+      "I'm not interested in playing corporate games."
+    ],
+    "parent_id": "meet_with_meredith_stout.2",
+    "layer": 2,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "meet_with_meredith_stout.2.2",
+    "title": "Personal Vendetta",
+    "description": "The player reveals a personal vendetta against someone within Militech, raising Meredith's own curiosity and revealing layers of mutual animosity.",
+    "dialogue": "You pause dramatically, 'Let's just say I have my reasons to want Militech's attention diverted elsewhere. It wouldn't be my first time upsetting the balance.'",
+    "npc_reactions": {
+      "Meredith Stout": "Meredith narrows her eyes, weighing the implications of what you've just said. She senses an opportunity but also recognizes the potential threat."
+    },
+    "npc_emotion_pools": {
+      "Meredith Stout": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Pressure the player to divulge details about their vendetta and if it could affect her."
+        },
+        {
+          "id": 3,
+          "trigger_condition": "suspicion about the player's motives",
+          "goal": "Investigate the player's connections and intentions."
+        },
+        {
+          "id": 4,
+          "trigger_condition": "intrigued by the player's motivations",
+          "goal": "See if the player can be turned into an asset."
+        }
+      ]
+    },
+    "player_options": [
+      "Sounds like you might have enemies too.",
+      "I won't be your pawn, Meredith.",
+      "Let’s just keep our interests aligned for now."
+    ],
+    "parent_id": "meet_with_meredith_stout.2",
+    "layer": 2,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "meet_with_meredith_stout.2.3",
+    "title": "Deceptive Ties",
+    "description": "The player falsely claims to have insider connections with a rogue faction that is targeting Militech, hoping to manipulate Meredith into providing information in exchange for a supposed alliance.",
+    "dialogue": "You smirk, 'Let's just say I know people who are quite eager to see Militech suffer. You might want to think carefully about who you trust, Meredith.'",
+    "npc_reactions": {
+      "Meredith Stout": "Meredith's expression turns icy as mistrust fills the air. She contemplates whether this player is trying to deceive her or if there's a truth behind their words."
+    },
+    "npc_emotion_pools": {
+      "Meredith Stout": [
+        {
+          "id": 1,
+          "trigger_condition": "angered by the player’s insinuations",
+          "goal": "Threaten the player to gauge their credibility."
+        },
+        {
+          "id": 3,
+          "trigger_condition": "suspicion about the player's motives",
+          "goal": "Investigate the player's background and intentions."
+        },
+        {
+          "id": 4,
+          "trigger_condition": "skeptical of the player's false claims",
+          "goal": "Decide if the player could be a threat."
+        }
+      ]
+    },
+    "player_options": [
+      "Prove you're on the right side, or you'll regret it.",
+      "I'm just telling you what you need to hear.",
+      "Going to challenge my connections, Meredith?"
+    ],
+    "parent_id": "meet_with_meredith_stout.2",
+    "layer": 2,
+    "is_generated": true
+  }
+]
