@@ -1,0 +1,41 @@
+{
+  "subtask_id": "meet_with_meredith_stout.1",
+  "title": "A Calculated Encounter",
+  "description": "The player meets Meredith Stout in the shadowy alley, amid the decay and the remnants of violence. The air is thick with tension as the two engage in a conversation where loyalty and motives are carefully assessed. Meredith's sharp gaze scrutinizes the player, weighing their potential as either an ally or threat.",
+  "dialogue": "Meredith's eyes narrow as she sizes you up, her expression a blend of skepticism and intensity. 'You’re not just here for a chat, are you? I need to know—are you a liability or an asset? Speak freely, but remember: I don’t take kindly to deception.'",
+  "npc_reactions": {
+    "Meredith Stout": "Meredith remains cold and calculating, further tightening her grip on her emotional detachment as she seeks to gauge the player’s intentions."
+  },
+  "npc_emotion_pools": {
+    "Meredith Stout": [
+      {
+        "id": 0,
+        "trigger_condition": null,
+        "goal": "Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot."
+      },
+      {
+        "id": 1,
+        "trigger_condition": "angered by the player",
+        "goal": "Insult or threaten the player."
+      },
+      {
+        "id": 2,
+        "trigger_condition": "believes the player is cooperative",
+        "goal": "Provide the player with a chip to store cash."
+      },
+      {
+        "id": 3,
+        "trigger_condition": "perceives the player as a serious threat",
+        "goal": "Prepare to defend herself or escalate the confrontation."
+      }
+    ]
+  },
+  "player_options": [
+    "Assure Meredith that you come in peace and are willing to negotiate.",
+    "Challenge Meredith's authority and assert your own power.",
+    "Reveal your connection to her investigation to gain her trust."
+  ],
+  "parent_id": "meet_with_meredith_stout",
+  "layer": 1,
+  "is_generated": false
+}

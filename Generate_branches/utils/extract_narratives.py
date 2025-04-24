@@ -7,179 +7,254 @@ import os
 import json
 import glob
 import argparse
-from typing import Dict, List, Optional, Tuple
+import re
+from typing import Dict, List, Optional, Tuple, Any
+
+def _format_emotion_pool(pool: List[Dict[str, Any]]) -> str:
+    """Helper function to format an emotion pool list."""
+    lines = []
+    for entry in pool:
+        trigger = entry.get("trigger_condition") or "(Always)"
+        goal = entry.get("goal", "N/A")
+        lines.append(f"    - Trigger: {trigger}\n      Goal: {goal}")
+    return "\n".join(lines)
+
+def _format_subtask_to_text(subtask: Dict[str, Any]) -> str:
+    """Helper function to format a single subtask dictionary into readable text."""
+    content = []
+    content.append(f"Title: {subtask.get('title', 'N/A')}")
+    content.append(f"Subtask ID: {subtask.get('subtask_id', 'N/A')}")
+    content.append(f"Description: {subtask.get('description', 'N/A')}")
+    content.append(f"Dialogue:\n{subtask.get('dialogue', 'N/A')}")
+
+    player_options = subtask.get('player_options', [])
+    if player_options:
+        content.append("\nPlayer Options:")
+        for i, option in enumerate(player_options, 1):
+            content.append(f"  {i}. {option}")
+
+    npc_reactions = subtask.get('npc_reactions', {})
+    if npc_reactions:
+        content.append("\nNPC Reactions:")
+        for npc, reaction in npc_reactions.items():
+            content.append(f"  {npc}: {reaction}")
+            
+    npc_emotion_pools = subtask.get('npc_emotion_pools', {})
+    if npc_emotion_pools:
+        content.append("\nNPC Emotion Pools:")
+        for npc, pool in npc_emotion_pools.items():
+             if isinstance(pool, list):
+                content.append(f"  {npc}:")
+                content.append(_format_emotion_pool(pool))
+             else: # Handle cases where it might not be a list (e.g., fallback)
+                 content.append(f"  {npc}: {pool}")
 
 
-def extract_narratives_from_task_folder(task_folder: str, output_file: Optional[str] = None) -> str:
+    return "\n".join(content) + "\n"
+
+
+def extract_narratives_from_task_folder(task_folder: str, output_file: Optional[str] = None) -> Optional[str]:
     """
-    Extract narrative content from JSON files in a specific task folder and save to a text file.
-    
+    Extracts narrative content from JSON files in a specific task folder, formats it,
+    orders it by layer, and saves it to a text file.
+
     Args:
-        task_folder: Path to the task folder (containing key_questions, Scripted_subtask, and Subtask_branches subfolders)
-        output_file: Optional path for output text file. If None, will use task folder name for the output file.
-        
+        task_folder: Path to the task folder (containing Scripted_subtask_* and Subtask_branches_* subfolders).
+        output_file: Optional path for output text file. If None, creates a file in the task folder.
+
     Returns:
-        Path to the created text file
+        Path to the created text file, or None if extraction fails.
     """
-    # Validate the folder exists
     if not os.path.isdir(task_folder):
-        raise ValueError(f"Task folder does not exist: {task_folder}")
-    
-    # Extract the task name and timestamp from the folder name
+        print(f"Error: Task folder does not exist: {task_folder}")
+        return None
+
     folder_name = os.path.basename(task_folder)
-    
-    # Set default output file if not provided
     if not output_file:
         output_file = os.path.join(task_folder, f"{folder_name}_narrative.txt")
-    
-    # Initialize content to write to the file
-    content = [f"Narrative Summary for: {folder_name}\n"]
-    content.append("=" * 80 + "\n\n")
-    
-    # Step 1: Extract key questions
-    content.append("KEY QUESTIONS\n")
-    content.append("-" * 80 + "\n")
-    key_questions_path = glob.glob(os.path.join(task_folder, "key_questions_*.json"))
-    if key_questions_path:
-        try:
-            with open(key_questions_path[0], 'r') as f:
-                key_questions_data = json.load(f)
-                raw_response = key_questions_data.get("raw_response", "")
-                # Try to parse the raw_response if it's in JSON format
-                try:
-                    questions = json.loads(raw_response)
-                    for i, question in enumerate(questions, 1):
-                        content.append(f"Question {i}: {question}\n")
-                except json.JSONDecodeError:
-                    # If not valid JSON, use the raw response as is
-                    content.append(f"Key Questions: {raw_response}\n")
-        except Exception as e:
-            content.append(f"Error extracting key questions: {e}\n")
-    else:
-        content.append("No key questions file found\n")
-    
-    content.append("\n")
-    
-    # Step 2: Extract scripted subtasks for each layer
-    content.append("SCRIPTED SUBTASKS\n")
-    content.append("-" * 80 + "\n")
-    
-    # Determine the subtask folder pattern
-    subtask_folders = glob.glob(os.path.join(task_folder, "Scripted_subtask_*"))
-    
-    if subtask_folders:
-        subtask_folder = subtask_folders[0]  # Use the first found folder
-        
-        # Look for each layer's subtask
-        for layer in range(1, 4):  # Layers 1, 2, 3
-            content.append(f"\nLayer {layer} Scripted Subtask:\n")
-            
-            # Find the layer's subtask file
-            layer_files = glob.glob(os.path.join(subtask_folder, f"scripted_subtask_layer{layer}_*.json"))
-            
-            if layer_files:
-                try:
-                    with open(layer_files[0], 'r') as f:
-                        subtask_data = json.load(f)
-                        raw_response = subtask_data.get("raw_response", "")
-                        
-                        # Try to parse the raw_response if it's in JSON format
-                        try:
-                            subtask = json.loads(raw_response)
-                            content.append(f"Title: {subtask.get('title', 'Unknown')}\n")
-                            content.append(f"Description: {subtask.get('description', 'No description')}\n")
-                            content.append(f"Dialogue: {subtask.get('dialogue', 'No dialogue')}\n")
-                            
-                            # Include player options
-                            player_options = subtask.get('player_options', [])
-                            if player_options:
-                                content.append("Player Options:\n")
-                                for i, option in enumerate(player_options, 1):
-                                    content.append(f"  {i}. {option}\n")
-                                
-                            # Include NPC reactions
-                            npc_reactions = subtask.get('npc_reactions', {})
-                            if npc_reactions:
-                                content.append("NPC Reactions:\n")
-                                for npc, reaction in npc_reactions.items():
-                                    content.append(f"  {npc}: {reaction}\n")
-                        except json.JSONDecodeError:
-                            # If not valid JSON, use the raw response as is
-                            content.append(f"Raw response: {raw_response}\n")
-                except Exception as e:
-                    content.append(f"Error extracting layer {layer} scripted subtask: {e}\n")
-            else:
-                content.append(f"No scripted subtask file found for layer {layer}\n")
-    else:
-        content.append("No scripted subtask folder found\n")
-    
-    content.append("\n")
-    
-    # Step 3: Extract subtask branches for each layer
-    content.append("SUBTASK BRANCHES (ALTERNATIVES)\n")
-    content.append("-" * 80 + "\n")
-    
-    # Determine the branches folder pattern
+
+    narrative_data = {} # Store extracted data keyed by layer and type
+    key_questions_list = []
+    task_name = "Unknown Task" # Fallback task name
+
+    scripted_folders = glob.glob(os.path.join(task_folder, "Scripted_subtask_*"))
     branches_folders = glob.glob(os.path.join(task_folder, "Subtask_branches_*"))
-    
-    if branches_folders:
-        branches_folder = branches_folders[0]  # Use the first found folder
+
+    # --- Process Scripted Subtasks ---
+    if scripted_folders:
+        scripted_folder = scripted_folders[0]
+        scripted_files = glob.glob(os.path.join(scripted_folder, "scripted_subtask_layer*_*.json"))
         
-        # Look for each layer's branches
-        for layer in range(1, 4):  # Layers 1, 2, 3
-            content.append(f"\nLayer {layer} Alternatives:\n")
-            
-            # Find the layer's branches file
-            layer_files = glob.glob(os.path.join(branches_folder, f"subtask_branches_layer{layer}_*.json"))
-            
-            if layer_files:
+        # Sort files by layer number naturally
+        scripted_files.sort(key=lambda f: int(re.search(r'layer(\d+)', f).group(1)) if re.search(r'layer(\d+)', f) else 0)
+
+        for file_path in scripted_files:
+            try:
+                with open(file_path, 'r') as f:
+                    data = json.load(f)
+                
+                # Extract task_info and key questions once
+                if not key_questions_list and 'task_info' in data:
+                    task_info = data.get('task_info', {})
+                    task_name = task_info.get('name', task_info.get('scene_name', folder_name))
+                    # Prefer key questions from task_info if available
+                    if 'key_questions' in task_info and isinstance(task_info['key_questions'], list):
+                         key_questions_list = [q.get('english', q.get('content', 'Invalid Question Format')) 
+                                               for q in task_info['key_questions']]
+                    elif 'transitioning_questions' in data.get('task_info',{}): # Fallback
+                         key_questions_list = data['task_info']['transitioning_questions']
+
+
+                raw_response = data.get("raw_response", "{}")
+                
+                # Clean potential markdown fences
+                cleaned_response = raw_response.strip()
+                if cleaned_response.startswith("```json"):
+                    cleaned_response = cleaned_response[7:] # Remove ```json
+                if cleaned_response.endswith("```"):
+                    cleaned_response = cleaned_response[:-3] # Remove ```
+                cleaned_response = cleaned_response.strip() # Remove any extra whitespace
+
+                # Attempt to parse the actual LLM response JSON inside cleaned_response
                 try:
-                    with open(layer_files[0], 'r') as f:
-                        branches_data = json.load(f)
-                        raw_response = branches_data.get("raw_response", "")
-                        
-                        # Try to parse the raw_response if it's in JSON format
-                        try:
-                            branches = json.loads(raw_response)
-                            if isinstance(branches, list):
-                                for i, branch in enumerate(branches, 1):
-                                    content.append(f"\nAlternative {i}:\n")
-                                    content.append(f"Title: {branch.get('title', 'Unknown')}\n")
-                                    content.append(f"Description: {branch.get('description', 'No description')}\n")
-                                    content.append(f"Dialogue: {branch.get('dialogue', 'No dialogue')}\n")
-                                    content.append(f"Rating: {branch.get('rating', 'No rating')}\n")
-                                    
-                                    # Include player options
-                                    player_options = branch.get('player_options', [])
-                                    if player_options:
-                                        content.append("Player Options:\n")
-                                        for j, option in enumerate(player_options, 1):
-                                            content.append(f"  {j}. {option}\n")
-                                        
-                                    # Include NPC reactions
-                                    npc_reactions = branch.get('npc_reactions', {})
-                                    if npc_reactions:
-                                        content.append("NPC Reactions:\n")
-                                        for npc, reaction in npc_reactions.items():
-                                            content.append(f"  {npc}: {reaction}\n")
-                            else:
-                                content.append(f"Raw response (not a list): {raw_response}\n")
-                        except json.JSONDecodeError:
-                            # If not valid JSON, use the raw response as is
-                            content.append(f"Raw response: {raw_response}\n")
+                    subtask_json = json.loads(cleaned_response)
+                    if isinstance(subtask_json, dict):
+                         layer = subtask_json.get('layer')
+                         subtask_id = subtask_json.get('subtask_id', 'unknown_scripted')
+                         if layer is not None:
+                             if layer not in narrative_data: narrative_data[layer] = {'scripted': None, 'alternatives': []}
+                             narrative_data[layer]['scripted'] = (subtask_id, _format_subtask_to_text(subtask_json))
+                    else:
+                         print(f"Warning: Parsed raw_response in {os.path.basename(file_path)} is not a dictionary.")
+
+                except json.JSONDecodeError:
+                    print(f"Warning: Could not parse raw_response JSON in {os.path.basename(file_path)}. Raw content: {cleaned_response[:100]}...")
                 except Exception as e:
-                    content.append(f"Error extracting layer {layer} branches: {e}\n")
-            else:
-                content.append(f"No subtask branches file found for layer {layer}\n")
+                    print(f"Warning: Error processing raw_response in {os.path.basename(file_path)}: {e}")
+
+            except Exception as e:
+                print(f"Error reading or processing file {file_path}: {e}")
     else:
-        content.append("No subtask branches folder found\n")
+        print(f"Warning: No 'Scripted_subtask_*' folder found in {task_folder}")
+
+    # --- Process Subtask Branches (Alternatives) ---
+    if branches_folders:
+        branches_folder = branches_folders[0]
+        branch_files = glob.glob(os.path.join(branches_folder, "subtask_branches_layer*_*.json"))
+        
+        # Sort files by layer number naturally
+        branch_files.sort(key=lambda f: int(re.search(r'layer(\\d+)', f).group(1)) if re.search(r'layer(\\d+)', f) else 0)
+
+        for file_path in branch_files:
+            file_basename = os.path.basename(file_path) # For clearer logging
+            try:
+                with open(file_path, 'r', encoding='utf-8') as f: # Added encoding
+                     data = json.load(f)
+
+                raw_response = data.get("raw_response", "[]") # Default to empty list string
+                
+                # Clean potential markdown fences
+                cleaned_response = raw_response.strip()
+                if cleaned_response.startswith("```json"):
+                    cleaned_response = cleaned_response[7:] # Remove ```json
+                if cleaned_response.endswith("```"):
+                    cleaned_response = cleaned_response[:-3] # Remove ```
+                cleaned_response = cleaned_response.strip() # Remove any extra whitespace
+
+                # Attempt to parse the actual LLM response JSON array inside cleaned_response
+                try:
+                    branches_json = json.loads(cleaned_response)
+                    if isinstance(branches_json, list):
+                        for branch_index, branch in enumerate(branches_json): # Use index for logging
+                             if isinstance(branch, dict):
+                                 layer = branch.get('layer')
+                                 subtask_id = branch.get('subtask_id', f'unknown_alternative_idx_{branch_index}') # Default ID using index
+                                 if layer is not None:
+                                     if layer not in narrative_data: narrative_data[layer] = {'scripted': None, 'alternatives': []}
+                                     # Check if the branch dict looks valid before formatting
+                                     if 'title' in branch and 'dialogue' in branch:
+                                         narrative_data[layer]['alternatives'].append((subtask_id, _format_subtask_to_text(branch)))
+                                     else:
+                                         print(f"Warning: Skipping branch at index {branch_index} in {file_basename} due to missing 'title' or 'dialogue'.")
+                             else:
+                                  print(f"Warning: Item at index {branch_index} in branches list is not a dictionary in {file_basename}.")
+                    else:
+                         print(f"Warning: Parsed raw_response in {file_basename} is not a list as expected for branches.")
+
+
+                except json.JSONDecodeError as json_err:
+                     # Provide more detail on JSON decode error
+                     print(f"Warning: Could not parse raw_response JSON in {file_basename}. Error: {json_err}. Raw content: {cleaned_response[:150]}...")
+                except Exception as e:
+                    print(f"Warning: Unexpected error processing raw_response in {file_basename}: {e}")
+
+            except Exception as e:
+                print(f"Error reading or processing file {file_path}: {e}")
+    else:
+        print(f"Warning: No 'Subtask_branches_*' folder found in {task_folder}")
+
+    # --- Assemble the final text output ---
+    output_content = [f"Narrative Summary for Task: {task_name}"]
+    output_content.append(f"Source Folder: {folder_name}")
+    output_content.append("=" * 80 + "\n")
+
+    # Add Key Questions
+    output_content.append("KEY QUESTIONS")
+    output_content.append("-" * 80)
+    if key_questions_list:
+        for i, q in enumerate(key_questions_list, 1):
+            output_content.append(f"{i}. {q}")
+    else:
+        output_content.append("No key questions found or extracted.")
+    output_content.append("\n" + "=" * 80 + "\n")
     
-    # Write the content to the output file
-    with open(output_file, 'w') as f:
-        f.writelines(content)
+    # Add narrative content sorted by layer
+    sorted_layers = sorted(narrative_data.keys())
     
-    print(f"Narrative summary saved to: {output_file}")
-    return output_file
+    for layer in sorted_layers:
+        layer_data = narrative_data[layer]
+        
+        # Add Scripted Subtask for the layer
+        if layer_data.get('scripted'):
+            subtask_id, formatted_text = layer_data['scripted']
+            output_content.append(f"LAYER {layer} - SCRIPTED SUBTASK ({subtask_id})")
+            output_content.append("-" * 80)
+            output_content.append(formatted_text)
+            output_content.append("\n" + "-" * 80 + "\n")
+        else:
+            output_content.append(f"LAYER {layer} - SCRIPTED SUBTASK")
+            output_content.append("-" * 80)
+            output_content.append("(No scripted subtask data found for this layer)\n")
+            output_content.append("\n" + "-" * 80 + "\n")
+
+
+        # Add Alternatives for the layer, sorted by ID
+        alternatives = sorted(layer_data.get('alternatives', []), key=lambda item: item[0]) # Sort by subtask_id
+        if alternatives:
+             output_content.append(f"LAYER {layer} - ALTERNATIVES")
+             output_content.append("-" * 80)
+             for i, (subtask_id, formatted_text) in enumerate(alternatives):
+                 output_content.append(f"Alternative {i+1} ({subtask_id}):")
+                 output_content.append(formatted_text)
+                 if i < len(alternatives) - 1:
+                     output_content.append("\n---\n") # Separator between alternatives
+             output_content.append("\n" + "=" * 80 + "\n") # End of layer alternatives
+        # else: # Optional: Add message if no alternatives found
+        #     output_content.append(f"LAYER {layer} - ALTERNATIVES")
+        #     output_content.append("-" * 80)
+        #     output_content.append("(No alternative branch data found for this layer)\n")
+        #     output_content.append("\n" + "=" * 80 + "\n")
+
+
+    # --- Write to file ---
+    try:
+        with open(output_file, 'w', encoding='utf-8') as f:
+            f.write("\n".join(output_content))
+        print(f"Narrative summary saved to: {output_file}")
+        return output_file
+    except Exception as e:
+        print(f"Error writing output file {output_file}: {e}")
+        return None
 
 
 def find_task_folders(base_dir: str = "Generate_branches/data") -> List[str]:
@@ -201,9 +276,8 @@ def find_task_folders(base_dir: str = "Generate_branches/data") -> List[str]:
     for item in os.listdir(base_dir):
         item_path = os.path.join(base_dir, item)
         if os.path.isdir(item_path):
-            # Check if it has key_questions file or subdirectories
-            if (glob.glob(os.path.join(item_path, "key_questions_*.json")) or
-                glob.glob(os.path.join(item_path, "Scripted_subtask_*")) or
+            # Check if it has subdirectories matching the pattern
+            if (glob.glob(os.path.join(item_path, "Scripted_subtask_*")) or
                 glob.glob(os.path.join(item_path, "Subtask_branches_*"))):
                 potential_task_folders.append(item_path)
     
@@ -249,40 +323,27 @@ def main():
         # Direct path was provided
         task_folder = args.task
     else:
-        # Task name was provided, search in data directory
-        task_folders = find_task_folders(args.data_dir)
-        matching_folders = [f for f in task_folders if args.task in os.path.basename(f)]
+        # Task name provided, find the folder in data_dir
+        # Simple match for now, assumes unique task name prefix
+        possible_folders = glob.glob(os.path.join(args.data_dir, f"{args.task}*"))
+        task_folders = [f for f in possible_folders if os.path.isdir(f)]
         
-        if not matching_folders:
-            print(f"No task folders matching '{args.task}' found in {args.data_dir}")
-            list_tasks(args.data_dir)
+        if not task_folders:
+            print(f"Error: Task folder starting with '{args.task}' not found in {args.data_dir}")
             return
-        
-        if len(matching_folders) > 1:
-            print(f"Multiple task folders match '{args.task}':")
-            for i, folder in enumerate(matching_folders, 1):
-                print(f"{i}. {os.path.basename(folder)}")
-            try:
-                choice = int(input("Enter the number of the folder to use: "))
-                if 1 <= choice <= len(matching_folders):
-                    task_folder = matching_folders[choice-1]
-                else:
-                    print("Invalid choice")
-                    return
-            except ValueError:
-                print("Invalid input")
-                return
+        elif len(task_folders) > 1:
+            print(f"Warning: Multiple task folders found starting with '{args.task}'. Using the first one: {os.path.basename(task_folders[0])}")
+            task_folder = task_folders[0]
         else:
-            task_folder = matching_folders[0]
-    
-    # Extract and save the narrative
-    try:
-        output_file = extract_narratives_from_task_folder(task_folder, args.output)
-        print(f"Successfully extracted narrative from {os.path.basename(task_folder)}")
-        print(f"Saved to: {output_file}")
-    except Exception as e:
-        print(f"Error extracting narrative: {e}")
+            task_folder = task_folders[0]
 
+    # Extract narratives
+    output_file = extract_narratives_from_task_folder(task_folder, args.output)
+    
+    if output_file:
+        print("Extraction complete.")
+    else:
+        print("Extraction failed.")
 
 if __name__ == "__main__":
     main() 

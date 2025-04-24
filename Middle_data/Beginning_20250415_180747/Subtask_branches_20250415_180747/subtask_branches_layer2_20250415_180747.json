@@ -1,0 +1,125 @@
+[
+  {
+    "subtask_id": "beginning.2.1",
+    "title": "A Calculated Gamble",
+    "description": "The player weighs the risks and rewards, deciding to take a chance. They accept the task, intrigued by the potential payout and Ronan's unwavering confidence.",
+    "dialogue": "You nod slowly, excitement bubbling beneath your cautious exterior. 'Alright, Ronan. I’ll take the job. Let’s see what you’ve got for me.' The city is a risk, but so is life without it.",
+    "npc_reactions": {
+      "Ronan": "A sly smile creeps onto Ronan's face, appreciation glittering in his eyes as you accept the challenge."
+    },
+    "npc_emotion_pools": {
+      "Ronan": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+        },
+        {
+          "id": 1,
+          "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+          "goal": "Seriously remind the player that this task is very important."
+        },
+        {
+          "id": 2,
+          "trigger_condition": "The player hesitates too long or seems indecisive",
+          "goal": "Show subtle frustration while still maintaining a calm demeanor, emphasizing the urgency of the task."
+        },
+        {
+          "id": 3,
+          "trigger_condition": null,
+          "goal": "Feel a sense of relief and satisfaction; the player’s acceptance reassures him."
+        }
+      ]
+    },
+    "player_options": [
+      "Tell me more about this task before I go.",
+      "I’ll still need backup, though.",
+      "No turning back now!"
+    ],
+    "parent_id": "beginning.2",
+    "layer": 2,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "beginning.2.2",
+    "title": "Playing It Safe",
+    "description": "The player hesitates, opting to gather more information before making a decision. They ask Ronan for specifics regarding the task and the potential dangers.",
+    "dialogue": "You hold up a hand, frowning slightly. 'Wait, before I dive in, what exactly am I up against? I need to know what I'm walking into.' The shadows around you feel heavier as uncertainty grips the air.",
+    "npc_reactions": {
+      "Ronan": "He raises an eyebrow, intrigued but slightly annoyed at your caution, revealing the importance of his task."
+    },
+    "npc_emotion_pools": {
+      "Ronan": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+        },
+        {
+          "id": 1,
+          "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+          "goal": "Seriously remind the player that this task is very important."
+        },
+        {
+          "id": 2,
+          "trigger_condition": "The player hesitates too long or seems indecisive",
+          "goal": "Show subtle frustration while still maintaining a calm demeanor, emphasizing the urgency of the task."
+        },
+        {
+          "id": 3,
+          "trigger_condition": "The player seeks detailed information",
+          "goal": "Appreciate the player's caution, but urge them to decide quickly."
+        }
+      ]
+    },
+    "player_options": [
+      "I need details on the risks.",
+      "What’s in it for me?",
+      "I can handle myself, Ronan."
+    ],
+    "parent_id": "beginning.2",
+    "layer": 2,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "beginning.2.3",
+    "title": "Declining the Offer",
+    "description": "Feeling the weight of the city's darkness, the player decides to refuse the task outright. They express their hesitation and concern about the dangerous nature of the job.",
+    "dialogue": "You shake your head, a mix of apprehension and relief washing over you. 'No, this isn’t for me. I can’t afford to get tangled in something that could lead to deep trouble.' The neon lights dim slightly as silence fills the room.",
+    "npc_reactions": {
+      "Ronan": "His expression hardens momentarily; a hint of disappointment flashes across his face as you decline."
+    },
+    "npc_emotion_pools": {
+      "Ronan": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+        },
+        {
+          "id": 1,
+          "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+          "goal": "Seriously remind the player that this task is very important."
+        },
+        {
+          "id": 2,
+          "trigger_condition": "The player hesitates too long or seems indecisive",
+          "goal": "Show subtle frustration while still maintaining a calm demeanor, emphasizing the urgency of the task."
+        },
+        {
+          "id": 3,
+          "trigger_condition": "The player outright refuses",
+          "goal": "Conceal disappointment, but assert the seriousness of the city’s risks."
+        }
+      ]
+    },
+    "player_options": [
+      "I appreciate the offer, but I'm out.",
+      "You need someone else for this task.",
+      "This city isn't worth the risk."
+    ],
+    "parent_id": "beginning.2",
+    "layer": 2,
+    "is_generated": true
+  }
+]
