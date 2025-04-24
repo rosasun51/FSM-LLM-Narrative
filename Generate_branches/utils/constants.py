@@ -13,10 +13,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # ---------------------------
 # Model configuration
 LLM_MODEL = "gpt-4o-mini"
-LLM_BASE_URL = "https://api2.aigcbest.top/v1"
+LLM_BASE_URL = "https://api.ifopen.ai/v1"
 LLM_API_KEY = "sk-SdjbKZ455Psww0ZoKvSl4as8dKai9i3CUQWikdz4w2QBA4Vq"  # Default test key, replace with your own
-LLM_MAX_TOKENS = 1000
-LLM_MAX_TOKENS_BRANCHES = 2500  # Higher token limit for generating branches
+LLM_MAX_TOKENS = 2000
+LLM_MAX_TOKENS_BRANCHES = 3500  # Higher token limit for generating branches
 
 # Generation settings
 DEFAULT_NUM_ALTERNATIVES = 3    # Number of alternative branches to generate

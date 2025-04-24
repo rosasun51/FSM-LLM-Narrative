@@ -1,0 +1,14 @@
+{
+  "title": "Seeking Clarity",
+  "description": "As you take a moment to gather your thoughts, you realize that understanding the full implications of your decision is crucial. You express your need for more time and information to the group gathered around you, feeling the weight of their expectations. They listen intently, and a sense of tension fills the air as the gravity of the situation settles in.",
+  "player_options": [
+    "Ask for more details about the situation.",
+    "Inquire about possible consequences of your decision.",
+    "Request a brief respite to gather your thoughts."
+  ],
+  "npc_reactions": {
+    "Eldrin": "Eldrin nods in understanding, appreciating your cautious approach.",
+    "Mira": "Mira looks a bit anxious but respects your need for more information.",
+    "Thorin": "Thorin crosses his arms, clearly impatient but trying to conceal it."
+  }
+}

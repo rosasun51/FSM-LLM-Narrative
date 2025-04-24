@@ -1,0 +1,13 @@
+{
+  "title": "Seeking Clarity",
+  "description": "You take a moment to gather your thoughts, realizing that the weight of the decision ahead is heavier than you initially thought. You express your need for more time and information, hoping to gain a clearer understanding of the situation before you commit to a path. The air is thick with anticipation as those around you await your next move.",
+  "player_options": [
+    "Ask for more details about the responsibilities involved.",
+    "Request a moment to consult with allies before deciding.",
+    "Express your concerns about the implications of the decision."
+  ],
+  "npc_reactions": {
+    "Eldrin": "Eldrin nods in understanding, appreciating your cautious approach. 'Take the time you need; this is not a decision to be rushed.'",
+    "Mira": "Mira looks slightly impatient but respects your request, crossing her arms while waiting for your response."
+  }
+}

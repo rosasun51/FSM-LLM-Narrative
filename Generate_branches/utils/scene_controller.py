@@ -5,9 +5,12 @@ import glob
 from typing import Dict, List, Optional, Union, Tuple
 
 class SceneController:
-    def __init__(self, scene=None):
-        """Initialize the scene controller with a specific scene"""
-        self.scene = scene
+
+    # Pass the BackgroundSimulator Reference to ensure that the SceneController has a reference to the BackgroundSimulator so it can call the evaluate_player_input method. You can modify the SceneController constructor to accept this reference:
+    def __init__(self, background_simulator):
+        """Initialize the scene controller with a reference to the simulator"""
+        self.background_simulator = background_simulator
+        self.scene = None
         self.current_layer = 0
         self.subtasks = []
         self.current_subtask = None
@@ -175,6 +178,10 @@ class SceneController:
             print("\nPlayer Options:")
             for i, option in enumerate(player_options, 1):
                 print(f"{i}. {option}")
+    
+        # Allow player to input their choice as text
+        player_input = input("\nEnter your choice (or type your response): ")
+        self.background_simulator.evaluate_player_input(player_input)  # Correctly call the method
         
         # Display key questions
         key_questions = subtask.get('key_questions', [])
@@ -265,8 +272,14 @@ class SceneController:
         running = True
         while running:
             options = self.display_layer_options()
-            choice = input("\nEnter your choice: ")
-            running = self.handle_input(choice, options)
+            choice = input("\nEnter your choice (or type your response): ")
+            
+            # Handle player input
+            if choice.isdigit():
+                self.handle_input(choice, options)
+            else:
+                # Pass the input back to the BackgroundSimulator for evaluation
+                self.background_simulator.evaluate_player_input(choice)  # Ensure you have a reference to the simulator
 
 def main():
     """For testing purposes only"""
