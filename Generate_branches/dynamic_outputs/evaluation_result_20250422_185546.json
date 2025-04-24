@@ -1,0 +1,25 @@
+{
+  "best_node": {
+    "subtask_id": "beginning.1",
+    "title": "The Weight of Responsibility",
+    "description": "Ronan leans forward, his expression serious as he outlines the task at hand. You feel the implications of your actions pressing down as he details the importance of picking up the goods and connecting with Meredith Stout.",
+    "dialogue": "Ronan's voice echoes in the dim-lit office, \"I've got a job for you. It involves some goods that need retrieving. This isn't just picking up packages; it's about proving yourself to those who matter. Are you ready to take this on?\" You can sense the weight of his words, hinting at the power dynamics at play.",
+    "npc_reactions": {
+      "Ronan": "Looks at you intently, gauging your response, a flicker of hope mixed with expectation on his face."
+    },
+    "player_options": [
+      "I accept the task and will do my best.",
+      "I need more information before I decide.",
+      "I can't take this task."
+    ],
+    "parent_id": "beginning",
+    "layer": 1,
+    "is_generated": false
+  },
+  "similarity_score": 59.77824783325195,
+  "processing_stage": "generate_new",
+  "all_scores": {
+    "beginning.1": 59.77824783325195,
+    "beginning.2": 54.43121337890625
+  }
+}

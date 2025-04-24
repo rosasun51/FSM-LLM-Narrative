@@ -60,7 +60,7 @@ Raw response: ```json
     "subtask_id": "beginning.1.2",
     "title": "Confronting Doubts",
     "description": "You voice your concerns about the dangers tied to the task, afraid of the uncertainties and potential fallout. Your doubts linger in the air, creating a palpable tension in the room.",
-    "dialogue": "With a furrowed brow, you say, \"Ronan, what if things go wrong? Picking up goods sounds easy, but I have a feeling it’s not as straightforward. Can you assure me that I will be safe?\" Ronan's expression hardens slightly, recognizing your apprehension as he prepares to reassure you.",
+    "dialogue": "With a furrowed brow, you say, \"Ronan, what if things go wrong? Picking up goods sounds easy, but I have a feeling it��s not as straightforward. Can you assure me that I will be safe?\" Ronan's expression hardens slightly, recognizing your apprehension as he prepares to reassure you.",
     "npc_reactions": {
       "Ronan": "Furrows his brow, responding firmly, 'I understand your doubts, but you have to trust me and understand the importance of this task.'"
     },

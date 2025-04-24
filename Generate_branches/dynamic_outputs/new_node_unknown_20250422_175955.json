@@ -1,0 +1,12 @@
+{
+  "title": "Seeking Clarity",
+  "description": "You express your uncertainty about the task at hand, prompting the NPC to elaborate on the details. The air is thick with anticipation as you await their response, eager to understand what accepting this responsibility truly entails.",
+  "player_options": [
+    "Ask for more details about the task.",
+    "Inquire about the potential consequences of accepting.",
+    "Request information on what resources are available to help."
+  ],
+  "npc_reactions": {
+    "Eldrin": "Eldrin nods thoughtfully, realizing that clarity is essential. 'Of course, I can provide more information. This task requires careful consideration.'"
+  }
+}
