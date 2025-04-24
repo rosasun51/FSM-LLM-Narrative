@@ -1,0 +1,125 @@
+[
+  {
+    "subtask_id": "beginning.1.1",
+    "title": "Bargaining for Safety",
+    "description": "The player hesitates, inquiring about the dangers involved in the task, prompting Ronan to offer a deal for better protection during the assignment.",
+    "dialogue": "You furrow your brow, considering the risks involved. 'What kind of protection do I get if I take this job? I need to know I won’t be walking into a trap.' Ronan smirks slightly, nodding. 'Fair enough. I can assign a muscle to you for backup. But remember, no one is more valuable than the goods you're picking up. So, are we good?'",
+    "npc_reactions": {
+      "Ronan": "Ronan appears impressed that you are taking the task seriously enough to consider your safety, but he is also slightly annoyed by the hesitation."
+    },
+    "npc_emotion_pools": {
+      "Ronan": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+        },
+        {
+          "id": 1,
+          "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+          "goal": "Seriously remind the player that this task is very important."
+        },
+        {
+          "id": 2,
+          "trigger_condition": "The player shows hesitation or doubt about accepting the task",
+          "goal": "Reinforce the seriousness of the task to motivate the player."
+        },
+        {
+          "id": 3,
+          "trigger_condition": "The player inquires about safety and protection",
+          "goal": "Provide reassurance and details on support."
+        }
+      ]
+    },
+    "player_options": [
+      "I accept the task with backup.",
+      "I need even more reassurance.",
+      "I still refuse."
+    ],
+    "parent_id": "beginning.1",
+    "layer": 1,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "beginning.1.2",
+    "title": "A Trusted Associate",
+    "description": "The player expresses skepticism about the job, leading Ronan to introduce them to a trusted associate who can assist in any potential complications.",
+    "dialogue": "Skeptical, you lean back in your chair. 'Isn’t there someone I can talk to for more details on the kind of trouble I might face?' Ronan picks up his comms device and nods. 'I can get you in touch with Dex. He’s been in the game longer than I have and knows what’s what. Get his insight before you decide.'",
+    "npc_reactions": {
+      "Ronan": "Ronan's demeanor shifts slightly to a more understanding tone as he accommodates your request, revealing a softer side to his tough exterior."
+    },
+    "npc_emotion_pools": {
+      "Ronan": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+        },
+        {
+          "id": 1,
+          "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+          "goal": "Seriously remind the player that this task is very important."
+        },
+        {
+          "id": 2,
+          "trigger_condition": "The player shows hesitation or doubt about accepting the task",
+          "goal": "Reinforce the seriousness of the task to motivate the player."
+        },
+        {
+          "id": 3,
+          "trigger_condition": "The player expresses skepticism about the task",
+          "goal": "Show willingness to support the player in decision-making."
+        }
+      ]
+    },
+    "player_options": [
+      "I’ll talk to Dex first.",
+      "I’m still not sure.",
+      "I think I’ll pass on this one."
+    ],
+    "parent_id": "beginning.1",
+    "layer": 1,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "beginning.1.3",
+    "title": "The Honor Code",
+    "description": "The player draws on their street smarts and proposes a counter-task that could benefit both them and Ronan, testing Ronan's willingness to engage cooperatively.",
+    "dialogue": "'How about this, Ronan? I can do the delivery, but it’s a risky gig. Let’s negotiate something more valuable in return; maybe I can snag something from the deal too.' Ronan raises an eyebrow, intrigued. 'You think you can play that card with me? Yet, it’s bold. Alright, let's see what you're willing to risk for a slice of the pie.'",
+    "npc_reactions": {
+      "Ronan": "Ronan’s expression shifts to one of curiosity and respect, if still wary. He acknowledges the player’s boldness, opening the door to negotiation."
+    },
+    "npc_emotion_pools": {
+      "Ronan": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+        },
+        {
+          "id": 1,
+          "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+          "goal": "Seriously remind the player that this task is very important."
+        },
+        {
+          "id": 2,
+          "trigger_condition": "The player shows hesitation or doubt about accepting the task",
+          "goal": "Reinforce the seriousness of the task to motivate the player."
+        },
+        {
+          "id": 3,
+          "trigger_condition": "The player proposes a counter-task or negotiation",
+          "goal": "Engage in a negotiation that might change the terms of the assignment."
+        }
+      ]
+    },
+    "player_options": [
+      "Let’s negotiate terms.",
+      "I’ll take the job as it is.",
+      "I’m not backing down from my refusal."
+    ],
+    "parent_id": "beginning.1",
+    "layer": 1,
+    "is_generated": true
+  }
+]

@@ -1,0 +1,41 @@
+{
+  "subtask_id": "meet_with_meredith_stout.2",
+  "title": "Unmasking the Connection",
+  "description": "As Meredith leans closer, her eyes narrowing with suspicion, she probes the player about their past and connections. The tension thickens as she demands to know how the player might be tied to her investigation and whether they know anything about her stolen goods.",
+  "dialogue": "Meredith's voice is cold as she fixes her gaze on you. 'You seem well-informed for someone wandering the alleyways of Night City. I need to know—are you connected to the people who took my shipment? Who are you working for? Answer carefully; any misstep could be... unfortunate.'",
+  "npc_reactions": {
+    "Meredith Stout": "Meredith's cold demeanor shifts slightly, revealing a glimmer of concern as she realizes the player might hold valuable information."
+  },
+  "npc_emotion_pools": {
+    "Meredith Stout": [
+      {
+        "id": 0,
+        "trigger_condition": null,
+        "goal": "Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot."
+      },
+      {
+        "id": 1,
+        "trigger_condition": "angered by the player",
+        "goal": "Insult or threaten the player."
+      },
+      {
+        "id": 2,
+        "trigger_condition": "believes the player is cooperative",
+        "goal": "Provide the player with a chip to store cash."
+      },
+      {
+        "id": 3,
+        "trigger_condition": "suspicion about the player's ties",
+        "goal": "Investigate the player's background and intentions."
+      }
+    ]
+  },
+  "player_options": [
+    "I have no connections to anyone stealing from you.",
+    "I might know something about the stolen goods.",
+    "Who I work for is none of your business."
+  ],
+  "parent_id": "meet_with_meredith_stout.1",
+  "layer": 2,
+  "is_generated": false
+}

@@ -1,0 +1,140 @@
+[
+  {
+    "subtask_id": "meet_with_meredith_stout.1.1",
+    "title": "A Show of Force",
+    "description": "The player comes on strong, asserting dominance in the conversation, which catches Meredith off guard. The tension escalates as the player makes it clear that they expect something in return for their cooperation.",
+    "dialogue": "You lean in, your voice low and unwavering. 'I don't play by the rules, Meredith. If you want information, you'll need to convince me it's worth my while. Consider this a business transaction.'",
+    "npc_reactions": {
+      "Meredith Stout": "Meredith's expression hardens as she realizes the player isn't here to negotiate but rather to impose terms that might undermine her authority."
+    },
+    "npc_emotion_pools": {
+      "Meredith Stout": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot."
+        },
+        {
+          "id": 1,
+          "trigger_condition": "angered by the player",
+          "goal": "Insult or threaten the player."
+        },
+        {
+          "id": 2,
+          "trigger_condition": "believes the player is cooperative",
+          "goal": "Provide the player with a chip to store cash."
+        },
+        {
+          "id": 3,
+          "trigger_condition": "perceives the player as a serious threat",
+          "goal": "Prepare to defend herself or escalate the confrontation."
+        },
+        {
+          "id": 4,
+          "trigger_condition": "feels challenged and undermined",
+          "goal": "Attempt to regain control of the situation through intimidation."
+        }
+      ]
+    },
+    "player_options": [
+      "Demand information about the missing goods.",
+      "Offer a counter-condition for your cooperation.",
+      "Show her a piece of tech that implies your connections."
+    ],
+    "parent_id": "meet_with_meredith_stout.1",
+    "layer": 1,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "meet_with_meredith_stout.1.2",
+    "title": "A Fragile Alliance",
+    "description": "The player expresses understanding of Meredith's situation, offering to assist her in rooting out the internal leak, leading to an uneasy alliance formed in the shadows of Night City.",
+    "dialogue": "You nod slowly, a calculated agreement forming. 'I know how it feels to be left out in the cold. Let’s figure this out together. I have resources you might find... useful.'",
+    "npc_reactions": {
+      "Meredith Stout": "Meredith's demeanor softens slightly, as she recognizes a potential ally in the player's offer."
+    },
+    "npc_emotion_pools": {
+      "Meredith Stout": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot."
+        },
+        {
+          "id": 1,
+          "trigger_condition": "angered by the player",
+          "goal": "Insult or threaten the player."
+        },
+        {
+          "id": 2,
+          "trigger_condition": "believes the player is cooperative",
+          "goal": "Provide the player with a chip to store cash."
+        },
+        {
+          "id": 3,
+          "trigger_condition": "perceives the player as a serious threat",
+          "goal": "Prepare to defend herself or escalate the confrontation."
+        },
+        {
+          "id": 4,
+          "trigger_condition": "recognizes an ally",
+          "goal": "Begin to share some information about the internal breach."
+        }
+      ]
+    },
+    "player_options": [
+      "Ask for details about the breach.",
+      "Suggest a plan to uncover the culprit.",
+      "Offer to track down leads using your connections."
+    ],
+    "parent_id": "meet_with_meredith_stout.1",
+    "layer": 1,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "meet_with_meredith_stout.1.3",
+    "title": "The Mask Slips",
+    "description": "The player decides to play a dangerous game, feigning ignorance and wrongly accusing Meredith of providing false leads, shaking her icy demeanor and drawing out her frustration.",
+    "dialogue": "You smirk, leaning back against the wall. 'Is it just me, or is there something fishy about your little operation here? I mean, how can I trust you if your intel is this questionable?'",
+    "npc_reactions": {
+      "Meredith Stout": "Meredith's eyes blaze with anger. Her cold facade cracks, revealing the tension of years of cutthroat battles in corporate leadership."
+    },
+    "npc_emotion_pools": {
+      "Meredith Stout": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot."
+        },
+        {
+          "id": 1,
+          "trigger_condition": "angered by the player",
+          "goal": "Insult or threaten the player."
+        },
+        {
+          "id": 2,
+          "trigger_condition": "believes the player is cooperative",
+          "goal": "Provide the player with a chip to store cash."
+        },
+        {
+          "id": 3,
+          "trigger_condition": "perceives the player as a serious threat",
+          "goal": "Prepare to defend herself or escalate the confrontation."
+        },
+        {
+          "id": 4,
+          "trigger_condition": "angered to the point of losing composure",
+          "goal": "Threaten the player outright and demand respect."
+        }
+      ]
+    },
+    "player_options": [
+      "Reassure her of your loyalty, despite the accusation.",
+      "Press further, demanding explanation for the breach.",
+      "Intimidate her back, asserting you could ruin her career."
+    ],
+    "parent_id": "meet_with_meredith_stout.1",
+    "layer": 1,
+    "is_generated": true
+  }
+]

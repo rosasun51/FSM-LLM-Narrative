@@ -1,0 +1,110 @@
+[
+  {
+    "subtask_id": "meet_with_meredith_stout.3.1",
+    "title": "The Reluctant Informant",
+    "description": "The player cautiously offers a vague clue about the missing goods, hinting at a trade that could benefit both parties. However, they hold back key details, sensing Meredith’s urgency.",
+    "dialogue": "The player hesitates, looking around before saying, 'I might have heard something... but you’re going to have to sweeten the deal for me, Meredith.'",
+    "npc_reactions": {
+      "Meredith Stout": "Her eyes narrow slightly, intrigued but wary. 'Sweeten the deal, huh? You must think you're in a position to bargain. I'll play along, but don't expect my patience to last long.'"
+    },
+    "npc_emotion_pools": {
+      "Meredith Stout": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot."
+        },
+        {
+          "id": 3,
+          "trigger_condition": "discerns that the player might have the information needed",
+          "goal": "Express urgency and insist on a favorable negotiation."
+        },
+        {
+          "id": 4,
+          "trigger_condition": "feels challenged by the player's vagueness",
+          "goal": "Intimidate the player to extract more information."
+        }
+      ]
+    },
+    "player_options": [
+      "Get specific about the hint.",
+      "Ask for a better offer first.",
+      "Stay vague and play hard to get."
+    ],
+    "parent_id": "meet_with_meredith_stout.3",
+    "layer": 3,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "meet_with_meredith_stout.3.2",
+    "title": "The Threat of Confrontation",
+    "description": "The player outright denies knowing anything about the missing goods, which causes Meredith to become increasingly irritated, leading her to threaten consequences.",
+    "dialogue": "The player shakes their head, 'I don’t know anything about it, Meredith. You’re barking up the wrong tree.'",
+    "npc_reactions": {
+      "Meredith Stout": "Frustration flares in her eyes as she steps closer, her voice low and menacing. 'Let me be clear: if you waste my time, I’ll make sure you regret it. Information can be worth more than just your life in this city.'"
+    },
+    "npc_emotion_pools": {
+      "Meredith Stout": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot."
+        },
+        {
+          "id": 1,
+          "trigger_condition": "angered by the player",
+          "goal": "Insult or threaten the player."
+        },
+        {
+          "id": 2,
+          "trigger_condition": "believes the player is uncooperative",
+          "goal": "Consider more aggressive tactics."
+        }
+      ]
+    },
+    "player_options": [
+      "Stand firm and refuse again.",
+      "Try to defuse the situation with humor.",
+      "Plead ignorance and change the subject."
+    ],
+    "parent_id": "meet_with_meredith_stout.3",
+    "layer": 3,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "meet_with_meredith_stout.3.3",
+    "title": "The Trade Proposition",
+    "description": "The player proposes a specific trade: they will provide information on the missing items in exchange for a sizable cash or chip payout from Meredith.",
+    "dialogue": "The player leans in confidently and states, 'I have intel on the missing goods, but it’s going to cost you. How about a nice fat chip to make it worth my while?'",
+    "npc_reactions": {
+      "Meredith Stout": "Meredith’s expression briefly softens with interest. 'Interesting. You'll need to make me believe that your intel is worth the investment. Just remember, I don’t take kindly to being cheated.'"
+    },
+    "npc_emotion_pools": {
+      "Meredith Stout": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot."
+        },
+        {
+          "id": 2,
+          "trigger_condition": "believes the player is cooperative",
+          "goal": "Provide the player with a chip to store cash."
+        },
+        {
+          "id": 3,
+          "trigger_condition": "delighted by the prospect of a deal",
+          "goal": "Hasten negotiations, eager to consider the specifics."
+        }
+      ]
+    },
+    "player_options": [
+      "Specify the amount you want.",
+      "Negotiate further for more chips.",
+      "Accept a lower amount if she agrees to help you."
+    ],
+    "parent_id": "meet_with_meredith_stout.3",
+    "layer": 3,
+    "is_generated": true
+  }
+]

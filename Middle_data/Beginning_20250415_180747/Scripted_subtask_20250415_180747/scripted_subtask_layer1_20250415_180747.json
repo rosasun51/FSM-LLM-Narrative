@@ -1,0 +1,36 @@
+{
+  "subtask_id": "beginning.1",
+  "title": "A Dangerous Assignment",
+  "description": "The player learns about the task assigned by Ronan, which involves picking up valuable goods and delivering them to a specific location. The atmosphere grows tense as Ronan emphasizes the importance of the mission.",
+  "dialogue": "Ronan leans forward, his fingers steepled as he looks you dead in the eye. 'I've got a job for you. It's simple, but the stakes are high. You need to pick up some goods for me. They can't fall into the wrong hands. Are you in or out?' His tone is serious, the weight of his words sinking in. You can feel the gravity of the task – this isn't just a delivery; it's a matter of life and death in Night City.",
+  "npc_reactions": {
+    "Ronan": "Ronan watches closely, gauging your reaction. If you show hesitation, he leans back, his expression turning steely."
+  },
+  "npc_emotion_pools": {
+    "Ronan": [
+      {
+        "id": 0,
+        "trigger_condition": null,
+        "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+      },
+      {
+        "id": 1,
+        "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+        "goal": "Seriously remind the player that this task is very important."
+      },
+      {
+        "id": 2,
+        "trigger_condition": "The player shows hesitation or doubt about accepting the task",
+        "goal": "Reinforce the seriousness of the task to motivate the player."
+      }
+    ]
+  },
+  "player_options": [
+    "I accept the task.",
+    "I need more information before deciding.",
+    "I refuse. This sounds too dangerous."
+  ],
+  "parent_id": "beginning",
+  "layer": 1,
+  "is_generated": false
+}

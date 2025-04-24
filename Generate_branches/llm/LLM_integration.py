@@ -5,7 +5,6 @@ It handles prompting, response parsing, and other LLM-related functionality.
 
 import os
 import json
-import random
 import datetime
 from typing import Dict, List, Tuple, Any, Optional
 from langchain_openai import ChatOpenAI
@@ -17,7 +16,6 @@ from Generate_branches.utils.constants import (
     LLM_BASE_URL, 
     LLM_API_KEY, 
     LLM_MAX_TOKENS, 
-    LLM_MAX_TOKENS_BRANCHES,
     DEFAULT_NUM_ALTERNATIVES,
     MIN_RATING_THRESHOLD,
     NUM_LAYERS,
@@ -225,38 +223,84 @@ class LLMHandler:
             api_key=self.api_key
         )
         self.model = LLM_MODEL
+        self.character_backgrounds = self._load_character_backgrounds()
         log_message(f"Initialized LLMHandler with model: {self.model}", "INFO")
+        if not self.character_backgrounds:
+            log_message("Character backgrounds could not be loaded.", "WARNING")
+        else:
+            log_message(f"Loaded {len(self.character_backgrounds)} character backgrounds.", "INFO")
     
-    def _call_llm(self, prompt: str, max_tokens: int = LLM_MAX_TOKENS) -> str:
+    def _load_character_backgrounds(self) -> Dict[str, Any]:
+        """Loads character background information from the JSON file."""
+        from Generate_branches.utils.constants import BASE_DIR # Ensure BASE_DIR is accessible
+        char_bg_path = os.path.join(BASE_DIR, 'data', 'Character_bg.json')
+        try:
+            with open(char_bg_path, 'r') as f:
+                data = json.load(f)
+                # Convert list of characters into a dictionary keyed by name for easier lookup
+                return {char['name']: char['basic_information'] for char in data}
+        except FileNotFoundError:
+            log_message(f"Character background file not found at {char_bg_path}", "ERROR")
+            return {}
+        except json.JSONDecodeError:
+            log_message(f"Error decoding JSON from {char_bg_path}", "ERROR")
+            return {}
+        except Exception as e:
+            log_message(f"An unexpected error occurred loading character backgrounds: {e}", "ERROR")
+            return {}
+    
+    def _get_relevant_character_info(self, task_info: Dict[str, Any]) -> Dict[str, Any]:
+        """Extracts background info for NPCs present in the task_info."""
+        relevant_info = {}
+        npcs_in_scene = [npc.get('name') for npc in task_info.get('interactive_npc', []) if npc.get('name')]
+        
+        if not self.character_backgrounds:
+             log_message("Character backgrounds not loaded, cannot extract relevant info.", "WARNING")
+             return {}
+
+        for npc_name in npcs_in_scene:
+            if npc_name in self.character_backgrounds:
+                # Selectively include key fields like personality and background
+                info = self.character_backgrounds[npc_name]
+                relevant_info[npc_name] = {
+                    "background": info.get("background", "N/A"),
+                    "personality": info.get("personality", "N/A")
+                }
+            else:
+                log_message(f"Background info for NPC '{npc_name}' not found in Character_bg.json.", "WARNING")
+                relevant_info[npc_name] = {"error": "Background not found"}
+        return relevant_info
+    
+    def _call_llm(self, prompt: str) -> str:
         """
         Call the LLM with a prompt and get a response.
         
         Args:
             prompt: The prompt to send to the LLM
-            max_tokens: Maximum number of tokens to generate
             
         Returns:
             Generated text from the LLM
         """
         try:
             if self.api_key:
+                # print("\n--- LLM PROMPT START ---") # Removed verification print
+                # print(prompt) # Removed verification print
+                # print("--- LLM PROMPT END ---\n") # Removed verification print
                 messages = [
                     SystemMessage(content=SYSTEM_PROMPT),
                     HumanMessage(content=prompt)
                 ]
                 
-                response = self.llm.invoke(
-                    messages,
-                    max_tokens=max_tokens
-                )
+                # Simplified invoke call - removed max_tokens
+                response = self.llm.invoke(messages)
                 
                 return response.content
             else:
-                log_message("No API key provided, using mock LLM response", "WARNING")
-                return log_message("No API key provided, using mock LLM response", "WARNING")
+                log_message("No API key provided, returning empty mock response.", "WARNING")
+                return "{}" # Return empty JSON string for parsing
         except Exception as e:
             log_message(f"Error calling LLM: {e}", "ERROR")
-            return log_message(f"Error calling LLM: {e}", "ERROR")
+            return "{}" # Return empty JSON string on error
     
     # def _mock_llm_response(self, prompt: str) -> str:
     #     """
@@ -352,6 +396,9 @@ class LLMHandler:
         layer_id = f"{root_id}.{layer}"
         parent_id = root_id if layer == 1 else f"{root_id}.{layer-1}"
         
+        relevant_char_info = self._get_relevant_character_info(task_info)
+        char_info_str = json.dumps(relevant_char_info, indent=2) if relevant_char_info else "No relevant character background information found."
+
         previous_context = ""
         if previous_subtasks and len(previous_subtasks) > 0:
             previous_context = "\nPreviously generated subtasks:\n"
@@ -381,14 +428,18 @@ You are generating a scripted subtask for Layer {layer} with ID "{layer_id}" tha
 Task Information:
 {json.dumps(task_info, indent=2)}
 
+Relevant Character Backgrounds/Personalities:
+{char_info_str}
+
 Transitioning Question: {transitioning_question}
 
 YOUR TASK: Create a scripted subtask that will serve as the main canonical path in Layer {layer} of the narrative structure. This subtask:
 1. Directly addresses the transitioning question
-2. Will be the primary response at this layer level 
+2. Will be the primary response at this layer level
 3. Forms a parent for the next level's subtask or alternatives
 4. Has a parent_id of "{parent_id}"
 5. Has is_generated set to "False" (as this is a scripted, not generated subtask)
+6. Considers the NPC's initial emotion pool (from Task Information) and background/personality (provided above as 'Relevant Character Backgrounds/Personalities'). **If background/personality information *is* available for an NPC**, potentially add new entries to that NPC's emotion pool based on the events of *this specific subtask* if it introduces relevant new emotional triggers or goals. Maintain the original structure for the emotion pool (`[{{"id": int, "trigger_condition": str|null, "goal": str}}]`). **If no additions are necessary, or if background information is missing for an NPC, keep the original pool for that NPC unchanged.**
 
 Your response MUST be a JSON object with this format:
 {{
@@ -397,6 +448,7 @@ Your response MUST be a JSON object with this format:
   "description": "Clear description of what happens in this subtask",
   "dialogue": "The main narrative text for the player",
   "npc_reactions": {{"npc_name": "reaction description", ...}},
+  "npc_emotion_pools": {{"npc_name": [{{"id": int, "trigger_condition": str|null, "goal": str}}], ...}},
   "player_options": ["option 1", "option 2", "option 3"],
   "parent_id": "{parent_id}",
   "layer": {layer},
@@ -447,6 +499,7 @@ YOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown
             "description": f"A scripted response to the transitioning question for Layer {layer}.",
             "dialogue": "The situation unfolds according to narrative expectations.",
             "npc_reactions": {},
+            "npc_emotion_pools": {},
             "player_options": ["Continue", "Ask questions", "Take another approach"],
             "parent_id": parent_id,
             "layer": layer,
@@ -474,6 +527,9 @@ YOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown
         parent_id = scripted_subtask.get("subtask_id", f"{root_id}.{layer}")
         base_id = f"{parent_id}."
         
+        relevant_char_info = self._get_relevant_character_info(task_info)
+        char_info_str = json.dumps(relevant_char_info, indent=2) if relevant_char_info else "No relevant character background information found."
+
         prompt = f"""
 You serve as a story architect for a narrative game with a hierarchical task structure. Your job is to generate alternative narrative branches in response to a transitioning question.
 
@@ -500,6 +556,9 @@ These alternatives will have:
 Task Information:
 {json.dumps(task_info, indent=2)}
 
+Relevant Character Backgrounds/Personalities:
+{char_info_str}
+
 Transitioning Question: {transitioning_question}
 
 Scripted Subtask (the main path for Layer {layer}):
@@ -510,6 +569,7 @@ YOUR TASK: Generate main alternative narrative branches that could occur in resp
 2. Offer meaningfully different narrative paths than the scripted subtask
 3. Maintain logical consistency with the task information
 4. Have the scripted subtask as their parent
+5. For each alternative branch, analyze the NPC(s) involved. Based on their initial emotion pool (from Task Information), their background/personality (provided above as 'Relevant Character Backgrounds/Personalities'), and the events of *this specific alternative branch*. **If background/personality information *is* available for an NPC**, potentially add new entries to that NPC's emotion pool if the branch introduces relevant new emotional triggers or goals. Maintain the original structure (`[{{"id": int, "trigger_condition": str|null, "goal": str}}]`). **If no additions are necessary, or if background information is missing for an NPC, keep the original pool for that NPC unchanged.**
 
 Rate each possibility on a 100-point scale (only those rated {MIN_RATING_THRESHOLD}+ will be considered viable).
 
@@ -521,6 +581,7 @@ Your response MUST be a JSON array of not more than {DEFAULT_NUM_ALTERNATIVES} o
     "description": "Clear description of what happens in this branch",
     "dialogue": "The main narrative text for the player",
     "npc_reactions": {{"npc_name": "reaction description", ...}},
+    "npc_emotion_pools": {{"npc_name": [{{"id": int, "trigger_condition": str|null, "goal": str}}], ...}},
     "player_options": ["option 1", "option 2", "option 3"],
     "parent_id": "{parent_id}",
     "layer": {layer},
@@ -532,6 +593,7 @@ Your response MUST be a JSON array of not more than {DEFAULT_NUM_ALTERNATIVES} o
     "description": "Description of the second alternative",
     "dialogue": "Dialogue for the second alternative",
     "npc_reactions": {{"npc_name": "reaction description", ...}},
+    "npc_emotion_pools": {{"npc_name": [{{"id": int, "trigger_condition": str|null, "goal": str}}], ...}},
     "player_options": ["option 1", "option 2", "option 3"],
     "parent_id": "{parent_id}",
     "layer": {layer},
@@ -543,6 +605,7 @@ Your response MUST be a JSON array of not more than {DEFAULT_NUM_ALTERNATIVES} o
     "description": "Description of the third alternative",
     "dialogue": "Dialogue for the third alternative",
     "npc_reactions": {{"npc_name": "reaction description", ...}},
+    "npc_emotion_pools": {{"npc_name": [{{"id": int, "trigger_condition": str|null, "goal": str}}], ...}},
     "player_options": ["option 1", "option 2", "option 3"],
     "parent_id": "{parent_id}",
     "layer": {layer},
@@ -607,6 +670,7 @@ YOUR RESPONSE MUST BE VALID JSON: An array with not more than {DEFAULT_NUM_ALTER
                 "description": f"An alternative approach to the situation in Layer {layer}.",
                 "dialogue": "The situation unfolds with a different perspective.",
                 "npc_reactions": {},
+                "npc_emotion_pools": {},
                 "player_options": ["Continue", "Ask questions", "Take another approach"],
                 "parent_id": parent_id,
                 "layer": layer,

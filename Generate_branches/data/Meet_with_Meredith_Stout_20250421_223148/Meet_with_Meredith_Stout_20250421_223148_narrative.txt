@@ -1,0 +1,712 @@
+Narrative Summary for Task: Meet with Meredith Stout
+Source Folder: Meet_with_Meredith_Stout_20250421_223148
+================================================================================
+
+KEY QUESTIONS
+--------------------------------------------------------------------------------
+1. Will the player pose a threat to Meredith Stout?
+2. Is the player's identity connected to Meredith Stout?
+3. Does the player have what Meredith Stout desires?
+4. Does the player want to trade with Meredith Stout?
+5. Is the price proposed by the player within the range acceptable to Meredith Stout?
+6. In what way does Meredith Stout use the player to achieve her own goals?
+
+================================================================================
+
+LAYER 1 - SCRIPTED SUBTASK (meet_with_meredith_stout.1)
+--------------------------------------------------------------------------------
+Title: A Calculated Encounter
+Subtask ID: meet_with_meredith_stout.1
+Description: The player meets Meredith Stout in the shadowy alley, amid the decay and the remnants of violence. The air is thick with tension as the two engage in a conversation where loyalty and motives are carefully assessed. Meredith's sharp gaze scrutinizes the player, weighing their potential as either an ally or threat.
+Dialogue:
+Meredith's eyes narrow as she sizes you up, her expression a blend of skepticism and intensity. 'You’re not just here for a chat, are you? I need to know—are you a liability or an asset? Speak freely, but remember: I don’t take kindly to deception.'
+
+Player Options:
+  1. Assure Meredith that you come in peace and are willing to negotiate.
+  2. Challenge Meredith's authority and assert your own power.
+  3. Reveal your connection to her investigation to gain her trust.
+
+NPC Reactions:
+  Meredith Stout: Meredith remains cold and calculating, further tightening her grip on her emotional detachment as she seeks to gauge the player’s intentions.
+
+NPC Emotion Pools:
+  Meredith Stout:
+    - Trigger: (Always)
+      Goal: Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot.
+    - Trigger: angered by the player
+      Goal: Insult or threaten the player.
+    - Trigger: believes the player is cooperative
+      Goal: Provide the player with a chip to store cash.
+    - Trigger: perceives the player as a serious threat
+      Goal: Prepare to defend herself or escalate the confrontation.
+
+
+--------------------------------------------------------------------------------
+
+LAYER 1 - ALTERNATIVES
+--------------------------------------------------------------------------------
+Alternative 1 (meet_with_meredith_stout.1.1):
+Title: A Show of Force
+Subtask ID: meet_with_meredith_stout.1.1
+Description: The player comes on strong, asserting dominance in the conversation, which catches Meredith off guard. The tension escalates as the player makes it clear that they expect something in return for their cooperation.
+Dialogue:
+You lean in, your voice low and unwavering. 'I don't play by the rules, Meredith. If you want information, you'll need to convince me it's worth my while. Consider this a business transaction.'
+
+Player Options:
+  1. Demand information about the missing goods.
+  2. Offer a counter-condition for your cooperation.
+  3. Show her a piece of tech that implies your connections.
+
+NPC Reactions:
+  Meredith Stout: Meredith's expression hardens as she realizes the player isn't here to negotiate but rather to impose terms that might undermine her authority.
+
+NPC Emotion Pools:
+  Meredith Stout:
+    - Trigger: (Always)
+      Goal: Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot.
+    - Trigger: angered by the player
+      Goal: Insult or threaten the player.
+    - Trigger: believes the player is cooperative
+      Goal: Provide the player with a chip to store cash.
+    - Trigger: perceives the player as a serious threat
+      Goal: Prepare to defend herself or escalate the confrontation.
+    - Trigger: feels challenged and undermined
+      Goal: Attempt to regain control of the situation through intimidation.
+
+
+---
+
+Alternative 2 (meet_with_meredith_stout.1.2):
+Title: A Fragile Alliance
+Subtask ID: meet_with_meredith_stout.1.2
+Description: The player expresses understanding of Meredith's situation, offering to assist her in rooting out the internal leak, leading to an uneasy alliance formed in the shadows of Night City.
+Dialogue:
+You nod slowly, a calculated agreement forming. 'I know how it feels to be left out in the cold. Let’s figure this out together. I have resources you might find... useful.'
+
+Player Options:
+  1. Ask for details about the breach.
+  2. Suggest a plan to uncover the culprit.
+  3. Offer to track down leads using your connections.
+
+NPC Reactions:
+  Meredith Stout: Meredith's demeanor softens slightly, as she recognizes a potential ally in the player's offer.
+
+NPC Emotion Pools:
+  Meredith Stout:
+    - Trigger: (Always)
+      Goal: Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot.
+    - Trigger: angered by the player
+      Goal: Insult or threaten the player.
+    - Trigger: believes the player is cooperative
+      Goal: Provide the player with a chip to store cash.
+    - Trigger: perceives the player as a serious threat
+      Goal: Prepare to defend herself or escalate the confrontation.
+    - Trigger: recognizes an ally
+      Goal: Begin to share some information about the internal breach.
+
+
+---
+
+Alternative 3 (meet_with_meredith_stout.1.3):
+Title: The Mask Slips
+Subtask ID: meet_with_meredith_stout.1.3
+Description: The player decides to play a dangerous game, feigning ignorance and wrongly accusing Meredith of providing false leads, shaking her icy demeanor and drawing out her frustration.
+Dialogue:
+You smirk, leaning back against the wall. 'Is it just me, or is there something fishy about your little operation here? I mean, how can I trust you if your intel is this questionable?'
+
+Player Options:
+  1. Reassure her of your loyalty, despite the accusation.
+  2. Press further, demanding explanation for the breach.
+  3. Intimidate her back, asserting you could ruin her career.
+
+NPC Reactions:
+  Meredith Stout: Meredith's eyes blaze with anger. Her cold facade cracks, revealing the tension of years of cutthroat battles in corporate leadership.
+
+NPC Emotion Pools:
+  Meredith Stout:
+    - Trigger: (Always)
+      Goal: Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot.
+    - Trigger: angered by the player
+      Goal: Insult or threaten the player.
+    - Trigger: believes the player is cooperative
+      Goal: Provide the player with a chip to store cash.
+    - Trigger: perceives the player as a serious threat
+      Goal: Prepare to defend herself or escalate the confrontation.
+    - Trigger: angered to the point of losing composure
+      Goal: Threaten the player outright and demand respect.
+
+
+================================================================================
+
+LAYER 2 - SCRIPTED SUBTASK (meet_with_meredith_stout.2)
+--------------------------------------------------------------------------------
+Title: Unmasking the Connection
+Subtask ID: meet_with_meredith_stout.2
+Description: As Meredith leans closer, her eyes narrowing with suspicion, she probes the player about their past and connections. The tension thickens as she demands to know how the player might be tied to her investigation and whether they know anything about her stolen goods.
+Dialogue:
+Meredith's voice is cold as she fixes her gaze on you. 'You seem well-informed for someone wandering the alleyways of Night City. I need to know—are you connected to the people who took my shipment? Who are you working for? Answer carefully; any misstep could be... unfortunate.'
+
+Player Options:
+  1. I have no connections to anyone stealing from you.
+  2. I might know something about the stolen goods.
+  3. Who I work for is none of your business.
+
+NPC Reactions:
+  Meredith Stout: Meredith's cold demeanor shifts slightly, revealing a glimmer of concern as she realizes the player might hold valuable information.
+
+NPC Emotion Pools:
+  Meredith Stout:
+    - Trigger: (Always)
+      Goal: Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot.
+    - Trigger: angered by the player
+      Goal: Insult or threaten the player.
+    - Trigger: believes the player is cooperative
+      Goal: Provide the player with a chip to store cash.
+    - Trigger: suspicion about the player's ties
+      Goal: Investigate the player's background and intentions.
+
+
+--------------------------------------------------------------------------------
+
+LAYER 2 - ALTERNATIVES
+--------------------------------------------------------------------------------
+Alternative 1 (meet_with_meredith_stout.2.1):
+Title: Shifting Allegiances
+Subtask ID: meet_with_meredith_stout.2.1
+Description: The player reveals a connection to a rival corporation, claiming they are on a job for them. This revelation triggers Meredith's suspicion, but also her interest in leveraging the player's insider knowledge.
+Dialogue:
+You lean back and say, 'I do know a thing or two, but you should know—I work for a different corporate outfit now. Maybe I could help you, for a price.'
+
+Player Options:
+  1. I have details about their operations you might find useful.
+  2. Why would I share anything with you?
+  3. I'm not interested in playing corporate games.
+
+NPC Reactions:
+  Meredith Stout: Meredith's cold demeanor becomes sharper, her interest piqued as she sees the potential for information but remains wary of betrayal.
+
+NPC Emotion Pools:
+  Meredith Stout:
+    - Trigger: (Always)
+      Goal: Pressure the player to provide valuable information regarding their rival corporation.
+    - Trigger: suspicion about the player's ties
+      Goal: Investigate the player's background and intentions.
+    - Trigger: interested in the player's insider information
+      Goal: Negotiate a deal to gain valuable insights.
+
+
+---
+
+Alternative 2 (meet_with_meredith_stout.2.2):
+Title: Personal Vendetta
+Subtask ID: meet_with_meredith_stout.2.2
+Description: The player reveals a personal vendetta against someone within Militech, raising Meredith's own curiosity and revealing layers of mutual animosity.
+Dialogue:
+You pause dramatically, 'Let's just say I have my reasons to want Militech's attention diverted elsewhere. It wouldn't be my first time upsetting the balance.'
+
+Player Options:
+  1. Sounds like you might have enemies too.
+  2. I won't be your pawn, Meredith.
+  3. Let’s just keep our interests aligned for now.
+
+NPC Reactions:
+  Meredith Stout: Meredith narrows her eyes, weighing the implications of what you've just said. She senses an opportunity but also recognizes the potential threat.
+
+NPC Emotion Pools:
+  Meredith Stout:
+    - Trigger: (Always)
+      Goal: Pressure the player to divulge details about their vendetta and if it could affect her.
+    - Trigger: suspicion about the player's motives
+      Goal: Investigate the player's connections and intentions.
+    - Trigger: intrigued by the player's motivations
+      Goal: See if the player can be turned into an asset.
+
+
+---
+
+Alternative 3 (meet_with_meredith_stout.2.3):
+Title: Deceptive Ties
+Subtask ID: meet_with_meredith_stout.2.3
+Description: The player falsely claims to have insider connections with a rogue faction that is targeting Militech, hoping to manipulate Meredith into providing information in exchange for a supposed alliance.
+Dialogue:
+You smirk, 'Let's just say I know people who are quite eager to see Militech suffer. You might want to think carefully about who you trust, Meredith.'
+
+Player Options:
+  1. Prove you're on the right side, or you'll regret it.
+  2. I'm just telling you what you need to hear.
+  3. Going to challenge my connections, Meredith?
+
+NPC Reactions:
+  Meredith Stout: Meredith's expression turns icy as mistrust fills the air. She contemplates whether this player is trying to deceive her or if there's a truth behind their words.
+
+NPC Emotion Pools:
+  Meredith Stout:
+    - Trigger: angered by the player’s insinuations
+      Goal: Threaten the player to gauge their credibility.
+    - Trigger: suspicion about the player's motives
+      Goal: Investigate the player's background and intentions.
+    - Trigger: skeptical of the player's false claims
+      Goal: Decide if the player could be a threat.
+
+
+================================================================================
+
+LAYER 3 - SCRIPTED SUBTASK (meet_with_meredith_stout.3)
+--------------------------------------------------------------------------------
+Title: The Price of Information
+Subtask ID: meet_with_meredith_stout.3
+Description: In the dim light of the alley, Meredith Stout's demeanor shifts as she sizes up the player, feeling the weight of the stolen goods that might change her investigation's fate. She grimly demands to know if the player possesses any information related to the missing items, mentioning a suspicious trade involving a stolen robot. This moment hangs heavy in the air as both parties assess the potential gains and losses.
+Dialogue:
+Meredith leans forward, her eyes assessing. 'You've got something, don’t you? A lead? A clue? If you want a nice little favor from me, you’ll have to spill what you know about that missing robot. Otherwise, we’ll have a problem.'
+
+Player Options:
+  1. Offer information on the missing goods.
+  2. Deny knowing anything useful.
+  3. Attempt to negotiate a deal in exchange for information.
+
+NPC Reactions:
+  Meredith Stout: Her tone sharpens, reflecting her growing impatience as she awaits the player's response, ready to quickly pivot if the player refuses or seems evasive.
+
+NPC Emotion Pools:
+  Meredith Stout:
+    - Trigger: (Always)
+      Goal: Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot.
+    - Trigger: angered by the player
+      Goal: Insult or threaten the player.
+    - Trigger: believes the player is cooperative
+      Goal: Provide the player with a chip to store cash.
+    - Trigger: discerns that the player might have the information needed
+      Goal: Express urgency and insist on a favorable negotiation.
+
+
+--------------------------------------------------------------------------------
+
+LAYER 3 - ALTERNATIVES
+--------------------------------------------------------------------------------
+Alternative 1 (meet_with_meredith_stout.3.1):
+Title: The Reluctant Informant
+Subtask ID: meet_with_meredith_stout.3.1
+Description: The player cautiously offers a vague clue about the missing goods, hinting at a trade that could benefit both parties. However, they hold back key details, sensing Meredith’s urgency.
+Dialogue:
+The player hesitates, looking around before saying, 'I might have heard something... but you’re going to have to sweeten the deal for me, Meredith.'
+
+Player Options:
+  1. Get specific about the hint.
+  2. Ask for a better offer first.
+  3. Stay vague and play hard to get.
+
+NPC Reactions:
+  Meredith Stout: Her eyes narrow slightly, intrigued but wary. 'Sweeten the deal, huh? You must think you're in a position to bargain. I'll play along, but don't expect my patience to last long.'
+
+NPC Emotion Pools:
+  Meredith Stout:
+    - Trigger: (Always)
+      Goal: Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot.
+    - Trigger: discerns that the player might have the information needed
+      Goal: Express urgency and insist on a favorable negotiation.
+    - Trigger: feels challenged by the player's vagueness
+      Goal: Intimidate the player to extract more information.
+
+
+---
+
+Alternative 2 (meet_with_meredith_stout.3.2):
+Title: The Threat of Confrontation
+Subtask ID: meet_with_meredith_stout.3.2
+Description: The player outright denies knowing anything about the missing goods, which causes Meredith to become increasingly irritated, leading her to threaten consequences.
+Dialogue:
+The player shakes their head, 'I don’t know anything about it, Meredith. You’re barking up the wrong tree.'
+
+Player Options:
+  1. Stand firm and refuse again.
+  2. Try to defuse the situation with humor.
+  3. Plead ignorance and change the subject.
+
+NPC Reactions:
+  Meredith Stout: Frustration flares in her eyes as she steps closer, her voice low and menacing. 'Let me be clear: if you waste my time, I’ll make sure you regret it. Information can be worth more than just your life in this city.'
+
+NPC Emotion Pools:
+  Meredith Stout:
+    - Trigger: (Always)
+      Goal: Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot.
+    - Trigger: angered by the player
+      Goal: Insult or threaten the player.
+    - Trigger: believes the player is uncooperative
+      Goal: Consider more aggressive tactics.
+
+
+---
+
+Alternative 3 (meet_with_meredith_stout.3.3):
+Title: The Trade Proposition
+Subtask ID: meet_with_meredith_stout.3.3
+Description: The player proposes a specific trade: they will provide information on the missing items in exchange for a sizable cash or chip payout from Meredith.
+Dialogue:
+The player leans in confidently and states, 'I have intel on the missing goods, but it’s going to cost you. How about a nice fat chip to make it worth my while?'
+
+Player Options:
+  1. Specify the amount you want.
+  2. Negotiate further for more chips.
+  3. Accept a lower amount if she agrees to help you.
+
+NPC Reactions:
+  Meredith Stout: Meredith’s expression briefly softens with interest. 'Interesting. You'll need to make me believe that your intel is worth the investment. Just remember, I don’t take kindly to being cheated.'
+
+NPC Emotion Pools:
+  Meredith Stout:
+    - Trigger: (Always)
+      Goal: Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot.
+    - Trigger: believes the player is cooperative
+      Goal: Provide the player with a chip to store cash.
+    - Trigger: delighted by the prospect of a deal
+      Goal: Hasten negotiations, eager to consider the specifics.
+
+
+================================================================================
+
+LAYER 4 - SCRIPTED SUBTASK (meet_with_meredith_stout.4)
+--------------------------------------------------------------------------------
+Title: The Tenuous Trade
+Subtask ID: meet_with_meredith_stout.4
+Description: The player cautiously proposes a trade, offering insights or goods that could satisfy Meredith Stout's relentless pursuit of information regarding the stolen robot. Meredith's sharp wit and calculating nature emerge as she deliberates the terms, fully aware that any deal could tip the balance of power in either direction.
+Dialogue:
+Meredith raises an eyebrow, her expression a blend of intrigue and skepticism. 'So, you want to make a deal? What do you have that is worth my time? Be careful; I don’t take kindly to wasteful exchanges.' Her voice is steady, but there's an unmistakable edge in the air, hinting at the potential volatility of negotiations in a world where trust is as scarce as the goods she seeks.
+
+Player Options:
+  1. Offer valuable intel related to the robot's location.
+  2. Propose a cash trade for information.
+  3. Ask Meredith what she values most in this exchange.
+
+NPC Reactions:
+  Meredith Stout: Meredith's interest is piqued, but she remains cautious; her eyes flicker with a calculating gaze as she weighs the player's offer against her own goals.
+
+NPC Emotion Pools:
+  Meredith Stout:
+    - Trigger: (Always)
+      Goal: Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot.
+    - Trigger: angered by the player
+      Goal: Insult or threaten the player.
+    - Trigger: believes the player is cooperative
+      Goal: Provide the player with a chip to store cash.
+    - Trigger: the player suggests a lucrative trade
+      Goal: Consider the player's proposal and determine its worth before agreeing or dismissing it.
+
+
+--------------------------------------------------------------------------------
+
+LAYER 4 - ALTERNATIVES
+--------------------------------------------------------------------------------
+Alternative 1 (meet_with_meredith_stout.4.1):
+Title: The Information Gambit
+Subtask ID: meet_with_meredith_stout.4.1
+Description: The player strategically offers to divulge sensitive information about a rival gang's operations, aiming to leverage their knowledge for a favorable trade with Meredith Stout.
+Dialogue:
+The air grows tense as you lean closer, lowering your voice. 'I have intel on the Maelstrom's next move—details that could cost them dearly. If you’re willing to make this worthwhile, I could be persuaded to share.' Meredith's eyes gleam with interest, but her demeanor remains guarded, as if she's sizing up the backbone of your offer.
+
+Player Options:
+  1. Detail the intel and negotiate further.
+  2. Ask Meredith what she plans to do with the information.
+  3. Offer a lesser deal as a backup.
+
+NPC Reactions:
+  Meredith Stout: Intrigued, Meredith leans in, her previous caution momentarily eclipsed by the allure of valuable intel.
+
+NPC Emotion Pools:
+  Meredith Stout:
+    - Trigger: (Always)
+      Goal: Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot.
+    - Trigger: angered by the player
+      Goal: Insult or threaten the player.
+    - Trigger: believes the player is cooperative
+      Goal: Provide the player with a chip to store cash.
+    - Trigger: the player proposes an attractive trade
+      Goal: Consider the player's proposal as a potential advantage in her own game.
+
+
+---
+
+Alternative 2 (meet_with_meredith_stout.4.2):
+Title: Confrontation over Trust
+Subtask ID: meet_with_meredith_stout.4.2
+Description: The player challenges Meredith about her motives, questioning her trustworthiness in this exchange before any deal is made, leading to a heated exchange.
+Dialogue:
+You fold your arms, meeting her calculating gaze. 'Why should I trust you? You play hardball, and I don’t need another enemy. Tell me what guarantees I have.' The challenge hangs in the air, and you can feel the tension as Meredith's icy smirk flickers into a scowl.
+
+Player Options:
+  1. Apologize and shift tactics.
+  2. Stand firm and reiterate your point.
+  3. Ask for a demonstration of good faith.
+
+NPC Reactions:
+  Meredith Stout: Annoyed, Meredith stands her ground, clearly irritated by the accusation but intrigued by your audacity.
+
+NPC Emotion Pools:
+  Meredith Stout:
+    - Trigger: (Always)
+      Goal: Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot.
+    - Trigger: angered by the player
+      Goal: Insult or threaten the player.
+    - Trigger: believes the player is cooperative
+      Goal: Provide the player with a chip to store cash.
+    - Trigger: the player openly doubts her integrity
+      Goal: Defend her position while trying to regain the upper hand in the conversation.
+
+
+---
+
+Alternative 3 (meet_with_meredith_stout.4.3):
+Title: Value Beyond Currency
+Subtask ID: meet_with_meredith_stout.4.3
+Description: The player realizes that cash alone won't suffice and instead offers a unique piece of technology or a favor that piques Meredith's interest.
+Dialogue:
+You take a breath, shifting the conversation. 'I have something else—an upgraded cyberdeck prototype. I’d trade it for information you can’t get from anyone else.' Meredith's interest visibly sharpens, her calculating mind racing to assess the potential value of your offer.
+
+Player Options:
+  1. Provide details about the tech's capabilities.
+  2. Ask for her expertise in exchange.
+  3. Negotiate on other terms for the favor.
+
+NPC Reactions:
+  Meredith Stout: Intrigued by the unique offer, Meredith's eyes narrow, and she becomes more engaged with the negotiation.
+
+NPC Emotion Pools:
+  Meredith Stout:
+    - Trigger: (Always)
+      Goal: Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot.
+    - Trigger: angered by the player
+      Goal: Insult or threaten the player.
+    - Trigger: believes the player is cooperative
+      Goal: Provide the player with a chip to store cash.
+    - Trigger: the player offers unique tech
+      Goal: Assess the trade's worth against potential gains.
+
+
+================================================================================
+
+LAYER 5 - SCRIPTED SUBTASK (meet_with_meredith_stout.5)
+--------------------------------------------------------------------------------
+Title: Negotiating the Price
+Subtask ID: meet_with_meredith_stout.5
+Description: The player assesses Meredith Stout's response to their proposed trade, weighing whether the offer is enticing enough to secure her cooperation. Tension hangs in the air, with both parties acutely aware that this moment could determine the nature of their relationship moving forward.
+Dialogue:
+Meredith gazes at you, her expression inscrutable. 'You think this is just a game?' she asks, her voice low and steely. 'I need to know if your proposed price meets my standards. I'm not here to waste my time or put my neck on the line for a half-baked deal. So, tell me, does your offer hold any real value for me?'
+
+Player Options:
+  1. Offer additional valuable information about the stolen robot.
+  2. Stand firm on the current proposal, insisting it’s fair.
+  3. Attempt to negotiate, offering to sweeten the deal with a favor.
+
+NPC Reactions:
+  Meredith Stout: She leans back slightly, arms crossed, her eyes narrowing as she evaluates the player's response. There's a flicker of hope beneath her calculating demeanor, but also a hint of impatience.
+
+NPC Emotion Pools:
+  Meredith Stout:
+    - Trigger: (Always)
+      Goal: Pressures the player to prove the value of their proposition.
+    - Trigger: angered by the player's lowball offer
+      Goal: Insult or threaten the player.
+    - Trigger: believes the player's offer is acceptable
+      Goal: Show her interest by considering what they can gain from the deal.
+    - Trigger: sensitive to wasting time
+      Goal: Express her impatience and demand a faster resolution.
+
+
+--------------------------------------------------------------------------------
+
+LAYER 5 - ALTERNATIVES
+--------------------------------------------------------------------------------
+Alternative 1 (meet_with_meredith_stout.5.1):
+Title: A Dangerous Gamble
+Subtask ID: meet_with_meredith_stout.5.1
+Description: The player proposes a risky trade involving dubious contacts that could anger powerful factions. Meredith Stout weighs the consequences of involvement with such dangerous players.
+Dialogue:
+You lean in, lowering your voice. 'How about I set you up with my contacts in the underground? Sure, they’re a little... unsavory, but they know things. Great things.' Meredith's brow furrows, skepticism churning in her gaze. 'You think the risks of associating with scum like that would be worth it? You better be sure you can control the fallout.'
+
+Player Options:
+  1. Provide evidence of your contacts' credibility.
+  2. Reassure Meredith about control over the situation.
+  3. Withdraw the offer, sensing its danger.
+
+NPC Reactions:
+  Meredith Stout: She raises an eyebrow, intrigued yet wary. The tension in her posture suggests she's weighing the potential rewards against the risk of inciting a corporate war.
+
+NPC Emotion Pools:
+  Meredith Stout:
+    - Trigger: (Always)
+      Goal: Express concern over the implications of the player's contacts.
+    - Trigger: feels intrigued by potential rewards
+      Goal: Consider how to manipulate the situation for her benefit.
+    - Trigger: concerned about the risks
+      Goal: Demand further details and guarantees about the player's connections.
+
+
+---
+
+Alternative 2 (meet_with_meredith_stout.5.2):
+Title: Offer the Unexpected
+Subtask ID: meet_with_meredith_stout.5.2
+Description: The player presents an unconventional offer that involves a high-value item rather than monetary compensation, catching Meredith off guard.
+Dialogue:
+You pull out a sleek data chip, its surface gleaming under the dim alley light. 'How about a prototype tech from Arasaka? It's worth more than money right now.' Meredith's eyes widen, momentarily breaking her icy facade. 'You have a prototype? Now that could be interesting... but I need to know if it's legit.'
+
+Player Options:
+  1. Describe the prototype's unique features.
+  2. Offer to fetch documentation to prove its legitimacy.
+  3. Negotiate for a higher price based on its rarity.
+
+NPC Reactions:
+  Meredith Stout: Initially shocked, she quickly regains her composure, her demeanor becoming more calculating as she considers the implications.
+
+NPC Emotion Pools:
+  Meredith Stout:
+    - Trigger: (Always)
+      Goal: Curiosity about the legitimacy of the prototype.
+    - Trigger: interested by a unique offer
+      Goal: Explore the potential benefits of obtaining the prototype.
+
+
+---
+
+Alternative 3 (meet_with_meredith_stout.5.3):
+Title: Bargain with Fury
+Subtask ID: meet_with_meredith_stout.5.3
+Description: The player stubbornly stands by their original offer, insisting it's fair. Meredith's anger flares, and her patience wears thin.
+Dialogue:
+You stand firm, crossing your arms defiantly. 'I’m not budging. It’s a fair offer, and I expect you to recognize its value.' Meredith's expression darkens, her cold demeanor shifting into open hostility. 'Fair? You think your deal is fair? You're wasting my time, and I don't like being insulted.'
+
+Player Options:
+  1. Apologize and attempt to salvage the deal.
+  2. Stand firmer and challenge her authority.
+  3. Escalate the confrontation, threatening to walk away.
+
+NPC Reactions:
+  Meredith Stout: Furious, she leans forward, ready to lash out verbally, emphasizing her power in this negotiation.
+
+NPC Emotion Pools:
+  Meredith Stout:
+    - Trigger: angered by the player's refusal to negotiate
+      Goal: Deliver a sharp insult to the player, threatening their chances of cooperation.
+    - Trigger: sensitive to wasting time
+      Goal: Demand a conclusive answer quickly before she abruptly ends the meeting.
+
+
+================================================================================
+
+LAYER 6 - SCRIPTED SUBTASK (meet_with_meredith_stout.6)
+--------------------------------------------------------------------------------
+Title: Leveraging Trust
+Subtask ID: meet_with_meredith_stout.6
+Description: Meredith Stout leans against the damp wall of the alley, her piercing gaze never leaving the player. She begins to outline how she intends to use the player's knowledge of the underworld to navigate the web of deceit surrounding her investigation. In this precarious alliance, Stout makes it clear that the player could provide crucial information that may lead to the retrieval of her stolen goods, positioning them as a key piece in her dangerous game of power. The stakes escalate as she attempts to bind the player closer to her needs, questioning the player's motivations and readiness to assist her escape from the corporate labyrinth.
+Dialogue:
+Meredith: 'Your underground connections could either sink or save me. I need someone who can move freely in these shadows to steer my investigations. If you can help me find the stolen robot, I promise it won't go unrewarded. But if you become a liability, you will regret it.'
+
+Player Options:
+  1. Agree to assist Meredith in her investigation.
+  2. Refuse and walk away, stating the risks are too high.
+  3. Attempt to negotiate a better deal for your help.
+
+NPC Reactions:
+  Meredith Stout: Meredith's expression shifts from suspicion to a calculated intensity as she considers the player's potential value as both an ally and a pawn in her game.
+
+NPC Emotion Pools:
+  Meredith Stout:
+    - Trigger: (Always)
+      Goal: Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot.
+    - Trigger: angered by the player
+      Goal: Insult or threaten the player.
+    - Trigger: believes the player is cooperative
+      Goal: Provide the player with a chip to store cash.
+    - Trigger: (Always)
+      Goal: Use the player to gain access to crucial street-level intelligence in order to reclaim stolen goods.
+
+
+--------------------------------------------------------------------------------
+
+LAYER 6 - ALTERNATIVES
+--------------------------------------------------------------------------------
+Alternative 1 (meet_with_meredith_stout.6.1):
+Title: Deflecting Blame
+Subtask ID: meet_with_meredith_stout.6.1
+Description: The player suggests that Meredith herself might be partly responsible for the theft due to Militech's internal conflicts. This accusation forces Meredith to justify her position while deflecting potential blame back to the player. Tension builds as they navigate the delicate line between ally and adversary.
+Dialogue:
+Player: 'You know, Meredith, if Militech hadn't been so secretive about everything, maybe this would never have happened. Maybe you're as much to blame as anyone.'
+
+Player Options:
+  1. Continue to challenge Meredith's leadership
+  2. Offer a compromise on the investigation
+  3. Try to calm the situation down
+
+NPC Reactions:
+  Meredith Stout: Meredith's demeanor shifts from assertive to defensive, her cold glare sharpened as she considers the implications of the player's words.
+
+NPC Emotion Pools:
+  Meredith Stout:
+    - Trigger: (Always)
+      Goal: Pressure the player to learn more about their motivations.
+    - Trigger: feeling insulted
+      Goal: Retaliate verbally, challenging the player's understanding of the situation.
+    - Trigger: believes the player is cooperative
+      Goal: Reveal more about her own position of power within Militech.
+    - Trigger: defensive stance taken by player
+      Goal: Counter the blame by emphasizing the demands of her role.
+
+
+---
+
+Alternative 2 (meet_with_meredith_stout.6.2):
+Title: Blackmailing for Information
+Subtask ID: meet_with_meredith_stout.6.2
+Description: The player threatens to expose some hidden secrets about Militech's dealings unless Meredith provides them with vital information. This power play pushes Meredith to negotiate from a position of weakness, revealing new aspects of her character as she weighs her options.
+Dialogue:
+Player: 'I have some very interesting intel about Militech's dealings that could ruin your career, Meredith. Let's make a trade.'
+
+Player Options:
+  1. Proceed with the blackmail
+  2. Back off and negotiate
+  3. Offer a different kind of deal for information
+
+NPC Reactions:
+  Meredith Stout: Meredith's eyes narrow in realization, acknowledging the sudden shift in power dynamics with a calculating smile.
+
+NPC Emotion Pools:
+  Meredith Stout:
+    - Trigger: (Always)
+      Goal: Explore what leverage the player could have over her.
+    - Trigger: feeling threatened
+      Goal: Attempt to intimidate the player back.
+    - Trigger: perceives player as valuable
+      Goal: Consider forging an alliance out of necessity.
+    - Trigger: realizing player holds significant information
+      Goal: Explore what information the player truly has.
+
+
+---
+
+Alternative 3 (meet_with_meredith_stout.6.3):
+Title: Playing for Time
+Subtask ID: meet_with_meredith_stout.6.3
+Description: The player suggests postponing any commitment until they gather more information about the situation. Meredith is initially frustrated, but gradually sees the strategic advantage in this delay as it allows her to assess the player's true loyalty.
+Dialogue:
+Player: 'Before I dive in, I need some time to prepare. This is all too risky for immediate action.'
+
+Player Options:
+  1. Agree to gather more intel
+  2. Offer to investigate Militech internally
+  3. Propose a meeting somewhere safer
+
+NPC Reactions:
+  Meredith Stout: Meredith's frustration gives way to reluctant understanding as she realizes the player's cautious approach might serve them both in the long run.
+
+NPC Emotion Pools:
+  Meredith Stout:
+    - Trigger: (Always)
+      Goal: Push the player for more immediate commitment.
+    - Trigger: feeling annoyed about delay
+      Goal: Express her discontent with the player's hesitation.
+    - Trigger: recognizes player's cautious nature
+      Goal: Consider that the player's strategy might be wise.
+    - Trigger: (Always)
+      Goal: Plot how to use the player's delay to her advantage.
+
+
+================================================================================
