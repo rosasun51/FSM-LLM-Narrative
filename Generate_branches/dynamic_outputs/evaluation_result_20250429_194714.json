@@ -1,0 +1,44 @@
+{
+  "best_node": {
+    "subtask_id": "beginning.2",
+    "title": "Accept the Challenge",
+    "description": "The player considers Ronan\u2019s task, weighing the risks against the potential rewards. An uneasy feeling stirs within, but the allure of the promised loot beckons. Will the player step into the shadows and accept the mission?",
+    "dialogue": "You take a deep breath, contemplating Ronan's words. The stakes are high, and you can sense the weight of his expectation. The flickering neon lights cast long shadows, adding to the tension in the air. You know the city doesn\u2019t wait for anyone. Do you risk stepping into this dark underground world for what could be a life-changing payday?",
+    "npc_reactions": {
+      "Ronan": "He leans forward, eyes piercing, as he awaits your decision, knowing that your answer could seal your fate in this unforgiving metropolis."
+    },
+    "npc_emotion_pools": {
+      "Ronan": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+        },
+        {
+          "id": 1,
+          "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+          "goal": "Seriously remind the player that this task is very important."
+        },
+        {
+          "id": 2,
+          "trigger_condition": "The player hesitates too long or seems indecisive",
+          "goal": "Show subtle frustration while still maintaining a calm demeanor, emphasizing the urgency of the task."
+        }
+      ]
+    },
+    "player_options": [
+      "I accept the task and will get it done.",
+      "I need more information before making a decision.",
+      "No, I\u2019m not interested in this job."
+    ],
+    "parent_id": "beginning.1",
+    "layer": 2,
+    "is_generated": false
+  },
+  "similarity_score": 70.8712158203125,
+  "processing_stage": "select_existing",
+  "all_scores": {
+    "beginning.2": 70.8712158203125,
+    "beginning.1": 65.57185363769531
+  }
+}
