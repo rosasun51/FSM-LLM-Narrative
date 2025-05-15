@@ -439,7 +439,13 @@ YOUR TASK: Create a scripted subtask that will serve as the main canonical path 
 3. Forms a parent for the next level's subtask or alternatives
 4. Has a parent_id of "{parent_id}"
 5. Has is_generated set to "False" (as this is a scripted, not generated subtask)
-6. Considers the NPC's initial emotion pool (from Task Information) and background/personality (provided above as 'Relevant Character Backgrounds/Personalities'). **If background/personality information *is* available for an NPC**, potentially add new entries to that NPC's emotion pool based on the events of *this specific subtask* if it introduces relevant new emotional triggers or goals. Maintain the original structure for the emotion pool (`[{{"id": int, "trigger_condition": str|null, "goal": str}}]`). **If no additions are necessary, or if background information is missing for an NPC, keep the original pool for that NPC unchanged.**
+6. Considers the NPC's initial emotion pool (from Task Information) and background/personality (provided above as 'Relevant Character Backgrounds/Personalities'). **If background/personality information *is* available for an NPC**, potentially add new entries to that NPC's emotion pool (the top-level 'npc_emotion_pools' field in the output) based on the events of *this specific subtask* if it introduces relevant new emotional triggers or goals. Maintain the original structure for the emotion pool (`[{{"id": int, "trigger_condition": str|null, "goal": str}}]`). **If no additions are necessary, or if background information is missing for an NPC, keep the original pool for that NPC unchanged.**
+7. Include the following fields. Populate them with relevant information. If the information is directly available in the input 'Task Information', use that. Otherwise, you can generate sensible content or use null/empty structures where appropriate for this specific subtask:
+   - `environment`: A string describing the environment.
+   - `interactive_environment_objects`: A list of objects (e.g., `[{{"name": "object_name", "action_point_cost": "cost_string_or_int"}}]`) or null.
+   - `interactive_npc`: A list of NPC objects (e.g., `[{{"name": "npc_name", "additional_conditions": "string_or_null", "goal": "string", "emotion_pool": [{{"id": "string_or_int", "trigger_condition": "string_or_null", "goal": "string"}}]}}]`) or null. These should reflect the NPCs present in the scene with their original details.
+   - `key_questions`: Copy this directly from the input 'Task Information' (e.g., `[{{"id": "string_or_int", "content": "question_string"}}]` or `[{{"id": "string_or_int", "english": "question_string"}}]`).
+   - `scene_end_state_reference`: An object describing end conditions (e.g., `{{"end_condition1": "string_or_null", "end_condition2": "string_or_null"}}`) or null.
 
 Your response MUST be a JSON object with this format:
 {{
@@ -452,7 +458,19 @@ Your response MUST be a JSON object with this format:
   "player_options": ["option 1", "option 2", "option 3"],
   "parent_id": "{parent_id}",
   "layer": {layer},
-  "is_generated": false
+  "is_generated": false,
+  "environment": "Detailed description of the subtask's environment.",
+  "interactive_environment_objects": [{{"name": "object_name", "action_point_cost": "1"}}],
+  "interactive_npc": [
+    {{
+      "name": "NPC Name From Task Info",
+      "additional_conditions": "Any specific conditions for this NPC in this context, or null.",
+      "goal": "NPC's goal relevant to this subtask context.",
+      "emotion_pool": [{{"id": "original_id", "trigger_condition": "original_trigger", "goal": "original_goal"}}]
+    }}
+  ],
+  "key_questions": [{{"id": "q1", "content": "Copied key question 1 from task_info?"}}],
+  "scene_end_state_reference": {{ "end_condition1": "Description of end condition 1", "end_condition2": "Description of end condition 2" }}
 }}
 
 YOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown above.
@@ -503,7 +521,12 @@ YOUR RESPONSE MUST BE VALID JSON: A single JSON object with the exact keys shown
             "player_options": ["Continue", "Ask questions", "Take another approach"],
             "parent_id": parent_id,
             "layer": layer,
-            "is_generated": False
+            "is_generated": False,
+            "environment": "Default environment description.",
+            "interactive_environment_objects": [],
+            "interactive_npc": [],
+            "key_questions": task_info.get('key_questions', []),
+            "scene_end_state_reference": {}
         }
     
     def generate_subtask_branches(self, task_info: Dict[str, Any], transitioning_question: str, 
@@ -569,7 +592,13 @@ YOUR TASK: Generate main alternative narrative branches that could occur in resp
 2. Offer meaningfully different narrative paths than the scripted subtask
 3. Maintain logical consistency with the task information
 4. Have the scripted subtask as their parent
-5. For each alternative branch, analyze the NPC(s) involved. Based on their initial emotion pool (from Task Information), their background/personality (provided above as 'Relevant Character Backgrounds/Personalities'), and the events of *this specific alternative branch*. **If background/personality information *is* available for an NPC**, potentially add new entries to that NPC's emotion pool if the branch introduces relevant new emotional triggers or goals. Maintain the original structure (`[{{"id": int, "trigger_condition": str|null, "goal": str}}]`). **If no additions are necessary, or if background information is missing for an NPC, keep the original pool for that NPC unchanged.**
+5. For each alternative branch, analyze the NPC(s) involved. Based on their initial emotion pool (from Task Information), their background/personality (provided above as 'Relevant Character Backgrounds/Personalities'), and the events of *this specific alternative branch*. **If background/personality information *is* available for an NPC**, potentially add new entries to that NPC's emotion pool (the top-level 'npc_emotion_pools' field in the output for this branch) if the branch introduces relevant new emotional triggers or goals. Maintain the original structure (`[{{"id": int, "trigger_condition": str|null, "goal": str}}]`). **If no additions are necessary, or if background information is missing for an NPC, keep the original pool for that NPC unchanged.**
+6. For each alternative, include the following fields. Populate them with relevant information for that specific alternative branch. If information is in the input 'Task Information' and relevant, use it. Otherwise, generate sensible content or use null/empty structures:
+   - `environment`: A string describing the environment for this branch.
+   - `interactive_environment_objects`: A list of objects (e.g., `[{{"name": "object_name", "action_point_cost": "cost_string_or_int"}}]`) or null for this branch.
+   - `interactive_npc`: A list of NPC objects (e.g., `[{{"name": "npc_name", "additional_conditions": "string_or_null", "goal": "string", "emotion_pool": [{{"id": "string_or_int", "trigger_condition": "string_or_null", "goal": "string"}}]}}]`) relevant to this branch, or null.
+   - `key_questions`: Copy this directly from the input 'Task Information' (e.g., `[{{"id": "string_or_int", "content": "question_string"}}]` or `[{{"id": "string_or_int", "english": "question_string"}}]`).
+   - `scene_end_state_reference`: An object describing end conditions for this branch (e.g., `{{"end_condition1": "string_or_null", "end_condition2": "string_or_null"}}`) or null.
 
 Rate each possibility on a 100-point scale (only those rated {MIN_RATING_THRESHOLD}+ will be considered viable).
 
@@ -586,6 +615,19 @@ Your response MUST be a JSON array of not more than {DEFAULT_NUM_ALTERNATIVES} o
     "parent_id": "{parent_id}",
     "layer": {layer},
     "is_generated": true,
+    "rating": 85,
+    "environment": "Detailed description of this alternative branch's environment.",
+    "interactive_environment_objects": [{{"name": "branch_object", "action_point_cost": "1"}}],
+    "interactive_npc": [
+      {{
+        "name": "NPC Name From Task Info",
+        "additional_conditions": "Any specific conditions for this NPC in this branch, or null.",
+        "goal": "NPC's goal relevant to this branch context.",
+        "emotion_pool": [{{"id": "original_id", "trigger_condition": "original_trigger", "goal": "original_goal"}}]
+      }}
+    ],
+    "key_questions": [{{"id": "q1", "content": "Copied key question 1 from task_info?"}}],
+    "scene_end_state_reference": {{ "end_condition1": "End condition for branch 1", "end_condition2": "Another end condition for branch 1" }}
   }},
   {{
     "subtask_id": "{base_id}2",
@@ -598,6 +640,12 @@ Your response MUST be a JSON array of not more than {DEFAULT_NUM_ALTERNATIVES} o
     "parent_id": "{parent_id}",
     "layer": {layer},
     "is_generated": true,
+    "rating": 80,
+    "environment": "Description for second alternative's environment.",
+    "interactive_environment_objects": [],
+    "interactive_npc": [],
+    "key_questions": [{{"id": "q1", "content": "Copied key question 1 from task_info?"}}],
+    "scene_end_state_reference": {{ "end_condition1": "End condition for branch 2" }}
   }},
   {{
     "subtask_id": "{base_id}3",
@@ -610,6 +658,12 @@ Your response MUST be a JSON array of not more than {DEFAULT_NUM_ALTERNATIVES} o
     "parent_id": "{parent_id}",
     "layer": {layer},
     "is_generated": true,
+    "rating": 75,
+    "environment": "Description for third alternative's environment.",
+    "interactive_environment_objects": [],
+    "interactive_npc": [],
+    "key_questions": [{{"id": "q1", "content": "Copied key question 1 from task_info?"}}],
+    "scene_end_state_reference": {{ "end_condition1": "End condition for branch 3" }}
   }}
 ]
 
@@ -675,6 +729,11 @@ YOUR RESPONSE MUST BE VALID JSON: An array with not more than {DEFAULT_NUM_ALTER
                 "parent_id": parent_id,
                 "layer": layer,
                 "is_generated": True,
+                "environment": "Default alternative environment.",
+                "interactive_environment_objects": [],
+                "interactive_npc": [],
+                "key_questions": task_info.get('key_questions', []),
+                "scene_end_state_reference": {}
             })
         
         return fallback_branches
