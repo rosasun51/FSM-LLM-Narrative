@@ -40,14 +40,95 @@ def clean_and_parse_raw_response(raw_response_str: str) -> Optional[Any]:
         print(f"Warning: Unexpected error parsing JSON - {e}. Content: {cleaned_response[:150]}...")
         return None
 
+def extract_task_details_from_file(tasks_json_path: str) -> Optional[List[Dict[str, Any]]]:
+    """
+    Extracts specific task details from a tasks.json file.
+    The format is based on the provided image example.
+    Assumes tasks.json contains a list of tasks, or a single task object.
+    """
+    try:
+        with open(tasks_json_path, 'r', encoding='utf-8') as f:
+            raw_content = f.read()
+        data = json.loads(raw_content)
+    except FileNotFoundError:
+        # File not existing is a common case, not necessarily an error for this function.
+        return None
+    except json.JSONDecodeError as e:
+        print(f"Warning: JSONDecodeError in {tasks_json_path} - {e}. Content snippet: {raw_content[:200]}...")
+        return None
+    except Exception as e:
+        print(f"Warning: Unexpected error processing file {tasks_json_path} - {e}.")
+        return None
 
-def process_task_folder_to_middle(task_folder: str, middle_data_base: str):
+    extracted_tasks = []
+    # Ensure data is processed as a list, even if tasks.json contains a single object
+    data_to_process = [data] if not isinstance(data, list) else data
+
+    for task_data in data_to_process:
+        if not isinstance(task_data, dict):
+            print(f"Warning: Skipping non-dictionary item in {tasks_json_path}")
+            continue
+
+        extracted_task = {
+            "name": task_data.get("name"),
+            "location": task_data.get("location"),
+            "environment": task_data.get("environment"),
+            "interactive_environment_objects": task_data.get("interactive_environment_objects"),
+            "trigger_conditions": task_data.get("trigger_conditions"), # Copies the whole dict if present
+            "scene_end_state_reference": task_data.get("scene_end_state_reference") # Copies the whole dict if present
+        }
+
+        # Process 'interactive_npc'
+        npcs_data = task_data.get("interactive_npc", [])
+        extracted_npcs = []
+        if isinstance(npcs_data, list):
+            for npc in npcs_data:
+                if isinstance(npc, dict):
+                    extracted_npc_info = {
+                        "name": npc.get("name"),
+                        "additional_conditions": npc.get("additional_conditions"),
+                        "goal": npc.get("goal")
+                    }
+                    # Process 'emotion_pool' for each NPC
+                    emotion_pool_data = npc.get("emotion_pool", [])
+                    extracted_emotion_pool = []
+                    if isinstance(emotion_pool_data, list):
+                        for emotion in emotion_pool_data:
+                            if isinstance(emotion, dict):
+                                extracted_emotion_pool.append({
+                                    "id": emotion.get("id"),
+                                    "trigger_condition": emotion.get("trigger_condition"),
+                                    "goal": emotion.get("goal")
+                                })
+                    extracted_npc_info["emotion_pool"] = extracted_emotion_pool
+                    extracted_npcs.append(extracted_npc_info)
+        extracted_task["interactive_npc"] = extracted_npcs
+
+        # Process 'key_questions'
+        key_questions_data = task_data.get("key_questions", [])
+        extracted_key_questions = []
+        if isinstance(key_questions_data, list):
+            for kq in key_questions_data:
+                if isinstance(kq, dict):
+                    extracted_key_questions.append({
+                        "id": kq.get("id"),
+                        "content": kq.get("content")
+                    })
+        extracted_task["key_questions"] = extracted_key_questions
+        
+        extracted_tasks.append(extracted_task)
+
+    return extracted_tasks if extracted_tasks else None
+
+def process_task_folder_to_middle(task_folder: str, middle_data_base: str, tasks_json_processing_mode: str = "extracted"):
     """
     Processes a single task folder, extracting raw responses and saving clean JSON.
+    Also handles tasks.json based on the specified mode.
 
     Args:
         task_folder: Path to the source task folder (e.g., data/TaskName_Timestamp).
         middle_data_base: Path to the base directory for output (e.g., Middle_data).
+        tasks_json_processing_mode: Mode for handling tasks.json ('extracted' or 'raw').
     """
     if not os.path.isdir(task_folder):
         print(f"Error: Source task folder not found: {task_folder}")
@@ -59,7 +140,38 @@ def process_task_folder_to_middle(task_folder: str, middle_data_base: str):
     print(f"Processing task folder: {task_folder_basename}")
     print(f"Target directory: {target_task_dir}")
 
-    # Define source subdirectories to process
+    # Handle tasks.json from the root of the task folder based on the mode
+    tasks_json_original_path = os.path.join(task_folder, "tasks.json")
+    if os.path.exists(tasks_json_original_path):
+        os.makedirs(target_task_dir, exist_ok=True) # Ensure dir exists
+
+        if tasks_json_processing_mode == "extracted":
+            extracted_data = extract_task_details_from_file(tasks_json_original_path)
+            if extracted_data:
+                target_file_path = os.path.join(target_task_dir, "tasks_details_extracted.json")
+                try:
+                    with open(target_file_path, 'w', encoding='utf-8') as f_out:
+                        json.dump(extracted_data, f_out, indent=2, ensure_ascii=False)
+                    print(f"  Successfully wrote extracted task details to: {target_file_path}")
+                except Exception as e:
+                    print(f"  Error writing extracted task details {target_file_path}: {e}")
+            # else: extract_task_details_from_file would have printed a warning if applicable
+        elif tasks_json_processing_mode == "raw":
+            try:
+                with open(tasks_json_original_path, 'r', encoding='utf-8') as f_in:
+                    raw_task_content = json.load(f_in) # Parse to validate and allow pretty dump
+                
+                target_file_path = os.path.join(target_task_dir, "tasks_content_raw.json")
+                with open(target_file_path, 'w', encoding='utf-8') as f_out:
+                    json.dump(raw_task_content, f_out, indent=2, ensure_ascii=False)
+                print(f"  Successfully wrote raw task content to: {target_file_path}")
+            except json.JSONDecodeError as e:
+                print(f"  Error decoding JSON from {tasks_json_original_path} for raw copy: {e}")
+            except Exception as e:
+                print(f"  Error processing raw {tasks_json_original_path} for copy: {e}")
+    # else: Main tasks.json not found, skipping its processing
+
+    # Define source subdirectories to process (for raw_response extraction)
     source_subdirs_patterns = [
         os.path.join(task_folder, "Scripted_subtask_*"),
         os.path.join(task_folder, "Subtask_branches_*")
@@ -159,6 +271,13 @@ def main():
         default=DEFAULT_MIDDLE_DATA_DIR,
         help=f"Base directory to write the output structures (default: {DEFAULT_MIDDLE_DATA_DIR})."
     )
+    parser.add_argument(
+        '--tasks-json-mode',
+        default="extracted",
+        choices=['extracted', 'raw'],
+        help="Mode for processing tasks.json: 'extracted' for specific details (outputs tasks_details_extracted.json), "
+             "'raw' to copy original content (outputs tasks_content_raw.json). Default is 'extracted'."
+    )
 
     args = parser.parse_args()
 
@@ -191,7 +310,7 @@ def main():
         return 1 # Indicate error
 
     # Process the specified task folder
-    process_task_folder_to_middle(source_task_folder, middle_data_base_path)
+    process_task_folder_to_middle(source_task_folder, middle_data_base_path, args.tasks_json_mode)
     
     return 0 # Indicate success
 
