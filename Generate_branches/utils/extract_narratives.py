@@ -27,6 +27,62 @@ def _format_subtask_to_text(subtask: Dict[str, Any]) -> str:
     content.append(f"Description: {subtask.get('description', 'N/A')}")
     content.append(f"Dialogue:\n{subtask.get('dialogue', 'N/A')}")
 
+    # New fields extraction
+    environment = subtask.get('environment')
+    if environment:
+        content.append(f"\nEnvironment: {environment}")
+
+    interactive_env_objects = subtask.get('interactive_environment_objects')
+    if interactive_env_objects:
+        content.append("\nInteractive Environment Objects:")
+        if isinstance(interactive_env_objects, list):
+            for i, obj in enumerate(interactive_env_objects, 1):
+                obj_name = obj.get('name', 'Unnamed Object')
+                obj_cost = obj.get('action_point_cost', 'N/A')
+                content.append(f"  {i}. {obj_name} (Cost: {obj_cost})")
+        else:
+            content.append(f"  Data: {interactive_env_objects}") # Fallback for unexpected format
+
+    interactive_npcs = subtask.get('interactive_npc')
+    if interactive_npcs:
+        content.append("\nInteractive NPCs:")
+        if isinstance(interactive_npcs, list):
+            for i, npc in enumerate(interactive_npcs, 1):
+                npc_name = npc.get('name', f'NPC {i}')
+                content.append(f"  {i}. Name: {npc_name}")
+                additional_conditions = npc.get('additional_conditions')
+                if additional_conditions:
+                    content.append(f"     Additional Conditions: {additional_conditions}")
+                npc_goal = npc.get('goal')
+                if npc_goal:
+                    content.append(f"     Goal: {npc_goal}")
+                emotion_pool = npc.get('emotion_pool')
+                if emotion_pool:
+                    content.append("     Emotion Pool:")
+                    content.append(_format_emotion_pool(emotion_pool)) # Reuse existing helper
+        else:
+            content.append(f"  Data: {interactive_npcs}") # Fallback
+
+    subtask_key_questions = subtask.get('key_questions')
+    if subtask_key_questions:
+        content.append("\nKey Questions (Specific to this Subtask):")
+        if isinstance(subtask_key_questions, list):
+            for i, q_data in enumerate(subtask_key_questions, 1):
+                q_id = q_data.get('id', 'N/A')
+                q_content = q_data.get('content', q_data.get('english', 'N/A'))
+                content.append(f"  {i}. (ID: {q_id}) {q_content}")
+        else:
+            content.append(f"  Data: {subtask_key_questions}") # Fallback
+
+    scene_end_ref = subtask.get('scene_end_state_reference')
+    if scene_end_ref:
+        content.append("\nScene End State Reference:")
+        if isinstance(scene_end_ref, dict):
+            for key, value in scene_end_ref.items():
+                content.append(f"  {key}: {value}")
+        else:
+            content.append(f"  Data: {scene_end_ref}") # Fallback
+
     player_options = subtask.get('player_options', [])
     if player_options:
         content.append("\nPlayer Options:")
