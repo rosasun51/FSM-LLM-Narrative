@@ -1,154 +1,244 @@
-Narrative Summary for: Beginning_20250415_180747
+Narrative Summary for Task: Beginning
+Source Folder: Beginning_20250415_180747
 ================================================================================
 
 KEY QUESTIONS
 --------------------------------------------------------------------------------
-No key questions file found
+1. What's player's reaction after knowing this task?
+2. Is the player willing to accept Ronan's task?
 
-SCRIPTED SUBTASKS
+================================================================================
+
+LAYER 1 - SCRIPTED SUBTASK (beginning.1)
 --------------------------------------------------------------------------------
+Title: A Dangerous Assignment
+Subtask ID: beginning.1
+Description: The player learns about the task assigned by Ronan, which involves picking up valuable goods and delivering them to a specific location. The atmosphere grows tense as Ronan emphasizes the importance of the mission.
+Dialogue:
+Ronan leans forward, his fingers steepled as he looks you dead in the eye. 'I've got a job for you. It's simple, but the stakes are high. You need to pick up some goods for me. They can't fall into the wrong hands. Are you in or out?' His tone is serious, the weight of his words sinking in. You can feel the gravity of the task – this isn't just a delivery; it's a matter of life and death in Night City.
 
-Layer 1 Scripted Subtask:
-Title: The Weight of Responsibility
-Description: Ronan leans forward, his expression serious as he outlines the task at hand. You feel the implications of your actions pressing down as he details the importance of picking up the goods and connecting with Meredith Stout.
-Dialogue: Ronan's voice echoes in the dim-lit office, "I've got a job for you. It involves some goods that need retrieving. This isn't just picking up packages; it's about proving yourself to those who matter. Are you ready to take this on?" You can sense the weight of his words, hinting at the power dynamics at play.
-Player Options:
-  1. I accept the task and will do my best.
-  2. I need more information before I decide.
-  3. I can't take this task.
-NPC Reactions:
-  Ronan: Looks at you intently, gauging your response, a flicker of hope mixed with expectation on his face.
-
-Layer 2 Scripted Subtask:
-Title: The Weight of Choice
-Description: You contemplate Ronan's request, feeling the weight of his expectation. The dim light of the office casts long shadows as you weigh your options, knowing this decision could have significant repercussions.
-Dialogue: Ronan watches you closely, his intense gaze fixed on your face. 'This isn't just any task,' he says, his voice low and serious. 'Picking up the goods is crucial. Are you in or out?'
 Player Options:
   1. I accept the task.
-  2. I need more time to think.
-  3. I can't take this on right now.
+  2. I need more information before deciding.
+  3. I refuse. This sounds too dangerous.
+
 NPC Reactions:
-  Ronan: Ronan leans back slightly, his expression revealing a mix of hope and urgency as he awaits your response.
+  Ronan: Ronan watches closely, gauging your reaction. If you show hesitation, he leans back, his expression turning steely.
 
-Layer 3 Scripted Subtask:
-No scripted subtask file found for layer 3
+NPC Emotion Pools:
+  Ronan:
+    - Trigger: (Always)
+      Goal: Assign tasks to the player, provide advice, and answer the player's questions.
+    - Trigger: The player asks about the task too many times or constantly goes off-topic
+      Goal: Seriously remind the player that this task is very important.
+    - Trigger: The player shows hesitation or doubt about accepting the task
+      Goal: Reinforce the seriousness of the task to motivate the player.
 
-SUBTASK BRANCHES (ALTERNATIVES)
+
 --------------------------------------------------------------------------------
 
-Layer 1 Alternatives:
-Raw response: ```json
-[
-  {
-    "subtask_id": "beginning.1.1",
-    "title": "A Leap of Faith",
-    "description": "Overwhelmed by the stakes involved, you pause and reflect deeply on the potential consequences of taking on such a weighty responsibility. You consider both the risks and the rewards, feeling a mix of fear and excitement take root in your heart.",
-    "dialogue": "You take a deep breath and respond, \"Ronan, this is more than just a simple task for me. It feels like a leap of faith into something bigger than myself. I need to think about how this could change everything for me.\" Ronan nods, understanding your hesitation, and leans back, allowing you a moment to gather your thoughts.",
-    "npc_reactions": {
-      "Ronan": "Nods thoughtfully, giving you space, but the flicker of concern becomes more pronounced in his eyes."
-    },
-    "player_options": [
-      "I will take my time to decide.",
-      "I want more information about the risks.",
-      "I think I might back out of this."
-    ],
-    "parent_id": "beginning.1",
-    "layer": 1,
-    "is_generated": true
-  },
-  {
-    "subtask_id": "beginning.1.2",
-    "title": "Confronting Doubts",
-    "description": "You voice your concerns about the dangers tied to the task, afraid of the uncertainties and potential fallout. Your doubts linger in the air, creating a palpable tension in the room.",
-    "dialogue": "With a furrowed brow, you say, \"Ronan, what if things go wrong? Picking up goods sounds easy, but I have a feeling it��s not as straightforward. Can you assure me that I will be safe?\" Ronan's expression hardens slightly, recognizing your apprehension as he prepares to reassure you.",
-    "npc_reactions": {
-      "Ronan": "Furrows his brow, responding firmly, 'I understand your doubts, but you have to trust me and understand the importance of this task.'"
-    },
-    "player_options": [
-      "I need a guarantee of my safety.",
-      "I appreciate the warning, but I need to accept this.",
-      "Maybe I should reconsider my decision."
-    ],
-    "parent_id": "beginning.1",
-    "layer": 1,
-    "is_generated": true
-  },
-  {
-    "subtask_id": "beginning.1.3",
-    "title": "Embracing the Challenge",
-    "description": "Rather than shying away from the task, you feel invigorated by the challenge it presents. The potential to prove yourself becomes more enticing than the fear of failure.",
-    "dialogue": "With newfound resolve, you declare, \"You know what, Ronan? This could be my chance to show what I’m made of. I’ll take the task! I'm ready to step up to the plate and prove myself to you and the others.\" Ronan’s eyes glimmer with approval as a smile breaks across his face.",
-    "npc_reactions": {
-      "Ronan": "Brightens up, a smile of approval spreading on his face as he sees your determination."
-    },
-    "player_options": [
-      "Tell me the details right away!",
-      "I won’t let you down, I promise.",
-      "What do I need to know about Meredith?"
-    ],
-    "parent_id": "beginning.1",
-    "layer": 1,
-    "is_generated": true
-  }
-]
-```
+LAYER 1 - ALTERNATIVES
+--------------------------------------------------------------------------------
+Alternative 1 (beginning.1.1):
+Title: Bargaining for Safety
+Subtask ID: beginning.1.1
+Description: The player hesitates, inquiring about the dangers involved in the task, prompting Ronan to offer a deal for better protection during the assignment.
+Dialogue:
+You furrow your brow, considering the risks involved. 'What kind of protection do I get if I take this job? I need to know I won’t be walking into a trap.' Ronan smirks slightly, nodding. 'Fair enough. I can assign a muscle to you for backup. But remember, no one is more valuable than the goods you're picking up. So, are we good?'
 
-Layer 2 Alternatives:
-Raw response: ```json
-[
-  {
-    "subtask_id": "beginning.2.1",
-    "title": "A Dangerous Gamble",
-    "description": "Feeling the weight of Ronan's expectations, you decide to accept the task but with a condition. You want to know the risks involved before committing fully.",
-    "dialogue": "You look Ronan in the eye, determination mingled with caution. 'I'll take on the task, but I need to know what I'm getting into. What dangers lie ahead?'",
-    "npc_reactions": {
-      "Ronan": "Ronan's brow furrows, and he nods slowly. 'You’re a smart one. There are risks, yes, but nothing I can’t help you navigate. Let’s talk.'"
-    },
-    "player_options": [
-      "Tell me about the risks.",
-      "I’m willing to take the gamble.",
-      "I need more assurance first."
-    ],
-    "parent_id": "beginning.2",
-    "layer": 2,
-    "is_generated": true
-  },
-  {
-    "subtask_id": "beginning.2.2",
-    "title": "Seeking Alternatives",
-    "description": "Uncertain about the task's implications, you ask Ronan if there are other options available, hoping to find a less risky path.",
-    "dialogue": "'Ronan, is there any way to avoid this task? It feels bigger than what I bargained for.' You try to gauge his response cautiously.",
-    "npc_reactions": {
-      "Ronan": "Ronan’s face tightens momentarily, his posture shifting. 'Options exist, but they come with their own consequences. Are you sure you want to explore this?'"
-    },
-    "player_options": [
-      "Yes, I need to know my options.",
-      "No, I’d rather face this head-on.",
-      "Let’s stick to the original task."
-    ],
-    "parent_id": "beginning.2",
-    "layer": 2,
-    "is_generated": true
-  },
-  {
-    "subtask_id": "beginning.2.3",
-    "title": "Backing Down",
-    "description": "Realizing the magnitude of Ronan's request, you decide that this task is too dangerous and that you must decline outright.",
-    "dialogue": "'I can't do this, Ronan. It’s too much for me right now. I need to back out.' Your voice is steadier than you feel.",
-    "npc_reactions": {
-      "Ronan": "Ronan’s expression darkens, disappointment etched on his face. 'You don’t grasp the importance of this. You could be turning your back on a chance.'"
-    },
-    "player_options": [
-      "I understand, but I can’t.",
-      "Maybe I can think of something later.",
-      "Is there any other task I can do?"
-    ],
-    "parent_id": "beginning.2",
-    "layer": 2,
-    "is_generated": true
-  }
-]
-```
+Player Options:
+  1. I accept the task with backup.
+  2. I need even more reassurance.
+  3. I still refuse.
 
-Layer 3 Alternatives:
-No subtask branches file found for layer 3
+NPC Reactions:
+  Ronan: Ronan appears impressed that you are taking the task seriously enough to consider your safety, but he is also slightly annoyed by the hesitation.
+
+NPC Emotion Pools:
+  Ronan:
+    - Trigger: (Always)
+      Goal: Assign tasks to the player, provide advice, and answer the player's questions.
+    - Trigger: The player asks about the task too many times or constantly goes off-topic
+      Goal: Seriously remind the player that this task is very important.
+    - Trigger: The player shows hesitation or doubt about accepting the task
+      Goal: Reinforce the seriousness of the task to motivate the player.
+    - Trigger: The player inquires about safety and protection
+      Goal: Provide reassurance and details on support.
+
+
+---
+
+Alternative 2 (beginning.1.2):
+Title: A Trusted Associate
+Subtask ID: beginning.1.2
+Description: The player expresses skepticism about the job, leading Ronan to introduce them to a trusted associate who can assist in any potential complications.
+Dialogue:
+Skeptical, you lean back in your chair. 'Isn’t there someone I can talk to for more details on the kind of trouble I might face?' Ronan picks up his comms device and nods. 'I can get you in touch with Dex. He’s been in the game longer than I have and knows what’s what. Get his insight before you decide.'
+
+Player Options:
+  1. I’ll talk to Dex first.
+  2. I’m still not sure.
+  3. I think I’ll pass on this one.
+
+NPC Reactions:
+  Ronan: Ronan's demeanor shifts slightly to a more understanding tone as he accommodates your request, revealing a softer side to his tough exterior.
+
+NPC Emotion Pools:
+  Ronan:
+    - Trigger: (Always)
+      Goal: Assign tasks to the player, provide advice, and answer the player's questions.
+    - Trigger: The player asks about the task too many times or constantly goes off-topic
+      Goal: Seriously remind the player that this task is very important.
+    - Trigger: The player shows hesitation or doubt about accepting the task
+      Goal: Reinforce the seriousness of the task to motivate the player.
+    - Trigger: The player expresses skepticism about the task
+      Goal: Show willingness to support the player in decision-making.
+
+
+---
+
+Alternative 3 (beginning.1.3):
+Title: The Honor Code
+Subtask ID: beginning.1.3
+Description: The player draws on their street smarts and proposes a counter-task that could benefit both them and Ronan, testing Ronan's willingness to engage cooperatively.
+Dialogue:
+'How about this, Ronan? I can do the delivery, but it’s a risky gig. Let’s negotiate something more valuable in return; maybe I can snag something from the deal too.' Ronan raises an eyebrow, intrigued. 'You think you can play that card with me? Yet, it’s bold. Alright, let's see what you're willing to risk for a slice of the pie.'
+
+Player Options:
+  1. Let’s negotiate terms.
+  2. I’ll take the job as it is.
+  3. I’m not backing down from my refusal.
+
+NPC Reactions:
+  Ronan: Ronan’s expression shifts to one of curiosity and respect, if still wary. He acknowledges the player’s boldness, opening the door to negotiation.
+
+NPC Emotion Pools:
+  Ronan:
+    - Trigger: (Always)
+      Goal: Assign tasks to the player, provide advice, and answer the player's questions.
+    - Trigger: The player asks about the task too many times or constantly goes off-topic
+      Goal: Seriously remind the player that this task is very important.
+    - Trigger: The player shows hesitation or doubt about accepting the task
+      Goal: Reinforce the seriousness of the task to motivate the player.
+    - Trigger: The player proposes a counter-task or negotiation
+      Goal: Engage in a negotiation that might change the terms of the assignment.
+
+
+================================================================================
+
+LAYER 2 - SCRIPTED SUBTASK (beginning.2)
+--------------------------------------------------------------------------------
+Title: Accept the Challenge
+Subtask ID: beginning.2
+Description: The player considers Ronan’s task, weighing the risks against the potential rewards. An uneasy feeling stirs within, but the allure of the promised loot beckons. Will the player step into the shadows and accept the mission?
+Dialogue:
+You take a deep breath, contemplating Ronan's words. The stakes are high, and you can sense the weight of his expectation. The flickering neon lights cast long shadows, adding to the tension in the air. You know the city doesn’t wait for anyone. Do you risk stepping into this dark underground world for what could be a life-changing payday?
+
+Player Options:
+  1. I accept the task and will get it done.
+  2. I need more information before making a decision.
+  3. No, I’m not interested in this job.
+
+NPC Reactions:
+  Ronan: He leans forward, eyes piercing, as he awaits your decision, knowing that your answer could seal your fate in this unforgiving metropolis.
+
+NPC Emotion Pools:
+  Ronan:
+    - Trigger: (Always)
+      Goal: Assign tasks to the player, provide advice, and answer the player's questions.
+    - Trigger: The player asks about the task too many times or constantly goes off-topic
+      Goal: Seriously remind the player that this task is very important.
+    - Trigger: The player hesitates too long or seems indecisive
+      Goal: Show subtle frustration while still maintaining a calm demeanor, emphasizing the urgency of the task.
+
+
+--------------------------------------------------------------------------------
+
+LAYER 2 - ALTERNATIVES
+--------------------------------------------------------------------------------
+Alternative 1 (beginning.2.1):
+Title: A Calculated Gamble
+Subtask ID: beginning.2.1
+Description: The player weighs the risks and rewards, deciding to take a chance. They accept the task, intrigued by the potential payout and Ronan's unwavering confidence.
+Dialogue:
+You nod slowly, excitement bubbling beneath your cautious exterior. 'Alright, Ronan. I’ll take the job. Let’s see what you’ve got for me.' The city is a risk, but so is life without it.
+
+Player Options:
+  1. Tell me more about this task before I go.
+  2. I’ll still need backup, though.
+  3. No turning back now!
+
+NPC Reactions:
+  Ronan: A sly smile creeps onto Ronan's face, appreciation glittering in his eyes as you accept the challenge.
+
+NPC Emotion Pools:
+  Ronan:
+    - Trigger: (Always)
+      Goal: Assign tasks to the player, provide advice, and answer the player's questions.
+    - Trigger: The player asks about the task too many times or constantly goes off-topic
+      Goal: Seriously remind the player that this task is very important.
+    - Trigger: The player hesitates too long or seems indecisive
+      Goal: Show subtle frustration while still maintaining a calm demeanor, emphasizing the urgency of the task.
+    - Trigger: (Always)
+      Goal: Feel a sense of relief and satisfaction; the player’s acceptance reassures him.
+
+
+---
+
+Alternative 2 (beginning.2.2):
+Title: Playing It Safe
+Subtask ID: beginning.2.2
+Description: The player hesitates, opting to gather more information before making a decision. They ask Ronan for specifics regarding the task and the potential dangers.
+Dialogue:
+You hold up a hand, frowning slightly. 'Wait, before I dive in, what exactly am I up against? I need to know what I'm walking into.' The shadows around you feel heavier as uncertainty grips the air.
+
+Player Options:
+  1. I need details on the risks.
+  2. What’s in it for me?
+  3. I can handle myself, Ronan.
+
+NPC Reactions:
+  Ronan: He raises an eyebrow, intrigued but slightly annoyed at your caution, revealing the importance of his task.
+
+NPC Emotion Pools:
+  Ronan:
+    - Trigger: (Always)
+      Goal: Assign tasks to the player, provide advice, and answer the player's questions.
+    - Trigger: The player asks about the task too many times or constantly goes off-topic
+      Goal: Seriously remind the player that this task is very important.
+    - Trigger: The player hesitates too long or seems indecisive
+      Goal: Show subtle frustration while still maintaining a calm demeanor, emphasizing the urgency of the task.
+    - Trigger: The player seeks detailed information
+      Goal: Appreciate the player's caution, but urge them to decide quickly.
+
+
+---
+
+Alternative 3 (beginning.2.3):
+Title: Declining the Offer
+Subtask ID: beginning.2.3
+Description: Feeling the weight of the city's darkness, the player decides to refuse the task outright. They express their hesitation and concern about the dangerous nature of the job.
+Dialogue:
+You shake your head, a mix of apprehension and relief washing over you. 'No, this isn’t for me. I can’t afford to get tangled in something that could lead to deep trouble.' The neon lights dim slightly as silence fills the room.
+
+Player Options:
+  1. I appreciate the offer, but I'm out.
+  2. You need someone else for this task.
+  3. This city isn't worth the risk.
+
+NPC Reactions:
+  Ronan: His expression hardens momentarily; a hint of disappointment flashes across his face as you decline.
+
+NPC Emotion Pools:
+  Ronan:
+    - Trigger: (Always)
+      Goal: Assign tasks to the player, provide advice, and answer the player's questions.
+    - Trigger: The player asks about the task too many times or constantly goes off-topic
+      Goal: Seriously remind the player that this task is very important.
+    - Trigger: The player hesitates too long or seems indecisive
+      Goal: Show subtle frustration while still maintaining a calm demeanor, emphasizing the urgency of the task.
+    - Trigger: The player outright refuses
+      Goal: Conceal disappointment, but assert the seriousness of the city’s risks.
+
+
+================================================================================
