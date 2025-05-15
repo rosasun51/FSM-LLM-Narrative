@@ -71,5 +71,20 @@
         "Royce": "Stranger or enemy. If Player met her, she would know the stoler was the Maelstrom. If Player didn't meet her, she wouldn't know anything about Maelstrom's crime."
       }
     }
+  },
+  {
+    "name": "Ronan Walsh",
+    "basic_information": {
+      "background": "Ronan was once an ambitious fixer’s apprentice in the underbelly of Dublin’s criminal scene. After a violent falling-out over a double-crossed arms deal, he fled to another country and laid low for years. Now in his early 40s, he runs The Veil, a sleek, low-profile nightclub near the docks, which serves as a front for his true profession: a discreet and highly respected underground broker. Though deeply entrenched in the criminal world, Ronan operates by a personal code—precise, fair, and never personal. Despite his cold professionalism, he quietly looks out for those who earn his trust, and is known to remember small, human details others would overlook.",
+      "personality": "Calm, methodical, discreet. Values loyalty, boundaries, and silence. Not warm, but not cruel. He has a quiet sense of integrity and a hidden streak of humanity.",
+      "initial_goal": "Facilitate safe and efficient underground exchanges between parties, ensuring his reputation and neutrality remain intact. Always seeks to minimize attention and avoid escalation.",
+      "goal_shift_point": "If either party violates agreed terms (e.g., attempting to double-cross, revealing identities, or bringing violence to The Veil), Ronan will shift from passive broker to active threat controller. He will intervene to de-escalate or neutralize the threat to protect his business and maintain control.",
+      "interpersonal_relationships": {
+        "Clients": "Treats clients with professional respect but keeps emotional distance. He remembers those who keep their word and blacklists those who break it.",
+        "Staff": "Protective and fair. Maintains authority, but will quietly support loyal employees when they face hardship.",
+        "Law Enforcement": "Keeps a low profile and avoids contact. If approached, he denies all allegations and uses indirect leverage to maintain distance.",
+        "Rivals": "Avoids direct confrontation. Competes through cleaner execution and stronger networks. Only retaliates if someone threatens his neutrality or legacy."
+      }
+    }
   }
 ] 
