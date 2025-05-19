@@ -14,6 +14,7 @@ class SceneController:
         self.current_layer = 0
         self.subtasks = []
         self.current_subtask = None
+        self.interaction_mode = "normal"
         
     def load_scene(self, scene: Dict) -> bool:
         """Load a scene and its subtasks"""
@@ -178,10 +179,6 @@ class SceneController:
             print("\nPlayer Options:")
             for i, option in enumerate(player_options, 1):
                 print(f"{i}. {option}")
-    
-        # Allow player to input their choice as text
-        player_input = input("\nEnter your choice (or type your response): ")
-        self.background_simulator.evaluate_player_input(player_input)  # Correctly call the method
         
         # Display key questions
         key_questions = subtask.get('key_questions', [])
@@ -191,7 +188,32 @@ class SceneController:
                 print(f"- {question.get('english', '')}")
         
         print("============================\n")
+
+        # Allow player to input their choice as text    # Allow player to input their choice as text
+        player_input = input("\nEnter your choice (or type your response): ")
+        
+        # Add the current layer information to the input context
+        input_context = {
+            'input': player_input,
+            'current_layer': self.current_layer,
+            'current_subtask': self.current_subtask
+        }
+        
+        # Pass the input with context to the background simulator
+        self.background_simulator.evaluate_player_input(player_input)
     
+    def set_interaction_mode(self, mode: str):
+        """Set the interaction mode and handle any necessary state changes."""
+        valid_modes = ["normal", "continue"]
+        if mode not in valid_modes:
+            print(f"Invalid interaction mode: {mode}")
+            return
+        
+        self.interaction_mode = mode
+        if mode == "continue":
+            # Clear any pending navigation options
+            print("\n" * 2)  # Add some space for clarity
+            
     def has_next_layer(self) -> bool:
         """Check if there's a next layer available"""
         if not self.subtasks:
@@ -210,6 +232,9 @@ class SceneController:
     
     def display_layer_options(self):
         """Display options for the current layer"""
+        if self.interaction_mode != "normal":
+            return []  # Return empty options in continue mode
+        
         options = []
         
         if self.has_next_layer():
@@ -273,13 +298,18 @@ class SceneController:
         while running:
             options = self.display_layer_options()
             choice = input("\nEnter your choice (or type your response): ")
-            
-            # Handle player input
-            if choice.isdigit():
-                self.handle_input(choice, options)
+            if not options:  # No options to display, wait for player input
+                player_input = input("\nEnter your response: ")
+                self.background_simulator.evaluate_player_input(player_input)
             else:
-                # Pass the input back to the BackgroundSimulator for evaluation
-                self.background_simulator.evaluate_player_input(choice)  # Ensure you have a reference to the simulator
+                choice = input("\nEnter your choice (or type your response): ")
+                
+                # Handle player input
+                if choice.isdigit():
+                    running = self.handle_input(choice, options)
+                else:
+                    # Pass the input back to the BackgroundSimulator for evaluation
+                    self.background_simulator.evaluate_player_input(choice)
 
 def main():
     """For testing purposes only"""

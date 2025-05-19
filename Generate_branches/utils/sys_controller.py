@@ -2,7 +2,6 @@ import json
 import os
 import sys
 import requests
-import gzip
 from io import BytesIO
 from datetime import datetime
 from typing import Dict, List, Optional, Union, Tuple
@@ -40,9 +39,12 @@ class BackgroundSimulator:
         
         # Initialize scene controller
         self.scene_controller = SceneController(self)
-
         self.input_evaluator = InputEvaluator()
-        
+
+        # Initialize interaction state
+        self.interaction_mode = "normal"  # Add this line
+        self.current_layer = 1  # Add this line too for consistency
+
     def load_scenes(self, json_path: str) -> List[Dict]:
         """Load scenes from the JSON file and associated subtask files."""
         scenes = []
@@ -150,7 +152,10 @@ class BackgroundSimulator:
         if not self.is_scene_available(scene):
             print(f"Scene '{scene_name}' is not available yet.")
             return False
-            
+         # Reset interaction state when entering a scene
+        self.interaction_mode = "normal"
+        self.current_layer = 1    
+          
         # Enter the scene
         self.current_scene = scene  # Ensure this is set correctly
         print(f"Current Scene: {self.current_scene}")  # Debugging output
@@ -165,21 +170,45 @@ class BackgroundSimulator:
         self._launch_scene_controller()
 
         # Display all available nodes after entering the scene
-        self.display_all_nodes()  # Call the new method to display all nodes
+        self.display_all_nodes()  # Call the new method to display all nodes# Call the new method to display all nodes# Call the new method to display all nodes# Call the new method to display all nodes
 
         # Display subtasks for each layer after entering the scene
         for layer in range(1, 2):  # Adjust the range based on the number of layers you have
             self.display_subtasks_by_layer(layer)
 
         # Allow player to provide input after entering the scene
-        while self.current_scene:  # Keep allowing input until the scene is exited
-            player_message = input("Enter your message or response: ")
-            if player_message.lower() == "quit scene":  # Check for quit command
-                self.exit_scene()  # Call exit_scene method
-                break  # Exit the loop
-            self.evaluate_player_input(player_message)  # Call the evaluation function
+        while self.current_scene:
+            if self.interaction_mode == "continue":
+                player_message = input("Your response: ")
+                if player_message.lower() == "quit scene":
+                    self.exit_scene()
+                    break
+                self.evaluate_player_input(player_message)
+            else:
+                self.display_scene_options()
+                choice = input("Enter your choice (or type your response): ")
+                if choice == "1":  # View next layer
+                    next_layer = self.current_layer + 1
+                    if next_layer <= self.get_total_layers():
+                        self.current_layer = next_layer
+                        self.display_subtasks_by_layer(next_layer)
+                elif choice == "2":  # Quit scene
+                    self.exit_scene()
+                    break
+                else:
+                    self.evaluate_player_input(choice)
+                    if self.interaction_mode == "continue":
+                         continue
 
         return True
+    
+    def display_scene_options(self):
+        """Display scene options only in normal mode"""
+        if self.interaction_mode != "continue":
+            print("\nOptions:")
+            if self.current_layer < self.get_total_layers():
+                print(f"1. View Layer {self.current_layer + 1}")
+            print("2. Quit Scene")
     
     def _launch_scene_controller(self):
         """Launch the scene controller for the current scene"""
@@ -353,6 +382,10 @@ class BackgroundSimulator:
         # Now call the _process_evaluation_result to handle the outcome
         self._process_evaluation_result(evaluation_result)
 
+            # Reset interaction mode after processing
+        if self.interaction_mode == "continue":
+            self.interaction_mode = "normal"
+
     def save_evaluation_result(self, evaluation_result):
         """Save the evaluation result to a file in the scene folder."""
         if not self.current_scene:
@@ -379,7 +412,7 @@ class BackgroundSimulator:
         """Process the evaluation result and take appropriate action."""
         print(f"\nEvaluation Results:")        
         print(f"Best matching node: {result['best_node']['title']}")
-        print(f"Similarity score: {result['similarity_score']:.2f}")
+        print(f"Max similarity score: {result['similarity_score']:.2f}")
         print(f"Processing stage: {result['processing_stage']}")
         
         # Display all scores
@@ -388,16 +421,36 @@ class BackgroundSimulator:
             print(f"Node {node_id}: {score:.2f}")
 
         if result['processing_stage'] == "select_existing":
-            self.process_existing_node(result['best_node'])  # Method to handle existing nodes
+            # Ensure the best_node has a similarity_score
+            best_node = result['best_node']
+            if 'similarity_score' not in best_node:
+                best_node['similarity_score'] = result.get('similarity_score', 0)
+            self.process_existing_node(best_node)
+            
         elif result['processing_stage'] == "generate_new":
             if 'new_node' in result:
                 self.process_new_node(result['new_node'])  # Process the newly created node
             else:
-                print("New node generation failed.")
+                print("New node generation failed. Continuing with current scene...")
+                self.continue_interaction()
         else:
-            self.continue_interaction()  # Continue NPC interaction without changes
+            # This is the "continue" case
+            print("\nContinuing with current scene interaction...")
+            self.continue_interaction()
        
-
+    def set_interaction_mode(self, mode: str):
+        """Set the interaction mode and handle any necessary state changes."""
+        valid_modes = ["normal", "continue"]
+        if mode not in valid_modes:
+            print(f"Invalid interaction mode: {mode}")
+            return
+        
+        self.interaction_mode = mode
+        
+        # Also update scene controller's mode if it exists
+        if hasattr(self, 'scene_controller'):
+            self.scene_controller.set_interaction_mode(mode)
+            
     def get_available_nodes(self):
         """Get available task nodes for the current scene."""
         if self.current_scene:
@@ -409,38 +462,50 @@ class BackgroundSimulator:
 
 
     def process_existing_node(self, node):
+        self.interaction_mode = "continue" 
         """Process the selected existing node with a score above 70."""
-        
-        # Un-commented and correctly indented extraction of further node details
         node_title = node.get('title')
         node_id = node.get('subtask_id')
-        node_score = node.get('similarity_score')  # Ensure this score is passed in correctly
+        node_score = node.get('similarity_score')  
+        current_layer = node.get('layer')
 
-        # Check if the node score is not None and above 70
-        if node_score is not None and node_score > 70:
-            # Extract key information from the node
-            print(f"\nProcessing existing node: {node['title']}")
-            print(f"Node ID: {node_id}")
-            print(f"Title: {node_title}")
-            print(f"Score: {node_score:.2f}")
+        print(f"\n=== Processing Node ===")
+        print(f"Node Title: {node_title}")
+        print(f"Node ID: {node_id}")
+        # Ensure node_score is a valid number; default to 0.0 if not
+        print(f"Score: {node_score:.2f}")
+        print(f"Layer: {current_layer}")
 
-            # Read NPC reactions and Player Options
+        if node_score > 70:
+            print(f"\n=== Transitioning to Node ===")
+            print(f"Selected node: {node_title}")
+                
+            print(f"Description: {node.get('description', 'No description available')}")
             print(f"NPC Reactions: {node.get('npc_reactions', 'No reactions available.')}")
+
             print("Player Options:")
             for option in node.get('player_options', []):
                 print(f"- {option}")
 
-            # Assuming the node has a 'layer' attribute
-            next_layer = node.get('layer')
-            if next_layer is not None:
-                self.current_layer = int(next_layer)  # Update current layer
-                print(f"Moving to Layer {self.current_layer}.")
-                print(f"Displaying options for Layer {self.current_layer}...")
-                self.display_subtasks_by_layer(self.current_layer)
+            if current_layer is not None:
+                # previous_layer = self.current_layer
+                self.current_layer = int(current_layer)
+                print(f"\n=== Layer Transition ===")
+                print(f"Transitioning to Layer {self.current_layer}")
+                    
+                # # Display available nodes in the new layer
+                # print(f"\nAvailable nodes in Layer {self.current_layer}:")
+                # self.display_subtasks_by_layer(self.current_layer)
+                    
+                # Set interaction mode to continue
+                self.set_interaction_mode("continue")
             else:
-                print("Layer information is not available in the selected node.")
+                print("\nWarning: Layer information not available in the selected node")
+                self.continue_interaction()
         else:
-            print(f"Node '{node_title}' does not meet the score requirement.")
+            print(f"Node '{node_title}' does not meet the requirement (>70)")
+            print("Continuing with current layer...")
+            self.continue_interaction()
   
 
     def process_new_node(self, new_node):
@@ -457,10 +522,10 @@ class BackgroundSimulator:
             print(f"Dialogue: {new_node['player_options']}")
             print(f"NPC Reactions: {new_node['npc_reactions']}")
             
-            # Show player options
-            print("Player Options:")
-            for option in new_node.get('player_options', []):
-                print(f"- {option}")
+            # # Show player options
+            # print("Player Options:")
+            # for option in new_node.get('player_options', []):
+            #     print(f"- {option}")
 
             # Assumed layer handling
             next_layer = new_node.get('layer')
@@ -503,19 +568,43 @@ class BackgroundSimulator:
 
     def continue_interaction(self):
         """Continue the current NPC interaction."""
-        print("Continuing current interaction.")
-        # Display a message or proceed with the current scene
-        if self.current_scene:
-            print("No significant change in the narrative. Continue with the current scene.")
+        if not self.current_scene:
+            print("No active scene to continue.")
+            return
+
+        self.interaction_mode = "continue"  # Set mode to continue
+
+        # Get the current layer's subtasks
+        current_layer = self.current_layer if hasattr(self, 'current_layer') else 1
+        current_subtasks = self.get_subtasks_by_layer(current_layer)
+
+        print("\n=== Continuing Current Scene ===")
+        print(f"Current Layer: {current_layer}")
+        
+        # Display current context and options
+        if current_subtasks:
+            # Show the current state of interaction
+            current_subtask = current_subtasks[0]  # Get the active subtask
+            print(f"Current Context: {current_subtask.get('description', '')}")
+            print("\nAvailable Responses:")
+            for option in current_subtask.get('player_options', []):
+                print(f"- {option}")
+        else:
+            print("No specific options available. Please provide your response.")
+        
+        print("\nPlease provide your response to continue the scene...")
+        # Don't show additional navigation options here
 
     def call_llm_api(self, prompt):
-        """Call the LLM API with the given prompt."""
         api_url = f"{LLM_BASE_URL}/chat/completions"  # Adjusted endpoint
         headers = {
             "Authorization": f"Bearer {LLM_API_KEY}",  # Add Bearer prefix
             "Content-Type": "application/json"
         }
-        
+
+        print(f"LLM_BASE_URL: {LLM_BASE_URL}")
+        print(f"API URL: {api_url}")
+
         # Update the prompt to request a JSON response
         prompt_with_format = (
             f"{prompt}\n\n"
@@ -582,15 +671,28 @@ class BackgroundSimulator:
             print(f"No subtasks available for Layer {layer}.")
             # Check if all layers have been processed
             if layer >= self.get_total_layers():  # Implement this method
-                print("All layers processed. Exiting the scene.")
+                print("This is the final layer. Scene can be concluded.")
                 self.end_scene()  # Call method to handle the ending of the scene
         else:
+            print(f"Found {len(subtasks)} subtask(s) in Layer {layer}:")
             for subtask in subtasks:
                 print(f"Subtask ID: {subtask['subtask_id']}, Title: {subtask['title']}")
                 print(f"Description: {subtask['description']}")
-                print(f"Player Options: {', '.join(subtask['player_options'])}")
-                print("-------------------------------")
-        print("==============================\n")
+                if 'player_options' in subtask:
+                    print("Available Options:")
+                    for option in subtask['player_options']:
+                        print(f"- {option}")
+                print("---")
+        print("==============================\n")   
+
+    def transition_to_layer(self, new_layer: int):
+        """Handle transition to a new layer."""
+        if new_layer != self.current_layer:
+            print(f"\n=== Layer Transition ===")
+            print(f"Moving from Layer {self.current_layer} to Layer {new_layer}")
+            self.current_layer = new_layer
+            return True
+        return False
 
     def end_scene(self):
         """Handle the ending of the current scene."""
