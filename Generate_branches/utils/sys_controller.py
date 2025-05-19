@@ -24,6 +24,14 @@ except ImportError:
 
 from utils.evaluation import InputEvaluator
 
+from evaluation_strategies import (
+    EvaluationStrategy,
+    OriginalEvaluationStrategy,
+    MethodIEvaluationStrategy,
+    MethodIIEvaluationStrategy,
+    HybridEvaluationStrategy
+)
+
 class BackgroundSimulator:
     def __init__(self, json_path: str = "../data/Scripted_tasks.json"):
         """Initialize the simulator with default values and load scene data"""
@@ -44,6 +52,41 @@ class BackgroundSimulator:
         # Initialize interaction state
         self.interaction_mode = "normal"  # Add this line
         self.current_layer = 1  # Add this line too for consistency
+
+        self.evaluation_strategy = self.configure_evaluation_strategy()
+    
+    def configure_evaluation_strategy(self):
+        """Configure which evaluation strategy to use"""
+        # You can change this variable to switch between methods
+        current_strategy = "original"  # Options: "original", "method_i", "method_ii", "hybrid"
+
+        if current_strategy == "original":
+            return OriginalEvaluationStrategy(self.input_evaluator)
+        elif current_strategy == "method_i":
+            # Initialize your Method I evaluator here
+            return MethodIEvaluationStrategy(self.improved_prompt_evaluator)
+        elif current_strategy == "method_ii":
+            # Initialize your Method II evaluator here
+            return MethodIIEvaluationStrategy(self.pde_classifier)
+        elif current_strategy == "hybrid":
+            # Initialize your hybrid evaluator here
+            return HybridEvaluationStrategy(self.pde_classifier, self.improved_prompt_evaluator)
+        else:
+            return OriginalEvaluationStrategy(self.input_evaluator)
+        
+    def configure_evaluation_strategy(self):
+        from config_strategy import EVALUATION_METHOD
+
+        if EVALUATION_METHOD == "original":
+            return OriginalEvaluationStrategy(self.input_evaluator)
+        elif EVALUATION_METHOD == "method_i":
+            return MethodIEvaluationStrategy(self.improved_prompt_evaluator)
+        elif EVALUATION_METHOD == "method_ii":
+            return MethodIIEvaluationStrategy(self.pde_classifier)
+        elif EVALUATION_METHOD == "hybrid":
+            return HybridEvaluationStrategy(self.pde_classifier, self.improved_prompt_evaluator)
+        else:
+            return OriginalEvaluationStrategy(self.input_evaluator)
 
     def load_scenes(self, json_path: str) -> List[Dict]:
         """Load scenes from the JSON file and associated subtask files."""
@@ -450,7 +493,7 @@ class BackgroundSimulator:
         # Also update scene controller's mode if it exists
         if hasattr(self, 'scene_controller'):
             self.scene_controller.set_interaction_mode(mode)
-            
+
     def get_available_nodes(self):
         """Get available task nodes for the current scene."""
         if self.current_scene:
