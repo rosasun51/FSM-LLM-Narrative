@@ -86,7 +86,7 @@ class InputEvaluator:
             # f"Generated layer number: {layer_number['layer_number']}\n"
             "Generate a new node that bridges the player's input to the nearest upcoming layer. "
             "Generate the node layer number which should be between this layer and the nearest upcoming layer"
-            "The NPC should only be the ones already in the scene description, dont create new names"
+            "The NPC should only be the ones already in the scene description of this layer, dont create new names"
             "Return the response in JSON format with the following structure:\n"
             "{\n"
             "  \"title\": \"<new node title>\",\n"
@@ -111,106 +111,3 @@ class InputEvaluator:
             print(f"Error decoding JSON response, raw response: new_node_data")
             # print(f"JSON Decode Error: {e}")
             return None
-        
-    
-    # def get_llm_evaluation(self, player_input, current_scene, best_node, call_llm_api):
-    #     prompt = (
-    #         f"Player input: '{player_input}'.\n"
-    #         f"Current scene: {current_scene.get('name')}\n"
-    #         f"Best matching node: {best_node['title']}\n"
-    #         "Evaluate the player's input and suggest the best course of action. "
-    #         "Return the response in JSON format with the following structure:\n"
-    #         "{\n"
-    #         "  \"evaluation\": \"<evaluation text>\",\n"
-    #         "  \"score\": <score>,\n"
-    #         "  \"additional_info\": \"<any additional info>\"\n"
-    #         "}"
-    #     )
-    #     evaluation = call_llm_api(prompt)
-    #     if evaluation is None:
-    #         return None
-
-    #     evaluation_result = evaluation.get('choices', [{}])[0].get('message', {}).get('content', '{}')
-    #     try:
-    #         evaluation_json = json.loads(evaluation_result)
-    #         return evaluation_json
-    #     except json.JSONDecodeError:
-    #         return None
-
-# def evaluate_player_input(player_input, current_scene, get_available_nodes, call_llm_api):
-#     """Evaluate the player's input and suggest the best course of action."""
-#     available_nodes = get_available_nodes()
-#     # Construct a more detailed prompt for the LLM API
-#     prompt = (
-#         f"Player input: '{player_input}'.\n"
-#         f"Current scene: {current_scene.get('name')}\n"
-#         f"Available options: {', '.join([node['title'] for node in available_nodes]) if available_nodes else 'None'}.\n"
-#         "Evaluate the player's input and suggest the best course of action. Return the response in JSON format with the following structure:\n"
-#         "{\n"
-#         "  \"evaluation\": \"<evaluation text>\",\n"
-#         "  \"score\": <score>,\n"
-#         "  \"additional_info\": \"<any additional info>\"\n"
-#         "}"
-#         "The score should be based on the similarity between the player's input and the available options."
-#         "The score should be between 0 and 10, where 10 is the highest similarity."
-#         )
-    
-#     # Call the LLM API
-#     evaluation = call_llm_api(prompt)
-
-#     # Check if the evaluation is valid
-#     if evaluation is None:
-#         print("API call failed. No evaluation returned.")
-#         return  # Exit the function if evaluation is not valid
-
-#     # Extract the evaluation result from the API response
-#     evaluation_result = evaluation.get('choices', [{}])[0].get('message', {}).get('content', '{}')
-#     try:
-#         evaluation_json = json.loads(evaluation_result)
-#     except json.JSONDecodeError:
-#         print("Error decoding evaluation result.")
-#         evaluation_json = {}
-
-#     # Process the evaluation to find the most similar task node
-#     best_node = select_best_node(evaluation, available_nodes)
-#     if best_node:
-#         print(f"Best matching node: {best_node['title']}")  # Print the chosen node
-#         print(f"Score for the chosen node: {evaluation.get('score', 'N/A')}")  # Print the score
-#         visualize_scores(evaluation, available_nodes)  # Visualize scores
-#     else:
-#         print("No suitable task node found.")
-
-# def select_best_node(evaluation, available_nodes):
-#     """Select the best node based on evaluation."""
-#     best_node = None
-#     highest_score = -1
-
-#     for node in available_nodes:
-#         score = compare_with_evaluation(evaluation, node)
-#         print(f"Evaluating node: {node['subtask_id']} with score: {score}")  # Log the score for each node
-#         if score > highest_score:
-#             highest_score = score
-#             best_node = node
-
-#     return best_node
-
-# def compare_with_evaluation(evaluation, node):
-#     """Compare the evaluation with a node."""
-#     score = 0
-#     # For example, you might compare the evaluation score with the node's attributes
-#     # This could involve checking for keywords, sentiment, or other metrics
-#     evaluation_score = evaluation.get('score', 0)  # Get the score from the evaluation. Default to 0 if 'score' is missing
-#     if evaluation_score > 0:  # Example threshold
-#         score = evaluation_score
-#     return score  # Return the score for this node
-
-# def visualize_scores(evaluation, available_nodes):
-#     """Visualize scores for available nodes."""
-#     scores = {}
-#     for node in available_nodes:
-#         score = compare_with_evaluation(evaluation, node)
-#         scores[node['subtask_id']] = score
-
-#     print("Scores for available nodes:")
-#     for node_id, score in scores.items():
-#         print(f"Node ID: {node_id}, Score: {score}")
