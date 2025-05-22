@@ -46,26 +46,30 @@ The FSM-LLM Dynamic Narrative System integrates two core components:
 
 ```
 FSM-LLM-Narrative/
-├── Dynamic_Narrative_Processing/
-│   ├── data/
-│   ├── models/
-│   ├── processing/
-│   ├── utils/
-│   ├── demo/
-│   └── tests/
+├── .git/
+├── Middle_data.zip
+├── Middle_data/
+│ ├── Beginning_20250415_180747/
+│ └── Meet_with_Meredith_Stout_20250421_223148/
 ├── Generate_branches/
-│   ├── data/
-│   ├── demo/
-│   ├── game/
-│   ├── llm/
-│   ├── models/
-│   ├── tests/
-│   ├── utils/
-│   ├── visualization/
-│   └── main.py
-├── requirements.txt
+│ ├── dynamic_outputs/
+│ ├── utils/
+│ ├── visualization/
+│ ├── data/
+│ ├── llm/
+│ ├── game/
+│ ├── models/
+│ ├── test_visualization.py
+│ ├── main.py
+│ ├── QUICKSTART.md
+│ ├── README.md
+│ ├── requirements.txt
+│ └── Generate_branches_env/
+├── temp_script.py
 ├── README.md
-└── LICENSE
+└── Generate_branches_waste/
+├── tests/
+└── demo/
 ```
 
 ## Installation
@@ -92,7 +96,7 @@ fsm_llm_env\Scripts\activate
 3. Install dependencies:
 
 ```bash
-pip install -r requirements.txt
+pip install -r Generate_branches/requirements.txt
 ```
 
 4. Set your OpenAI API key:
@@ -105,49 +109,22 @@ export OPENAI_API_KEY="your-api-key-here"
 set OPENAI_API_KEY="your-api-key-here"
 ```
 
-5. Create necessary directories:
+## Usage
+
+### Extract Narratives
 
 ```bash
-mkdir -p Generate_branches/data/key_questions Generate_branches/data/subtasks Generate_branches/visualization
-```
+# Run Extract Narratives with specific task
+python -m utils.extract_narratives --task "data/Beginning_20250415_180747"
 
-## Usage
+# Run Extract Narratives with default task
+python -m Generate_branches.utils.extract_narratives
+```
 
 ### Running the Demo Game
 
 ```bash
-# Run demo game with default task
-python -m Generate_branches.main --demo
-
-# Run with a specific task
-python -m Generate_branches.main --demo --task "Beginning"
-```
-
-### Processing Player Input
-
-```python
-from Dynamic_Narrative_Processing.processing.input_analyzer import InputAnalyzer
-
-analyzer = InputAnalyzer()
-result = analyzer.process_input(player_input)
-```
-
-### Generating New Nodes
-
-```python
-from Dynamic_Narrative_Processing.models.node_generator import NodeGenerator
-from Dynamic_Narrative_Processing.models.position_tracker import PositionTracker
-
-generator = NodeGenerator()
-tracker = PositionTracker()
-new_node = generator.generate_node(player_input, current_state, tracker.get_position())
-```
-
-### Running the Dynamic Demo
-
-```bash
-cd Dynamic_Narrative_Processing
-python demo/run_demo.py
+python -m pytest Generate_branches/utils/sys_controller.py
 ```
 
 ### Generating Visualizations
