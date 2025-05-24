@@ -1,6 +1,8 @@
-# """
-# This module contains configuration settings for the narrative game.
-# """
+"""
+This module contains configuration settings for the narrative game.
+"""
+
+EVALUATION_METHOD = "original"  # Change this to switch methods
 
 # # LLM Integration Settings
 # LLM_CONFIG = {
