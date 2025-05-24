@@ -1,0 +1,286 @@
+[
+  {
+    "subtask_id": "picking_up_goods.1.1",
+    "title": "Pushing Back",
+    "description": "The player challenges Royce's demand and offers an ultimatum instead, insisting on standing firm to avoid paying the additional fee.",
+    "dialogue": "The atmosphere thickens as the player asserts, 'I won’t pay you a dime more than what I owe. Either you sell me that robot at the agreed price, or you can find someone else.' Royce's smirk falters slightly, while Dum Dum grows visibly more aggressive, ready to pounce.",
+    "npc_reactions": {
+      "Royce": "Royce's eyes narrow, clearly irked at being challenged for the first time.",
+      "Dum Dum": "Dum Dum steps forward, cracking his knuckles, ready for a fight."
+    },
+    "npc_emotion_pools": {
+      "Royce": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Indicate that the player needs to pay an extra sum of money to buy the robot"
+        },
+        {
+          "id": 1,
+          "trigger_condition": "The player mentions having already paid money to the previous boss",
+          "goal": "Refuse to refund, threaten the player, and apply pressure"
+        },
+        {
+          "id": 4,
+          "trigger_condition": "The player pushes back on the price",
+          "goal": "Demonstrate his authority and threaten the player for disrespect."
+        }
+      ],
+      "Dum Dum": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Intimidate the player, making them accept their rules"
+        },
+        {
+          "id": 1,
+          "trigger_condition": "The player refuses to accept Dum Dum's gang rules",
+          "goal": "Kill the player"
+        }
+      ]
+    },
+    "player_options": [
+      "Stand your ground and refuse to pay the extra fee.",
+      "Attempt to intimidate Royce into accepting the original price.",
+      "Prepare for a confrontation with Dum Dum."
+    ],
+    "parent_id": "picking_up_goods.1",
+    "layer": 1,
+    "is_generated": true,
+    "rating": 85,
+    "environment": "A dimly lit room with harsh shadows highlighting the tension, exposed wires sporadically sparking as if mirroring the brewing conflict.",
+    "interactive_environment_objects": [
+      {
+        "name": "sparking wire",
+        "action_point_cost": "1"
+      }
+    ],
+    "interactive_npc": [
+      {
+        "name": "Royce",
+        "additional_conditions": null,
+        "goal": "Defend his unexpected challenge",
+        "emotion_pool": [
+          {
+            "id": "0",
+            "trigger_condition": null,
+            "goal": "Indicate that the player needs to pay an extra sum of money to buy the robot"
+          },
+          {
+            "id": "1",
+            "trigger_condition": "The player mentions having already paid money to the previous boss",
+            "goal": "Refuse to refund, threaten the player, and apply pressure"
+          },
+          {
+            "id": "4",
+            "trigger_condition": "The player pushes back on the price",
+            "goal": "Demonstrate his authority and threaten the player for disrespect."
+          }
+        ]
+      },
+      {
+        "name": "Dum Dum",
+        "additional_conditions": null,
+        "goal": "Assist Royce in reinforcing power dynamics",
+        "emotion_pool": [
+          {
+            "id": "0",
+            "trigger_condition": null,
+            "goal": "Intimidate the player, making them accept their rules"
+          },
+          {
+            "id": "1",
+            "trigger_condition": "The player refuses to accept Dum Dum's gang rules",
+            "goal": "Kill the player"
+          }
+        ]
+      }
+    ],
+    "key_questions": [
+      {
+        "id": "1",
+        "content": "What means will the player use to obtain the robot?"
+      }
+    ],
+    "scene_end_state_reference": {
+      "end_condition1": "Player successfully negotiates without paying extra",
+      "end_condition2": "Player engages in direct conflict with Royce or Dum Dum"
+    }
+  },
+  {
+    "subtask_id": "picking_up_goods.1.2",
+    "title": "Bribing for Favor",
+    "description": "The player decides to offer a lesser bribe, hoping to gain Royce's favor without paying the full extra fee.",
+    "dialogue": "With a sly smile, the player presents a small stack of eddies, saying, 'How about I sweeten the deal? A little something here, and we call it a day.' Royce's eyes flicker with interest as he weighs the possibility.",
+    "npc_reactions": {
+      "Royce": "Royce leans forward, curiosity piqued by the player's offer.",
+      "Dum Dum": "Dum Dum narrows his eyes, skeptical of the player's attempt to bribe."
+    },
+    "npc_emotion_pools": {
+      "Royce": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Indicate that the player needs to pay an extra sum of money to buy the robot"
+        },
+        {
+          "id": 3,
+          "trigger_condition": "The player makes a bribe offer",
+          "goal": "Consider whether to accept the lesser bribe as a sign of favor."
+        }
+      ],
+      "Dum Dum": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Intimidate the player, making them accept their rules"
+        }
+      ]
+    },
+    "player_options": [
+      "Proceed with the bribe.",
+      "Increase the bribe amount to convince them.",
+      "Decide against bribery and offer nothing."
+    ],
+    "parent_id": "picking_up_goods.1",
+    "layer": 1,
+    "is_generated": true,
+    "rating": 80,
+    "environment": "The oppressive dimness is punctuated by the flickering fluorescent lights above, casting an eerie glow on the player's offering.",
+    "interactive_environment_objects": [],
+    "interactive_npc": [
+      {
+        "name": "Royce",
+        "additional_conditions": null,
+        "goal": "Evaluate the player’s bribe and decide how to respond.",
+        "emotion_pool": [
+          {
+            "id": 0,
+            "trigger_condition": null,
+            "goal": "Indicate that the player needs to pay an extra sum of money to buy the robot"
+          },
+          {
+            "id": 3,
+            "trigger_condition": "The player makes a bribe offer",
+            "goal": "Consider whether to accept the lesser bribe as a sign of favor."
+          }
+        ]
+      },
+      {
+        "name": "Dum Dum",
+        "additional_conditions": null,
+        "goal": "Assess the player's intent, prepared to react.",
+        "emotion_pool": [
+          {
+            "id": 0,
+            "trigger_condition": null,
+            "goal": "Intimidate the player, making them accept their rules"
+          }
+        ]
+      }
+    ],
+    "key_questions": [
+      {
+        "id": "1",
+        "content": "What means will the player use to obtain the robot?"
+      }
+    ],
+    "scene_end_state_reference": {
+      "end_condition1": "Player successfully secures the robot with a bribe",
+      "end_condition2": "Royce refuses the bribe and decides to retaliate"
+    }
+  },
+  {
+    "subtask_id": "picking_up_goods.1.3",
+    "title": "Decisive Conflict",
+    "description": "The player opts for a direct confrontation, refusing to play by the Spiral Gang's rules right from the start.",
+    "dialogue": "The player stands tall and declares, 'I won't be intimidated by you two or your so-called rules. I came here for the robot, and I won't leave without it!' Both Royce and Dum Dum react with surprise, shifting into combat mode.",
+    "npc_reactions": {
+      "Royce": "Royce's expression morphs into one of twisted excitement, eager for the prospect of violence.",
+      "Dum Dum": "Dum Dum's stance becomes aggressive as he prepares for a brawl."
+    },
+    "npc_emotion_pools": {
+      "Royce": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Indicate that the player needs to pay an extra sum of money to buy the robot"
+        },
+        {
+          "id": 4,
+          "trigger_condition": "The player confronts them directly",
+          "goal": "Seek to eliminate the player to establish dominance."
+        }
+      ],
+      "Dum Dum": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Intimidate the player, making them accept their rules"
+        },
+        {
+          "id": 1,
+          "trigger_condition": "The player stands up to him",
+          "goal": "Kill the player."
+        }
+      ]
+    },
+    "player_options": [
+      "Fight Royce directly.",
+      "Take on Dum Dum first.",
+      "Try to use the environment to your advantage in the fight."
+    ],
+    "parent_id": "picking_up_goods.1",
+    "layer": 1,
+    "is_generated": true,
+    "rating": 75,
+    "environment": "The room fills with tension as the flickering lights cast erratic shadows, heightening the sense of impending violence as the two gang members close in.",
+    "interactive_environment_objects": [],
+    "interactive_npc": [
+      {
+        "name": "Royce",
+        "additional_conditions": null,
+        "goal": "Take down the player aggressively to assert control.",
+        "emotion_pool": [
+          {
+            "id": 0,
+            "trigger_condition": null,
+            "goal": "Indicate that the player needs to pay an extra sum of money to buy the robot"
+          },
+          {
+            "id": 4,
+            "trigger_condition": "The player confronts them directly",
+            "goal": "Seek to eliminate the player to establish dominance."
+          }
+        ]
+      },
+      {
+        "name": "Dum Dum",
+        "additional_conditions": null,
+        "goal": "Join Royce in overpowering the player.",
+        "emotion_pool": [
+          {
+            "id": 0,
+            "trigger_condition": null,
+            "goal": "Intimidate the player, making them accept their rules"
+          },
+          {
+            "id": 1,
+            "trigger_condition": "The player stands up to him",
+            "goal": "Kill the player."
+          }
+        ]
+      }
+    ],
+    "key_questions": [
+      {
+        "id": "1",
+        "content": "What means will the player use to obtain the robot?"
+      }
+    ],
+    "scene_end_state_reference": {
+      "end_condition1": "Player wins the confrontation and takes the robot",
+      "end_condition2": "Player is overpowered and defeated by the gang."
+    }
+  }
+]

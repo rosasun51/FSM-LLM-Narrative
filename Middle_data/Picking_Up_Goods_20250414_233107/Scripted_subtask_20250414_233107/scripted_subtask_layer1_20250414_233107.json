@@ -1,0 +1,70 @@
+{
+  "environment": "A dimly lit room on the second floor of an appropriated chow factory, with exposed cables and pipes lining the ceiling and stuffed trash bags piling in the corners. There is a roller shutter that seems to connect the room with another unseen area.",
+  "interactive_environment_objects": null,
+  "interactive_npc": [
+    {
+      "name": "Royce",
+      "additional_conditions": null,
+      "goal": "Sell the robot at a high price and extort money from the player",
+      "emotion_pool": [
+        {
+          "id": "0",
+          "trigger_condition": null,
+          "goal": "Indicate that the player needs to pay an extra sum of money to buy the robot"
+        },
+        {
+          "id": "1",
+          "trigger_condition": "The player mentions having already paid money to the previous boss",
+          "goal": "Refuse to refund, threaten the player, and apply pressure"
+        },
+        {
+          "id": "2",
+          "trigger_condition": "The player clearly states they will not pay extra money",
+          "goal": "Kill the player"
+        },
+        {
+          "id": "3",
+          "trigger_condition": "The player pays",
+          "goal": "Establish a friendly relationship with the player"
+        },
+        {
+          "id": "4",
+          "trigger_condition": null,
+          "goal": "Ensure compliance by demonstrating his power and control."
+        }
+      ]
+    },
+    {
+      "name": "Dum Dum",
+      "additional_conditions": null,
+      "goal": "Assist Royce in selling the robot at a high price and extort money from the player",
+      "emotion_pool": [
+        {
+          "id": "0",
+          "trigger_condition": null,
+          "goal": "Intimidate the player, making them accept their rules"
+        },
+        {
+          "id": "1",
+          "trigger_condition": "The player refuses to accept Dum Dum's gang rules",
+          "goal": "Kill the player"
+        },
+        {
+          "id": "2",
+          "trigger_condition": "The player shows submission",
+          "goal": "Introduce the player to his boss, Royce"
+        }
+      ]
+    }
+  ],
+  "key_questions": [
+    {
+      "id": 1,
+      "content": "What means will the player use to obtain the robot?"
+    }
+  ],
+  "scene_end_state_reference": {
+    "end_condition1": "Player pays",
+    "end_condition2": "Player engages in direct conflict with Royce or Dum Dum"
+  }
+}

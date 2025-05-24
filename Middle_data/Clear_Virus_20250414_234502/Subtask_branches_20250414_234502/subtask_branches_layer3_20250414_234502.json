@@ -1,0 +1,227 @@
+[
+  {
+    "subtask_id": "clear_virus.3.1",
+    "title": "Desperate Plea",
+    "description": "In this branch, the player expresses a sense of urgency and desperation, imploring Joe to help them quickly. Joe reacts positively to the player's urgency, viewing it as a potential opportunity for negotiation.",
+    "dialogue": "You exhale, your voice laced with urgency. 'Look, I have to clear this virus, and I need your help—now, more than ever.' Joe's eyes gleam slightly at your tone, recognizing your unease, but also your determination.",
+    "npc_reactions": {
+      "Joe": "Joe leans forward, intrigued, sensing the weight of your urgency."
+    },
+    "npc_emotion_pools": {
+      "Joe": [
+        {
+          "id": "0",
+          "trigger_condition": null,
+          "goal": "Ask the player about his needs"
+        },
+        {
+          "id": "1",
+          "trigger_condition": "If the player expresses desperation",
+          "goal": "Be more flexible with terms to secure the job"
+        }
+      ]
+    },
+    "player_options": [
+      "I can offer you more if you hurry.",
+      "Just tell me what I need to do!",
+      "I can't afford to mess this up; what will it take?"
+    ],
+    "parent_id": "clear_virus.3",
+    "layer": 3,
+    "is_generated": true,
+    "rating": 85,
+    "environment": "The atmosphere thickens with tension, the glow of neon lights refracting through the densely packed space. Holo-ads flicker erratically overhead as Joe's workstation hums with distant electrical sounds, drawing you further into a world of speed and risk.",
+    "interactive_environment_objects": [],
+    "interactive_npc": [
+      {
+        "name": "Joe",
+        "additional_conditions": null,
+        "goal": "Help the player resolve hacker service needs",
+        "emotion_pool": [
+          {
+            "id": "0",
+            "trigger_condition": null,
+            "goal": "Ask the player about his needs"
+          },
+          {
+            "id": "1",
+            "trigger_condition": "If the player expresses desperation",
+            "goal": "Be more flexible with terms to secure the job"
+          }
+        ]
+      }
+    ],
+    "key_questions": [
+      {
+        "id": 1,
+        "content": "What are the player's needs?"
+      },
+      {
+        "id": 2,
+        "content": "Is the player willing to pay an appropriate price to request Joe's assistance?"
+      },
+      {
+        "id": 3,
+        "content": "What is the player's attitude?"
+      },
+      {
+        "id": 4,
+        "content": "What potential obstacles might affect the player's plans to secure Joe's help?"
+      }
+    ],
+    "scene_end_state_reference": {
+      "end_condition1": "The player successfully conveys their urgency, prompting Joe to respond favorably.",
+      "end_condition2": "Joe decides to raise his terms due to the player's clear desperation."
+    }
+  },
+  {
+    "subtask_id": "clear_virus.3.2",
+    "title": "Calculated Confidence",
+    "description": "The player shows confidence, presenting themselves as knowledgeable about the hacking scene. This surprises Joe, leading him to reconsider the value of his services.",
+    "dialogue": "You straighten up, exuding confidence. 'Look, Joe, I know what I'm asking for. I’m not one to back down easily. I just need to know what you can offer.' Joe raises an eyebrow, impressed by your self-assuredness.",
+    "npc_reactions": {
+      "Joe": "Joe nods slowly, assessing your confidence and weighing his response."
+    },
+    "npc_emotion_pools": {
+      "Joe": [
+        {
+          "id": "0",
+          "trigger_condition": null,
+          "goal": "Ask the player about his needs"
+        },
+        {
+          "id": "1",
+          "trigger_condition": "If the player shows confidence",
+          "goal": "Consider adjusting terms based on the player's self-assuredness"
+        }
+      ]
+    },
+    "player_options": [
+      "Let's discuss the options you have for a quick fix.",
+      "What are your rates for rush jobs?",
+      "I can bring in more business if we can work together."
+    ],
+    "parent_id": "clear_virus.3",
+    "layer": 3,
+    "is_generated": true,
+    "rating": 80,
+    "environment": "The dimly lit backstreet glows under the neon lights. The sound of servers whirring adds to the ambiance, while the air crackles with potential. As you stand firm, Joe's workstation continues to blink, highlighting the gravity of the moment.",
+    "interactive_environment_objects": [],
+    "interactive_npc": [
+      {
+        "name": "Joe",
+        "additional_conditions": null,
+        "goal": "Help the player resolve hacker service needs",
+        "emotion_pool": [
+          {
+            "id": "0",
+            "trigger_condition": null,
+            "goal": "Ask the player about his needs"
+          },
+          {
+            "id": "1",
+            "trigger_condition": "If the player shows confidence",
+            "goal": "Consider adjusting terms based on the player's self-assuredness"
+          }
+        ]
+      }
+    ],
+    "key_questions": [
+      {
+        "id": 1,
+        "content": "What are the player's needs?"
+      },
+      {
+        "id": 2,
+        "content": "Is the player willing to pay an appropriate price to request Joe's assistance?"
+      },
+      {
+        "id": 3,
+        "content": "What is the player's attitude?"
+      },
+      {
+        "id": 4,
+        "content": "What potential obstacles might affect the player's plans to secure Joe's help?"
+      }
+    ],
+    "scene_end_state_reference": {
+      "end_condition1": "The player impresses Joe with their confidence, unlocking new options.",
+      "end_condition2": "Joe remains noncommittal, feeling the player might not be serious."
+    }
+  },
+  {
+    "subtask_id": "clear_virus.3.3",
+    "title": "Hesitant Negotiation",
+    "description": "The player hesitantly negotiates, showing uncertainty about spending money but expressing the need for Joe's services. Joe senses the hesitation but sees an opportunity for a different tactic.",
+    "dialogue": "You shift uncomfortably, saying, 'I know I need your help, but I'm not sure I can trust anyone these days. What can we do here?' Joe watches you closely, understanding your dilemma but also seeing your reluctance to commit.",
+    "npc_reactions": {
+      "Joe": "Joe crosses his arms, contemplating your words while gauging your reliability."
+    },
+    "npc_emotion_pools": {
+      "Joe": [
+        {
+          "id": "0",
+          "trigger_condition": null,
+          "goal": "Ask the player about his needs"
+        },
+        {
+          "id": "1",
+          "trigger_condition": "If the player shows hesitation",
+          "goal": "Probe deeper into the player's true needs"
+        }
+      ]
+    },
+    "player_options": [
+      "What guarantees do you offer if I pay?",
+      "I need to see results before I commit to anything.",
+      "I want to team up; can you show me how this works?"
+    ],
+    "parent_id": "clear_virus.3",
+    "layer": 3,
+    "is_generated": true,
+    "rating": 75,
+    "environment": "The neon atmosphere seems to pulse with tension as you stand before Joe, shadows flickering across the room. The faint scent of ozone lingers, stirring a sense of urgency within you as you weigh your options.",
+    "interactive_environment_objects": [],
+    "interactive_npc": [
+      {
+        "name": "Joe",
+        "additional_conditions": null,
+        "goal": "Help the player resolve hacker service needs",
+        "emotion_pool": [
+          {
+            "id": "0",
+            "trigger_condition": null,
+            "goal": "Ask the player about his needs"
+          },
+          {
+            "id": "1",
+            "trigger_condition": "If the player shows hesitation",
+            "goal": "Probe deeper into the player's true needs"
+          }
+        ]
+      }
+    ],
+    "key_questions": [
+      {
+        "id": 1,
+        "content": "What are the player's needs?"
+      },
+      {
+        "id": 2,
+        "content": "Is the player willing to pay an appropriate price to request Joe's assistance?"
+      },
+      {
+        "id": 3,
+        "content": "What is the player's attitude?"
+      },
+      {
+        "id": 4,
+        "content": "What potential obstacles might affect the player's plans to secure Joe's help?"
+      }
+    ],
+    "scene_end_state_reference": {
+      "end_condition1": "Joe acknowledges your hesitation, offering different payment options.",
+      "end_condition2": "Your uncertainty pushes Joe to be dismissive of your request."
+    }
+  }
+]
