@@ -1,0 +1,18 @@
+{
+  "subtask_id": "picking_up_goods.3",
+  "title": "Assessing the Gang's Rules",
+  "description": "In this tense moment, the player must decide whether to adhere to the Spiral Gang's rules. Their decision could lead to the safety required to complete the transaction or plunge them into confrontation.",
+  "dialogue": "You glance between Royce and Dum Dum, their menacing stares weighing heavily on you. The atmosphere thickens with tension as you consider your options. Do you choose to comply with the Spiral Gang's rules or stand your ground against their authority?",
+  "npc_reactions": {
+    "Royce": "Royce narrows his eyes, exuding an air of impatience. \"You know what happens to those who don't play by our rules, right?\"",
+    "Dum Dum": "Dum Dum shifts closer, his imposing frame radiating intimidation. \"You're either with us or against us. Make your choice wisely.\""
+  },
+  "player_options": [
+    "Agree to follow the rules and proceed with the transaction.",
+    "Refuse the rules and prepare for a confrontation.",
+    "Attempt to negotiate a new set of terms with Royce and Dum Dum."
+  ],
+  "parent_id": "picking_up_goods.2",
+  "layer": 3,
+  "is_generated": false
+}

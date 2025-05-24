@@ -1,0 +1,125 @@
+[
+  {
+    "subtask_id": "meet_with_meredith_stout.4.1",
+    "title": "The Information Gambit",
+    "description": "The player strategically offers to divulge sensitive information about a rival gang's operations, aiming to leverage their knowledge for a favorable trade with Meredith Stout.",
+    "dialogue": "The air grows tense as you lean closer, lowering your voice. 'I have intel on the Maelstrom's next move\u2014details that could cost them dearly. If you\u2019re willing to make this worthwhile, I could be persuaded to share.' Meredith's eyes gleam with interest, but her demeanor remains guarded, as if she's sizing up the backbone of your offer.",
+    "npc_reactions": {
+      "Meredith Stout": "Intrigued, Meredith leans in, her previous caution momentarily eclipsed by the allure of valuable intel."
+    },
+    "npc_emotion_pools": {
+      "Meredith Stout": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot."
+        },
+        {
+          "id": 1,
+          "trigger_condition": "angered by the player",
+          "goal": "Insult or threaten the player."
+        },
+        {
+          "id": 2,
+          "trigger_condition": "believes the player is cooperative",
+          "goal": "Provide the player with a chip to store cash."
+        },
+        {
+          "id": 3,
+          "trigger_condition": "the player proposes an attractive trade",
+          "goal": "Consider the player's proposal as a potential advantage in her own game."
+        }
+      ]
+    },
+    "player_options": [
+      "Detail the intel and negotiate further.",
+      "Ask Meredith what she plans to do with the information.",
+      "Offer a lesser deal as a backup."
+    ],
+    "parent_id": "meet_with_meredith_stout.4",
+    "layer": 4,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "meet_with_meredith_stout.4.2",
+    "title": "Confrontation over Trust",
+    "description": "The player challenges Meredith about her motives, questioning her trustworthiness in this exchange before any deal is made, leading to a heated exchange.",
+    "dialogue": "You fold your arms, meeting her calculating gaze. 'Why should I trust you? You play hardball, and I don\u2019t need another enemy. Tell me what guarantees I have.' The challenge hangs in the air, and you can feel the tension as Meredith's icy smirk flickers into a scowl.",
+    "npc_reactions": {
+      "Meredith Stout": "Annoyed, Meredith stands her ground, clearly irritated by the accusation but intrigued by your audacity."
+    },
+    "npc_emotion_pools": {
+      "Meredith Stout": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot."
+        },
+        {
+          "id": 1,
+          "trigger_condition": "angered by the player",
+          "goal": "Insult or threaten the player."
+        },
+        {
+          "id": 2,
+          "trigger_condition": "believes the player is cooperative",
+          "goal": "Provide the player with a chip to store cash."
+        },
+        {
+          "id": 4,
+          "trigger_condition": "the player openly doubts her integrity",
+          "goal": "Defend her position while trying to regain the upper hand in the conversation."
+        }
+      ]
+    },
+    "player_options": [
+      "Apologize and shift tactics.",
+      "Stand firm and reiterate your point.",
+      "Ask for a demonstration of good faith."
+    ],
+    "parent_id": "meet_with_meredith_stout.4",
+    "layer": 4,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "meet_with_meredith_stout.4.3",
+    "title": "Value Beyond Currency",
+    "description": "The player realizes that cash alone won't suffice and instead offers a unique piece of technology or a favor that piques Meredith's interest.",
+    "dialogue": "You take a breath, shifting the conversation. 'I have something else\u2014an upgraded cyberdeck prototype. I\u2019d trade it for information you can\u2019t get from anyone else.' Meredith's interest visibly sharpens, her calculating mind racing to assess the potential value of your offer.",
+    "npc_reactions": {
+      "Meredith Stout": "Intrigued by the unique offer, Meredith's eyes narrow, and she becomes more engaged with the negotiation."
+    },
+    "npc_emotion_pools": {
+      "Meredith Stout": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot."
+        },
+        {
+          "id": 1,
+          "trigger_condition": "angered by the player",
+          "goal": "Insult or threaten the player."
+        },
+        {
+          "id": 2,
+          "trigger_condition": "believes the player is cooperative",
+          "goal": "Provide the player with a chip to store cash."
+        },
+        {
+          "id": 3,
+          "trigger_condition": "the player offers unique tech",
+          "goal": "Assess the trade's worth against potential gains."
+        }
+      ]
+    },
+    "player_options": [
+      "Provide details about the tech's capabilities.",
+      "Ask for her expertise in exchange.",
+      "Negotiate on other terms for the favor."
+    ],
+    "parent_id": "meet_with_meredith_stout.4",
+    "layer": 4,
+    "is_generated": true
+  }
+]

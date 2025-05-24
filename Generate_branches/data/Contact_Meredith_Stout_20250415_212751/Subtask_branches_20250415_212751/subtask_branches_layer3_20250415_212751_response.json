@@ -1,0 +1,53 @@
+[
+  {
+    "subtask_id": "contact_meredith_stout.3.1",
+    "title": "An Unexpected Offer",
+    "description": "As you open Meredith's email, you discover an unexpected proposition. Meredith proposes a collaboration, hinting that your project and her current research on advanced robotics could align perfectly, but it comes with strings attached.",
+    "dialogue": "Meredith writes, 'Your mention of the lost robot caught my eye. I might have a lead, but I need your expertise on a side project first. Are you interested in collaborating?'",
+    "npc_reactions": {
+      "Meredith Stout": "Intrigued and slightly assertive, Meredith uses a professional tone that hides her curiosity about your capabilities."
+    },
+    "player_options": [
+      "Accept the collaboration proposal, eager to work with Meredith.",
+      "Decline politely and insist on discussing the lost robot only.",
+      "Request more details about her side project before deciding."
+    ],
+    "parent_id": "contact_meredith_stout.3",
+    "layer": 3,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "contact_meredith_stout.3.2",
+    "title": "Cryptic Warning",
+    "description": "The email from Meredith is laden with a warning. She informs you that the lost robot may be more dangerous than you realize and suggests proceeding with extreme caution.",
+    "dialogue": "'I received your message, but be careful. The streets aren\u2019t as they seem. That robot could attract unwanted attention,' she cautions. 'Let's talk in person. I have more information.'",
+    "npc_reactions": {
+      "Meredith Stout": "Concerned and serious, Meredith's tone carries a weight of urgency that makes you reassess the situation."
+    },
+    "player_options": [
+      "Agree to meet Meredith in person to discuss further.",
+      "Insist on communicating through email to keep things safe.",
+      "Express your determination to retrieve the robot despite the risks."
+    ],
+    "parent_id": "contact_meredith_stout.3",
+    "layer": 3,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "contact_meredith_stout.3.3",
+    "title": "The Blowback",
+    "description": "Meredith\u2019s reply leads to unforeseen consequences. In her response, she indicates that your inquiry has drawn attention from an old adversary, warning you to be cautious.",
+    "dialogue": "'Your interest in that lost robot hasn\u2019t gone unnoticed. It might be wise to tread carefully; I\u2019ll help only if you promise to keep your head down for now,' she warns.",
+    "npc_reactions": {
+      "Meredith Stout": "Cautious and protective, Meredith is looking out for you, suggesting a deeper connection and past experiences."
+    },
+    "player_options": [
+      "Promise to be careful and ask for resources to stay under the radar.",
+      "Dismiss her concerns, confident you can handle any fallout.",
+      "Inquire about her past experience with the adversary she mentioned."
+    ],
+    "parent_id": "contact_meredith_stout.3",
+    "layer": 3,
+    "is_generated": true
+  }
+]

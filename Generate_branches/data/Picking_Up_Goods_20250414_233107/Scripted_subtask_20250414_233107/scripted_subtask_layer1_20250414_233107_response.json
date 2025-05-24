@@ -1,0 +1,18 @@
+{
+  "subtask_id": "picking_up_goods.1",
+  "title": "Negotiating the Price",
+  "description": "The player attempts to negotiate with Royce and Dum Dum for the robot, weighing their options to secure a deal without parting with too much cash.",
+  "dialogue": "You stand in the dim light of the chow factory, surrounded by the smell of old grease and the tension in the air. Royce leans against a stack of crates, eyeing you expectantly, while Dum Dum looms nearby, arms crossed and a menacing grin on his face. 'So, what's it gonna be, friend? You got cash, or are you hoping to sweet-talk your way into a deal?' Royce asks, sticking his hands in his pockets and shifting his weight. The atmosphere grows thick with anticipation as you prepare to respond.",
+  "npc_reactions": {
+    "Royce": "Raises an eyebrow, clearly intrigued by your approach.",
+    "Dum Dum": "Narrows his eyes, waiting to see if you will challenge their terms."
+  },
+  "player_options": [
+    "Offer a lower price than what Royce demands.",
+    "Mention previous payment to Ronan and try to leverage it.",
+    "Threaten to walk away from the deal."
+  ],
+  "parent_id": "picking_up_goods",
+  "layer": 1,
+  "is_generated": false
+}

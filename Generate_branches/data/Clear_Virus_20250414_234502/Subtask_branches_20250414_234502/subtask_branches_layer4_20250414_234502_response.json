@@ -1,0 +1,53 @@
+[
+  {
+    "subtask_id": "clear_virus.4.1",
+    "title": "Digging Deeper",
+    "description": "You decide to investigate the nature of Joe's work more thoroughly. Are the risks greater than it seems? You mention having heard disturbing rumors about hacker services in the area and demand more transparency from Joe about his operations.",
+    "dialogue": "You lean closer to Joe, your voice low, 'I've heard disturbing tales about people who trusted the wrong hackers. What makes you different, Joe? Can I trust your methods?'",
+    "npc_reactions": {
+      "Joe": "He raises an eyebrow, impressed by your tenacity. 'You've done your homework, haven't you? But let me tell you, trust isn't earned easily in this game. You'll have to observe for yourself.'"
+    },
+    "player_options": [
+      "Ask Joe for references from his previous clients.",
+      "Demand proof of his services' reliability.",
+      "Convey suspicion about rumors and threaten to seek another hacker."
+    ],
+    "parent_id": "clear_virus.4",
+    "layer": 4,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "clear_virus.4.2",
+    "title": "Warning from the Street",
+    "description": "While you're weighing your options, a stranger lurking in the shadows steps forward, warning you about Joe. They share a story of betrayal that sends chills down your spine and forces you to reconsider.",
+    "dialogue": "The stranger steps into the light, their face obscured. 'You're dealing with fire, friend. I've seen what happens to those who trust him\u2014a good hacker doesn't stay in business long without a few enemies.'",
+    "npc_reactions": {
+      "Joe": "His demeanor shifts immediately to one of defensiveness. 'Don't listen to the street trash. They have their own agendas!'"
+    },
+    "player_options": [
+      "Confront Joe about the stranger's warning.",
+      "Ask the stranger for details on their experience with Joe.",
+      "Walk away and return to reconsider your options."
+    ],
+    "parent_id": "clear_virus.4",
+    "layer": 4,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "clear_virus.4.3",
+    "title": "Hidden Threats",
+    "description": "You ponder a nagging feeling, questioning whether there might be technology beyond Joe's control that could pose threats. You inquire about potential cybersecurity risks or surveillance that could compromise your privacy.",
+    "dialogue": "With a furrowed brow, you ask, 'What about surveillance? Are we safe here? What if someone is watching us as we speak?'",
+    "npc_reactions": {
+      "Joe": "His expression darkens, indicating that you've hit a nerve. 'This isn't a walk in the park. Anyone could be watching, but I offer protections that few can rival.'"
+    },
+    "player_options": [
+      "Ask about the specific protections Joe can provide.",
+      "Request for Joe to demonstrate his ability to secure your data.",
+      "Express your concern and demand more reassurance from Joe."
+    ],
+    "parent_id": "clear_virus.4",
+    "layer": 4,
+    "is_generated": true
+  }
+]

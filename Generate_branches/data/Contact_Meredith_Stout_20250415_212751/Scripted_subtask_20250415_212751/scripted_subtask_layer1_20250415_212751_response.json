@@ -1,0 +1,15 @@
+{
+  "subtask_id": "contact_meredith_stout.1",
+  "title": "Reaching Out to Meredith",
+  "description": "In the dim light of your cluttered apartment, you settle in front of your computer, determination buzzing in your veins. With Ronan's task weighing on your mind, you need to contact Meredith Stout\u2014a top-tier tech analyst who might provide insight on the lost robot. The neon glow flickers as you pull up your email client, the digital abyss stretching out before you. This is the moment where your fate intertwines with hers.",
+  "dialogue": "You take a deep breath, fingers hovering over the keyboard as you ponder the best way to reach out to Meredith. The anticipation builds, urging you to send the email, aware that this step could lead to crucial information\u2014or trouble. You start typing, focusing on the details of the lost robot and your eagerness to hear back from her.",
+  "npc_reactions": {},
+  "player_options": [
+    "Send the email mentioning the lost robot.",
+    "Draft a more detailed message about the robot's features.",
+    "Consider reaching out to someone else before contacting Meredith."
+  ],
+  "parent_id": "contact_meredith_stout",
+  "layer": 1,
+  "is_generated": false
+}

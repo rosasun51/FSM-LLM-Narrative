@@ -1,0 +1,17 @@
+{
+  "subtask_id": "clear_virus.2",
+  "title": "Negotiating the Price",
+  "description": "As the flickering lights cast dancing shadows across the walls, you face Joe, weighing your options carefully. The tension in the air is palpable as he leans back in his chair, expectantly waiting for your response. Will you meet his demand, or will you haggle for a better deal?",
+  "dialogue": "You clear your throat, trying to focus amidst the chaotic energy of the hacker shop. 'So, Joe,' you begin, 'what\u2019s it going to cost me to clear this virus? I'm ready to negotiate.'",
+  "npc_reactions": {
+    "Joe": "His eyes narrow as he assesses you, gauging your demeanor and potential to pay. A smirk plays at the corners of his lips, revealing he enjoys a good negotiation."
+  },
+  "player_options": [
+    "Offer Joe the full amount he asks for without question.",
+    "Haggle and propose a lower price, citing your limited resources.",
+    "Refuse to pay upfront and suggest a trade of services instead."
+  ],
+  "parent_id": "clear_virus.1",
+  "layer": 2,
+  "is_generated": false
+}

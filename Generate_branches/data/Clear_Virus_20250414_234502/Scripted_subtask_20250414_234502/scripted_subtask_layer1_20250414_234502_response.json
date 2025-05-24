@@ -1,0 +1,17 @@
+{
+  "subtask_id": "clear_virus.1",
+  "title": "Assessing the Digital Needs",
+  "description": "As you step deeper into the hacker service shop, the atmosphere hums with anticipation. Joe, the owner's weathered face illuminated by the glow of multiple screens, leans forward. He senses your presence before you even speak, ready to dive into the digital abyss with you. It's time to clarify your needs to secure Joe's assistance in clearing the virus plaguing your system.",
+  "dialogue": "Joe's eyes narrow as he meets your gaze. 'Alright, friend, what is it you need help with? Gotta be specific if you want my best service. That virus won't just clear itself, and I have a few tricks up my sleeve\u2014if you can pay the price.'",
+  "npc_reactions": {
+    "Joe": "Joe looks expectantly at you, his brow slightly raised, ready to jot down your needs."
+  },
+  "player_options": [
+    "I need to clear a dangerous virus that's corrupted my files.",
+    "I've got some sensitive data that needs protection against malware.",
+    "I'm looking to upgrade my cybersecurity options."
+  ],
+  "parent_id": "clear_virus",
+  "layer": 1,
+  "is_generated": false
+}

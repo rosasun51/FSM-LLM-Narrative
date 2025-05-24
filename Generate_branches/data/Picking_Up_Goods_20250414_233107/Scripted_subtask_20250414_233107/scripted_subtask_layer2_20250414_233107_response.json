@@ -1,0 +1,18 @@
+{
+  "subtask_id": "picking_up_goods.2",
+  "title": "Weighing the Gang's Influence",
+  "description": "The player faces a crucial moment to evaluate their standing with Royce and Dum Dum, considering the intensity of the Spiral Gang's pressure they put on them. The player must decide how to navigate their feelings towards the gang and these two tough individuals.",
+  "dialogue": "Royce smirks, leaning back with an air of authority, while Dum Dum crosses his arms, scanning you intently. \"So, what\u2019s it gonna be? You either pay us what we want or learn your place in the Spiral Gang. After all, respect is earned, not given!\" The atmosphere is thick with intimidation, and your response will determine your fate here.",
+  "npc_reactions": {
+    "Royce": "Chuckles menacingly, sensing your hesitation.",
+    "Dum Dum": "Glares at you, ready to escalate the situation if you back down."
+  },
+  "player_options": [
+    "Express submission to their rules, hoping to calm the tension.",
+    "Refuse to acknowledge their authority and stand your ground.",
+    "Attempt to bargain further, leveraging any prior agreements."
+  ],
+  "parent_id": "picking_up_goods.1",
+  "layer": 2,
+  "is_generated": false
+}

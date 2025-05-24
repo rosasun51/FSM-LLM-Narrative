@@ -1,0 +1,15 @@
+{
+  "subtask_id": "contact_meredith_stout.2",
+  "title": "The Unexpected Hurdle",
+  "description": "As you prepare to hit 'send' on your email to Meredith, a sudden thought crosses your mind. What if she\u2019s not in a position to help? The weight of your task sinks in deeper as you ponder the possible complications\u2014she might be busy, untrusting of unsolicited emails, or even mixed up in her own troubles. You pause, staring at the blinking cursor, feeling the tension of the moment linger.",
+  "dialogue": "You hover your mouse over the 'send' button, heart racing. What if the information you need is just beyond your reach? The idea of reaching out feels daunting now. Your mind races with the possibilities\u2014should you risk sending the email, or is there a better way to connect with her? You think of all the potential pitfalls that could complicate your mission.",
+  "npc_reactions": {},
+  "player_options": [
+    "Send the email anyway, hoping for the best.",
+    "Take a moment to think and consider alternative ways to reach her.",
+    "Try reaching out through a mutual contact or social media."
+  ],
+  "parent_id": "contact_meredith_stout.1",
+  "layer": 2,
+  "is_generated": false
+}

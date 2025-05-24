@@ -1,0 +1,17 @@
+{
+  "subtask_id": "clear_virus.4",
+  "title": "Assessing the Risks of the Deal",
+  "description": "As you stand in Joe's dimly lit shop, a sense of unease creeps over you. While Joe appears ready to assist, the shadows of the cyberpunk world outside whisper of unseen dangers. You ponder the potential obstacles that could impede your plans: rival hackers, unexpected surveillance, or the dubious reliability of Joe's services. Clarifying these risks might be necessary before proceeding.",
+  "dialogue": "You take a deep breath, weighing your options. 'What are the potential risks here? Could Joe double-cross me? Or is there something more lurking in the shadows that I need to fear?' You look at Joe, searching for any hint of deceit.",
+  "npc_reactions": {
+    "Joe": "He narrows his eyes, sensing your hesitation. His expression shifts to one of understanding, yet there\u2019s a glimmer of warning as he replies, 'In this world, trust is fleeting. But I'm here to help, if you decide to trust me.'"
+  },
+  "player_options": [
+    "Inquire about Joe's past clients and their experiences.",
+    "Ask Joe if there are any ongoing dangers outside his shop.",
+    "Decide to trust Joe and proceed with the deal regardless."
+  ],
+  "parent_id": "clear_virus.3",
+  "layer": 4,
+  "is_generated": false
+}
