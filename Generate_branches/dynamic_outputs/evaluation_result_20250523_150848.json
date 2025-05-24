@@ -1,0 +1,84 @@
+{
+  "best_node": {
+    "subtask_id": "beginning.1",
+    "title": "Confronting Destiny",
+    "description": "Ronan leans forward, a serious look in his eyes, as he explains the task at hand. You're on the brink of a dangerous delivery, one that could change your standing in Night City. The choice you make could impact your future with Ronan and the gang.",
+    "dialogue": "Ronan's voice cuts through the thick atmosphere, 'Listen up. I've got a task for you. There are some goods that need to be picked up. It won't be easy, but if you're smart and careful, it could lead to bigger things. Are you in?' His gaze is unwavering, a mix of expectation and the weight of the city's underbelly behind it.",
+    "npc_reactions": {
+      "Ronan": "Ronan looks at you intently, gauging your reaction. There\u2019s a flicker of hope that you'll rise to the occasion, but also a hint of frustration if you seem hesitant."
+    },
+    "npc_emotion_pools": {
+      "Ronan": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+        },
+        {
+          "id": 1,
+          "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+          "goal": "Seriously remind the player that this task is very important."
+        },
+        {
+          "id": 2,
+          "trigger_condition": "The player expresses confidence in taking on the task.",
+          "goal": "Show approval and offer additional advice."
+        }
+      ]
+    },
+    "player_options": [
+      "I accept the task, Ronan.",
+      "I need more information before deciding.",
+      "I refuse. This isn't for me."
+    ],
+    "parent_id": "beginning",
+    "layer": 1,
+    "is_generated": false,
+    "environment": "In a dimly-lit office, the gangster boss sits behind a polished desk. Soft neon glows mix with shadows on modern furnishings, and discreet digital screens complement classic d\u00e9cor. The atmosphere hints at hidden power and secrets, with a quiet hum from concealed devices setting a mysterious tone.",
+    "interactive_environment_objects": null,
+    "interactive_npc": [
+      {
+        "name": "Ronan",
+        "additional_conditions": null,
+        "goal": "Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.",
+        "emotion_pool": [
+          {
+            "id": 0,
+            "trigger_condition": null,
+            "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+          },
+          {
+            "id": 1,
+            "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+            "goal": "Seriously remind the player that this task is very important."
+          },
+          {
+            "id": 2,
+            "trigger_condition": "The player expresses confidence in taking on the task.",
+            "goal": "Show approval and offer additional advice."
+          }
+        ]
+      }
+    ],
+    "key_questions": [
+      {
+        "id": "0",
+        "content": "What's player's reaction after knowing this task?"
+      },
+      {
+        "id": "1",
+        "content": "Is the player willing to accept Ronan's task?"
+      }
+    ],
+    "scene_end_state_reference": {
+      "end_condition1": "The player indicates understanding of the task",
+      "end_condition2": "The player explicitly refuses the task"
+    }
+  },
+  "similarity_score": 66.26640319824219,
+  "processing_stage": "generate_new",
+  "all_scores": {
+    "beginning.1": 66.26640319824219,
+    "beginning.2": 36.13032531738281
+  }
+}
