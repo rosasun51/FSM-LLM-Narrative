@@ -1,0 +1,196 @@
+[
+  {
+    "subtask_id": "clear_virus.1.1",
+    "title": "Seeking Corporate Secrets",
+    "description": "The player asks Joe to help them hack a corporate database to expose secrets that may lead to the creation of a viral weapon.",
+    "dialogue": "You lean in closer, lowering your voice to a whisper. \"I need you to help me hack a corporate database. There are secrets I need to expose, and they might even involve a viral weapon.\" Joe's eyes widen with intrigue, and a sly grin spreads across his face.",
+    "npc_reactions": {
+      "Joe": "Joe raises an eyebrow, clearly intrigued by the risky nature of your request."
+    },
+    "npc_emotion_pools": {
+      "Joe": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Ask the player about his needs"
+        },
+        {
+          "id": 1,
+          "trigger_condition": null,
+          "goal": "Express excitement about the corporate hacking opportunity"
+        }
+      ]
+    },
+    "player_options": [
+      "I need those files now, no matter the cost.",
+      "What's your price for this kind of job?",
+      "I need to know if I can trust you with this."
+    ],
+    "parent_id": "clear_virus.1",
+    "layer": 1,
+    "is_generated": true,
+    "rating": 85,
+    "environment": "The dimly-lit hacker shop buzzes with hidden energy, filled with the sounds of humming servers and the occasional crackle of static. Holographic advertisements flash misleading offers, while the smell of burnt circuits lingers in the air.",
+    "interactive_environment_objects": [
+      {
+        "name": "hacker_terminal",
+        "action_point_cost": "1"
+      }
+    ],
+    "interactive_npc": [
+      {
+        "name": "Joe",
+        "additional_conditions": null,
+        "goal": "Understand the player's complex request",
+        "emotion_pool": [
+          {
+            "id": 0,
+            "trigger_condition": null,
+            "goal": "Ask the player about his needs"
+          },
+          {
+            "id": 1,
+            "trigger_condition": null,
+            "goal": "Express excitement about the corporate hacking opportunity"
+          }
+        ]
+      }
+    ],
+    "key_questions": [
+      {
+        "id": 1,
+        "content": "What are the player's needs?"
+      },
+      {
+        "id": 2,
+        "content": "Is the player willing to pay an appropriate price to request Joe's assistance?"
+      },
+      {
+        "id": 3,
+        "content": "What is the player's attitude?"
+      },
+      {
+        "id": 4,
+        "content": "What potential obstacles might affect the player's plans to secure Joe's help?"
+      }
+    ],
+    "scene_end_state_reference": {
+      "end_condition1": "Successfully gained access to the database.",
+      "end_condition2": "Alert triggered, potentially drawing unwanted attention."
+    }
+  },
+  {
+    "subtask_id": "clear_virus.1.2",
+    "title": "Desperation for Cybernetics",
+    "description": "The player expresses a desperate need for new cybernetic enhancements to withstand the ongoing attacks from anti-corporate factions.",
+    "dialogue": "With urgency, you explain, \"I'm getting attacked by a group of anti-corporate hackers. I need new cybernetics—something that can withstand their onslaught.\" Joe nods, his face serious as he realizes the gravity of your situation.",
+    "npc_reactions": {
+      "Joe": "Joe's expression transitions from curiosity to concern, recognizing the threat you're facing."
+    },
+    "npc_emotion_pools": {
+      "Joe": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Ask the player about his needs"
+        },
+        {
+          "id": 1,
+          "trigger_condition": "If the player expresses urgency",
+          "goal": "Offer additional services based on concern"
+        }
+      ]
+    },
+    "player_options": [
+      "What cybernetics can you provide?",
+      "I can't afford too much, but I need something fast!",
+      "Is there a way to hide from these attackers?"
+    ],
+    "parent_id": "clear_virus.1",
+    "layer": 1,
+    "is_generated": true,
+    "rating": 80,
+    "environment": "The shop pulses with a frenetic energy, each flickering neon light casting fragile shadows. The servers buzz louder now, almost echoing the urgency in your chest as the air thickens with an undercurrent of danger.",
+    "interactive_environment_objects": [],
+    "interactive_npc": [],
+    "key_questions": [
+      {
+        "id": 1,
+        "content": "What are the player's needs?"
+      },
+      {
+        "id": 2,
+        "content": "Is the player willing to pay an appropriate price to request Joe's assistance?"
+      },
+      {
+        "id": 3,
+        "content": "What is the player's attitude?"
+      },
+      {
+        "id": 4,
+        "content": "What potential obstacles might affect the player's plans to secure Joe's help?"
+      }
+    ],
+    "scene_end_state_reference": {
+      "end_condition1": "Player receives new cybernetics.",
+      "end_condition2": "Player provokes further danger from corporate foes."
+    }
+  },
+  {
+    "subtask_id": "clear_virus.1.3",
+    "title": "Negotiating the Job",
+    "description": "The player tries to negotiate better terms for Joe's help while hinting at their connections with powerful allies.",
+    "dialogue": "You lean back, a confident smile creeping onto your face. \"Look, Joe, I've got connections—people who could make it worth your while. How about we negotiate a deal for your help?\" Joe’s eyes narrow slightly as he considers your proposition.",
+    "npc_reactions": {
+      "Joe": "Joe crosses his arms, measuring your confidence against the potential risk."
+    },
+    "npc_emotion_pools": {
+      "Joe": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Ask the player about his needs"
+        },
+        {
+          "id": 1,
+          "trigger_condition": null,
+          "goal": "Evaluate the player's negotiation strategy"
+        }
+      ]
+    },
+    "player_options": [
+      "What do you want for this job?",
+      "I guarantee it'll be worth it for you.",
+      "Let's cut the chit-chat and get to business."
+    ],
+    "parent_id": "clear_virus.1",
+    "layer": 1,
+    "is_generated": true,
+    "rating": 75,
+    "environment": "The atmosphere is charged with tension, the neon glow flickering as if reacting to the dynamics of your conversation. Shadows seem to dance, merging with the uncertainties of negotiation as you maneuver through the possible terms.",
+    "interactive_environment_objects": [],
+    "interactive_npc": [],
+    "key_questions": [
+      {
+        "id": 1,
+        "content": "What are the player's needs?"
+      },
+      {
+        "id": 2,
+        "content": "Is the player willing to pay an appropriate price to request Joe's assistance?"
+      },
+      {
+        "id": 3,
+        "content": "What is the player's attitude?"
+      },
+      {
+        "id": 4,
+        "content": "What potential obstacles might affect the player's plans to secure Joe's help?"
+      }
+    ],
+    "scene_end_state_reference": {
+      "end_condition1": "Successfully negotiated a favorable deal.",
+      "end_condition2": "Joe becomes skeptical and hesitant about proceeding."
+    }
+  }
+]

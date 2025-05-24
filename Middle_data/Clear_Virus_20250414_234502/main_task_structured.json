@@ -1,0 +1,893 @@
+{
+  "name": "Clear Virus",
+  "location": "3",
+  "trigger_conditions": {
+    "time_condition": "1;2,4",
+    "additional_conditions": "Player accepted the cash chip provided by Meredith Stout"
+  },
+  "environment": "In a dark, neon-lit backstreet, the hacker service shop buzzes with an undercurrent of digital intrigue. The storefront is a patchwork of flickering holographic ads and graffiti tags, hinting at a rebellious past. Inside, the air is heavy with the hum of servers and the faint scent of ozone. Vintage cyber gear lies intermingled with state-of-the-art tech, creating a seamless blend of retro and futuristic aesthetics. Shadows dance over cluttered workstations as faceless figures exchange encrypted data, their eyes illuminated by the glow of multi-screen setups, all encapsulating the gritty essence of a cyberpunk underworld.",
+  "interactive_environment_objects": null,
+  "interactive_npc": [
+    {
+      "name": "Joe",
+      "action_point_cost": "1",
+      "goal": "Help the player resolve hacker service needs",
+      "emotion_pool": [
+        {
+          "id": "0",
+          "trigger_condition": null,
+          "goal": "Ask the player about his needs"
+        },
+        {
+          "id": "1",
+          "trigger_condition": "If the player refuses to pay after receiving the service",
+          "goal": "Tamper with the player's identity information"
+        }
+      ]
+    }
+  ],
+  "key_questions": [
+    {
+      "id": 1,
+      "english": "What are the player's needs?"
+    },
+    {
+      "id": 2,
+      "english": "Is the player willing to pay an appropriate price to request Joe's assistance?"
+    },
+    {
+      "id": 3,
+      "english": "What is the player's attitude?"
+    },
+    {
+      "id": 4,
+      "english": "What potential obstacles might affect the player's plans to secure Joe's help?"
+    }
+  ],
+  "scene_end_state_reference": {
+    "end_condition1": null,
+    "end_condition2": null
+  },
+  "layer": 1,
+  "previous_subtasks": [],
+  "root_id": "clear_virus",
+  "_original_task_info": {
+    "name": "Clear Virus",
+    "location": "3",
+    "trigger_conditions": {
+      "time_condition": "1;2,4",
+      "additional_conditions": "Player accepted the cash chip provided by Meredith Stout"
+    },
+    "environment": "In a dark, neon-lit backstreet, the hacker service shop buzzes with an undercurrent of digital intrigue. The storefront is a patchwork of flickering holographic ads and graffiti tags, hinting at a rebellious past. Inside, the air is heavy with the hum of servers and the faint scent of ozone. Vintage cyber gear lies intermingled with state-of-the-art tech, creating a seamless blend of retro and futuristic aesthetics. Shadows dance over cluttered workstations as faceless figures exchange encrypted data, their eyes illuminated by the glow of multi-screen setups, all encapsulating the gritty essence of a cyberpunk underworld.",
+    "interactive_environment_objects": null,
+    "interactive_npc": [
+      {
+        "name": "Joe",
+        "action_point_cost": "1",
+        "goal": "Help the player resolve hacker service needs",
+        "emotion_pool": [
+          {
+            "id": "0",
+            "trigger_condition": null,
+            "goal": "Ask the player about his needs"
+          },
+          {
+            "id": "1",
+            "trigger_condition": "If the player refuses to pay after receiving the service",
+            "goal": "Tamper with the player's identity information"
+          }
+        ]
+      }
+    ],
+    "key_questions": [
+      {
+        "id": 1,
+        "english": "What are the player's needs?"
+      },
+      {
+        "id": 2,
+        "english": "Is the player willing to pay an appropriate price to request Joe's assistance?"
+      },
+      {
+        "id": 3,
+        "english": "What is the player's attitude?"
+      },
+      {
+        "id": 4,
+        "english": "What potential obstacles might affect the player's plans to secure Joe's help?"
+      }
+    ],
+    "scene_end_state_reference": {
+      "end_condition1": null,
+      "end_condition2": null
+    }
+  },
+  "generated_narrative_tree": {
+    "scripted_subtasks": [
+      {
+        "environment": "In a dark, neon-lit backstreet, the hacker service shop buzzes with an undercurrent of digital intrigue. The storefront is a patchwork of flickering holographic ads and graffiti tags, hinting at a rebellious past. Inside, the air is heavy with the hum of servers and the faint scent of ozone. Shadows dance over cluttered workstations as faceless figures exchange encrypted data, their eyes illuminated by the glow of multi-screen setups.",
+        "interactive_environment_objects": null,
+        "interactive_npc": [
+          {
+            "name": "Joe",
+            "additional_conditions": null,
+            "goal": "Help the player resolve hacker service needs",
+            "emotion_pool": [
+              {
+                "id": 0,
+                "trigger_condition": null,
+                "goal": "Ask the player about his needs"
+              }
+            ]
+          }
+        ],
+        "key_questions": [
+          {
+            "id": 1,
+            "content": "What are the player's needs?"
+          },
+          {
+            "id": 2,
+            "content": "Is the player willing to pay an appropriate price to request Joe's assistance?"
+          },
+          {
+            "id": 3,
+            "content": "What is the player's attitude?"
+          },
+          {
+            "id": 4,
+            "content": "What potential obstacles might affect the player's plans to secure Joe's help?"
+          }
+        ],
+        "scene_end_state_reference": {
+          "end_condition1": null,
+          "end_condition2": null
+        }
+      },
+      {
+        "environment": "In a dark, neon-lit backstreet, the hacker service shop buzzes with an undercurrent of digital intrigue. The air is thick with the hum of servers and the faint scent of ozone, illuminated by flickering holographic ads that pulse with a low glow.",
+        "interactive_environment_objects": [
+          {
+            "name": "holographic display",
+            "action_point_cost": "1"
+          }
+        ],
+        "interactive_npc": [
+          {
+            "name": "Joe",
+            "additional_conditions": null,
+            "goal": "Help the player resolve hacker service needs",
+            "emotion_pool": [
+              {
+                "id": "0",
+                "trigger_condition": null,
+                "goal": "Ask the player about his needs"
+              },
+              {
+                "id": "2",
+                "trigger_condition": null,
+                "goal": "Evaluate the player's willingness to pay"
+              }
+            ]
+          }
+        ],
+        "key_questions": [
+          {
+            "id": 1,
+            "content": "What are the player's needs?"
+          },
+          {
+            "id": 2,
+            "content": "Is the player willing to pay an appropriate price to request Joe's assistance?"
+          },
+          {
+            "id": 3,
+            "content": "What is the player's attitude?"
+          },
+          {
+            "id": 4,
+            "content": "What potential obstacles might affect the player's plans to secure Joe's help?"
+          }
+        ],
+        "scene_end_state_reference": {
+          "end_condition1": "The player successfully negotiates a price and ends up with Joe's assistance.",
+          "end_condition2": "The player cannot afford Joe's price and leaves the shop without help."
+        }
+      },
+      {
+        "environment": "In a dark, neon-lit backstreet, the hacker service shop buzzes with an undercurrent of digital intrigue. The storefront is a patchwork of flickering holographic ads and graffiti tags, hinting at a rebellious past. Inside, the air is heavy with the hum of servers and the faint scent of ozone.",
+        "interactive_environment_objects": null,
+        "interactive_npc": [
+          {
+            "name": "Joe",
+            "additional_conditions": null,
+            "goal": "Help the player resolve hacker service needs",
+            "emotion_pool": [
+              {
+                "id": "0",
+                "trigger_condition": null,
+                "goal": "Ask the player about his needs"
+              },
+              {
+                "id": "1",
+                "trigger_condition": "If the player shows desperation or a confident attitude",
+                "goal": "Adjust his offer based on the player's tone"
+              }
+            ]
+          }
+        ],
+        "key_questions": [
+          {
+            "id": 1,
+            "content": "What are the player's needs?"
+          },
+          {
+            "id": 2,
+            "content": "Is the player willing to pay an appropriate price to request Joe's assistance?"
+          },
+          {
+            "id": 3,
+            "content": "What is the player's attitude?"
+          },
+          {
+            "id": 4,
+            "content": "What potential obstacles might affect the player's plans to secure Joe's help?"
+          }
+        ],
+        "scene_end_state_reference": {
+          "end_condition1": "The player successfully demonstrates their attitude, leading to Joe's agreement to assist.",
+          "end_condition2": "The player fails to express a clear attitude, causing Joe to reconsider his terms."
+        }
+      },
+      {
+        "environment": "In a dark, neon-lit backstreet, the hacker service shop buzzes with an undercurrent of digital intrigue. The storefront is a patchwork of flickering holographic ads and graffiti tags, hinting at a rebellious past. Inside, the air is heavy with the hum of servers and the faint scent of ozone. Vintage cyber gear lies intermingled with state-of-the-art tech, creating a seamless blend of retro and futuristic aesthetics.",
+        "interactive_environment_objects": null,
+        "interactive_npc": [
+          {
+            "name": "Joe",
+            "additional_conditions": null,
+            "goal": "Help the player resolve hacker service needs",
+            "emotion_pool": [
+              {
+                "id": 0,
+                "trigger_condition": null,
+                "goal": "Ask the player about his needs"
+              },
+              {
+                "id": 2,
+                "trigger_condition": "If the player exhibits concern about obstacles",
+                "goal": "Engage further on potential risks"
+              }
+            ]
+          }
+        ],
+        "key_questions": [
+          {
+            "id": 4,
+            "content": "What potential obstacles might affect the player's plans to secure Joe's help?"
+          }
+        ],
+        "scene_end_state_reference": {
+          "end_condition1": null,
+          "end_condition2": null
+        }
+      }
+    ],
+    "alternative_subtasks": [
+      [
+        {
+          "subtask_id": "clear_virus.1.1",
+          "title": "Seeking Corporate Secrets",
+          "description": "The player asks Joe to help them hack a corporate database to expose secrets that may lead to the creation of a viral weapon.",
+          "dialogue": "You lean in closer, lowering your voice to a whisper. \"I need you to help me hack a corporate database. There are secrets I need to expose, and they might even involve a viral weapon.\" Joe's eyes widen with intrigue, and a sly grin spreads across his face.",
+          "npc_reactions": {
+            "Joe": "Joe raises an eyebrow, clearly intrigued by the risky nature of your request."
+          },
+          "npc_emotion_pools": {
+            "Joe": [
+              {
+                "id": 0,
+                "trigger_condition": null,
+                "goal": "Ask the player about his needs"
+              },
+              {
+                "id": 1,
+                "trigger_condition": null,
+                "goal": "Express excitement about the corporate hacking opportunity"
+              }
+            ]
+          },
+          "player_options": [
+            "I need those files now, no matter the cost.",
+            "What's your price for this kind of job?",
+            "I need to know if I can trust you with this."
+          ],
+          "parent_id": "clear_virus.1",
+          "layer": 1,
+          "is_generated": true,
+          "rating": 85,
+          "environment": "The dimly-lit hacker shop buzzes with hidden energy, filled with the sounds of humming servers and the occasional crackle of static. Holographic advertisements flash misleading offers, while the smell of burnt circuits lingers in the air.",
+          "interactive_environment_objects": [
+            {
+              "name": "hacker_terminal",
+              "action_point_cost": "1"
+            }
+          ],
+          "interactive_npc": [
+            {
+              "name": "Joe",
+              "additional_conditions": null,
+              "goal": "Understand the player's complex request",
+              "emotion_pool": [
+                {
+                  "id": 0,
+                  "trigger_condition": null,
+                  "goal": "Ask the player about his needs"
+                },
+                {
+                  "id": 1,
+                  "trigger_condition": null,
+                  "goal": "Express excitement about the corporate hacking opportunity"
+                }
+              ]
+            }
+          ],
+          "key_questions": [
+            {
+              "id": 1,
+              "content": "What are the player's needs?"
+            },
+            {
+              "id": 2,
+              "content": "Is the player willing to pay an appropriate price to request Joe's assistance?"
+            },
+            {
+              "id": 3,
+              "content": "What is the player's attitude?"
+            },
+            {
+              "id": 4,
+              "content": "What potential obstacles might affect the player's plans to secure Joe's help?"
+            }
+          ],
+          "scene_end_state_reference": {
+            "end_condition1": "Successfully gained access to the database.",
+            "end_condition2": "Alert triggered, potentially drawing unwanted attention."
+          }
+        },
+        {
+          "subtask_id": "clear_virus.1.2",
+          "title": "Desperation for Cybernetics",
+          "description": "The player expresses a desperate need for new cybernetic enhancements to withstand the ongoing attacks from anti-corporate factions.",
+          "dialogue": "With urgency, you explain, \"I'm getting attacked by a group of anti-corporate hackers. I need new cybernetics—something that can withstand their onslaught.\" Joe nods, his face serious as he realizes the gravity of your situation.",
+          "npc_reactions": {
+            "Joe": "Joe's expression transitions from curiosity to concern, recognizing the threat you're facing."
+          },
+          "npc_emotion_pools": {
+            "Joe": [
+              {
+                "id": 0,
+                "trigger_condition": null,
+                "goal": "Ask the player about his needs"
+              },
+              {
+                "id": 1,
+                "trigger_condition": "If the player expresses urgency",
+                "goal": "Offer additional services based on concern"
+              }
+            ]
+          },
+          "player_options": [
+            "What cybernetics can you provide?",
+            "I can't afford too much, but I need something fast!",
+            "Is there a way to hide from these attackers?"
+          ],
+          "parent_id": "clear_virus.1",
+          "layer": 1,
+          "is_generated": true,
+          "rating": 80,
+          "environment": "The shop pulses with a frenetic energy, each flickering neon light casting fragile shadows. The servers buzz louder now, almost echoing the urgency in your chest as the air thickens with an undercurrent of danger.",
+          "interactive_environment_objects": [],
+          "interactive_npc": [],
+          "key_questions": [
+            {
+              "id": 1,
+              "content": "What are the player's needs?"
+            },
+            {
+              "id": 2,
+              "content": "Is the player willing to pay an appropriate price to request Joe's assistance?"
+            },
+            {
+              "id": 3,
+              "content": "What is the player's attitude?"
+            },
+            {
+              "id": 4,
+              "content": "What potential obstacles might affect the player's plans to secure Joe's help?"
+            }
+          ],
+          "scene_end_state_reference": {
+            "end_condition1": "Player receives new cybernetics.",
+            "end_condition2": "Player provokes further danger from corporate foes."
+          }
+        },
+        {
+          "subtask_id": "clear_virus.1.3",
+          "title": "Negotiating the Job",
+          "description": "The player tries to negotiate better terms for Joe's help while hinting at their connections with powerful allies.",
+          "dialogue": "You lean back, a confident smile creeping onto your face. \"Look, Joe, I've got connections—people who could make it worth your while. How about we negotiate a deal for your help?\" Joe’s eyes narrow slightly as he considers your proposition.",
+          "npc_reactions": {
+            "Joe": "Joe crosses his arms, measuring your confidence against the potential risk."
+          },
+          "npc_emotion_pools": {
+            "Joe": [
+              {
+                "id": 0,
+                "trigger_condition": null,
+                "goal": "Ask the player about his needs"
+              },
+              {
+                "id": 1,
+                "trigger_condition": null,
+                "goal": "Evaluate the player's negotiation strategy"
+              }
+            ]
+          },
+          "player_options": [
+            "What do you want for this job?",
+            "I guarantee it'll be worth it for you.",
+            "Let's cut the chit-chat and get to business."
+          ],
+          "parent_id": "clear_virus.1",
+          "layer": 1,
+          "is_generated": true,
+          "rating": 75,
+          "environment": "The atmosphere is charged with tension, the neon glow flickering as if reacting to the dynamics of your conversation. Shadows seem to dance, merging with the uncertainties of negotiation as you maneuver through the possible terms.",
+          "interactive_environment_objects": [],
+          "interactive_npc": [],
+          "key_questions": [
+            {
+              "id": 1,
+              "content": "What are the player's needs?"
+            },
+            {
+              "id": 2,
+              "content": "Is the player willing to pay an appropriate price to request Joe's assistance?"
+            },
+            {
+              "id": 3,
+              "content": "What is the player's attitude?"
+            },
+            {
+              "id": 4,
+              "content": "What potential obstacles might affect the player's plans to secure Joe's help?"
+            }
+          ],
+          "scene_end_state_reference": {
+            "end_condition1": "Successfully negotiated a favorable deal.",
+            "end_condition2": "Joe becomes skeptical and hesitant about proceeding."
+          }
+        }
+      ],
+      [
+        {
+          "subtask_id": "clear_virus.3.1",
+          "title": "Desperate Plea",
+          "description": "In this branch, the player expresses a sense of urgency and desperation, imploring Joe to help them quickly. Joe reacts positively to the player's urgency, viewing it as a potential opportunity for negotiation.",
+          "dialogue": "You exhale, your voice laced with urgency. 'Look, I have to clear this virus, and I need your help—now, more than ever.' Joe's eyes gleam slightly at your tone, recognizing your unease, but also your determination.",
+          "npc_reactions": {
+            "Joe": "Joe leans forward, intrigued, sensing the weight of your urgency."
+          },
+          "npc_emotion_pools": {
+            "Joe": [
+              {
+                "id": "0",
+                "trigger_condition": null,
+                "goal": "Ask the player about his needs"
+              },
+              {
+                "id": "1",
+                "trigger_condition": "If the player expresses desperation",
+                "goal": "Be more flexible with terms to secure the job"
+              }
+            ]
+          },
+          "player_options": [
+            "I can offer you more if you hurry.",
+            "Just tell me what I need to do!",
+            "I can't afford to mess this up; what will it take?"
+          ],
+          "parent_id": "clear_virus.3",
+          "layer": 3,
+          "is_generated": true,
+          "rating": 85,
+          "environment": "The atmosphere thickens with tension, the glow of neon lights refracting through the densely packed space. Holo-ads flicker erratically overhead as Joe's workstation hums with distant electrical sounds, drawing you further into a world of speed and risk.",
+          "interactive_environment_objects": [],
+          "interactive_npc": [
+            {
+              "name": "Joe",
+              "additional_conditions": null,
+              "goal": "Help the player resolve hacker service needs",
+              "emotion_pool": [
+                {
+                  "id": "0",
+                  "trigger_condition": null,
+                  "goal": "Ask the player about his needs"
+                },
+                {
+                  "id": "1",
+                  "trigger_condition": "If the player expresses desperation",
+                  "goal": "Be more flexible with terms to secure the job"
+                }
+              ]
+            }
+          ],
+          "key_questions": [
+            {
+              "id": 1,
+              "content": "What are the player's needs?"
+            },
+            {
+              "id": 2,
+              "content": "Is the player willing to pay an appropriate price to request Joe's assistance?"
+            },
+            {
+              "id": 3,
+              "content": "What is the player's attitude?"
+            },
+            {
+              "id": 4,
+              "content": "What potential obstacles might affect the player's plans to secure Joe's help?"
+            }
+          ],
+          "scene_end_state_reference": {
+            "end_condition1": "The player successfully conveys their urgency, prompting Joe to respond favorably.",
+            "end_condition2": "Joe decides to raise his terms due to the player's clear desperation."
+          }
+        },
+        {
+          "subtask_id": "clear_virus.3.2",
+          "title": "Calculated Confidence",
+          "description": "The player shows confidence, presenting themselves as knowledgeable about the hacking scene. This surprises Joe, leading him to reconsider the value of his services.",
+          "dialogue": "You straighten up, exuding confidence. 'Look, Joe, I know what I'm asking for. I’m not one to back down easily. I just need to know what you can offer.' Joe raises an eyebrow, impressed by your self-assuredness.",
+          "npc_reactions": {
+            "Joe": "Joe nods slowly, assessing your confidence and weighing his response."
+          },
+          "npc_emotion_pools": {
+            "Joe": [
+              {
+                "id": "0",
+                "trigger_condition": null,
+                "goal": "Ask the player about his needs"
+              },
+              {
+                "id": "1",
+                "trigger_condition": "If the player shows confidence",
+                "goal": "Consider adjusting terms based on the player's self-assuredness"
+              }
+            ]
+          },
+          "player_options": [
+            "Let's discuss the options you have for a quick fix.",
+            "What are your rates for rush jobs?",
+            "I can bring in more business if we can work together."
+          ],
+          "parent_id": "clear_virus.3",
+          "layer": 3,
+          "is_generated": true,
+          "rating": 80,
+          "environment": "The dimly lit backstreet glows under the neon lights. The sound of servers whirring adds to the ambiance, while the air crackles with potential. As you stand firm, Joe's workstation continues to blink, highlighting the gravity of the moment.",
+          "interactive_environment_objects": [],
+          "interactive_npc": [
+            {
+              "name": "Joe",
+              "additional_conditions": null,
+              "goal": "Help the player resolve hacker service needs",
+              "emotion_pool": [
+                {
+                  "id": "0",
+                  "trigger_condition": null,
+                  "goal": "Ask the player about his needs"
+                },
+                {
+                  "id": "1",
+                  "trigger_condition": "If the player shows confidence",
+                  "goal": "Consider adjusting terms based on the player's self-assuredness"
+                }
+              ]
+            }
+          ],
+          "key_questions": [
+            {
+              "id": 1,
+              "content": "What are the player's needs?"
+            },
+            {
+              "id": 2,
+              "content": "Is the player willing to pay an appropriate price to request Joe's assistance?"
+            },
+            {
+              "id": 3,
+              "content": "What is the player's attitude?"
+            },
+            {
+              "id": 4,
+              "content": "What potential obstacles might affect the player's plans to secure Joe's help?"
+            }
+          ],
+          "scene_end_state_reference": {
+            "end_condition1": "The player impresses Joe with their confidence, unlocking new options.",
+            "end_condition2": "Joe remains noncommittal, feeling the player might not be serious."
+          }
+        },
+        {
+          "subtask_id": "clear_virus.3.3",
+          "title": "Hesitant Negotiation",
+          "description": "The player hesitantly negotiates, showing uncertainty about spending money but expressing the need for Joe's services. Joe senses the hesitation but sees an opportunity for a different tactic.",
+          "dialogue": "You shift uncomfortably, saying, 'I know I need your help, but I'm not sure I can trust anyone these days. What can we do here?' Joe watches you closely, understanding your dilemma but also seeing your reluctance to commit.",
+          "npc_reactions": {
+            "Joe": "Joe crosses his arms, contemplating your words while gauging your reliability."
+          },
+          "npc_emotion_pools": {
+            "Joe": [
+              {
+                "id": "0",
+                "trigger_condition": null,
+                "goal": "Ask the player about his needs"
+              },
+              {
+                "id": "1",
+                "trigger_condition": "If the player shows hesitation",
+                "goal": "Probe deeper into the player's true needs"
+              }
+            ]
+          },
+          "player_options": [
+            "What guarantees do you offer if I pay?",
+            "I need to see results before I commit to anything.",
+            "I want to team up; can you show me how this works?"
+          ],
+          "parent_id": "clear_virus.3",
+          "layer": 3,
+          "is_generated": true,
+          "rating": 75,
+          "environment": "The neon atmosphere seems to pulse with tension as you stand before Joe, shadows flickering across the room. The faint scent of ozone lingers, stirring a sense of urgency within you as you weigh your options.",
+          "interactive_environment_objects": [],
+          "interactive_npc": [
+            {
+              "name": "Joe",
+              "additional_conditions": null,
+              "goal": "Help the player resolve hacker service needs",
+              "emotion_pool": [
+                {
+                  "id": "0",
+                  "trigger_condition": null,
+                  "goal": "Ask the player about his needs"
+                },
+                {
+                  "id": "1",
+                  "trigger_condition": "If the player shows hesitation",
+                  "goal": "Probe deeper into the player's true needs"
+                }
+              ]
+            }
+          ],
+          "key_questions": [
+            {
+              "id": 1,
+              "content": "What are the player's needs?"
+            },
+            {
+              "id": 2,
+              "content": "Is the player willing to pay an appropriate price to request Joe's assistance?"
+            },
+            {
+              "id": 3,
+              "content": "What is the player's attitude?"
+            },
+            {
+              "id": 4,
+              "content": "What potential obstacles might affect the player's plans to secure Joe's help?"
+            }
+          ],
+          "scene_end_state_reference": {
+            "end_condition1": "Joe acknowledges your hesitation, offering different payment options.",
+            "end_condition2": "Your uncertainty pushes Joe to be dismissive of your request."
+          }
+        }
+      ],
+      [
+        {
+          "subtask_id": "clear_virus.4.1",
+          "title": "Rival Hacker Threat",
+          "description": "The player discovers that a notorious hacker gang has targeted Joe's shop, making any service highly dangerous.",
+          "dialogue": "As you assess the potential obstacles, you overhear a group of hackers outside discussing their plan to raid Joe's shop. The buzz of tension in the air thickens as you realize rival hackers could jeopardize not only your mission but your very life if you engage with Joe.",
+          "npc_reactions": {
+            "Joe": "Joe's demeanor becomes tense as he receives your acknowledgment of the rival threat, urging you to consider discretion."
+          },
+          "npc_emotion_pools": {
+            "Joe": [
+              {
+                "id": 0,
+                "trigger_condition": null,
+                "goal": "Ask the player about his needs"
+              },
+              {
+                "id": 2,
+                "trigger_condition": "If the player acknowledges the danger from rival hackers",
+                "goal": "Express concern over the gang's influence"
+              }
+            ]
+          },
+          "player_options": [
+            "Suggest a covert approach to deal with the gang.",
+            "Suggest hiding until the situation calms down.",
+            "Withdraw from seeking Joe's help."
+          ],
+          "parent_id": "clear_virus.4",
+          "layer": 4,
+          "is_generated": true,
+          "rating": 85,
+          "environment": "Inside the service shop, tension hangs like smoke. Outside, shadows of rival hackers loom, and the neon glow reflects their malevolence as they plot.",
+          "interactive_environment_objects": null,
+          "interactive_npc": [
+            {
+              "name": "Joe",
+              "additional_conditions": null,
+              "goal": "Assist you without falling into the gang's trap.",
+              "emotion_pool": [
+                {
+                  "id": 0,
+                  "trigger_condition": null,
+                  "goal": "Ask the player about his needs"
+                },
+                {
+                  "id": 2,
+                  "trigger_condition": "If the player acknowledges the danger from rival hackers",
+                  "goal": "Express concern over the gang's influence"
+                }
+              ]
+            }
+          ],
+          "key_questions": [
+            {
+              "id": 4,
+              "content": "What potential obstacles might affect the player's plans to secure Joe's help?"
+            }
+          ],
+          "scene_end_state_reference": {
+            "end_condition1": "Escape through an emergency exit to avoid confrontation.",
+            "end_condition2": "Convince Joe to provide protection in exchange for your help."
+          }
+        },
+        {
+          "subtask_id": "clear_virus.4.2",
+          "title": "Corporate Surveillance",
+          "description": "The player realizes they are being tracked by corporate bots, intensifying the urgency of their actions.",
+          "dialogue": "Suddenly, you notice a faint drone hovering outside, capturing images of everyone entering the shop. Your heart races as you start to connect the dots: corporate surveillance is tighter than ever. Engaging Joe may put you in more danger than you bargained for.",
+          "npc_reactions": {
+            "Joe": "He appears grim but nods in understanding, recognizing the stakes involved."
+          },
+          "npc_emotion_pools": {
+            "Joe": [
+              {
+                "id": 0,
+                "trigger_condition": null,
+                "goal": "Ask the player about his needs"
+              },
+              {
+                "id": 2,
+                "trigger_condition": "If the player expresses concern about corporate surveillance",
+                "goal": "Discuss potential countermeasures"
+              }
+            ]
+          },
+          "player_options": [
+            "Ask Joe about ways to mask your presence.",
+            "Offer to work with Joe on a distraction plan.",
+            "Decide to lay low and observe before taking action."
+          ],
+          "parent_id": "clear_virus.4",
+          "layer": 4,
+          "is_generated": true,
+          "rating": 80,
+          "environment": "The dim light of the service shop contrasts with the blinding glare of corporate logos outside. Shadows dance as drones sweep the area, scanning for anything remotely suspicious.",
+          "interactive_environment_objects": [],
+          "interactive_npc": [
+            {
+              "name": "Joe",
+              "additional_conditions": null,
+              "goal": "Support you in countering corporate tracking.",
+              "emotion_pool": [
+                {
+                  "id": 0,
+                  "trigger_condition": null,
+                  "goal": "Ask the player about his needs"
+                },
+                {
+                  "id": 2,
+                  "trigger_condition": "If the player expresses concern about corporate surveillance",
+                  "goal": "Discuss potential countermeasures"
+                }
+              ]
+            }
+          ],
+          "key_questions": [
+            {
+              "id": 4,
+              "content": "What potential obstacles might affect the player's plans to secure Joe's help?"
+            }
+          ],
+          "scene_end_state_reference": {
+            "end_condition1": "Successfully create a distraction to lead the surveillance away.",
+            "end_condition2": "Make a hasty retreat while avoiding detection."
+          }
+        },
+        {
+          "subtask_id": "clear_virus.4.3",
+          "title": "Financial Instability",
+          "description": "The player admits to financial limitations which lead to discussing different terms with Joe.",
+          "dialogue": "You take a deep breath and express your financial struggles. Joe looks at you with a faint glimmer of sympathy; maybe there's potential for negotiation if you play your cards right. If only you could come up with a plan to make it work.",
+          "npc_reactions": {
+            "Joe": "Joe raises an eyebrow, intrigued by your honesty and considering other payment options."
+          },
+          "npc_emotion_pools": {
+            "Joe": [
+              {
+                "id": 0,
+                "trigger_condition": null,
+                "goal": "Ask the player about his needs"
+              },
+              {
+                "id": 2,
+                "trigger_condition": "If the player admits financial limitations",
+                "goal": "Offer alternative payment methods, like favors or information."
+              }
+            ]
+          },
+          "player_options": [
+            "Propose a barter deal with valuable information.",
+            "Offer to do a job for Joe in exchange for services.",
+            "Request a temporary payment plan."
+          ],
+          "parent_id": "clear_virus.4",
+          "layer": 4,
+          "is_generated": true,
+          "rating": 75,
+          "environment": "The atmosphere inside the shop feels heavy as you openly discuss finances. The neon lights seem to pulse in rhythm with your rising anxiety while Joe listens intently.",
+          "interactive_environment_objects": [],
+          "interactive_npc": [
+            {
+              "name": "Joe",
+              "additional_conditions": null,
+              "goal": "Explore flexible arrangements with you.",
+              "emotion_pool": [
+                {
+                  "id": 0,
+                  "trigger_condition": null,
+                  "goal": "Ask the player about his needs"
+                },
+                {
+                  "id": 2,
+                  "trigger_condition": "If the player admits financial limitations",
+                  "goal": "Offer alternative payment methods, like favors or information."
+                }
+              ]
+            }
+          ],
+          "key_questions": [
+            {
+              "id": 4,
+              "content": "What potential obstacles might affect the player's plans to secure Joe's help?"
+            }
+          ],
+          "scene_end_state_reference": {
+            "end_condition1": "Agree on a barter arrangement that satisfies both.",
+            "end_condition2": "Find a solution that allows you to gain Joe's trust."
+          }
+        }
+      ]
+    ]
+  }
+}

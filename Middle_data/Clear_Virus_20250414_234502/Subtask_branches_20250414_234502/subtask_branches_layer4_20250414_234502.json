@@ -1,0 +1,191 @@
+[
+  {
+    "subtask_id": "clear_virus.4.1",
+    "title": "Rival Hacker Threat",
+    "description": "The player discovers that a notorious hacker gang has targeted Joe's shop, making any service highly dangerous.",
+    "dialogue": "As you assess the potential obstacles, you overhear a group of hackers outside discussing their plan to raid Joe's shop. The buzz of tension in the air thickens as you realize rival hackers could jeopardize not only your mission but your very life if you engage with Joe.",
+    "npc_reactions": {
+      "Joe": "Joe's demeanor becomes tense as he receives your acknowledgment of the rival threat, urging you to consider discretion."
+    },
+    "npc_emotion_pools": {
+      "Joe": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Ask the player about his needs"
+        },
+        {
+          "id": 2,
+          "trigger_condition": "If the player acknowledges the danger from rival hackers",
+          "goal": "Express concern over the gang's influence"
+        }
+      ]
+    },
+    "player_options": [
+      "Suggest a covert approach to deal with the gang.",
+      "Suggest hiding until the situation calms down.",
+      "Withdraw from seeking Joe's help."
+    ],
+    "parent_id": "clear_virus.4",
+    "layer": 4,
+    "is_generated": true,
+    "rating": 85,
+    "environment": "Inside the service shop, tension hangs like smoke. Outside, shadows of rival hackers loom, and the neon glow reflects their malevolence as they plot.",
+    "interactive_environment_objects": null,
+    "interactive_npc": [
+      {
+        "name": "Joe",
+        "additional_conditions": null,
+        "goal": "Assist you without falling into the gang's trap.",
+        "emotion_pool": [
+          {
+            "id": 0,
+            "trigger_condition": null,
+            "goal": "Ask the player about his needs"
+          },
+          {
+            "id": 2,
+            "trigger_condition": "If the player acknowledges the danger from rival hackers",
+            "goal": "Express concern over the gang's influence"
+          }
+        ]
+      }
+    ],
+    "key_questions": [
+      {
+        "id": 4,
+        "content": "What potential obstacles might affect the player's plans to secure Joe's help?"
+      }
+    ],
+    "scene_end_state_reference": {
+      "end_condition1": "Escape through an emergency exit to avoid confrontation.",
+      "end_condition2": "Convince Joe to provide protection in exchange for your help."
+    }
+  },
+  {
+    "subtask_id": "clear_virus.4.2",
+    "title": "Corporate Surveillance",
+    "description": "The player realizes they are being tracked by corporate bots, intensifying the urgency of their actions.",
+    "dialogue": "Suddenly, you notice a faint drone hovering outside, capturing images of everyone entering the shop. Your heart races as you start to connect the dots: corporate surveillance is tighter than ever. Engaging Joe may put you in more danger than you bargained for.",
+    "npc_reactions": {
+      "Joe": "He appears grim but nods in understanding, recognizing the stakes involved."
+    },
+    "npc_emotion_pools": {
+      "Joe": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Ask the player about his needs"
+        },
+        {
+          "id": 2,
+          "trigger_condition": "If the player expresses concern about corporate surveillance",
+          "goal": "Discuss potential countermeasures"
+        }
+      ]
+    },
+    "player_options": [
+      "Ask Joe about ways to mask your presence.",
+      "Offer to work with Joe on a distraction plan.",
+      "Decide to lay low and observe before taking action."
+    ],
+    "parent_id": "clear_virus.4",
+    "layer": 4,
+    "is_generated": true,
+    "rating": 80,
+    "environment": "The dim light of the service shop contrasts with the blinding glare of corporate logos outside. Shadows dance as drones sweep the area, scanning for anything remotely suspicious.",
+    "interactive_environment_objects": [],
+    "interactive_npc": [
+      {
+        "name": "Joe",
+        "additional_conditions": null,
+        "goal": "Support you in countering corporate tracking.",
+        "emotion_pool": [
+          {
+            "id": 0,
+            "trigger_condition": null,
+            "goal": "Ask the player about his needs"
+          },
+          {
+            "id": 2,
+            "trigger_condition": "If the player expresses concern about corporate surveillance",
+            "goal": "Discuss potential countermeasures"
+          }
+        ]
+      }
+    ],
+    "key_questions": [
+      {
+        "id": 4,
+        "content": "What potential obstacles might affect the player's plans to secure Joe's help?"
+      }
+    ],
+    "scene_end_state_reference": {
+      "end_condition1": "Successfully create a distraction to lead the surveillance away.",
+      "end_condition2": "Make a hasty retreat while avoiding detection."
+    }
+  },
+  {
+    "subtask_id": "clear_virus.4.3",
+    "title": "Financial Instability",
+    "description": "The player admits to financial limitations which lead to discussing different terms with Joe.",
+    "dialogue": "You take a deep breath and express your financial struggles. Joe looks at you with a faint glimmer of sympathy; maybe there's potential for negotiation if you play your cards right. If only you could come up with a plan to make it work.",
+    "npc_reactions": {
+      "Joe": "Joe raises an eyebrow, intrigued by your honesty and considering other payment options."
+    },
+    "npc_emotion_pools": {
+      "Joe": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Ask the player about his needs"
+        },
+        {
+          "id": 2,
+          "trigger_condition": "If the player admits financial limitations",
+          "goal": "Offer alternative payment methods, like favors or information."
+        }
+      ]
+    },
+    "player_options": [
+      "Propose a barter deal with valuable information.",
+      "Offer to do a job for Joe in exchange for services.",
+      "Request a temporary payment plan."
+    ],
+    "parent_id": "clear_virus.4",
+    "layer": 4,
+    "is_generated": true,
+    "rating": 75,
+    "environment": "The atmosphere inside the shop feels heavy as you openly discuss finances. The neon lights seem to pulse in rhythm with your rising anxiety while Joe listens intently.",
+    "interactive_environment_objects": [],
+    "interactive_npc": [
+      {
+        "name": "Joe",
+        "additional_conditions": null,
+        "goal": "Explore flexible arrangements with you.",
+        "emotion_pool": [
+          {
+            "id": 0,
+            "trigger_condition": null,
+            "goal": "Ask the player about his needs"
+          },
+          {
+            "id": 2,
+            "trigger_condition": "If the player admits financial limitations",
+            "goal": "Offer alternative payment methods, like favors or information."
+          }
+        ]
+      }
+    ],
+    "key_questions": [
+      {
+        "id": 4,
+        "content": "What potential obstacles might affect the player's plans to secure Joe's help?"
+      }
+    ],
+    "scene_end_state_reference": {
+      "end_condition1": "Agree on a barter arrangement that satisfies both.",
+      "end_condition2": "Find a solution that allows you to gain Joe's trust."
+    }
+  }
+]

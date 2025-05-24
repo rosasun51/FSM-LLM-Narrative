@@ -1,0 +1,1725 @@
+{
+  "scene_name": "Meet with Meredith Stout",
+  "location": "1",
+  "trigger_conditions": {
+    "time_condition": "1;2,3",
+    "additional_conditions": "Completed contact with Meredith Stout"
+  },
+  "environment": "The alley was a scar of cracked concrete and rusting pipes, choked by tangled wires and creeping decay. Smoke curled through the air, laced with the scent of burning oil and old metal, while weeds forced their way through fractured asphalt. Bullet casings and broken tech lay forgotten in the dirt, whispers of past violence. Beyond the oppressive walls, the neon skyline flickered—a stark contrast to the shadows that clung to this forsaken corner of the city.",
+  "interactive_environment_objects": null,
+  "interactive_npc": [
+    {
+      "name": "Meredith Stout",
+      "action_point_cost": "1",
+      "overall_goal": "Meet the player and determine if the player knows the whereabouts of the missing goods.",
+      "emotion_pool": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot."
+        },
+        {
+          "id": 1,
+          "trigger_condition": "angered by the player",
+          "goal": "Insult or threaten the player."
+        },
+        {
+          "id": 2,
+          "trigger_condition": "believes the player is cooperative",
+          "goal": "Provide the player with a chip to store cash."
+        }
+      ]
+    }
+  ],
+  "key_questions": [
+    {
+      "id": 1,
+      "english": "Will the player pose a threat to Meredith Stout?"
+    },
+    {
+      "id": 2,
+      "english": "Is the player's identity connected to Meredith Stout?"
+    },
+    {
+      "id": 3,
+      "english": "Does the player have what Meredith Stout desires?"
+    },
+    {
+      "id": 4,
+      "english": "Does the player want to trade with Meredith Stout?"
+    },
+    {
+      "id": 5,
+      "english": "Is the price proposed by the player within the range acceptable to Meredith Stout?"
+    },
+    {
+      "id": 6,
+      "english": "In what way does Meredith Stout use the player to achieve her own goals?"
+    }
+  ],
+  "scene_end_state_reference": {
+    "end_condition1": "Whether the player accepts or rejects the chip",
+    "end_condition2": "The relationship between the player and Meredith Stout"
+  },
+  "layer": 1,
+  "previous_subtasks": [],
+  "root_id": "meet_with_meredith_stout",
+  "_original_task_info": {
+    "scene_name": "Meet with Meredith Stout",
+    "location": "1",
+    "trigger_conditions": {
+      "time_condition": "1;2,3",
+      "additional_conditions": "Completed contact with Meredith Stout"
+    },
+    "environment": "The alley was a scar of cracked concrete and rusting pipes, choked by tangled wires and creeping decay. Smoke curled through the air, laced with the scent of burning oil and old metal, while weeds forced their way through fractured asphalt. Bullet casings and broken tech lay forgotten in the dirt, whispers of past violence. Beyond the oppressive walls, the neon skyline flickered—a stark contrast to the shadows that clung to this forsaken corner of the city.",
+    "interactive_environment_objects": null,
+    "interactive_npc": [
+      {
+        "name": "Meredith Stout",
+        "action_point_cost": "1",
+        "overall_goal": "Meet the player and determine if the player knows the whereabouts of the missing goods.",
+        "emotion_pool": [
+          {
+            "id": 0,
+            "trigger_condition": null,
+            "goal": "Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot."
+          },
+          {
+            "id": 1,
+            "trigger_condition": "angered by the player",
+            "goal": "Insult or threaten the player."
+          },
+          {
+            "id": 2,
+            "trigger_condition": "believes the player is cooperative",
+            "goal": "Provide the player with a chip to store cash."
+          }
+        ]
+      }
+    ],
+    "key_questions": [
+      {
+        "id": 1,
+        "english": "Will the player pose a threat to Meredith Stout?"
+      },
+      {
+        "id": 2,
+        "english": "Is the player's identity connected to Meredith Stout?"
+      },
+      {
+        "id": 3,
+        "english": "Does the player have what Meredith Stout desires?"
+      },
+      {
+        "id": 4,
+        "english": "Does the player want to trade with Meredith Stout?"
+      },
+      {
+        "id": 5,
+        "english": "Is the price proposed by the player within the range acceptable to Meredith Stout?"
+      },
+      {
+        "id": 6,
+        "english": "In what way does Meredith Stout use the player to achieve her own goals?"
+      }
+    ],
+    "scene_end_state_reference": {
+      "end_condition1": "Whether the player accepts or rejects the chip",
+      "end_condition2": "The relationship between the player and Meredith Stout"
+    }
+  },
+  "generated_narrative_tree": {
+    "scripted_subtasks": [
+      {
+        "environment": "The alley was a scar of cracked concrete and rusting pipes, choked by tangled wires and creeping decay. Smoke curled through the air, laced with the scent of burning oil and old metal, while weeds forced their way through fractured asphalt. Bullet casings and broken tech lay forgotten in the dirt, whispers of past violence. Beyond the oppressive walls, the neon skyline flickered—a stark contrast to the shadows that clung to this forsaken corner of the city.",
+        "interactive_environment_objects": null,
+        "interactive_npc": [
+          {
+            "name": "Meredith Stout",
+            "additional_conditions": null,
+            "goal": "Meet the player and determine if the player knows the whereabouts of the missing goods.",
+            "emotion_pool": [
+              {
+                "id": 0,
+                "trigger_condition": null,
+                "goal": "Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot."
+              },
+              {
+                "id": 1,
+                "trigger_condition": "angered by the player",
+                "goal": "Insult or threaten the player."
+              },
+              {
+                "id": 2,
+                "trigger_condition": "believes the player is cooperative",
+                "goal": "Provide the player with a chip to store cash."
+              },
+              {
+                "id": 3,
+                "trigger_condition": "feels threatened by the player's demeanor",
+                "goal": "Prepare to take defensive action if the player seems hostile."
+              }
+            ]
+          }
+        ],
+        "key_questions": [
+          {
+            "id": 1,
+            "content": "Will the player pose a threat to Meredith Stout?"
+          },
+          {
+            "id": 2,
+            "content": "Is the player's identity connected to Meredith Stout?"
+          },
+          {
+            "id": 3,
+            "content": "Does the player have what Meredith Stout desires?"
+          },
+          {
+            "id": 4,
+            "content": "Does the player want to trade with Meredith Stout?"
+          },
+          {
+            "id": 5,
+            "content": "Is the price proposed by the player within the range acceptable to Meredith Stout?"
+          },
+          {
+            "id": 6,
+            "content": "In what way does Meredith Stout use the player to achieve her own goals?"
+          }
+        ],
+        "scene_end_state_reference": {
+          "end_condition1": "Whether the player accepts or rejects the chip",
+          "end_condition2": "The relationship between the player and Meredith Stout"
+        }
+      },
+      {
+        "environment": "The alley was a scar of cracked concrete and rusting pipes, choked by tangled wires and creeping decay. Smoke curled through the air, laced with the scent of burning oil and old metal, while weeds forced their way through fractured asphalt. Bullet casings and broken tech lay forgotten in the dirt, whispers of past violence. Beyond the oppressive walls, the neon skyline flickered—a stark contrast to the shadows that clung to this forsaken corner of the city.",
+        "interactive_environment_objects": null,
+        "interactive_npc": [
+          {
+            "name": "Meredith Stout",
+            "additional_conditions": null,
+            "goal": "Meet the player and determine if the player knows the whereabouts of the missing goods.",
+            "emotion_pool": [
+              {
+                "id": 0,
+                "trigger_condition": null,
+                "goal": "Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot."
+              },
+              {
+                "id": 1,
+                "trigger_condition": "angered by the player",
+                "goal": "Insult or threaten the player."
+              },
+              {
+                "id": 2,
+                "trigger_condition": "believes the player is cooperative",
+                "goal": "Provide the player with a chip to store cash."
+              },
+              {
+                "id": 3,
+                "trigger_condition": "uncertainty about the player's honesty",
+                "goal": "Increase pressure on the player to confess or fess up."
+              }
+            ]
+          }
+        ],
+        "key_questions": [
+          {
+            "id": 1,
+            "content": "Will the player pose a threat to Meredith Stout?"
+          },
+          {
+            "id": 2,
+            "content": "Is the player's identity connected to Meredith Stout?"
+          },
+          {
+            "id": 3,
+            "content": "Does the player have what Meredith Stout desires?"
+          },
+          {
+            "id": 4,
+            "content": "Does the player want to trade with Meredith Stout?"
+          },
+          {
+            "id": 5,
+            "content": "Is the price proposed by the player within the range acceptable to Meredith Stout?"
+          },
+          {
+            "id": 6,
+            "content": "In what way does Meredith Stout use the player to achieve her own goals?"
+          }
+        ],
+        "scene_end_state_reference": {
+          "end_condition1": "Whether the player accepts or rejects the chip.",
+          "end_condition2": "The relationship between the player and Meredith Stout."
+        }
+      },
+      {
+        "environment": "The alley was a scar of cracked concrete and rusting pipes, choked by tangled wires and creeping decay. Smoke curled through the air, laced with the scent of burning oil and old metal, while weeds forced their way through fractured asphalt. Bullet casings and broken tech lay forgotten in the dirt, whispers of past violence. Beyond the oppressive walls, the neon skyline flickered—a stark contrast to the shadows that clung to this forsaken corner of the city.",
+        "interactive_environment_objects": null,
+        "interactive_npc": [
+          {
+            "name": "Meredith Stout",
+            "additional_conditions": "None",
+            "goal": "Meet the player and determine if the player knows the whereabouts of the missing goods.",
+            "emotion_pool": [
+              {
+                "id": 0,
+                "trigger_condition": null,
+                "goal": "Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot."
+              },
+              {
+                "id": 1,
+                "trigger_condition": "angered by the player",
+                "goal": "Insult or threaten the player."
+              },
+              {
+                "id": 2,
+                "trigger_condition": "believes the player is cooperative",
+                "goal": "Provide the player with a chip to store cash."
+              },
+              {
+                "id": 3,
+                "trigger_condition": "feels the player possesses crucial information",
+                "goal": "Amplify pressure on the player to disclose information."
+              }
+            ]
+          }
+        ],
+        "key_questions": [
+          {
+            "id": 3,
+            "content": "Does the player have what Meredith Stout desires?"
+          }
+        ],
+        "scene_end_state_reference": {
+          "end_condition1": "Whether the player shares information or chooses to withhold it.",
+          "end_condition2": "The impact of the interaction on the relationship between the player and Meredith Stout."
+        }
+      },
+      {
+        "environment": "The alley was a scar of cracked concrete and rusting pipes, choked by tangled wires and creeping decay. Smoke curled through the air, laced with the scent of burning oil and old metal, while weeds forced their way through fractured asphalt. Bullet casings and broken tech lay forgotten in the dirt, whispers of past violence. Beyond the oppressive walls, the neon skyline flickered—a stark contrast to the shadows that clung to this forsaken corner of the city.",
+        "interactive_environment_objects": null,
+        "interactive_npc": [
+          {
+            "name": "Meredith Stout",
+            "additional_conditions": null,
+            "goal": "Determine if the player knows the whereabouts of the missing goods.",
+            "emotion_pool": [
+              {
+                "id": 0,
+                "trigger_condition": null,
+                "goal": "Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot."
+              },
+              {
+                "id": 1,
+                "trigger_condition": "angered by the player",
+                "goal": "Insult or threaten the player."
+              },
+              {
+                "id": 2,
+                "trigger_condition": "believes the player is cooperative",
+                "goal": "Provide the player with a chip to store cash."
+              },
+              {
+                "id": 3,
+                "trigger_condition": "interested in the trade",
+                "goal": "Consider a partnership or exchange."
+              }
+            ]
+          }
+        ],
+        "key_questions": [
+          {
+            "id": 1,
+            "content": "Will the player pose a threat to Meredith Stout?"
+          },
+          {
+            "id": 2,
+            "content": "Is the player's identity connected to Meredith Stout?"
+          },
+          {
+            "id": 3,
+            "content": "Does the player have what Meredith Stout desires?"
+          },
+          {
+            "id": 4,
+            "content": "Does the player want to trade with Meredith Stout?"
+          },
+          {
+            "id": 5,
+            "content": "Is the price proposed by the player within the range acceptable to Meredith Stout?"
+          },
+          {
+            "id": 6,
+            "content": "In what way does Meredith Stout use the player to achieve her own goals?"
+          }
+        ],
+        "scene_end_state_reference": {
+          "end_condition1": "Whether the player agrees to trade information.",
+          "end_condition2": "The relationship between the player and Meredith Stout reflects the outcomes of the trade negotiation."
+        }
+      },
+      {
+        "environment": "The alley was a scar of cracked concrete and rusting pipes, choked by tangled wires and creeping decay. Smoke curled through the air, laced with the scent of burning oil and old metal, while weeds forced their way through fractured asphalt. Bullet casings and broken tech lay forgotten in the dirt, whispers of past violence. Beyond the oppressive walls, the neon skyline flickered—a stark contrast to the shadows that clung to this forsaken corner of the city.",
+        "interactive_environment_objects": [
+          {
+            "name": "neon sign flickering overhead",
+            "action_point_cost": "1"
+          }
+        ],
+        "interactive_npc": [
+          {
+            "name": "Meredith Stout",
+            "additional_conditions": null,
+            "goal": "Determine whether the player's offer is acceptable and decide on her next course of action.",
+            "emotion_pool": [
+              {
+                "id": 0,
+                "trigger_condition": null,
+                "goal": "Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot."
+              },
+              {
+                "id": 1,
+                "trigger_condition": "angered by the player's low offer",
+                "goal": "Insult or threaten the player."
+              },
+              {
+                "id": 2,
+                "trigger_condition": "belief that the player has made a fair offer",
+                "goal": "Provide the player with a chip to store cash."
+              },
+              {
+                "id": 3,
+                "trigger_condition": "interested in the player's proposal",
+                "goal": "Respond with a counter-offer."
+              }
+            ]
+          }
+        ],
+        "key_questions": [
+          {
+            "id": 5,
+            "content": "Does the price proposed by the player fall within the acceptable range for Meredith Stout?"
+          }
+        ],
+        "scene_end_state_reference": {
+          "end_condition1": "Whether the player accepts or rejects the chip",
+          "end_condition2": "The relationship between the player and Meredith Stout"
+        }
+      },
+      {
+        "environment": "The alley was a scar of cracked concrete and rusting pipes, choked by tangled wires and creeping decay. Smoke curled through the air, laced with the scent of burning oil and old metal, while weeds forced their way through fractured asphalt. Bullet casings and broken tech lay forgotten in the dirt, whispers of past violence. Beyond the oppressive walls, the neon skyline flickered—a stark contrast to the shadows that clung to this forsaken corner of the city.",
+        "interactive_environment_objects": null,
+        "interactive_npc": [
+          {
+            "name": "Meredith Stout",
+            "additional_conditions": null,
+            "goal": "Meet the player and determine if the player knows the whereabouts of the missing goods.",
+            "emotion_pool": [
+              {
+                "id": 0,
+                "trigger_condition": null,
+                "goal": "Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot."
+              },
+              {
+                "id": 1,
+                "trigger_condition": "angered by the player",
+                "goal": "Insult or threaten the player."
+              },
+              {
+                "id": 2,
+                "trigger_condition": "believes the player is cooperative",
+                "goal": "Provide the player with a chip to store cash."
+              },
+              {
+                "id": 3,
+                "trigger_condition": null,
+                "goal": "Exploit the player as a resource, ensuring they feel the weight of their choice."
+              }
+            ]
+          }
+        ],
+        "key_questions": [
+          {
+            "id": 1,
+            "content": "Will the player pose a threat to Meredith Stout?"
+          },
+          {
+            "id": 2,
+            "content": "Is the player's identity connected to Meredith Stout?"
+          },
+          {
+            "id": 3,
+            "content": "Does the player have what Meredith Stout desires?"
+          },
+          {
+            "id": 4,
+            "content": "Does the player want to trade with Meredith Stout?"
+          },
+          {
+            "id": 5,
+            "content": "Is the price proposed by the player within the range acceptable to Meredith Stout?"
+          },
+          {
+            "id": 6,
+            "content": "In what way does Meredith Stout use the player to achieve her own goals?"
+          }
+        ],
+        "scene_end_state_reference": {
+          "end_condition1": "Whether the player agrees to assist Meredith in her investigation.",
+          "end_condition2": "The relationship between the player and Meredith Stout, dependent on the player's choice."
+        }
+      }
+    ],
+    "alternative_subtasks": [
+      [
+        {
+          "subtask_id": "meet_with_meredith_stout.1.1",
+          "title": "A Playful Game of Wits",
+          "description": "You respond to Meredith's inquiry with a playful deflection, maintaining a relaxed demeanor that catches her off guard. Meredith, surprised by your confidence, lowers her guard slightly, intrigued by your attitude.",
+          "dialogue": "With a smirk, you lean back against the wall, countering, 'I'm not the problem here, Meredith. What if I could find out who did? What's in it for me?'",
+          "npc_reactions": {
+            "Meredith Stout": "Meredith seems taken aback, showing a flicker of amusement before returning to her usual cold demeanor."
+          },
+          "npc_emotion_pools": {
+            "Meredith Stout": [
+              {
+                "id": 0,
+                "trigger_condition": null,
+                "goal": "Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot."
+              },
+              {
+                "id": 1,
+                "trigger_condition": "angered by the player",
+                "goal": "Insult or threaten the player."
+              },
+              {
+                "id": 2,
+                "trigger_condition": "believes the player is cooperative",
+                "goal": "Provide the player with a chip to store cash."
+              },
+              {
+                "id": 3,
+                "trigger_condition": "feels threatened by the player's demeanor",
+                "goal": "Prepare to take defensive action if the player seems hostile."
+              },
+              {
+                "id": 4,
+                "trigger_condition": "intrigued by the player's confidence",
+                "goal": "Consider a temporary alliance based on mutual interests."
+              }
+            ]
+          },
+          "player_options": [
+            "Continue to tease her",
+            "Switch back to seriousness",
+            "Offer a deal"
+          ],
+          "parent_id": "meet_with_meredith_stout.1",
+          "layer": 1,
+          "is_generated": true,
+          "rating": 85,
+          "environment": "The alley feels charged now, heavy with potential as the neon glow cuts through the shadows more dramatically, reflecting the newfound tension.",
+          "interactive_environment_objects": [
+            {
+              "name": "neon_sign",
+              "action_point_cost": "1"
+            }
+          ],
+          "interactive_npc": [
+            {
+              "name": "Meredith Stout",
+              "additional_conditions": null,
+              "goal": "Gauge the player's intentions through dialogue.",
+              "emotion_pool": [
+                {
+                  "id": 0,
+                  "trigger_condition": null,
+                  "goal": "Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot."
+                },
+                {
+                  "id": 1,
+                  "trigger_condition": "angered by the player",
+                  "goal": "Insult or threaten the player."
+                },
+                {
+                  "id": 2,
+                  "trigger_condition": "believes the player is cooperative",
+                  "goal": "Provide the player with a chip to store cash."
+                },
+                {
+                  "id": 3,
+                  "trigger_condition": "feels threatened by the player's demeanor",
+                  "goal": "Prepare to take defensive action if the player seems hostile."
+                },
+                {
+                  "id": 4,
+                  "trigger_condition": "intrigued by the player's confidence",
+                  "goal": "Consider a temporary alliance based on mutual interests."
+                }
+              ]
+            }
+          ],
+          "key_questions": [
+            {
+              "id": 1,
+              "content": "Will the player pose a threat to Meredith Stout?"
+            },
+            {
+              "id": 2,
+              "content": "Is the player's identity connected to Meredith Stout?"
+            },
+            {
+              "id": 3,
+              "content": "Does the player have what Meredith Stout desires?"
+            },
+            {
+              "id": 4,
+              "content": "Does the player want to trade with Meredith Stout?"
+            },
+            {
+              "id": 5,
+              "content": "Is the price proposed by the player within the range acceptable to Meredith Stout?"
+            },
+            {
+              "id": 6,
+              "content": "In what way does Meredith Stout use the player to achieve her own goals?"
+            }
+          ],
+          "scene_end_state_reference": {
+            "end_condition1": "The player either establishes trust or escalates tension.",
+            "end_condition2": "Meredith considers a deal based on the player's next move."
+          }
+        },
+        {
+          "subtask_id": "meet_with_meredith_stout.1.2",
+          "title": "An Unexpected Ultimatum",
+          "description": "The tension in the alley escalates as you refuse to answer Meredith’s questions. In retaliation, she pulls out an advanced weapon, revealing her readiness to escalate the situation.",
+          "dialogue": "You keep your mouth shut, eying Meredith cautiously. Her irritation mounts. 'You think you can ignore me? Speak now or I’ll make you regret it.'",
+          "npc_reactions": {
+            "Meredith Stout": "Meredith's impatience morphs into a dangerous, threatening stance as she readies her weapon."
+          },
+          "npc_emotion_pools": {
+            "Meredith Stout": [
+              {
+                "id": 0,
+                "trigger_condition": null,
+                "goal": "Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot."
+              },
+              {
+                "id": 1,
+                "trigger_condition": "angered by the player",
+                "goal": "Insult or threaten the player."
+              },
+              {
+                "id": 2,
+                "trigger_condition": "believes the player is cooperative",
+                "goal": "Provide the player with a chip to store cash."
+              },
+              {
+                "id": 3,
+                "trigger_condition": "feels threatened by the player's demeanor",
+                "goal": "Prepare to take defensive action if the player seems hostile."
+              },
+              {
+                "id": 4,
+                "trigger_condition": "infuriated by the player's silence",
+                "goal": "Intimidate the player into compliance."
+              }
+            ]
+          },
+          "player_options": [
+            "Draw your weapon",
+            "Try to talk your way out",
+            "Show empty hands in surrender"
+          ],
+          "parent_id": "meet_with_meredith_stout.1",
+          "layer": 1,
+          "is_generated": true,
+          "rating": 82,
+          "environment": "The alley darkens as Meredith steps closer, shadows swirling around the two of you, punctuated by the flickering neon that gives her an almost ghostly appearance.",
+          "interactive_environment_objects": null,
+          "interactive_npc": [
+            {
+              "name": "Meredith Stout",
+              "additional_conditions": null,
+              "goal": "Extract information using intimidation tactics.",
+              "emotion_pool": [
+                {
+                  "id": 0,
+                  "trigger_condition": null,
+                  "goal": "Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot."
+                },
+                {
+                  "id": 1,
+                  "trigger_condition": "angered by the player",
+                  "goal": "Insult or threaten the player."
+                },
+                {
+                  "id": 2,
+                  "trigger_condition": "believes the player is cooperative",
+                  "goal": "Provide the player with a chip to store cash."
+                },
+                {
+                  "id": 3,
+                  "trigger_condition": "feels threatened by the player's demeanor",
+                  "goal": "Prepare to take defensive action if the player seems hostile."
+                },
+                {
+                  "id": 4,
+                  "trigger_condition": "infuriated by the player's silence",
+                  "goal": "Intimidate the player into compliance."
+                }
+              ]
+            }
+          ],
+          "key_questions": [
+            {
+              "id": 1,
+              "content": "Will the player pose a threat to Meredith Stout?"
+            },
+            {
+              "id": 2,
+              "content": "Is the player's identity connected to Meredith Stout?"
+            },
+            {
+              "id": 3,
+              "content": "Does the player have what Meredith Stout desires?"
+            },
+            {
+              "id": 4,
+              "content": "Does the player want to trade with Meredith Stout?"
+            },
+            {
+              "id": 5,
+              "content": "Is the price proposed by the player within the range acceptable to Meredith Stout?"
+            },
+            {
+              "id": 6,
+              "content": "In what way does Meredith Stout use the player to achieve her own goals?"
+            }
+          ],
+          "scene_end_state_reference": {
+            "end_condition1": "The player succeeds in negotiation or before combat ensues.",
+            "end_condition2": "Possible damage to the player or successful extraction of information."
+          }
+        },
+        {
+          "subtask_id": "meet_with_meredith_stout.1.3",
+          "title": "A Hidden Connection",
+          "description": "Rather than confront her, you reveal a surprising connection you have to a mutual acquaintance, potentially shifting the dynamics of the conversation.",
+          "dialogue": "You take a deep breath, weighing your words carefully. 'I might know someone who's worked closely with you before. Perhaps we could help each other out here.'",
+          "npc_reactions": {
+            "Meredith Stout": "Meredith's features soften momentarily, curiosity piqued as she weighs the implications of your claim."
+          },
+          "npc_emotion_pools": {
+            "Meredith Stout": [
+              {
+                "id": 0,
+                "trigger_condition": null,
+                "goal": "Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot."
+              },
+              {
+                "id": 1,
+                "trigger_condition": "angered by the player",
+                "goal": "Insult or threaten the player."
+              },
+              {
+                "id": 2,
+                "trigger_condition": "believes the player is cooperative",
+                "goal": "Provide the player with a chip to store cash."
+              },
+              {
+                "id": 3,
+                "trigger_condition": "feels threatened by the player's demeanor",
+                "goal": "Prepare to take defensive action if the player seems hostile."
+              },
+              {
+                "id": 5,
+                "trigger_condition": "curious about the player's connections",
+                "goal": "Engage in deeper conversation about mutual acquaintances."
+              }
+            ]
+          },
+          "player_options": [
+            "Name the acquaintance",
+            "Remain vague",
+            "Change the topic"
+          ],
+          "parent_id": "meet_with_meredith_stout.1",
+          "layer": 1,
+          "is_generated": true,
+          "rating": 78,
+          "environment": "The alley's shadows deepen, almost enveloping you, while distant sirens wail, adding urgency to the atmosphere.",
+          "interactive_environment_objects": null,
+          "interactive_npc": [
+            {
+              "name": "Meredith Stout",
+              "additional_conditions": null,
+              "goal": "Explore potential connections for mutual gain.",
+              "emotion_pool": [
+                {
+                  "id": 0,
+                  "trigger_condition": null,
+                  "goal": "Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot."
+                },
+                {
+                  "id": 1,
+                  "trigger_condition": "angered by the player",
+                  "goal": "Insult or threaten the player."
+                },
+                {
+                  "id": 2,
+                  "trigger_condition": "believes the player is cooperative",
+                  "goal": "Provide the player with a chip to store cash."
+                },
+                {
+                  "id": 3,
+                  "trigger_condition": "feels threatened by the player's demeanor",
+                  "goal": "Prepare to take defensive action if the player seems hostile."
+                },
+                {
+                  "id": 5,
+                  "trigger_condition": "curious about the player's connections",
+                  "goal": "Engage in deeper conversation about mutual acquaintances."
+                }
+              ]
+            }
+          ],
+          "key_questions": [
+            {
+              "id": 1,
+              "content": "Will the player pose a threat to Meredith Stout?"
+            },
+            {
+              "id": 2,
+              "content": "Is the player's identity connected to Meredith Stout?"
+            },
+            {
+              "id": 3,
+              "content": "Does the player have what Meredith Stout desires?"
+            },
+            {
+              "id": 4,
+              "content": "Does the player want to trade with Meredith Stout?"
+            },
+            {
+              "id": 5,
+              "content": "Is the price proposed by the player within the range acceptable to Meredith Stout?"
+            },
+            {
+              "id": 6,
+              "content": "In what way does Meredith Stout use the player to achieve her own goals?"
+            }
+          ],
+          "scene_end_state_reference": {
+            "end_condition1": "The player reveals the acquaintance, gaining trust, or they remain defensive.",
+            "end_condition2": "The conversation leads to a potential alliance or new information."
+          }
+        }
+      ],
+      [
+        {
+          "subtask_id": "meet_with_meredith_stout.2.1",
+          "title": "Uneasy Confession",
+          "description": "The player slowly reveals their identity, admitting to knowing someone linked to the case, but withholding crucial details.",
+          "dialogue": "With her eyes drilling into yours, you admit, 'I know someone who has been involved, but I'm not sure how deep it runs. Trust is hard to come by in this city.' Meredith's expression shifts, the intrigue mixing with caution.",
+          "npc_reactions": {
+            "Meredith Stout": "Meredith leans back, considering your words, her brow furrowed with mistrust."
+          },
+          "npc_emotion_pools": {
+            "Meredith Stout": [
+              {
+                "id": 0,
+                "trigger_condition": null,
+                "goal": "Pressure the player for specific names and details."
+              },
+              {
+                "id": 2,
+                "trigger_condition": "believes the player has valuable information",
+                "goal": "Offer to facilitate a meeting with the linked contact."
+              }
+            ]
+          },
+          "player_options": [
+            "Be more forthcoming about your contact.",
+            "Insist you don't know anything further.",
+            "Try to bargain with Meredith for some protection."
+          ],
+          "parent_id": "meet_with_meredith_stout.2",
+          "layer": 2,
+          "is_generated": true,
+          "rating": 85,
+          "environment": "The alley feels even more grim as the neon lights cast jittery shadows, mirroring the increase in tension between you and Meredith.",
+          "interactive_environment_objects": [],
+          "interactive_npc": [
+            {
+              "name": "Meredith Stout",
+              "additional_conditions": null,
+              "goal": "Determine the extent of the player's knowledge.",
+              "emotion_pool": [
+                {
+                  "id": 0,
+                  "trigger_condition": null,
+                  "goal": "Pressure the player for specific names and details."
+                },
+                {
+                  "id": 2,
+                  "trigger_condition": "believes the player has valuable information",
+                  "goal": "Offer to facilitate a meeting with the linked contact."
+                }
+              ]
+            }
+          ],
+          "key_questions": [
+            {
+              "id": 2,
+              "content": "Is the player's identity connected to Meredith Stout?"
+            }
+          ],
+          "scene_end_state_reference": {
+            "end_condition1": "The player either provides more information or remains closed off.",
+            "end_condition2": "Meredith weighs the value of the player's identity against her goals."
+          }
+        },
+        {
+          "subtask_id": "meet_with_meredith_stout.2.2",
+          "title": "The Masked Threat",
+          "description": "The player feigns ignorance, but through their defiance, they hint at a stronger connection than initially thought, igniting Meredith's anger.",
+          "dialogue": "You smirk slightly, brushing off Meredith's inquiries. 'You're barking up the wrong tree, Meredith. I have no idea what you’re talking about.' Her eyes flash with fury, and she grips her weapon tighter.",
+          "npc_reactions": {
+            "Meredith Stout": "Meredith's anger radiates as she retorts, 'Don't play games with me! I will find out what you know.'"
+          },
+          "npc_emotion_pools": {
+            "Meredith Stout": [
+              {
+                "id": 1,
+                "trigger_condition": "angered by the player",
+                "goal": "Intimidate the player into revealing the truth."
+              }
+            ]
+          },
+          "player_options": [
+            "Stand your ground and refuse to cooperate.",
+            "Attempt to diffuse the situation with humor.",
+            "Reveal just enough to ease her anger."
+          ],
+          "parent_id": "meet_with_meredith_stout.2",
+          "layer": 2,
+          "is_generated": true,
+          "rating": 80,
+          "environment": "The tangible tension hangs thick in the air, the alley suddenly feeling smaller and more suffocating as Meredith's ire escalates.",
+          "interactive_environment_objects": null,
+          "interactive_npc": [
+            {
+              "name": "Meredith Stout",
+              "additional_conditions": "Angered by the player’s defiance.",
+              "goal": "Extract the truth through intimidation.",
+              "emotion_pool": [
+                {
+                  "id": 1,
+                  "trigger_condition": "angered by the player",
+                  "goal": "Intimidate the player into revealing the truth."
+                }
+              ]
+            }
+          ],
+          "key_questions": [
+            {
+              "id": 2,
+              "content": "Is the player's identity connected to Meredith Stout?"
+            }
+          ],
+          "scene_end_state_reference": {
+            "end_condition1": "Whether the player submits to her threats or holds firm.",
+            "end_condition2": "The state of the relationship shifts toward hostility."
+          }
+        },
+        {
+          "subtask_id": "meet_with_meredith_stout.2.3",
+          "title": "The Playful Gambit",
+          "description": "In a bold move, the player spins a story filled with exaggerations, playing on Meredith's curiosity but risking her wrath.",
+          "dialogue": "With a slight grin, you weave a tale, 'What if I told you I not only know the people involved but have plans to retrieve some of the stolen goods?' Meredith arches an eyebrow, a mixture of intrigue and skepticism on her face.",
+          "npc_reactions": {
+            "Meredith Stout": "Meredith narrows her eyes, intrigued yet on guard as she evaluates the legitimacy of your words."
+          },
+          "npc_emotion_pools": {
+            "Meredith Stout": [
+              {
+                "id": 0,
+                "trigger_condition": null,
+                "goal": "Probe deeper into your increasingly outrageous claims."
+              },
+              {
+                "id": 2,
+                "trigger_condition": "sees potential in the player's story",
+                "goal": "Consider a partnership based on the player's boldness."
+              }
+            ]
+          },
+          "player_options": [
+            "Continue the embellishment and drive the story further.",
+            "Drop the act and reveal your true intentions.",
+            "Suggest a temporary alliance to achieve mutual goals."
+          ],
+          "parent_id": "meet_with_meredith_stout.2",
+          "layer": 2,
+          "is_generated": true,
+          "rating": 82,
+          "environment": "The air crackles with tension as the neon lights pulse rhythmically, matching the excitement of your feigned bravado.",
+          "interactive_environment_objects": [],
+          "interactive_npc": [
+            {
+              "name": "Meredith Stout",
+              "additional_conditions": null,
+              "goal": "Investigate the plausibility of the player's claims.",
+              "emotion_pool": [
+                {
+                  "id": 0,
+                  "trigger_condition": null,
+                  "goal": "Probe deeper into your increasingly outrageous claims."
+                },
+                {
+                  "id": 2,
+                  "trigger_condition": "sees potential in the player's story",
+                  "goal": "Consider a partnership based on the player's boldness."
+                }
+              ]
+            }
+          ],
+          "key_questions": [
+            {
+              "id": 2,
+              "content": "Is the player's identity connected to Meredith Stout?"
+            }
+          ],
+          "scene_end_state_reference": {
+            "end_condition1": "The validity of your claims comes into question.",
+            "end_condition2": "The possibility of a strategic alliance is on the table."
+          }
+        }
+      ],
+      [
+        {
+          "subtask_id": "meet_with_meredith_stout.4.1",
+          "title": "Double or Nothing",
+          "description": "You propose a high-stakes deal, offering not just information but also a personal favor. Meredith’s interest piques further; after all, favors can lead to connections that are worth more than information in Night City.",
+          "dialogue": "You lean in, your eyes narrowing. 'How about I offer you a favor, not just words? I can put you in touch with someone who can help track those goods down.' Meredith's predatory grin widens as she nods, intrigued.",
+          "npc_reactions": {
+            "Meredith Stout": "She raises an eyebrow, impressed by your boldness and calculating the potential risks and rewards."
+          },
+          "npc_emotion_pools": {
+            "Meredith Stout": [
+              {
+                "id": 3,
+                "trigger_condition": "interested in the trade",
+                "goal": "Consider a partnership or exchange."
+              },
+              {
+                "id": 4,
+                "trigger_condition": "intrigued by the player's confidence",
+                "goal": "Evaluate how much she can leverage this favor."
+              }
+            ]
+          },
+          "player_options": [
+            "Elaborate on the favor you can offer.",
+            "Ask for something more specific in return.",
+            "Withdraw your offer and stick to information only."
+          ],
+          "parent_id": "meet_with_meredith_stout.4",
+          "layer": 4,
+          "is_generated": true,
+          "rating": 85,
+          "environment": "The alley remains a claustrophobic backdrop, but now a tense excitement electrifies the stale air as possibilities unfold. Shadows of the city flicker ominously as the stakes heighten.",
+          "interactive_environment_objects": [
+            {
+              "name": "neon sign",
+              "action_point_cost": "1"
+            }
+          ],
+          "interactive_npc": [
+            {
+              "name": "Meredith Stout",
+              "additional_conditions": null,
+              "goal": "Gauge the value of the player's proposed favor against her current needs.",
+              "emotion_pool": [
+                {
+                  "id": 0,
+                  "trigger_condition": null,
+                  "goal": "Pressure the player to learn information about them."
+                },
+                {
+                  "id": 1,
+                  "trigger_condition": "angered by the player",
+                  "goal": "Insult or threaten the player."
+                },
+                {
+                  "id": 2,
+                  "trigger_condition": "believes the player is cooperative",
+                  "goal": "Provide the player with a chip to store cash."
+                },
+                {
+                  "id": 3,
+                  "trigger_condition": "interested in the trade",
+                  "goal": "Consider a partnership or exchange."
+                },
+                {
+                  "id": 4,
+                  "trigger_condition": "intrigued by the player's confidence",
+                  "goal": "Evaluate how much she can leverage this favor."
+                }
+              ]
+            }
+          ],
+          "key_questions": [
+            {
+              "id": 1,
+              "content": "Will the player pose a threat to Meredith Stout?"
+            },
+            {
+              "id": 2,
+              "content": "Is the player's identity connected to Meredith Stout?"
+            },
+            {
+              "id": 3,
+              "content": "Does the player have what Meredith Stout desires?"
+            },
+            {
+              "id": 4,
+              "content": "Does the player want to trade with Meredith Stout?"
+            }
+          ],
+          "scene_end_state_reference": {
+            "end_condition1": "The negotiation depends on the value of the favor to Meredith.",
+            "end_condition2": "The relationship shifts based on trust and risk."
+          }
+        },
+        {
+          "subtask_id": "meet_with_meredith_stout.4.2",
+          "title": "Information Exchange",
+          "description": "You decide to cut to the chase and present exactly what you know about the missing goods, asking for specific information about Militech's interests. Meredith’s demeanor shifts to one of cold calculation as she assesses the worth of your knowledge.",
+          "dialogue": "'Let’s skip the pleasantries. I know about the shipment, but I need details on how Militech plans to recover it. What can you tell me?' Meredith surveys your expression, her calculating gaze revealing her intent.",
+          "npc_reactions": {
+            "Meredith Stout": "She studies you closely, weighing the significance of your knowledge against her needs."
+          },
+          "npc_emotion_pools": {
+            "Meredith Stout": [
+              {
+                "id": 0,
+                "trigger_condition": null,
+                "goal": "Pressure the player to learn information about them."
+              },
+              {
+                "id": 1,
+                "trigger_condition": "angered by the player",
+                "goal": "Insult or threaten the player."
+              },
+              {
+                "id": 2,
+                "trigger_condition": "believes the player is cooperative",
+                "goal": "Provide the player with a chip to store cash."
+              },
+              {
+                "id": 3,
+                "trigger_condition": "interested in the trade",
+                "goal": "Consider a partnership or exchange."
+              }
+            ]
+          },
+          "player_options": [
+            "Provide the details you know about the missing goods.",
+            "Inquire further about why Militech needs this information.",
+            "Withdraw and refuse to share anything."
+          ],
+          "parent_id": "meet_with_meredith_stout.4",
+          "layer": 4,
+          "is_generated": true,
+          "rating": 80,
+          "environment": "The alley feels even more oppressive as the weight of potentially dangerous secrets hangs heavy in the air, with distant sirens wailing in the city beyond.",
+          "interactive_environment_objects": null,
+          "interactive_npc": [
+            {
+              "name": "Meredith Stout",
+              "additional_conditions": null,
+              "goal": "To determine the relevance of the player's knowledge and its utility in her search.",
+              "emotion_pool": [
+                {
+                  "id": 0,
+                  "trigger_condition": null,
+                  "goal": "Pressure the player to learn information about them."
+                },
+                {
+                  "id": 1,
+                  "trigger_condition": "angered by the player",
+                  "goal": "Insult or threaten the player."
+                },
+                {
+                  "id": 2,
+                  "trigger_condition": "believes the player is cooperative",
+                  "goal": "Provide the player with a chip to store cash."
+                },
+                {
+                  "id": 3,
+                  "trigger_condition": "interested in the trade",
+                  "goal": "Consider a partnership or exchange."
+                }
+              ]
+            }
+          ],
+          "key_questions": [
+            {
+              "id": 1,
+              "content": "Will the player pose a threat to Meredith Stout?"
+            },
+            {
+              "id": 2,
+              "content": "Is the player's identity connected to Meredith Stout?"
+            },
+            {
+              "id": 3,
+              "content": "Does the player have what Meredith Stout desires?"
+            },
+            {
+              "id": 4,
+              "content": "Does the player want to trade with Meredith Stout?"
+            }
+          ],
+          "scene_end_state_reference": {
+            "end_condition1": "The outcome depends on how valuable the shared information is for Meredith.",
+            "end_condition2": "Trust could either strengthen or diminish based on this exchange."
+          }
+        },
+        {
+          "subtask_id": "meet_with_meredith_stout.4.3",
+          "title": "Back Off",
+          "description": "You hesitate and decide against trading, telling Meredith that you're not ready for such a commitment yet. Meredith’s expression shifts from intrigue to annoyance, sensing your reluctance to engage.",
+          "dialogue": "'Maybe I came too strong for you,' Meredith says, crossing her arms as her patience wears thin. 'I don't have time for weak players. Are we trading or not?'",
+          "npc_reactions": {
+            "Meredith Stout": "Her annoyance is palpable, making it clear that you have frustrated her with your indecision."
+          },
+          "npc_emotion_pools": {
+            "Meredith Stout": [
+              {
+                "id": 1,
+                "trigger_condition": "angered by the player",
+                "goal": "Insult or threaten the player."
+              },
+              {
+                "id": 3,
+                "trigger_condition": null,
+                "goal": "Consider whether to cut ties with the player."
+              }
+            ]
+          },
+          "player_options": [
+            "Apologize and try to salvage the conversation.",
+            "Stand firm and say you’re not ready to trade.",
+            "Leave the conversation and walk away."
+          ],
+          "parent_id": "meet_with_meredith_stout.4",
+          "layer": 4,
+          "is_generated": true,
+          "rating": 75,
+          "environment": "The alleys seem darker now, reflecting your uncertainty as tension thickens in the air. The distant sounds of chaos in the city contrast with the current standoff.",
+          "interactive_environment_objects": null,
+          "interactive_npc": [
+            {
+              "name": "Meredith Stout",
+              "additional_conditions": null,
+              "goal": "Gauge the player’s receptiveness to future trades based on their rejection.",
+              "emotion_pool": [
+                {
+                  "id": 0,
+                  "trigger_condition": null,
+                  "goal": "Pressure the player to learn information about them."
+                },
+                {
+                  "id": 1,
+                  "trigger_condition": "angered by the player",
+                  "goal": "Insult or threaten the player."
+                },
+                {
+                  "id": 3,
+                  "trigger_condition": null,
+                  "goal": "Consider whether to cut ties with the player."
+                }
+              ]
+            }
+          ],
+          "key_questions": [
+            {
+              "id": 1,
+              "content": "Will the player pose a threat to Meredith Stout?"
+            },
+            {
+              "id": 2,
+              "content": "Is the player's identity connected to Meredith Stout?"
+            },
+            {
+              "id": 3,
+              "content": "Does the player have what Meredith Stout desires?"
+            },
+            {
+              "id": 4,
+              "content": "Does the player want to trade with Meredith Stout?"
+            }
+          ],
+          "scene_end_state_reference": {
+            "end_condition1": "Meredith decides if there's still potential for future interaction based on your refusal.",
+            "end_condition2": "Trust diminishes as the relationship may sour."
+          }
+        }
+      ],
+      [
+        {
+          "subtask_id": "meet_with_meredith_stout.5.1",
+          "title": "Meredith's Ultimatum",
+          "description": "Meredith Stout is unimpressed by the player's offer and gives an ultimatum. The atmosphere grows tenser as both parties realize the stakes involved.",
+          "dialogue": "Meredith leans forward, her expression unyielding. 'This is your last chance. Adjust your offer or walk away empty-handed. I have no time for games.'",
+          "npc_reactions": {
+            "Meredith Stout": "Meredith's tone sharpens, making it clear she won't tolerate weakness in negotiations."
+          },
+          "npc_emotion_pools": {
+            "Meredith Stout": [
+              {
+                "id": 0,
+                "trigger_condition": null,
+                "goal": "Pressure the player to reconsider their offer."
+              },
+              {
+                "id": 1,
+                "trigger_condition": "angered by the player's low offer",
+                "goal": "Insult or threaten the player."
+              },
+              {
+                "id": 3,
+                "trigger_condition": "interested in the player's proposal",
+                "goal": "Respond with a counter-offer."
+              },
+              {
+                "id": 4,
+                "trigger_condition": "responding to the player's reaction to the ultimatum",
+                "goal": "Choose to either escalate the confrontation or back down."
+              }
+            ]
+          },
+          "player_options": [
+            "Adjust the offer to meet her demands",
+            "Stand firm and refuse to change the offer",
+            "Attempt to negotiate further without changing the price"
+          ],
+          "parent_id": "meet_with_meredith_stout.5",
+          "layer": 5,
+          "is_generated": true,
+          "rating": 85,
+          "environment": "The alley feels even more oppressive as the negotiation escalates. Shadows deepen, and the neon lights buzz overhead, punctuating the tense silence.",
+          "interactive_environment_objects": [
+            {
+              "name": "broken neon light flickering erratically",
+              "action_point_cost": "1"
+            }
+          ],
+          "interactive_npc": [
+            {
+              "name": "Meredith Stout",
+              "additional_conditions": null,
+              "goal": "Gauge the player's reaction to the ultimatum.",
+              "emotion_pool": [
+                {
+                  "id": 0,
+                  "trigger_condition": null,
+                  "goal": "Pressure the player to reconsider their offer."
+                },
+                {
+                  "id": 1,
+                  "trigger_condition": "angered by the player's low offer",
+                  "goal": "Insult or threaten the player."
+                },
+                {
+                  "id": 3,
+                  "trigger_condition": "interested in the player's proposal",
+                  "goal": "Respond with a counter-offer."
+                },
+                {
+                  "id": 4,
+                  "trigger_condition": "responding to the player's reaction to the ultimatum",
+                  "goal": "Choose to either escalate the confrontation or back down."
+                }
+              ]
+            }
+          ],
+          "key_questions": [
+            {
+              "id": 5,
+              "content": "Does the price proposed by the player fall within the acceptable range for Meredith Stout?"
+            }
+          ],
+          "scene_end_state_reference": {
+            "end_condition1": "Player adjusts their offer or refuses to negotiate further.",
+            "end_condition2": "Potential escalation or resolution in the deal."
+          }
+        },
+        {
+          "subtask_id": "meet_with_meredith_stout.5.2",
+          "title": "The Straightforward Trade",
+          "description": "The player makes a reasonable offer, and Meredith accepts it without further resistance. The transaction feels oddly seamless.",
+          "dialogue": "Meredith raises an eyebrow, mulling the offer. 'Fine, that works for me. Let's make this quick.'",
+          "npc_reactions": {
+            "Meredith Stout": "Meredith nods with subtle approval, indicating her willingness to proceed with the trade."
+          },
+          "npc_emotion_pools": {
+            "Meredith Stout": [
+              {
+                "id": 0,
+                "trigger_condition": null,
+                "goal": "Accept the player's offer and finalize the deal quickly."
+              },
+              {
+                "id": 2,
+                "trigger_condition": "belief that the player has made a fair offer",
+                "goal": "Provide the player with a chip to store cash."
+              }
+            ]
+          },
+          "player_options": [
+            "Complete the transaction",
+            "Ask for additional information regarding the missing goods",
+            "Request a better rate"
+          ],
+          "parent_id": "meet_with_meredith_stout.5",
+          "layer": 5,
+          "is_generated": true,
+          "rating": 80,
+          "environment": "The atmosphere shifts as tangible tension eases. The cold air feels slightly warmer amidst the neon glow from signs above.",
+          "interactive_environment_objects": [],
+          "interactive_npc": [],
+          "key_questions": [
+            {
+              "id": 5,
+              "content": "Does the price proposed by the player fall within the acceptable range for Meredith Stout?"
+            }
+          ],
+          "scene_end_state_reference": {
+            "end_condition1": "Player accepts the trade.",
+            "end_condition2": "Meredith's perception of the player improves."
+          }
+        },
+        {
+          "subtask_id": "meet_with_meredith_stout.5.3",
+          "title": "The Offended Negotiator",
+          "description": "The player offers a price far below what Meredith considers acceptable, inciting her anger and leading to unexpected consequences.",
+          "dialogue": "Meredith's demeanor shifts dramatically, and her voice turns ice-cold. 'You think I'm a fool? You need to come correct if you want anything from me.'",
+          "npc_reactions": {
+            "Meredith Stout": "Meredith steps back, crossing her arms, her expression severe as she challenges the player."
+          },
+          "npc_emotion_pools": {
+            "Meredith Stout": [
+              {
+                "id": 1,
+                "trigger_condition": "angered by the player's low offer",
+                "goal": "Insult or threaten the player."
+              }
+            ]
+          },
+          "player_options": [
+            "Apologize and try to make amends",
+            "Stand your ground and challenge her response",
+            "Attempt to divert the conversation to something else"
+          ],
+          "parent_id": "meet_with_meredith_stout.5",
+          "layer": 5,
+          "is_generated": true,
+          "rating": 75,
+          "environment": "The alley feels strained as Meredith's anger permeates the air. Shadows loom larger, and the sound of machinery in the distance seems to amplify the tension.",
+          "interactive_environment_objects": [],
+          "interactive_npc": [],
+          "key_questions": [
+            {
+              "id": 5,
+              "content": "Does the price proposed by the player fall within the acceptable range for Meredith Stout?"
+            }
+          ],
+          "scene_end_state_reference": {
+            "end_condition1": "Player's response to Meredith's anger.",
+            "end_condition2": "Potential fallout from the confrontation."
+          }
+        }
+      ],
+      [
+        {
+          "subtask_id": "meet_with_meredith_stout.6.1",
+          "title": "The Double Cross",
+          "description": "Meredith Stout reveals her ulterior motive: using the player as bait to lure in her enemies. She plans to betray them by leading them to a trap.",
+          "dialogue": "Meredith's smile is both charming and dangerous. 'You're not just a pawn, you're my secret weapon.' She leans in closer, lowering her voice. 'Get them to trust you, and I'll take care of the rest. When the time comes, they'll have no idea what hit them.'",
+          "npc_reactions": {
+            "Meredith Stout": "Her expression shifts from cold calculation to intense anticipation, eager to see if you'll play along."
+          },
+          "npc_emotion_pools": {
+            "Meredith Stout": [
+              {
+                "id": 0,
+                "trigger_condition": null,
+                "goal": "Pressure the player into becoming bait for her enemies."
+              },
+              {
+                "id": 1,
+                "trigger_condition": null,
+                "goal": "Undermine the player's confidence to force compliance."
+              },
+              {
+                "id": 3,
+                "trigger_condition": null,
+                "goal": "Exploit the player as a resource, ensuring they feel the weight of their choice."
+              }
+            ]
+          },
+          "player_options": [
+            "Agree to be her bait.",
+            "Refuse and threaten her.",
+            "Attempt to negotiate a more favorable deal."
+          ],
+          "parent_id": "meet_with_meredith_stout.6",
+          "layer": 6,
+          "is_generated": true,
+          "rating": 85,
+          "environment": "The alley is thick with tension, an oppressive heat weighing down on both of you. Shadows flicker from nearby neon signs, casting strange shapes against the cracked walls, adding to the atmosphere of danger.",
+          "interactive_environment_objects": null,
+          "interactive_npc": [
+            {
+              "name": "Meredith Stout",
+              "additional_conditions": null,
+              "goal": "Utilize the player as bait to outmaneuver her enemies.",
+              "emotion_pool": [
+                {
+                  "id": 0,
+                  "trigger_condition": null,
+                  "goal": "Pressure the player into becoming bait for her enemies."
+                },
+                {
+                  "id": 1,
+                  "trigger_condition": null,
+                  "goal": "Undermine the player's confidence to force compliance."
+                },
+                {
+                  "id": 3,
+                  "trigger_condition": null,
+                  "goal": "Exploit the player as a resource, ensuring they feel the weight of their choice."
+                }
+              ]
+            }
+          ],
+          "key_questions": [
+            {
+              "id": 1,
+              "content": "Will the player pose a threat to Meredith Stout?"
+            },
+            {
+              "id": 2,
+              "content": "Is the player's identity connected to Meredith Stout?"
+            },
+            {
+              "id": 3,
+              "content": "Does the player have what Meredith Stout desires?"
+            },
+            {
+              "id": 4,
+              "content": "Does the player want to trade with Meredith Stout?"
+            },
+            {
+              "id": 5,
+              "content": "Is the price proposed by the player within the range acceptable to Meredith Stout?"
+            },
+            {
+              "id": 6,
+              "content": "In what way does Meredith Stout use the player to achieve her own goals?"
+            }
+          ],
+          "scene_end_state_reference": {
+            "end_condition1": "Whether the player agrees to assist Meredith in her trap.",
+            "end_condition2": "The relationship between the player and Meredith Stout, dependent on the player's choice."
+          }
+        },
+        {
+          "subtask_id": "meet_with_meredith_stout.6.2",
+          "title": "An Unexpected Alliance",
+          "description": "Meredith proposes an unexpected alliance to confront a common enemy, promising safety for the player's involvement in her plans.",
+          "dialogue": "'We have a larger threat looming,' Meredith states, her tone grave. 'We can strike a deal, help each other out. I need your skills, and in return, I'll grant you the information you seek about those missing goods.'",
+          "npc_reactions": {
+            "Meredith Stout": "Her demeanor softens slightly, revealing a sliver of trust as she seeks to engage the player."
+          },
+          "npc_emotion_pools": {
+            "Meredith Stout": [
+              {
+                "id": 0,
+                "trigger_condition": null,
+                "goal": "Engage the player in a cooperative stance against a common enemy."
+              },
+              {
+                "id": 2,
+                "trigger_condition": null,
+                "goal": "Provide the player with a persuasive argument to ensure cooperation."
+              },
+              {
+                "id": 3,
+                "trigger_condition": null,
+                "goal": "Exploit the player as a resource, ensuring they feel the weight of their choice."
+              }
+            ]
+          },
+          "player_options": [
+            "Agree to form an alliance.",
+            "Refuse and insist on working independently.",
+            "Inquire about the specifics of this threat."
+          ],
+          "parent_id": "meet_with_meredith_stout.6",
+          "layer": 6,
+          "is_generated": true,
+          "rating": 80,
+          "environment": "The air feels charged, crackling with tension as the city dynamics settle. Around you, the remnants of battles past linger, creating an air of urgency. A low hum in the distance suggests something more sinister looms。",
+          "interactive_environment_objects": [],
+          "interactive_npc": [
+            {
+              "name": "Meredith Stout",
+              "additional_conditions": null,
+              "goal": "Seek a partnership to tackle mutual threats.",
+              "emotion_pool": [
+                {
+                  "id": 0,
+                  "trigger_condition": null,
+                  "goal": "Engage the player in a cooperative stance against a common enemy."
+                },
+                {
+                  "id": 2,
+                  "trigger_condition": null,
+                  "goal": "Provide the player with a persuasive argument to ensure cooperation."
+                },
+                {
+                  "id": 3,
+                  "trigger_condition": null,
+                  "goal": "Exploit the player as a resource, ensuring they feel the weight of their choice."
+                }
+              ]
+            }
+          ],
+          "key_questions": [
+            {
+              "id": 1,
+              "content": "Will the player pose a threat to Meredith Stout?"
+            },
+            {
+              "id": 2,
+              "content": "Is the player's identity connected to Meredith Stout?"
+            },
+            {
+              "id": 3,
+              "content": "Does the player have what Meredith Stout desires?"
+            },
+            {
+              "id": 4,
+              "content": "Does the player want to trade with Meredith Stout?"
+            },
+            {
+              "id": 5,
+              "content": "Is the price proposed by the player within the range acceptable to Meredith Stout?"
+            },
+            {
+              "id": 6,
+              "content": "In what way does Meredith Stout use the player to achieve her own goals?"
+            }
+          ],
+          "scene_end_state_reference": {
+            "end_condition1": "Whether the player agrees to assist Meredith in confronting the common enemy.",
+            "end_condition2": "Potential new relationship dynamics between the player and Meredith Stout."
+          }
+        },
+        {
+          "subtask_id": "meet_with_meredith_stout.6.3",
+          "title": "Game of Deceit",
+          "description": "Meredith attempts to manipulate the player into infiltrating a rival faction, using their inexperience as leverage.",
+          "dialogue": "'Infiltration is your best shot,' she suggests, a sly grin appearing. 'They won't suspect a novice. You'll be my eyes and ears, and in return, I'll provide the intel you crave.'",
+          "npc_reactions": {
+            "Meredith Stout": "She appears amused by the player's hesitation, as she delights in her cunning plan."
+          },
+          "npc_emotion_pools": {
+            "Meredith Stout": [
+              {
+                "id": 0,
+                "trigger_condition": null,
+                "goal": "Encourage and manipulate the player to take an aggressive position."
+              },
+              {
+                "id": 3,
+                "trigger_condition": null,
+                "goal": "Exploit the player as a resource, ensuring they feel the weight of their choice."
+              }
+            ]
+          },
+          "player_options": [
+            "Reluctantly agree to infiltrate.",
+            "Doubt her plan and refuse.",
+            "Ask for additional support in exchange."
+          ],
+          "parent_id": "meet_with_meredith_stout.6",
+          "layer": 6,
+          "is_generated": true,
+          "rating": 75,
+          "environment": "The atmosphere feels charged with tension as city sounds echo in the distance. Darkness surrounds you, and under the neon glow, the shadows seem to whisper secrets of betrayal and ambition.",
+          "interactive_environment_objects": null,
+          "interactive_npc": [
+            {
+              "name": "Meredith Stout",
+              "additional_conditions": null,
+              "goal": "Ensure the player will infiltrate the rival faction.",
+              "emotion_pool": [
+                {
+                  "id": 0,
+                  "trigger_condition": null,
+                  "goal": "Encourage and manipulate the player to take an aggressive position."
+                },
+                {
+                  "id": 3,
+                  "trigger_condition": null,
+                  "goal": "Exploit the player as a resource, ensuring they feel the weight of their choice."
+                }
+              ]
+            }
+          ],
+          "key_questions": [
+            {
+              "id": 1,
+              "content": "Will the player pose a threat to Meredith Stout?"
+            },
+            {
+              "id": 2,
+              "content": "Is the player's identity connected to Meredith Stout?"
+            },
+            {
+              "id": 3,
+              "content": "Does the player have what Meredith Stout desires?"
+            },
+            {
+              "id": 4,
+              "content": "Does the player want to trade with Meredith Stout?"
+            },
+            {
+              "id": 5,
+              "content": "Is the price proposed by the player within the range acceptable to Meredith Stout?"
+            },
+            {
+              "id": 6,
+              "content": "In what way does Meredith Stout use the player to achieve her own goals?"
+            }
+          ],
+          "scene_end_state_reference": {
+            "end_condition1": "Whether the player agrees to infiltrate the rival faction.",
+            "end_condition2": "The evolving relationship between the player and Meredith Stout as the trust dynamic shifts."
+          }
+        }
+      ]
+    ]
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "environment": "In a dark, neon-lit backstreet, the hacker service shop buzzes with an undercurrent of digital intrigue. The storefront is a patchwork of flickering holographic ads and graffiti tags, hinting at a rebellious past. Inside, the air is heavy with the hum of servers and the faint scent of ozone. Vintage cyber gear lies intermingled with state-of-the-art tech, creating a seamless blend of retro and futuristic aesthetics.",
+  "interactive_environment_objects": null,
+  "interactive_npc": [
+    {
+      "name": "Joe",
+      "additional_conditions": null,
+      "goal": "Help the player resolve hacker service needs",
+      "emotion_pool": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Ask the player about his needs"
+        },
+        {
+          "id": 2,
+          "trigger_condition": "If the player exhibits concern about obstacles",
+          "goal": "Engage further on potential risks"
+        }
+      ]
+    }
+  ],
+  "key_questions": [
+    {
+      "id": 4,
+      "content": "What potential obstacles might affect the player's plans to secure Joe's help?"
+    }
+  ],
+  "scene_end_state_reference": {
+    "end_condition1": null,
+    "end_condition2": null
+  }
+}

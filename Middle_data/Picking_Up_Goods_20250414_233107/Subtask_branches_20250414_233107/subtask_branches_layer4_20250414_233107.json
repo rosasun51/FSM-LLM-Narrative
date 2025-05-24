@@ -1,0 +1,347 @@
+[
+  {
+    "subtask_id": "picking_up_goods.4.1",
+    "title": "The Last Gamble",
+    "description": "Facing escalating threats, the player attempts to defy Royce and Dum Dum, risking their wrath. The tension culminates in a dicey standoff, where the player must rely on their wit to maneuver out of danger.",
+    "dialogue": "As Royce steps closer, his weapon glinting ominously, you muster your courage and retort, 'You think I'm afraid of your threats? I'll take my chances.' The room feels smaller, the stakes higher.",
+    "npc_reactions": {
+      "Royce": "Royce's expression shifts from amusement to rage, convinced this is an act of defiance he won't tolerate.",
+      "Dum Dum": "Dum Dum's laugh cuts through the atmosphere, his eyes gleaming with anticipation for the inevitable violence."
+    },
+    "npc_emotion_pools": {
+      "Royce": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Indicate that the player needs to pay an extra sum of money to buy the robot"
+        },
+        {
+          "id": 1,
+          "trigger_condition": "The player mentions having already paid money to the previous boss",
+          "goal": "Refuse to refund, threaten the player, and apply pressure"
+        },
+        {
+          "id": 2,
+          "trigger_condition": "The player clearly states they will not pay extra money",
+          "goal": "Kill the player"
+        },
+        {
+          "id": 3,
+          "trigger_condition": "The player pays",
+          "goal": "Establish a friendly relationship with the player"
+        },
+        {
+          "id": 4,
+          "trigger_condition": null,
+          "goal": "Assert dominance through intimidation, ensuring the player understands the consequences of disobedience."
+        },
+        {
+          "id": 5,
+          "trigger_condition": "The player defies Royce and admits to being unafraid",
+          "goal": "React with rage and prepare to punish the player."
+        }
+      ],
+      "Dum Dum": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Intimidate the player, making them accept their rules"
+        },
+        {
+          "id": 1,
+          "trigger_condition": "The player refuses to accept Dum Dum's gang rules",
+          "goal": "Kill the player"
+        },
+        {
+          "id": 2,
+          "trigger_condition": "The player shows submission",
+          "goal": "Introduce the player to his boss, Royce"
+        },
+        {
+          "id": 3,
+          "trigger_condition": null,
+          "goal": "Eagerly support Royce's intimidation tactics, ready to strike if the player resists."
+        },
+        {
+          "id": 4,
+          "trigger_condition": "The player stands firm against Dum Dum's threats",
+          "goal": "Encouraged by Royce, ready to engage in physical confrontation."
+        }
+      ]
+    },
+    "player_options": [
+      "Maintain your defiance and stand your ground.",
+      "Attempt to disarm Royce with a sudden move.",
+      "Try to talk your way out by appealing to Royce's sense of humor."
+    ],
+    "parent_id": "picking_up_goods.4",
+    "layer": 4,
+    "is_generated": true,
+    "rating": 85,
+    "environment": "The factory is eerily quiet, save for the clinking of metal and the low hum of neglected machinery. Shadows stretch long across the room, making the dim lighting feel suffocating.",
+    "interactive_environment_objects": [
+      {
+        "name": "security camera",
+        "action_point_cost": "1"
+      }
+    ],
+    "interactive_npc": [
+      {
+        "name": "Royce",
+        "additional_conditions": null,
+        "goal": "Sell the robot at a high price and extort money from the player",
+        "emotion_pool": [
+          {
+            "id": 0,
+            "trigger_condition": null,
+            "goal": "Indicate that the player needs to pay an extra sum of money to buy the robot"
+          },
+          {
+            "id": 1,
+            "trigger_condition": "The player mentions having already paid money to the previous boss",
+            "goal": "Refuse to refund, threaten the player, and apply pressure"
+          },
+          {
+            "id": 2,
+            "trigger_condition": "The player clearly states they will not pay extra money",
+            "goal": "Kill the player"
+          },
+          {
+            "id": 3,
+            "trigger_condition": "The player pays",
+            "goal": "Establish a friendly relationship with the player"
+          },
+          {
+            "id": 4,
+            "trigger_condition": null,
+            "goal": "Assert dominance through intimidation, ensuring the player understands the consequences of disobedience."
+          },
+          {
+            "id": 5,
+            "trigger_condition": "The player defies Royce and admits to being unafraid",
+            "goal": "React with rage and prepare to punish the player."
+          }
+        ]
+      },
+      {
+        "name": "Dum Dum",
+        "additional_conditions": null,
+        "goal": "Assist Royce in selling the robot at a high price and extort money from the player",
+        "emotion_pool": [
+          {
+            "id": 0,
+            "trigger_condition": null,
+            "goal": "Intimidate the player, making them accept their rules"
+          },
+          {
+            "id": 1,
+            "trigger_condition": "The player refuses to accept Dum Dum's gang rules",
+            "goal": "Kill the player"
+          },
+          {
+            "id": 2,
+            "trigger_condition": "The player shows submission",
+            "goal": "Introduce the player to his boss, Royce"
+          },
+          {
+            "id": 3,
+            "trigger_condition": null,
+            "goal": "Eagerly support Royce's intimidation tactics, ready to strike if the player resists."
+          },
+          {
+            "id": 4,
+            "trigger_condition": "The player stands firm against Dum Dum's threats",
+            "goal": "Encouraged by Royce, ready to engage in physical confrontation."
+          }
+        ]
+      }
+    ],
+    "key_questions": [
+      {
+        "id": 1,
+        "content": "What means will the player use to obtain the robot?"
+      },
+      {
+        "id": 2,
+        "content": "What is the player's attitude toward these two NPCs and the Spiral Gang?"
+      },
+      {
+        "id": 3,
+        "content": "Does the player follow the rules of the Spiral Gang?"
+      },
+      {
+        "id": 4,
+        "content": "What are the potential consequences if the player disobeys the Spiral Gang's rules?"
+      }
+    ],
+    "scene_end_state_reference": {
+      "end_condition1": "Player successfully negotiates or evades the threats.",
+      "end_condition2": "Player provokes Royce or Dum Dum leading to imminent violence."
+    }
+  },
+  {
+    "subtask_id": "picking_up_goods.4.2",
+    "title": "Turning the Tables",
+    "description": "Realizing the danger they are in, the player tries to leverage any information they’ve collected about the Spiral Gang or Royce to assert control of the situation.",
+    "dialogue": "You smirk as you spill some secrets you've heard about the gang's dealings. 'Careful, Royce. I know things. You might just want to rethink your approach.'",
+    "npc_reactions": {
+      "Royce": "Royce's eyes narrow, calculating whether the player poses a real threat or just bluffing.",
+      "Dum Dum": "Dum Dum seems less amused, eyes scanning for signs of an ambush."
+    },
+    "npc_emotion_pools": {
+      "Royce": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Indicate that the player needs to pay an extra sum of money to buy the robot"
+        },
+        {
+          "id": 1,
+          "trigger_condition": "The player mentions having already paid money to the previous boss",
+          "goal": "Refuse to refund, threaten the player, and apply pressure"
+        },
+        {
+          "id": 2,
+          "trigger_condition": "The player clearly states they will not pay extra money",
+          "goal": "Kill the player"
+        },
+        {
+          "id": 3,
+          "trigger_condition": "The player pays",
+          "goal": "Establish a friendly relationship with the player"
+        },
+        {
+          "id": 4,
+          "trigger_condition": null,
+          "goal": "Assert dominance through intimidation, ensuring the player understands the consequences of disobedience."
+        },
+        {
+          "id": 5,
+          "trigger_condition": "Player indicates they have information about the gang",
+          "goal": "Assess the credibility of the threats and consider how to respond."
+        }
+      ],
+      "Dum Dum": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Intimidate the player, making them accept their rules"
+        },
+        {
+          "id": 1,
+          "trigger_condition": "The player refuses to accept Dum Dum's gang rules",
+          "goal": "Kill the player"
+        },
+        {
+          "id": 2,
+          "trigger_condition": "The player shows submission",
+          "goal": "Introduce the player to his boss, Royce"
+        },
+        {
+          "id": 3,
+          "trigger_condition": null,
+          "goal": "Eagerly support Royce's intimidation tactics, ready to strike if the player resists."
+        }
+      ]
+    },
+    "player_options": [
+      "Press on with your knowledge and assert your power.",
+      "Appeal to Royce's paranoia and try to broker a deal.",
+      "Feign ignorance to buy time and observe their reactions."
+    ],
+    "parent_id": "picking_up_goods.4",
+    "layer": 4,
+    "is_generated": true,
+    "rating": 80,
+    "environment": "As the lights flicker sporadically, you sense an energy shift; the previously imposing corners of the factory grow more menacing under the oppressive atmosphere. The shadows seem to listen in.",
+    "interactive_environment_objects": null,
+    "interactive_npc": [
+      {
+        "name": "Royce",
+        "additional_conditions": null,
+        "goal": "Sell the robot at a high price and extort money from the player",
+        "emotion_pool": [
+          {
+            "id": 0,
+            "trigger_condition": null,
+            "goal": "Indicate that the player needs to pay an extra sum of money to buy the robot"
+          },
+          {
+            "id": 1,
+            "trigger_condition": "The player mentions having already paid money to the previous boss",
+            "goal": "Refuse to refund, threaten the player, and apply pressure"
+          },
+          {
+            "id": 2,
+            "trigger_condition": "The player clearly states they will not pay extra money",
+            "goal": "Kill the player"
+          },
+          {
+            "id": 3,
+            "trigger_condition": "The player pays",
+            "goal": "Establish a friendly relationship with the player"
+          },
+          {
+            "id": 4,
+            "trigger_condition": null,
+            "goal": "Assert dominance through intimidation, ensuring the player understands the consequences of disobedience."
+          },
+          {
+            "id": 5,
+            "trigger_condition": "Player indicates they have information about the gang",
+            "goal": "Assess the credibility of the threats and consider how to respond."
+          }
+        ]
+      },
+      {
+        "name": "Dum Dum",
+        "additional_conditions": null,
+        "goal": "Assist Royce in selling the robot at a high price and extort money from the player",
+        "emotion_pool": [
+          {
+            "id": 0,
+            "trigger_condition": null,
+            "goal": "Intimidate the player, making them accept their rules"
+          },
+          {
+            "id": 1,
+            "trigger_condition": "The player refuses to accept Dum Dum's gang rules",
+            "goal": "Kill the player"
+          },
+          {
+            "id": 2,
+            "trigger_condition": "The player shows submission",
+            "goal": "Introduce the player to his boss, Royce"
+          },
+          {
+            "id": 3,
+            "trigger_condition": null,
+            "goal": "Eagerly support Royce's intimidation tactics, ready to strike if the player resists."
+          }
+        ]
+      }
+    ],
+    "key_questions": [
+      {
+        "id": 1,
+        "content": "What means will the player use to obtain the robot?"
+      },
+      {
+        "id": 2,
+        "content": "What is the player's attitude toward these two NPCs and the Spiral Gang?"
+      },
+      {
+        "id": 3,
+        "content": "Does the player follow the rules of the Spiral Gang?"
+      },
+      {
+        "id": 4,
+        "content": "What are the potential consequences if the player disobeys the Spiral Gang's rules?"
+      }
+    ],
+    "scene_end_state_reference": {
+      "end_condition1": "Player successfully intimidates Royce into submission.",
+      "end_condition2": "Player's knowledge backfires, leading to chaos."
+    }
+  }
+]
