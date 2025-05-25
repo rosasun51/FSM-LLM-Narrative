@@ -1,0 +1,56 @@
+[
+  {
+    "subtask_id": "picking_up_goods.4.1",
+    "title": "Bribery for Safety",
+    "description": "The player decides to attempt to bribe Dum Dum, believing that monetary persuasion might dissuade him from any potential violence.",
+    "dialogue": "You pull out a handful of coins, hoping that the glint of your offer will be enough to appease Dum Dum's greed. 'What if I make this worth your while?' you suggest, trying to divert the confrontation. Royce raises an eyebrow, intrigued but skeptical.",
+    "npc_reactions": {
+      "Royce": "Royce's expression shifts from amusement to calculation as he weighs the potential profit from your bribe.",
+      "Dum Dum": "Dum Dum narrows his eyes, considering the offer while still emanating a threatening aura."
+    },
+    "player_options": [
+      "Increase the bribe amount, hoping to sway them further.",
+      "Offer a favor in return for peace.",
+      "Use the distraction to make a run for it."
+    ],
+    "parent_id": "picking_up_goods.4",
+    "layer": 4,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "picking_up_goods.4.2",
+    "title": "Rallying Support",
+    "description": "The player looks around for any allies or potential friends who could help tip the scales against Royce and Dum Dum.",
+    "dialogue": "Feeling cornered, you scan the dimly lit room, searching for an ally. 'Anyone around here who can vouch for me?' you call out, desperate for backup. The silence is deafening, heightening the tension as both gang members tense up.",
+    "npc_reactions": {
+      "Royce": "Royce chuckles darkly, clearly enjoying your plight and the isolation you're feeling.",
+      "Dum Dum": "Dum Dum steps closer, clearly displeased that you're trying to gather support against them."
+    },
+    "player_options": [
+      "Call out specifically to someone you've met before.",
+      "Attempt to convince an onlooker to help you.",
+      "Prepare for an inevitable fight without support."
+    ],
+    "parent_id": "picking_up_goods.4",
+    "layer": 4,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "picking_up_goods.4.3",
+    "title": "Feigning Compliance",
+    "description": "The player pretends to comply with the Spiral Gang's rules, masking any inner rebellion, buying time for a better opportunity.",
+    "dialogue": "You nod slowly, suppressing your true feelings. 'Okay, I understand the rules,' you say, feigning submission. Inside, you're plotting your next moves, watching for an opening to escape or strike back.",
+    "npc_reactions": {
+      "Royce": "Royce relaxes slightly, his smile growing as he believes you are now under his control.",
+      "Dum Dum": "Dum Dum seems more at ease, though suspicion still lingers in his eyes, unsure of your sincerity."
+    },
+    "player_options": [
+      "Look for a moment to distract them before fleeing.",
+      "Subtly ask questions about their rules to gather information.",
+      "Continue to play the compliant role while planning a counterattack."
+    ],
+    "parent_id": "picking_up_goods.4",
+    "layer": 4,
+    "is_generated": true
+  }
+]

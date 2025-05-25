@@ -1,0 +1,53 @@
+[
+  {
+    "subtask_id": "clear_virus.2.1",
+    "title": "The Art of the Bargain",
+    "description": "You propose a price that's significantly lower than what Joe expected, but offer to help him on a side project in return. This intrigues him, and he starts to consider the deal, revealing his own needs and weaknesses.",
+    "dialogue": "You lean in closer, lowering your voice. 'Listen, Joe, I can't pay your full price, but I\u2019ve got skills. How about I handle a little job for you to cover the rest?'",
+    "npc_reactions": {
+      "Joe": "He raises an eyebrow, interest piqued. A glimmer of curiosity crosses his face as he weighs the potential benefits of your offer."
+    },
+    "player_options": [
+      "Outline the job you have in mind for Joe.",
+      "Insist on keeping your price the same without the job.",
+      "Try to sweeten the deal with an additional favor."
+    ],
+    "parent_id": "clear_virus.2",
+    "layer": 2,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "clear_virus.2.2",
+    "title": "Threat of the Streets",
+    "description": "Understanding the risks of the back alleys, you decide to use Joe\u2019s fear of rivals to your advantage. You hint that you have connections outside and that crossing you could have consequences.",
+    "dialogue": "You lean back, crossing your arms. 'I\u2019d think twice about pushing me, Joe. My friends in the city aren't the forgiving type if they find out a hacker's screwing over a paying customer.'",
+    "npc_reactions": {
+      "Joe": "His demeanor shifts, an element of caution creeping into his expression. He seems to consider your threats seriously, pondering the implications."
+    },
+    "player_options": [
+      "Press further and escalate the threat.",
+      "Back off and reassure Joe you're just joking.",
+      "Offer to pay a little more, only if he guarantees the service will be delivered promptly."
+    ],
+    "parent_id": "clear_virus.2",
+    "layer": 2,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "clear_virus.2.3",
+    "title": "Emotional Appeal",
+    "description": "Instead of negotiating hardball, you decide to share your personal story, hoping to evoke sympathy from Joe and convince him to lower his price.",
+    "dialogue": "You take a deep breath and begin, 'Look, Joe, I really need this. It\u2019s not just about the money; it\u2019s about my family's safety and my reputation. Can you help me out?'",
+    "npc_reactions": {
+      "Joe": "His tough exterior cracks slightly as he listens. There's a moment where you can see genuine empathy, and he appears open to reconsidering his price."
+    },
+    "player_options": [
+      "Continue sharing your story, emphasizing the stakes.",
+      "Request a favor in return if he agrees to lower the price.",
+      "Offer a personal item of value instead of cash."
+    ],
+    "parent_id": "clear_virus.2",
+    "layer": 2,
+    "is_generated": true
+  }
+]

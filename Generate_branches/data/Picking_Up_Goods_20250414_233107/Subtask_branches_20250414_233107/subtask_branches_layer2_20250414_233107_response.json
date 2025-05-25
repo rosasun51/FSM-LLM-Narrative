@@ -1,0 +1,56 @@
+[
+  {
+    "subtask_id": "picking_up_goods.2.1",
+    "title": "Feigning Indifference",
+    "description": "The player chooses to act indifferent towards the Spiral Gang, attempting to downplay the situation. They hope that by not showing fear, they can assert some control over the encounter.",
+    "dialogue": "\"Is this all you've got? I\u2019ve dealt with worse than your empty threats. Either give me a decent price or I'm out of here.\" Royce raises an eyebrow, surprised by your bravery, while Dum Dum's expression darkens with annoyance.",
+    "npc_reactions": {
+      "Royce": "Cocks his head in amusement, intrigued by your boldness.",
+      "Dum Dum": "Frowns, ready to lash out at your defiance."
+    },
+    "player_options": [
+      "Continue to joke and act casual.",
+      "Prepare for a potential fight if they don't back down.",
+      "Try to instigate a dispute between Royce and Dum Dum."
+    ],
+    "parent_id": "picking_up_goods.2",
+    "layer": 2,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "picking_up_goods.2.2",
+    "title": "Seeking Support",
+    "description": "The player decides to seek the support of other gang members by mentioning a past favor owed by Royce, hoping to leverage their relationship for assistance.",
+    "dialogue": "\"I know you owe me one, Royce. Let\u2019s not make this messy. I can bring in more business for you, just give me a break this time.\" Royce's smirk falters as he gauges your claim, while Dum Dum narrows his eyes suspiciously.",
+    "npc_reactions": {
+      "Royce": "Looks conflicted, clearly weighing the risks of dismissing your request.",
+      "Dum Dum": "Sends an intimidating glare, unimpressed by your tactics."
+    },
+    "player_options": [
+      "Press further on your past relationship with Royce.",
+      "Offer to complete a small job for the gang to prove your worth.",
+      "Bring up another gang member who can vouch for you."
+    ],
+    "parent_id": "picking_up_goods.2",
+    "layer": 2,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "picking_up_goods.2.3",
+    "title": "Threatening Back",
+    "description": "The player, feeling cornered, adopts a threatening tone, warning both Royce and Dum Dum that they should not underestimate them or there could be severe repercussions.",
+    "dialogue": "\"You think you can intimidate me? I've got friends in high places who wouldn\u2019t take kindly to your little extortion scheme. Cross me, and it\u2019ll be your heads on the line!\" Royce\u2019s laughter fades, and Dum Dum scowls menacingly.",
+    "npc_reactions": {
+      "Royce": "Sees you as a bigger threat than anticipated and becomes cautious.",
+      "Dum Dum": "Looks ready to attack, his patience wearing thin with your defiance."
+    },
+    "player_options": [
+      "Follow through with your threat and prepare to fight.",
+      "Try to negotiate from this new position of strength.",
+      "Seek to escape the confrontation altogether."
+    ],
+    "parent_id": "picking_up_goods.2",
+    "layer": 2,
+    "is_generated": true
+  }
+]

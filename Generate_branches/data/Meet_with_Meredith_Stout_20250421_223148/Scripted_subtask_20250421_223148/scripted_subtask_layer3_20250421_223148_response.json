@@ -1,0 +1,41 @@
+{
+  "subtask_id": "meet_with_meredith_stout.3",
+  "title": "The Price of Information",
+  "description": "In the dim light of the alley, Meredith Stout's demeanor shifts as she sizes up the player, feeling the weight of the stolen goods that might change her investigation's fate. She grimly demands to know if the player possesses any information related to the missing items, mentioning a suspicious trade involving a stolen robot. This moment hangs heavy in the air as both parties assess the potential gains and losses.",
+  "dialogue": "Meredith leans forward, her eyes assessing. 'You've got something, don\u2019t you? A lead? A clue? If you want a nice little favor from me, you\u2019ll have to spill what you know about that missing robot. Otherwise, we\u2019ll have a problem.'",
+  "npc_reactions": {
+    "Meredith Stout": "Her tone sharpens, reflecting her growing impatience as she awaits the player's response, ready to quickly pivot if the player refuses or seems evasive."
+  },
+  "npc_emotion_pools": {
+    "Meredith Stout": [
+      {
+        "id": 0,
+        "trigger_condition": null,
+        "goal": "Pressure the player to learn information about them, including whether the player has companions, who they work for, and if they stole the robot."
+      },
+      {
+        "id": 1,
+        "trigger_condition": "angered by the player",
+        "goal": "Insult or threaten the player."
+      },
+      {
+        "id": 2,
+        "trigger_condition": "believes the player is cooperative",
+        "goal": "Provide the player with a chip to store cash."
+      },
+      {
+        "id": 3,
+        "trigger_condition": "discerns that the player might have the information needed",
+        "goal": "Express urgency and insist on a favorable negotiation."
+      }
+    ]
+  },
+  "player_options": [
+    "Offer information on the missing goods.",
+    "Deny knowing anything useful.",
+    "Attempt to negotiate a deal in exchange for information."
+  ],
+  "parent_id": "meet_with_meredith_stout.2",
+  "layer": 3,
+  "is_generated": false
+}

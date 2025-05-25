@@ -1,0 +1,41 @@
+{
+  "subtask_id": "meet_with_meredith_stout.5",
+  "title": "Negotiating the Price",
+  "description": "The player assesses Meredith Stout's response to their proposed trade, weighing whether the offer is enticing enough to secure her cooperation. Tension hangs in the air, with both parties acutely aware that this moment could determine the nature of their relationship moving forward.",
+  "dialogue": "Meredith gazes at you, her expression inscrutable. 'You think this is just a game?' she asks, her voice low and steely. 'I need to know if your proposed price meets my standards. I'm not here to waste my time or put my neck on the line for a half-baked deal. So, tell me, does your offer hold any real value for me?'",
+  "npc_reactions": {
+    "Meredith Stout": "She leans back slightly, arms crossed, her eyes narrowing as she evaluates the player's response. There's a flicker of hope beneath her calculating demeanor, but also a hint of impatience."
+  },
+  "npc_emotion_pools": {
+    "Meredith Stout": [
+      {
+        "id": 0,
+        "trigger_condition": null,
+        "goal": "Pressures the player to prove the value of their proposition."
+      },
+      {
+        "id": 1,
+        "trigger_condition": "angered by the player's lowball offer",
+        "goal": "Insult or threaten the player."
+      },
+      {
+        "id": 2,
+        "trigger_condition": "believes the player's offer is acceptable",
+        "goal": "Show her interest by considering what they can gain from the deal."
+      },
+      {
+        "id": 3,
+        "trigger_condition": "sensitive to wasting time",
+        "goal": "Express her impatience and demand a faster resolution."
+      }
+    ]
+  },
+  "player_options": [
+    "Offer additional valuable information about the stolen robot.",
+    "Stand firm on the current proposal, insisting it\u2019s fair.",
+    "Attempt to negotiate, offering to sweeten the deal with a favor."
+  ],
+  "parent_id": "meet_with_meredith_stout.4",
+  "layer": 5,
+  "is_generated": false
+}

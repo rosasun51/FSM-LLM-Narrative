@@ -1,0 +1,53 @@
+[
+  {
+    "subtask_id": "clear_virus.1.1",
+    "title": "Seeking Data Recovery",
+    "description": "You explain to Joe that your primary concern is recovering critical data lost due to the virus. The tension in the air thickens as Joe evaluates the urgency of your request, knowing that some data is worth more than currency in this cybernetic underbelly.",
+    "dialogue": "Joe's eyebrows raise in concern. 'Ah, I see. Data recovery, huh? That can get tricky, especially if it's been corrupted. I'll need to run a full diagnostic on your system and salvage what we can. Just know, it might cost you more than some basic virus cleanse.'",
+    "npc_reactions": {
+      "Joe": "Joe leans back, folding his arms, a serious expression crossing his face as he begins considering the tools needed for the job."
+    },
+    "player_options": [
+      "I can pay extra for a faster recovery.",
+      "What kind of tools will you need?",
+      "Can you guarantee the data will be safe?"
+    ],
+    "parent_id": "clear_virus.1",
+    "layer": 1,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "clear_virus.1.2",
+    "title": "Focusing on Malware Protection",
+    "description": "You inform Joe that your primary goal is to enhance your system\u2019s defenses against future attacks, indicating the virus is just the tip of the iceberg in your ongoing struggles with cybersecurity.",
+    "dialogue": "Joe nods thoughtfully, his fingers drumming lightly on the counter. 'So, you want a robust barrier against these digital pests, huh? That's a wise move. I can set you up with some solid protocols, but it's going to require a hefty investment.'",
+    "npc_reactions": {
+      "Joe": "Joe shifts his weight, intrigued by your commitment to cybersecurity, as he starts to take note of your needs."
+    },
+    "player_options": [
+      "How much will it cost for a complete upgrade?",
+      "Can you recommend specific security software?",
+      "What if I don't have enough credits?"
+    ],
+    "parent_id": "clear_virus.1",
+    "layer": 1,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "clear_virus.1.3",
+    "title": "Infiltrating a Competitive Network",
+    "description": "You tell Joe that you need more than just virus removal; you want to infiltrate a competitive network to gather intelligence on a rival. The air grows tense with the prospect of such a bold request.",
+    "dialogue": "Joe raises an eyebrow, his curiosity piqued. 'You\u2019re looking to play in the big leagues, huh? That\u2019s a different game entirely. I can help, but you\u2019ll need to be ready for the potential backlash.'",
+    "npc_reactions": {
+      "Joe": "Joe's expression shifts from interest to caution, weighing the gravity of your request as he considers the risks involved."
+    },
+    "player_options": [
+      "What tools will you provide for this operation?",
+      "Are you sure it\u2019s safe to go after them?",
+      "Do you have contacts in that network?"
+    ],
+    "parent_id": "clear_virus.1",
+    "layer": 1,
+    "is_generated": true
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "subtask_id": "picking_up_goods.4",
+  "title": "Facing the Consequences",
+  "description": "The player stands at a crossroads, contemplating the ramifications of defying the Spiral Gang's authority. The atmosphere grows tense as Royce and Dum Dum's expectant gazes weigh heavy, demanding respect and compliance.",
+  "dialogue": "You feel the oppressive aura of the Spiral Gang pressing down on you. Disobeying their rules could lead to severe repercussions, including violence or being marked an enemy. As you look at Royce and Dum Dum, a realization dawns: the rules they demand may come at too high a cost. What will you do?",
+  "npc_reactions": {
+    "Royce": "A crooked smile appears on Royce\u2019s face, hinting at the pleasure he finds in your hesitation.",
+    "Dum Dum": "Dum Dum cracks his knuckles, his body language radiating menace, eager to make you regret any choice that challenges his authority."
+  },
+  "player_options": [
+    "Agree to follow the Spiral Gang's rules to avoid conflict.",
+    "Challenge Royce and Dum Dum, ready to face the possible violence.",
+    "Look for a way to outsmart the gang and escape the situation."
+  ],
+  "parent_id": "picking_up_goods.3",
+  "layer": 4,
+  "is_generated": false
+}

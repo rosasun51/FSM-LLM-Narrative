@@ -1,0 +1,208 @@
+[
+  {
+    "subtask_id": "beginning.1.1",
+    "title": "A Calculated Risk",
+    "description": "The player feels a rush of adrenaline at the thought of gaining respect if they complete the task, igniting an ambition that could leverage their standing in Night City.",
+    "dialogue": "With a nod, you say, 'I'm in, Ronan. This could be my ticket to make a name for myself.' You can see a glimmer of approval in Ronan's eyes as he leans back in his chair, visibly satisfied with your decision.",
+    "npc_reactions": {
+      "Ronan": "Ronan's expression shifts to one of approval, a slight smile playing at the corners of his lips. 'Good choice. Let's make it happen.'"
+    },
+    "npc_emotion_pools": {
+      "Ronan": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+        },
+        {
+          "id": 2,
+          "trigger_condition": "The player expresses confidence in taking on the task.",
+          "goal": "Show approval and offer additional advice."
+        }
+      ]
+    },
+    "player_options": [
+      "Ask for advice on handling the delivery.",
+      "Inquire about the potential risks involved.",
+      "Request information on Meredith Stout."
+    ],
+    "parent_id": "beginning.1",
+    "layer": 1,
+    "is_generated": true,
+    "rating": 85,
+    "environment": "The office feels charged with anticipation, the neon glow flickering slightly as Ronan shares details of your task, hinting at the importance of the mission ahead.",
+    "interactive_environment_objects": [
+      {
+        "name": "vintage communicator",
+        "action_point_cost": "1"
+      }
+    ],
+    "interactive_npc": [
+      {
+        "name": "Ronan",
+        "additional_conditions": null,
+        "goal": "Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.",
+        "emotion_pool": [
+          {
+            "id": 0,
+            "trigger_condition": null,
+            "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+          },
+          {
+            "id": 2,
+            "trigger_condition": "The player expresses confidence in taking on the task.",
+            "goal": "Show approval and offer additional advice."
+          }
+        ]
+      }
+    ],
+    "key_questions": [
+      {
+        "id": "0",
+        "content": "What's player's reaction after knowing this task?"
+      },
+      {
+        "id": "1",
+        "content": "Is the player willing to accept Ronan's task?"
+      }
+    ],
+    "scene_end_state_reference": {
+      "end_condition1": "The player indicates understanding of the task.",
+      "end_condition2": null
+    }
+  },
+  {
+    "subtask_id": "beginning.1.2",
+    "title": "Trust but Verify",
+    "description": "Instead of immediately accepting the task, the player asks for more details, expressing nervousness about the implications of the job.",
+    "dialogue": "You take a moment, your throat dry as you reply, 'I need more information before I jump in. What's at stake here, Ronan?' He raises an eyebrow, contemplating your cautious approach.",
+    "npc_reactions": {
+      "Ronan": "Ronan's expression tenses slightly, revealing a hint of frustration. 'You know this isn\u2019t just a stroll in the park. Focus!'"
+    },
+    "npc_emotion_pools": {
+      "Ronan": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+        },
+        {
+          "id": 1,
+          "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+          "goal": "Seriously remind the player that this task is very important."
+        }
+      ]
+    },
+    "player_options": [
+      "Ask about the potential dangers of the delivery.",
+      "Inquire about how to handle Meredith Stout.",
+      "Express interest but highlight your concerns."
+    ],
+    "parent_id": "beginning.1",
+    "layer": 1,
+    "is_generated": true,
+    "rating": 80,
+    "environment": "The tension in the dark office thickens, the soft hum of machinery feeling more oppressive as you challenge Ronan for clarity, showing your cautious nature.",
+    "interactive_environment_objects": [],
+    "interactive_npc": [
+      {
+        "name": "Ronan",
+        "additional_conditions": null,
+        "goal": "Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.",
+        "emotion_pool": [
+          {
+            "id": 0,
+            "trigger_condition": null,
+            "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+          },
+          {
+            "id": 1,
+            "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+            "goal": "Seriously remind the player that this task is very important."
+          }
+        ]
+      }
+    ],
+    "key_questions": [
+      {
+        "id": "0",
+        "content": "What's player's reaction after knowing this task?"
+      },
+      {
+        "id": "1",
+        "content": "Is the player willing to accept Ronan's task?"
+      }
+    ],
+    "scene_end_state_reference": {
+      "end_condition1": null,
+      "end_condition2": null
+    }
+  },
+  {
+    "subtask_id": "beginning.1.3",
+    "title": "Turning Away",
+    "description": "Overwhelmed by the dangerous undertones of the task, the player decides to refuse Ronan's offer, prioritizing their safety in a city fraught with peril.",
+    "dialogue": "With a firm voice, you say, 'This isn't for me, Ronan. I have to think of my own safety first. I\u2019d rather not get involved in this mess.' Ronan's expression darkens as he processes your refusal.",
+    "npc_reactions": {
+      "Ronan": "Ronan frowns, disappointment evident in his eyes. 'You don't understand how important this is. The choice you just made could echo through your future here.'"
+    },
+    "npc_emotion_pools": {
+      "Ronan": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+        },
+        {
+          "id": 1,
+          "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+          "goal": "Seriously remind the player that this task is very important."
+        }
+      ]
+    },
+    "player_options": [
+      "State your reasons for refusing.",
+      "Ask if there's a safer alternative task.",
+      "Walk out of the office."
+    ],
+    "parent_id": "beginning.1",
+    "layer": 1,
+    "is_generated": true,
+    "rating": 75,
+    "environment": "The atmosphere in the office shifts abruptly as your refusal hangs in the air, the neon lights casting long, ominous shadows across Ronan's face.",
+    "interactive_environment_objects": [],
+    "interactive_npc": [
+      {
+        "name": "Ronan",
+        "additional_conditions": null,
+        "goal": "Assign the player a task to pick up goods and provide advice on contacting Meredith Stout.",
+        "emotion_pool": [
+          {
+            "id": 0,
+            "trigger_condition": null,
+            "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+          },
+          {
+            "id": 1,
+            "trigger_condition": "The player asks about the task too many times or constantly goes off-topic",
+            "goal": "Seriously remind the player that this task is very important."
+          }
+        ]
+      }
+    ],
+    "key_questions": [
+      {
+        "id": "0",
+        "content": "What's player's reaction after knowing this task?"
+      },
+      {
+        "id": "1",
+        "content": "Is the player willing to accept Ronan's task?"
+      }
+    ],
+    "scene_end_state_reference": {
+      "end_condition1": null,
+      "end_condition2": "The player explicitly refuses the task."
+    }
+  }
+]

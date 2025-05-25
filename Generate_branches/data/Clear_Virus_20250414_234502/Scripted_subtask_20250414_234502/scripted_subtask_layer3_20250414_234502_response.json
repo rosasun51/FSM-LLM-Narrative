@@ -1,0 +1,17 @@
+{
+  "subtask_id": "clear_virus.3",
+  "title": "Stance on the Deal",
+  "description": "As you deliberate your next move, Joe studies your demeanor, trying to gauge your attitude towards the precarious arrangement. The flickering neon lights reflect off his glasses as he leans in, awaiting your sentiment. Are you eager to secure his help, or are you hesitant and ready to negotiate further?",
+  "dialogue": "Joe tilts his head slightly, his curiosity piqued. 'So, what\u2019ll it be? Are you in this to get your system cleared, or are you feeling skittish about the cost? Your vibe's critical here, my friend.'",
+  "npc_reactions": {
+    "Joe": "Leans closer with interest, analyzing the player's body language and tone."
+  },
+  "player_options": [
+    "I'm ready to move forward and can pay what it takes.",
+    "I\u2019m unsure about the price. Can we discuss it a bit more?",
+    "I\u2019m not fully convinced; maybe I should rethink this."
+  ],
+  "parent_id": "clear_virus.2",
+  "layer": 3,
+  "is_generated": false
+}

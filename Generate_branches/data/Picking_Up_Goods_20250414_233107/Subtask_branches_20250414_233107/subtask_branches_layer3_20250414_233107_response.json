@@ -1,0 +1,56 @@
+[
+  {
+    "subtask_id": "picking_up_goods.3.1",
+    "title": "Submitting to Gang Control",
+    "description": "The player chooses to comply with the Spiral Gang's rules, showing a willingness to submit. This choice leads to Royce and Dum Dum relaxing their intimidation somewhat, allowing the transaction to proceed with a slight increase in price.",
+    "dialogue": "You nod slowly, feeling the oppressive weight of their gazes lift just a fraction. \"Alright, I\u2019ll follow your rules,\" you say, trying to keep your tone steady. They smirk, a victory in the air. Royce crosses his arms, a glint of approval in his eyes.",
+    "npc_reactions": {
+      "Royce": "Royce leans back, visibly pleased. \"Smart choice. We can do business, then.\"",
+      "Dum Dum": "Dum Dum grins, revealing teeth like a predator. \"Good. I like compliance... it makes things so much easier for everyone.\""
+    },
+    "player_options": [
+      "Proceed with the transaction at the increased price.",
+      "Ask if there's a way to negotiate a better deal.",
+      "Request a showcase of the robot before finalizing the deal."
+    ],
+    "parent_id": "picking_up_goods.3",
+    "layer": 3,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "picking_up_goods.3.2",
+    "title": "Challenging the Gang",
+    "description": "The player boldly refuses to adhere to the Spiral Gang's rules, standing firm against Royce and Dum Dum. This decision sparks a confrontation, escalating the tension in the room.",
+    "dialogue": "You shake your head defiantly. \"I won\u2019t follow your rules. I don\u2019t fear you or your gang!\" Royce\u2019s expression darkens as Dum Dum flexes his muscles, the air around you crackling with danger.",
+    "npc_reactions": {
+      "Royce": "Royce\u2019s smile fades, replaced by rage. \"You think you can just walk in here and refuse us?\"",
+      "Dum Dum": "Dum Dum steps forward, cracking his knuckles. \"You\u2019re gonna regret that decision, buddy!\""
+    },
+    "player_options": [
+      "Prepare for a fight with Royce and Dum Dum.",
+      "Attempt to reason with them despite the tension.",
+      "Look for an escape route before things get violent."
+    ],
+    "parent_id": "picking_up_goods.3",
+    "layer": 3,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "picking_up_goods.3.3",
+    "title": "Offered a New Deal",
+    "description": "In a surprising twist, the player attempts to negotiate new terms that might benefit both parties. This unexpected action catches Royce and Dum Dum off guard, leading to a tense but potentially fruitful discussion.",
+    "dialogue": "You take a step back, gathering your thoughts. \"What if we adjusted the terms? I could offer a better deal if you let me see the robot first.\" The gang members exchange glances of confusion and intrigue.",
+    "npc_reactions": {
+      "Royce": "Royce tilts his head, considering your offer. \"Now there\u2019s something I didn\u2019t expect...\"",
+      "Dum Dum": "Dum Dum looks skeptical but intrigued. \"You think you can get more out of us? You\u2019ve got guts, I\u2019ll give you that.\""
+    },
+    "player_options": [
+      "Suggest a trial period with the robot before final payment.",
+      "Offer to bring a third party to negotiate for better terms.",
+      "Propose helping them with a job in exchange for a fair deal."
+    ],
+    "parent_id": "picking_up_goods.3",
+    "layer": 3,
+    "is_generated": true
+  }
+]

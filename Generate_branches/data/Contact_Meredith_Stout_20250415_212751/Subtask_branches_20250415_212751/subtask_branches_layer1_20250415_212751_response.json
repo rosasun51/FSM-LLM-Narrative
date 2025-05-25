@@ -1,0 +1,49 @@
+[
+  {
+    "subtask_id": "contact_meredith_stout.1.1",
+    "title": "Rushed Inquiry",
+    "description": "You feel the pressure mount as you recognize that time may not be on your side. Instead of crafting a lengthy email, you decide to send a quick, direct message to Meredith. You mention the lost robot, the urgency of the situation, and barely take a moment to reflect on your words.",
+    "dialogue": "You type rapidly: 'Meredith, I need your help. There's a lost robot, crucial to my current task. Can you provide any insight ASAP?' Your finger hovers over the send button, the neon light flickering in your peripheral vision. Will this be enough?",
+    "npc_reactions": {},
+    "player_options": [
+      "Send the message and hope for a quick reply.",
+      "Revise the message to add more detail.",
+      "Pause and reconsider if this approach is too hasty."
+    ],
+    "parent_id": "contact_meredith_stout.1",
+    "layer": 1,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "contact_meredith_stout.1.2",
+    "title": "Seeking Backup",
+    "description": "Before reaching out to Meredith, you decide to call Ronan directly. You believe that discussing the situation with him might provide additional context or insights that could strengthen your case when contacting Meredith.",
+    "dialogue": "After a few rings, Ronan picks up. You explain the situation regarding the lost robot, and he suggests some key points to include in your email to Meredith. His advice fills you with a sense of preparedness and bolsters your confidence.",
+    "npc_reactions": {
+      "Ronan": "Sounds like you really need her help. Make sure to highlight the robot's features."
+    },
+    "player_options": [
+      "Take Ronan's advice and write the email to Meredith.",
+      "Change your approach and ask Ronan to contact Meredith instead.",
+      "Reconsider and decide to investigate the robot's disappearance yourself."
+    ],
+    "parent_id": "contact_meredith_stout.1",
+    "layer": 1,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "contact_meredith_stout.1.3",
+    "title": "A More Cautious Approach",
+    "description": "You realize the importance of nuance and detail in communication, especially given the importance of the task at hand. You take the time to draft a comprehensive email detailing not only the lost robot but also the context of its significance.",
+    "dialogue": "As you type, you explain the robot's last known functions and its potential impact on your assignment. This careful presentation of your thoughts might just grab her attention. You pause to consider if this level of detail will elicit a prompt response.",
+    "npc_reactions": {},
+    "player_options": [
+      "Send the detailed email to Meredith.",
+      "Review the email again for any additional details to include.",
+      "Decide that perhaps a call would be more effective."
+    ],
+    "parent_id": "contact_meredith_stout.1",
+    "layer": 1,
+    "is_generated": true
+  }
+]

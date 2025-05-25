@@ -1,0 +1,47 @@
+[
+  {
+    "subtask_id": "contact_meredith_stout.2.1",
+    "title": "The Cryptic Message",
+    "description": "Just as you're about to dismiss your doubts, you receive a mysterious notification on your screen. It appears to be a cryptic message from an unknown sender that mentions Meredith's current troubles. This revelation intensifies your dilemma\u2014should you still reach out to her, or is it better to investigate this message first?",
+    "dialogue": "Your heart races as the notification pops up, making you question everything. 'What does this mean for Meredith? Is she involved in something risky?'. You find yourself on a precipice of choices, weighing the urgency of your mission against the mystery before you.",
+    "npc_reactions": {},
+    "player_options": [
+      "Ignore the message and send the email to Meredith.",
+      "Investigate the message further before contacting her.",
+      "Respond to the message to gather more information."
+    ],
+    "parent_id": "contact_meredith_stout.2",
+    "layer": 2,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "contact_meredith_stout.2.2",
+    "title": "The Last-Minute Call",
+    "description": "As you hesitate, your phone buzzes with a call from an old acquaintance who mentions they've recently spoken to Meredith. This prompts a ray of hope but also raises questions about the nature of their conversation. You contemplate whether to continue with your email or first gauge her current situation through this newly opened line.",
+    "dialogue": "With the call still ringing in your ear, you think, 'If I can find more about what Meredith's dealing with, it might change how I approach her.' Your mind races with the implications of this unexpected communication.",
+    "npc_reactions": {},
+    "player_options": [
+      "Take the call to gather insights on Meredith's current state.",
+      "Decline the call and proceed with sending the email.",
+      "Text the acquaintance to ask about Meredith's situation."
+    ],
+    "parent_id": "contact_meredith_stout.2",
+    "layer": 2,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "contact_meredith_stout.2.3",
+    "title": "An Unlikely Visitor",
+    "description": "Before you finalize your decision, you hear a knock on the door. It's a courier with a package that unmistakably belongs to Meredith. The unexpected arrival thrusts you into a position of choice again\u2014maybe you could use this delivery to your advantage and get in touch with her more organically.",
+    "dialogue": "You look at the courier and then back at your screen, torn between two paths. 'Should I ask the courier about this package and Meredith's whereabouts, or is it just another distraction?' Time is ticking, and you feel the pressure mounting.",
+    "npc_reactions": {},
+    "player_options": [
+      "Ask the courier for more information about Meredith.",
+      "Thank the courier and send the email regardless.",
+      "Insist on keeping the package for Meredith and depart with the courier."
+    ],
+    "parent_id": "contact_meredith_stout.2",
+    "layer": 2,
+    "is_generated": true
+  }
+]

@@ -1,0 +1,53 @@
+[
+  {
+    "subtask_id": "clear_virus.3.1",
+    "title": "Confident Bargainer",
+    "description": "You project an air of confidence, willing to negotiate terms instead of simply agreeing. You're ready to leverage your position to get a better deal while still hinting at your readiness to pay if needed.",
+    "dialogue": "You set your chin up and respond, 'I can handle the cost, but I need to know what this offers in return. Let\u2019s make this a deal worth remembering.'",
+    "npc_reactions": {
+      "Joe": "Raises an eyebrow, impressed by your confidence and ready to engage in a negotiation."
+    },
+    "player_options": [
+      "What can you offer to sweeten the deal?",
+      "Can you lower the price if I agree to help you later?",
+      "I\u2019ll pay, but I want to know more about the risks involved."
+    ],
+    "parent_id": "clear_virus.3",
+    "layer": 3,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "clear_virus.3.2",
+    "title": "Skeptical Strategist",
+    "description": "Adopting a strategic mindset, you voice your skepticism and request to see credentials or a proven track record from Joe. You want assurance before committing to anything.",
+    "dialogue": "You lean back slightly and assert, 'Before I drop any credits, I need to see what you\u2019re bringing to the table. Show me a success story.'",
+    "npc_reactions": {
+      "Joe": "Looks slightly taken aback but recovers quickly, ready to prove his worth."
+    },
+    "player_options": [
+      "Alright, show me a success story.",
+      "What guarantees can you offer?",
+      "Maybe I should rethink this. Can you impress me?"
+    ],
+    "parent_id": "clear_virus.3",
+    "layer": 3,
+    "is_generated": true
+  },
+  {
+    "subtask_id": "clear_virus.3.3",
+    "title": "Cautious Observer",
+    "description": "You express your hesitations openly, emphasizing your doubts about the potential risks involved in the transaction. You seek to understand the ramifications of the deal before moving forward.",
+    "dialogue": "You shake your head slightly, saying, 'I\u2019m feeling a bit uneasy. What happens if this goes south? I need some clarity on the risks.'",
+    "npc_reactions": {
+      "Joe": "Frowns, sensing your trepidation, and tries to reassure you with examples of his prior wins."
+    },
+    "player_options": [
+      "Explain the risks involved in this operation.",
+      "What assurance do I have that this will even work?",
+      "Perhaps I should look for another option."
+    ],
+    "parent_id": "clear_virus.3",
+    "layer": 3,
+    "is_generated": true
+  }
+]

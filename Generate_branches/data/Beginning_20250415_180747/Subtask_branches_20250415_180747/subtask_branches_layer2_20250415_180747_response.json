@@ -1,0 +1,208 @@
+[
+  {
+    "subtask_id": "beginning.2.1",
+    "title": "Embracing Chaos",
+    "description": "The player decides to accept Ronan's task, feeling the thrill of the danger ahead. Ronan smirks, pleased with your decision, and outlines the risks and rewards involved.",
+    "dialogue": "You lock eyes with Ronan, and a sense of determination washes over you. 'I accept the task,' you say with newfound confidence. Ronan leans forward, a glint of satisfaction in his eye. 'Good choice. There's a lot at stake here. Let's get to work.'",
+    "npc_reactions": {
+      "Ronan": "He leans back in his chair with a smug smile, obviously pleased with your decision and eager to brief you further."
+    },
+    "npc_emotion_pools": {
+      "Ronan": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+        },
+        {
+          "id": 2,
+          "trigger_condition": null,
+          "goal": "Encourage the player, emphasizing the potential rewards."
+        }
+      ]
+    },
+    "player_options": [
+      "What are the next steps?",
+      "What risks do I face?",
+      "Tell me more about the rewards."
+    ],
+    "parent_id": "beginning.2",
+    "layer": 2,
+    "is_generated": true,
+    "rating": 90,
+    "environment": "The office remains dim, but the atmosphere shifts\u2014charged with the excitement of an impending venture. The neon lights flicker with a renewed intensity, reflecting the urgency of your choice.",
+    "interactive_environment_objects": [
+      {
+        "name": "task_map",
+        "action_point_cost": "1"
+      }
+    ],
+    "interactive_npc": [
+      {
+        "name": "Ronan",
+        "additional_conditions": null,
+        "goal": "Help the player prepare for the task and share vital information.",
+        "emotion_pool": [
+          {
+            "id": 0,
+            "trigger_condition": null,
+            "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+          },
+          {
+            "id": 2,
+            "trigger_condition": null,
+            "goal": "Encourage the player, emphasizing the potential rewards."
+          }
+        ]
+      }
+    ],
+    "key_questions": [
+      {
+        "id": "0",
+        "content": "What's player's reaction after knowing this task?"
+      },
+      {
+        "id": "1",
+        "content": "Is the player willing to accept Ronan's task?"
+      }
+    ],
+    "scene_end_state_reference": {
+      "end_condition1": "The player eagerly discusses the next steps.",
+      "end_condition2": "The player expresses concern about the risks involved."
+    }
+  },
+  {
+    "subtask_id": "beginning.2.2",
+    "title": "Seeking More Information",
+    "description": "The player hesitates and asks for more details regarding the task at hand, hoping for a clearer picture of the risks and rewards.",
+    "dialogue": "'I need more information first,' you say, feeling the weight of the decision. Ronan's expression turns serious as he evaluates your hesitation. 'Fine, but know that every second counts.'",
+    "npc_reactions": {
+      "Ronan": "He crosses his arms, showing impatience but ultimately conceding to provide you the information you need."
+    },
+    "npc_emotion_pools": {
+      "Ronan": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+        },
+        {
+          "id": 1,
+          "trigger_condition": null,
+          "goal": "Seriously remind the player that this task is very important."
+        }
+      ]
+    },
+    "player_options": [
+      "What exactly do I need to do?",
+      "What are the potential consequences?",
+      "Is there a deadline?"
+    ],
+    "parent_id": "beginning.2",
+    "layer": 2,
+    "is_generated": true,
+    "rating": 80,
+    "environment": "The tension in the room thickens, and Ronan's demeanor changes; he becomes more guarded as he prepares to divulge sensitive information.",
+    "interactive_environment_objects": [],
+    "interactive_npc": [
+      {
+        "name": "Ronan",
+        "additional_conditions": null,
+        "goal": "Clarify the details of the task as requested by the player.",
+        "emotion_pool": [
+          {
+            "id": 0,
+            "trigger_condition": null,
+            "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+          },
+          {
+            "id": 1,
+            "trigger_condition": null,
+            "goal": "Seriously remind the player that this task is very important."
+          }
+        ]
+      }
+    ],
+    "key_questions": [
+      {
+        "id": "0",
+        "content": "What's player's reaction after knowing this task?"
+      },
+      {
+        "id": "1",
+        "content": "Is the player willing to accept Ronan's task?"
+      }
+    ],
+    "scene_end_state_reference": {
+      "end_condition1": "The player receives comprehensive details about the task.",
+      "end_condition2": "The player still feels uncertain and contemplates backing out."
+    }
+  },
+  {
+    "subtask_id": "beginning.2.3",
+    "title": "Declining the Task",
+    "description": "The player feels overwhelmed and declines Ronan's task, sensing that the stakes are too high. Ronan's reaction turns cold, indicating the potential fallout of this decision.",
+    "dialogue": "'I can't do this,' you finally admit, feeling the pressure climb. Ronan's smile fades, replaced by a steely glare. 'You realize this could cost you your standing, right?'",
+    "npc_reactions": {
+      "Ronan": "He leans forward, anger simmering beneath the surface as he makes your consequences painfully clear."
+    },
+    "npc_emotion_pools": {
+      "Ronan": [
+        {
+          "id": 0,
+          "trigger_condition": null,
+          "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+        },
+        {
+          "id": 1,
+          "trigger_condition": null,
+          "goal": "Seriously remind the player that this task is very important."
+        }
+      ]
+    },
+    "player_options": [
+      "What if I reconsider?",
+      "Can I negotiate the terms?",
+      "What will happen to me now?"
+    ],
+    "parent_id": "beginning.2",
+    "layer": 2,
+    "is_generated": true,
+    "rating": 70,
+    "environment": "The atmosphere becomes thick with tension, and shadows seem to deepen. It feels as if the walls themselves are closing in upon your decision.",
+    "interactive_environment_objects": [],
+    "interactive_npc": [
+      {
+        "name": "Ronan",
+        "additional_conditions": null,
+        "goal": "Convey the seriousness of the player's refusal and explore potential outcomes.",
+        "emotion_pool": [
+          {
+            "id": 0,
+            "trigger_condition": null,
+            "goal": "Assign tasks to the player, provide advice, and answer the player's questions."
+          },
+          {
+            "id": 1,
+            "trigger_condition": null,
+            "goal": "Seriously remind the player that this task is very important."
+          }
+        ]
+      }
+    ],
+    "key_questions": [
+      {
+        "id": "0",
+        "content": "What's player's reaction after knowing this task?"
+      },
+      {
+        "id": "1",
+        "content": "Is the player willing to accept Ronan's task?"
+      }
+    ],
+    "scene_end_state_reference": {
+      "end_condition1": "The player stands firm in their decision to refuse.",
+      "end_condition2": "The player shows signs of reconsideration."
+    }
+  }
+]
