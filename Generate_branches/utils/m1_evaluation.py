@@ -16,7 +16,23 @@ If the score is less than 50: The system continues the current NPC interaction w
 import json
 import requests
 from typing import Optional 
-from .embedding import EmbeddingEvaluator
+from .m1_embedding import EmbeddingEvaluator
+
+from Generate_branches.utils.constants import (
+    LLM_MODEL, 
+    LLM_BASE_URL, 
+    LLM_API_KEY, 
+    LLM_MAX_TOKENS, 
+    DEFAULT_NUM_ALTERNATIVES,
+    MIN_RATING_THRESHOLD,
+    NUM_LAYERS,
+    ROOT_TASK_ID,
+    DATA_ROOT_PATH,
+    SCRIPTED_SUBTASK_FOLDER,
+    SUBTASK_BRANCHES_FOLDER,
+    KEY_QUESTIONS_FILE,
+    BASE_DIR
+)
 
 class InputEvaluator:
     def __init__(self):
@@ -78,21 +94,35 @@ class InputEvaluator:
         else:
             print("No node exceeds score 70.")
     
-    def generate_new_node(self, player_input: str, current_scene: dict, best_node: dict, call_llm_api) -> Optional[dict]:
+    def generate_new_node(self, player_input: str, current_scene: dict, best_node: dict, call_llm_api, root_id: str = "T1") -> Optional[dict]:
+        # Determine parent_id and layer
+        parent_id = best_node.get('subtask_id', f"{root_id}.1")
+        layer = best_node.get('layer', 1) + 1
+
+        # Find the next available index for this parent (e.g., if .1.1 and .1.2 exist, next is .1.3)
+        existing_ids = [node.get('subtask_id', '') for node in current_scene.get('subtasks', [])]
+        next_index = 1
+        while f"{parent_id}.{next_index}" in existing_ids:
+            next_index += 1
+        new_subtask_id = f"{parent_id}.{next_index}"
         prompt = (
             f"Player input: '{player_input}'.\n"
             f"Current scene: {current_scene.get('name')}\n"
-            f"Best matching node: {best_node['title']}\n"
+            f"Best matching node: {best_node['title']}(ID: {parent_id})\n"
             # f"Generated layer number: {layer_number['layer_number']}\n"
-            "Generate a new node that bridges the player's input to the nearest upcoming layer. "
-            "Generate the node layer number which should be between this layer and the nearest upcoming layer"
-            "The NPC should only be the ones already in the scene description of this layer, dont create new names"
-            "Return the response in JSON format with the following structure:\n"
+            f"Generate a new node as a child of the above node, for layer {layer}.\n"
+            f"Use the following ID structure: the new node's subtask_id should be '{new_subtask_id}', and its parent_id should be '{parent_id}'.\n"
+            "The NPCs should only be those already in the scene description of this layer; do not create new names.\n"
+            "Return the response in JSON format with the following structure, and include a 'reason' field explaining why this node was generated based on the player's input and the narrative context:\n"
             "{\n"
+            "  \"subtask_id\": \"<new node id>\",\n"
+            "  \"parent_id\": \"<parent node id>\",\n"
+            "  \"layer\": <layer number>,\n"
             "  \"title\": \"<new node title>\",\n"
             "  \"description\": \"<new node description>\",\n"
             "  \"player_options\": [\"<option1>\", \"<option2>\", \"<option3>\"],\n"
             "  \"npc_reactions\": {\"<npc_name>\": \"<npc_reaction>\"}\n"
+            "  \"reason\": \"<explanation for why this node was generated>\"\n"
             "}"
         )
         evaluation = call_llm_api(prompt)

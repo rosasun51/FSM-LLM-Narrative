@@ -35,14 +35,19 @@ class MethodIEvaluationStrategy(EvaluationStrategy):
         evaluation = self.llm_api(prompt)
         # Process the evaluation result
         return self.process_llm_evaluation(evaluation, best_node)
+        print("Evaluating using Method I...")
+        # Your Method I evaluation code here
+        return {"method": "Method I", "result": "Evaluation result from Method I"}
 
 class MethodIIEvaluationStrategy(EvaluationStrategy):
     def __init__(self, pde_classifier):
         self.classifier = pde_classifier
 
     def evaluate(self, player_input, current_scene, available_nodes, **kwargs):
-        # Implementation using Method II's PDE classification
-        pass  # You'll need to fill this in based on your specific logic
+        # Method II evaluation logic using PDE classification
+        print("Evaluating using Method II...")
+        # Your Method II evaluation code here
+        return {"method": "Method II", "result": "Evaluation result from Method II"}
 
 class HybridEvaluationStrategy(EvaluationStrategy):
     def __init__(self, classifier, prompt_evaluator):
@@ -50,5 +55,7 @@ class HybridEvaluationStrategy(EvaluationStrategy):
         self.prompt_evaluator = prompt_evaluator
 
     def evaluate(self, player_input, current_scene, available_nodes, **kwargs):
-        # Implementation combining both methods
-        pass  # You'll need to fill this in based on your specific logic
+        # Hybrid evaluation logic combining both methods
+        print("Evaluating using Hybrid method...")
+        # Your hybrid evaluation code here
+        return {"method": "Hybrid", "result": "Evaluation result from Hybrid method"}

@@ -115,7 +115,8 @@ pip install pygraphviz
 
 ```bash
 # Run demo game with default task
-python -m Generate_branches.main --demo
+python -m Generate_branches.utils.sys_controller   
+python -m Generate_branches.main --demo 
 
 # Run with a specific task
 python -m Generate_branches.main --demo --task "Beginning"

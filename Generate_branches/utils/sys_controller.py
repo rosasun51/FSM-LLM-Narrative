@@ -14,17 +14,17 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 try:
     from utils.scene_controller import SceneController
     from utils.constants import LLM_API_KEY, LLM_MODEL, LLM_BASE_URL  # Import constants
+    from utils.m1_evaluation import InputEvaluator
+    from utils.config import EVALUATION_METHOD
+
 except ImportError:
     # Handle relative import
     from scene_controller import SceneController
     from .constants import LLM_API_KEY, LLM_MODEL, LLM_BASE_URL  # Import constants
+    from .m1_evaluation import InputEvaluator
+    from .config import EVALUATION_METHOD
 
-# Import evaluation.py
-# from utils.evaluation import evaluate_player_input, select_best_node, compare_with_evaluation, visualize_scores
-
-from utils.evaluation import InputEvaluator
-
-from evaluation_strategies import (
+from .evaluation_strategies import (
     EvaluationStrategy,
     OriginalEvaluationStrategy,
     MethodIEvaluationStrategy,
@@ -75,8 +75,6 @@ class BackgroundSimulator:
             return OriginalEvaluationStrategy(self.input_evaluator)
         
     def configure_evaluation_strategy(self):
-        from config_strategy import EVALUATION_METHOD
-
         if EVALUATION_METHOD == "original":
             return OriginalEvaluationStrategy(self.input_evaluator)
         elif EVALUATION_METHOD == "method_i":
@@ -400,7 +398,7 @@ class BackgroundSimulator:
                 break
 
     # Additional 0417: New add functionality         
-    def evaluate_player_input(self, player_input: str):
+    def evaluate_player_input(self, player_input: str, root_id: str = "T1"):
         """Evaluate player input using the new evaluation system."""
         if not self.current_scene:
             print("No active scene.")
@@ -638,7 +636,7 @@ class BackgroundSimulator:
         print("\nPlease provide your response to continue the scene...")
         # Don't show additional navigation options here
 
-    def call_llm_api(self, prompt):
+    def call_llm_api(self, prompt, retries=3, delay = 5) -> Optional[Dict]:
         api_url = f"{LLM_BASE_URL}/chat/completions"  # Adjusted endpoint
         headers = {
             "Authorization": f"Bearer {LLM_API_KEY}",  # Add Bearer prefix
@@ -666,19 +664,20 @@ class BackgroundSimulator:
             "temperature": 0.7,   # Adjust as needed
         }
         
-        try:
-            response = requests.post(api_url, headers=headers, json=payload, timeout=200)  # Increased timeout
-            response.raise_for_status()  # Raise an error for bad responses
-            
-            # Log the response for debugging
-            print("API Response:", response.json())  # Log the entire response
-            return response.json()  # Return the JSON response directly
-        except requests.exceptions.RequestException as e:
-            print(f"Error calling API: {e}")
-            return None
-        except json.JSONDecodeError as e:
-            print(f"Error decoding JSON response: {e}")
-            return None
+        for attempt in range(retries):
+            try:
+                response = requests.post(api_url, headers=headers, json=payload, timeout=300)  # Increased timeout
+                response.raise_for_status()  # Raise an error for bad responses
+                
+                # Log the response for debugging
+                print("API Response:", response.json())  # Log the entire response
+                return response.json()  # Return the JSON response directly
+            except requests.exceptions.RequestException as e:
+                print(f"Error calling API: {e}")
+                return None
+            except json.JSONDecodeError as e:
+                print(f"Error decoding JSON response: {e}")
+                return None
 
 
     # Add 04/17: Display all nodes & Visualize

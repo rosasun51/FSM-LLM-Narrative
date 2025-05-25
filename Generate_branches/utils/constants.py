@@ -17,7 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # ---------------------------
 # Model configuration
 LLM_MODEL = "gpt-4o-mini"
-LLM_BASE_URL = os.getenv("OPENAI_API_BASE","https://api.openai.com/v1")
+LLM_BASE_URL = os.getenv("OPENAI_API_BASE","https://api.ifopen.ai")
 LLM_API_KEY = os.getenv("OPENAI_API_KEY")
 LLM_MAX_TOKENS = 1000
 LLM_MAX_TOKENS_BRANCHES = 2500  # Higher token limit for generating branches
