@@ -2,381 +2,451 @@ import os
 import json
 from pyvis.network import Network
 import re
+from collections import defaultdict # Added for convenience
 
 # Define paths
 GENERATE_DATA_DIR = "Generate_branches/data"
 MIDDLE_DATA_DIR = "Middle_data"
+SCRIPTED_TASKS_FILE = os.path.join(GENERATE_DATA_DIR, "Scripted_tasks.json") # New constant
 OUTPUT_HTML_FILE = "task_visualization.html"
 
-def parse_filename_for_layer_and_type(filename_prefix):
-    match = re.match(r"^(scripted_subtask|subtask_branches)_layer(\d+)_(.+)$", filename_prefix)
-    if match:
-        type_indicator = match.group(1)
-        try:
-            layer_number = int(match.group(2))
-        except ValueError:
-            # This warning is kept as it indicates a malformed filename that affects parsing.
-            print(f"Warning: Could not parse layer number as integer from '{match.group(2)}' in filename prefix '{filename_prefix}'")
-            return None, None, None
-        unique_suffix = match.group(3)
-        return type_indicator, layer_number, unique_suffix
-    return None, None, None
+# --- Helper function to create HTML tooltips ---
+def create_html_tooltip(data, title_prefix=""):
+    """Creates an HTML string for node tooltips."""
+    if isinstance(data, str): # For simple string content like key questions
+        escaped_content = data.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\\n", "<br>")
+        return f"<strong>{title_prefix.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')}</strong><br>{escaped_content}"
 
-def load_subtask_data_from_files(generate_dir, middle_dir):
-    all_granular_subtasks = []
-    # To collect data for creating Layer Nodes: set of (task_base_name, layer_num)
-    layer_node_identifiers = set()
+    html_parts = []
+    if title_prefix:
+        html_parts.append(f"<strong>{title_prefix.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')}</strong><br><br>")
 
-    if not os.path.exists(generate_dir):
-        print(f"Error: Source data directory '{generate_dir}' not found.")
-        return [], set()
+    if isinstance(data, dict):
+        for key, value in data.items():
+            key_html = str(key).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+            if isinstance(value, (dict, list)):
+                # Pretty print JSON for complex types, then escape
+                value_str = json.dumps(value, indent=2, ensure_ascii=False)
+                value_html = value_str.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\\n", "<br>")
+                html_parts.append(f"<strong>{key_html}:</strong><br><pre>{value_html}</pre><br>")
+            else:
+                value_html = str(value).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\\n", "<br>")
+                html_parts.append(f"<strong>{key_html}:</strong> {value_html}<br>")
+    elif isinstance(data, list):
+        # Pretty print JSON for lists, then escape
+        value_str = json.dumps(data, indent=2, ensure_ascii=False)
+        value_html = value_str.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\\n", "<br>")
+        html_parts.append(f"<pre>{value_html}</pre>")
+    else: # Fallback for other data types
+        html_parts.append(str(data).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;"))
     
+    return "".join(html_parts)
+
+# --- New function to load scripted tasks ---
+def load_scripted_tasks(file_path):
+    """Loads the main task definitions from Scripted_tasks.json."""
+    if not os.path.exists(file_path):
+        print(f"Error: Scripted tasks file '{file_path}' not found.")
+        return []
     try:
-        task_run_folder_names = [d for d in os.listdir(generate_dir) if os.path.isdir(os.path.join(generate_dir, d))]
+        with open(file_path, 'r', encoding='utf-8') as f:
+            tasks_raw = json.load(f)
+        
+        valid_tasks = []
+        if not isinstance(tasks_raw, list):
+            print(f"Warning: Content of {file_path} is not a list. Skipping task loading.")
+            return []
+            
+        for i, task_data in enumerate(tasks_raw):
+            if not isinstance(task_data, dict):
+                print(f"Warning: Item at index {i} in {file_path} is not a dictionary. Skipping this item.")
+                continue
+
+            task_name = task_data.get("name") or task_data.get("scene_name") # Try 'name', then 'scene_name'
+            
+            if task_name and isinstance(task_name, str):
+                # If 'scene_name' was used, we might want to add it as 'name' for consistency downstream
+                if "name" not in task_data and "scene_name" in task_data:
+                    task_data["name"] = task_name 
+                valid_tasks.append(task_data)
+            else:
+                print(f"Warning: Skipping task at index {i} in {file_path} due to missing or invalid 'name' or 'scene_name'. Task data snippet: {str(task_data)[:100]}")
+        return valid_tasks
+    except json.JSONDecodeError as e:
+        print(f"Error decoding JSON from '{file_path}': {e}")
+        return []
+    except Exception as e:
+        print(f"An unexpected error occurred while loading '{file_path}': {e}")
+        return []
+
+# --- New data loading logic for scripted subtasks and branches ---
+def load_all_layer_data(generate_dir, task_names_from_scripted_json):
+    all_tasks_data = defaultdict(lambda: defaultdict(lambda: {"scripted_subtasks": [], "subtask_branches": []}))
+    
+    if not os.path.exists(generate_dir):
+        print(f"Error: Generate data directory '{generate_dir}' not found. Cannot load layer data.")
+        return all_tasks_data
+   
+    response_file_pattern = re.compile(r"^(scripted_subtask|subtask_branches)_layer(\d+)_(.+?)_response\.json$")
+
+    # Map canonical task names (from Scripted_tasks.json) to their folder names in generate_dir
+    task_name_to_folder_name_map = {}
+
+    # Helper to normalize names for comparison (lowercase, remove spaces and underscores)
+    def normalize_task_name_for_matching(name_str):
+        if not isinstance(name_str, str):
+            return ""
+        return name_str.lower().replace(" ", "").replace("_", "")
+
+    # Create a map of normalized canonical names to original canonical names
+    normalized_to_canonical_map = {
+        normalize_task_name_for_matching(name): name for name in task_names_from_scripted_json
+    }
+    
+    # Regex to extract base name (part before a _YYYYMMDD_HHMMSS timestamp like pattern)
+    base_name_regex = re.compile(r"(.+?)_(\d{8})_(\d{6})$")
+
+    try:
+        potential_task_folders = [d for d in os.listdir(generate_dir) if os.path.isdir(os.path.join(generate_dir, d))]
+        
+        for folder_name_in_fs in potential_task_folders:
+            base_name_from_folder_fs = folder_name_in_fs # Default to full name
+            match = base_name_regex.match(folder_name_in_fs)
+            if match:
+                base_name_from_folder_fs = match.group(1) # Extracted base name, e.g., "Meet_with_Meredith_Stout"
+            
+            normalized_base_from_folder = normalize_task_name_for_matching(base_name_from_folder_fs)
+
+            if normalized_base_from_folder in normalized_to_canonical_map:
+                original_canonical_name = normalized_to_canonical_map[normalized_base_from_folder]
+                if original_canonical_name not in task_name_to_folder_name_map:
+                    task_name_to_folder_name_map[original_canonical_name] = folder_name_in_fs
+                else:
+                    print(f"Warning: Duplicate canonical task name '{original_canonical_name}' found in '{generate_dir}'. Using first occurrence.")
+
+        # --- DIAGNOSTIC PRINT 1 --- 
+        print(f"DIAGNOSTIC: task_name_to_folder_name_map = {json.dumps(task_name_to_folder_name_map, indent=2)}")
+
+        # After attempting to map all folders, check which canonical tasks didn't get a mapping
+        # and issue warnings for them.
+        for canonical_name_iter in task_names_from_scripted_json:
+            if canonical_name_iter not in task_name_to_folder_name_map:
+                 print(f"Warning: No data folder successfully mapped in '{generate_dir}' for task '{canonical_name_iter}'. Subtask data for this task will be missing.")
+
     except OSError as e:
-        print(f"Error accessing source data directory '{generate_dir}': {e}")
-        return [], set()
+        print(f"Error accessing generate_dir '{generate_dir}': {e}")
+        return all_tasks_data
 
-    response_file_pattern = re.compile(r"(.+)_response\.json$")
-
-    for task_run_folder_name in task_run_folder_names:
+    for canonical_task_name, task_run_folder_name in task_name_to_folder_name_map.items():
         task_run_root_path = os.path.join(generate_dir, task_run_folder_name)
-        task_base_name_for_display = task_run_folder_name.split('_')[0] if '_' in task_run_folder_name else task_run_folder_name
+        # --- DIAGNOSTIC PRINT 2 (part a) --- 
+        print(f"DIAGNOSTIC: Processing task folder: '{task_run_root_path}' for canonical task: '{canonical_task_name}'")
 
-        for dirpath, _, filenames in os.walk(task_run_root_path):
+        for dirpath, dirnames, filenames in os.walk(task_run_root_path):
+            # --- DIAGNOSTIC PRINT 2 (part b) --- 
+            print(f"DIAGNOSTIC: Walking dirpath: '{dirpath}', subdirs: {dirnames}, files: {filenames}")
+            
             for file_name in filenames:
-                match_response = response_file_pattern.match(file_name)
-                if not match_response:
+                # --- DIAGNOSTIC PRINT 3 (part a) --- 
+                print(f"DIAGNOSTIC: Checking file: '{file_name}' in dirpath: '{dirpath}'")
+                match = response_file_pattern.match(file_name)
+                # --- DIAGNOSTIC PRINT 3 (part b) --- 
+                if match:
+                    print(f"DIAGNOSTIC: YES - Pattern matched for '{file_name}'. Type: {match.group(1)}, Layer: {match.group(2)}, Suffix: {match.group(3)}")
+                else:
+                    print(f"DIAGNOSTIC: NO - Pattern did NOT match for '{file_name}'.")
+
+                if not match:
                     continue
+
+                file_type_indicator = match.group(1) # "scripted_subtask" or "subtask_branches"
+                try:
+                    layer_num = int(match.group(2))
+                except ValueError:
+                    print(f"Warning: Could not parse layer number from filename '{file_name}' in '{dirpath}'. Skipping.")
+                    continue
+
+                # The content IS the _response.json file itself as per user request.
+                content_json_full_path = os.path.join(dirpath, file_name)
+
+                # --- DIAGNOSTIC PRINT 4 --- 
+                print(f"DIAGNOSTIC: Attempting to load content from (now using response file itself): '{content_json_full_path}'")
+
+                loaded_content = None
+                if not os.path.exists(content_json_full_path):
+                    print(f"Warning: Content file '{content_json_full_path}' for response trigger '{file_name}' not found. No data to load for this item.")
+                    # We might still want to represent that a layer/type exists but has no content,
+                    # but for now, if content is missing, we skip adding it.
+                    continue 
                 
-                original_filename_prefix = match_response.group(1)
-                file_type_indicator, file_layer_num, file_unique_suffix = parse_filename_for_layer_and_type(original_filename_prefix)
-
-                if file_type_indicator is None:
-                    # This warning means the filename itself doesn't match the expected pattern.
-                    print(f"Warning: Could not parse filename structure from '{original_filename_prefix}' (from file '{file_name}'). Skipping this file.")
-                    continue
-
-                is_from_scripted_file = (file_type_indicator == "scripted_subtask")
-                layer_node_identifiers.add((task_base_name_for_display, file_layer_num))
-
-                relative_subdir_in_task = os.path.relpath(dirpath, task_run_root_path)
-                middle_content_path_base = os.path.join(middle_dir, task_run_folder_name, relative_subdir_in_task)
-                content_json_full_path = os.path.join(middle_content_path_base, f"{original_filename_prefix}.json")
-
-                raw_json_data_from_file = None # Store raw loaded data for potential use
-                json_load_error = False
                 try:
                     with open(content_json_full_path, 'r', encoding='utf-8') as f_content:
-                        raw_json_data_from_file = json.load(f_content)
-                except FileNotFoundError:
-                    raw_json_data_from_file = {"_FILE_NOT_FOUND_": True}
+                        loaded_content = json.load(f_content)
                 except json.JSONDecodeError as e:
-                    print(f"Warning: Error decoding JSON from '{content_json_full_path}' for '{original_filename_prefix}'. Error: {str(e)[:100]}")
-                    raw_json_data_from_file = {"_JSON_ERROR_DETAILS_": str(e)}
-                    json_load_error = True
-                
-                entries_for_this_file = []
+                    print(f"Warning: Error decoding JSON from '{content_json_full_path}'. Error: {str(e)[:100]}. Skipping this content.")
+                    continue
+                except Exception as e:
+                    print(f"Warning: Could not read/process content file '{content_json_full_path}'. Error: {e}. Skipping this content.")
+                    continue
 
-                # Case 1: Layer 1 Scripted file, potentially with "key_questions"
-                if is_from_scripted_file and isinstance(raw_json_data_from_file, dict) and "key_questions" in raw_json_data_from_file and isinstance(raw_json_data_from_file.get("key_questions"), list):
-                    key_questions_list = raw_json_data_from_file["key_questions"]
-                    if not key_questions_list:
-                        entries_for_this_file.append({
-                            "id_suffix": "_empty_kq_list",
-                            "label_hint": "Empty Key Questions List",
-                            "tooltip_data_override": {"status": "'key_questions' list is empty.", "file_content": raw_json_data_from_file},
-                            "is_generic_file_info_node": True
-                        })
+                if loaded_content is None: # Should not happen if file exists and no error, but as a safeguard
+                    continue
+
+                # Add loaded content to the correct part of all_tasks_data
+                if file_type_indicator == "scripted_subtask":
+                    # Expecting a list of subtasks or a single subtask dict
+                    if isinstance(loaded_content, list):
+                        all_tasks_data[canonical_task_name][layer_num]["scripted_subtasks"].extend(loaded_content)
+                    elif isinstance(loaded_content, dict): # Single subtask object
+                        all_tasks_data[canonical_task_name][layer_num]["scripted_subtasks"].append(loaded_content)
                     else:
-                        for kq_item in key_questions_list:
-                            if isinstance(kq_item, dict) and "id" in kq_item and "content" in kq_item:
-                                entries_for_this_file.append({
-                                    "id_suffix": f"_kq_{kq_item['id']}",
-                                    "label_override": f"Key Question {kq_item['id']}",
-                                    "tooltip_data_override": str(kq_item['content']), # Just the content string
-                                    "is_individual_key_question": True,
-                                    "kq_id_for_tooltip_header": kq_item['id'],
-                                    "original_file_layer_num_for_kq": file_layer_num # Store layer number for KQ
-                                })
-                            else:
-                                entries_for_this_file.append({
-                                    "id_suffix": f"_malformed_kq_{kq_item.get('id', 'unknown')}",
-                                    "label_hint": f"Malformed KQ {kq_item.get('id', 'unknown')}",
-                                    "tooltip_data_override": {"status": "Malformed item in 'key_questions' list.", "item_data": kq_item},
-                                    "is_generic_file_info_node": True
-                                })
-                # Case 2: Standard subtask(s) - list of dicts with "subtask_id", or single dict with "subtask_id"
-                elif isinstance(raw_json_data_from_file, list) and all(isinstance(item, dict) and "subtask_id" in item for item in raw_json_data_from_file):
-                    for item in raw_json_data_from_file:
-                        entries_for_this_file.append({"subtask_data": item})
-                elif isinstance(raw_json_data_from_file, dict) and "subtask_id" in raw_json_data_from_file and not json_load_error:
-                     entries_for_this_file.append({"subtask_data": raw_json_data_from_file})
-                # Case 3: Fallback to a generic file-level node for other cases (error, missing, or unexpected structure)
-                else:
-                    status_msg = "(File content missing or empty)"
-                    tooltip_content = {"status": status_msg}
-                    if raw_json_data_from_file is not None and "_FILE_NOT_FOUND_" in raw_json_data_from_file:
-                         pass # Already set
-                    elif json_load_error:
-                        status_msg = "(Error decoding JSON content)"
-                        tooltip_content = {"status": status_msg, "error_details": raw_json_data_from_file.get("_JSON_ERROR_DETAILS_", "Unknown")}
-                    elif raw_json_data_from_file is not None: # Some other structure
-                        status_msg = "(Unexpected JSON Structure for subtasks)"
-                        tooltip_content = {"status": status_msg, "file_content_snippet": str(raw_json_data_from_file)[:200]+"...".strip()}
+                        print(f"Warning: Unexpected data type for scripted_subtask in {content_json_full_path}. Expected list or dict, got {type(loaded_content)}.")
+                
+                elif file_type_indicator == "subtask_branches":
+                    # Expecting a list of branches, or a dict with a "subtask_branches" key holding a list
+                    branches_to_add = []
+                    if isinstance(loaded_content, list):
+                        branches_to_add = loaded_content
+                    elif isinstance(loaded_content, dict) and "subtask_branches" in loaded_content and isinstance(loaded_content["subtask_branches"], list):
+                        branches_to_add = loaded_content["subtask_branches"]
+                    elif isinstance(loaded_content, dict) and "subtask_id" in loaded_content: # A single branch object
+                         branches_to_add = [loaded_content]
+                    else:
+                        print(f"Warning: Unexpected data type or structure for subtask_branches in {content_json_full_path}. Expected list or dict with 'subtask_branches' list. Data: {str(loaded_content)[:100]}...")
+
+                    # Ensure subtask_id format (task_name.layer_num.true_id) and uniqueness if needed for this layer
+                    processed_branches = []
+                    seen_branch_ids_for_layer = set()
+                    for branch in branches_to_add:
+                        if not isinstance(branch, dict) or "subtask_id" not in branch:
+                            print(f"Warning: Skipping malformed branch in {content_json_full_path}: {str(branch)[:100]}")
+                            continue
+                        
+                        # Validate subtask_id format: task_name.layer_num.true_id
+                        # Example: Beginning.1.branchA
+                        # We primarily need to ensure it's attached to the correct layer_num derived from the filename.
+                        # The `subtask_id` itself in the JSON is used for display/tooltip.
+                        # The filename's layer_num is the authority for which layer it belongs to.
+                        
+                        # Simple uniqueness check for this processing batch for this layer
+                        branch_id_for_uniqueness = branch["subtask_id"] 
+                        if branch_id_for_uniqueness not in seen_branch_ids_for_layer:
+                            processed_branches.append(branch)
+                            seen_branch_ids_for_layer.add(branch_id_for_uniqueness)
+                        # else: print(f"Info: Duplicate subtask_id '{branch_id_for_uniqueness}' within branches from {content_json_full_path}. Keeping first instance.")
                     
-                    entries_for_this_file.append({
-                        "id_suffix": "_file_info",
-                        "label_hint": status_msg,
-                        "tooltip_data_override": tooltip_content,
-                        "is_generic_file_info_node": True
-                    })
+                    all_tasks_data[canonical_task_name][layer_num]["subtask_branches"].extend(processed_branches)
 
-                # Process the collected entries for the current file
-                for entry_detail in entries_for_this_file:
-                    is_individual_kq = entry_detail.get("is_individual_key_question", False)
-                    is_generic_file_node = entry_detail.get("is_generic_file_info_node", False)
-                    
-                    # Ensure unique KQ node IDs by incorporating task_base and layer
-                    if is_individual_kq:
-                        kq_original_layer = entry_detail.get("original_file_layer_num_for_kq", file_layer_num)
-                        node_id = f"KQ_{task_base_name_for_display}_L{kq_original_layer}_kq_{entry_detail['kq_id_for_tooltip_header']}"
-                    elif is_generic_file_node:
-                        node_id = original_filename_prefix + entry_detail["id_suffix"]
-                    else: # Standard subtask
-                        node_id = f"{original_filename_prefix}_{entry_detail['subtask_data']['subtask_id']}"
-                    
-                    label = ""
-                    tooltip_data_for_node = None
-                    kq_id_for_header = None
+    return all_tasks_data
 
-                    if is_individual_kq:
-                        label = entry_detail["label_override"]
-                        tooltip_data_for_node = entry_detail["tooltip_data_override"]
-                        kq_id_for_header = entry_detail.get("kq_id_for_tooltip_header")
-                    elif is_generic_file_node:
-                        label = f"FILE: {original_filename_prefix[:20]}... ({entry_detail['label_hint'][:15].strip('()')}...)"
-                        if len(label) > 45 : label = label[:42]+"...)"
-                        tooltip_data_for_node = entry_detail["tooltip_data_override"]
-                    else: # Standard subtask
-                        subtask_obj = entry_detail["subtask_data"]
-                        label = f"{subtask_obj.get('title', subtask_obj['subtask_id'])[:25]}"
-                        if len(label) == 25 and not label.endswith("..."): label += "..."
-                        tooltip_data_for_node = subtask_obj
-                    
-                    all_granular_subtasks.append({
-                        "id": node_id,
-                        "label": label, 
-                        "pyvis_level": file_layer_num, # KQs and subtasks share the same pyvis_level as their original file
-                        "is_from_scripted_file": is_from_scripted_file,
-                        "task_base_name": task_base_name_for_display,
-                        "original_file_layer_num": file_layer_num, 
-                        "tooltip_data": tooltip_data_for_node, 
-                        "is_generic_file_info_node": is_generic_file_node, # Covers all non-standard-subtask, non-KQ file reps
-                        "is_individual_key_question": is_individual_kq,
-                        "kq_id_for_tooltip_header": kq_id_for_header
-                    })
-                                
-    if not os.path.exists(middle_dir) and any(ln[0] for ln in layer_node_identifiers): # only warn if middle_dir is expected to be used
-        print(f"Warning: Middle data directory '{middle_dir}' not found. Tooltips might be missing details.")
+# --- New network population logic ---
+def populate_network_new(net, scripted_tasks, all_layer_data):
+    nodes_added = set() # To prevent adding the same node ID twice globally
+    pyvis_level_counter = 0 # Increment for each major element (Task, KQ, LayerHub, End) for vertical spacing
 
-    return all_granular_subtasks, layer_node_identifiers
+    # Sort scripted_tasks by their original order in the JSON if that's desired,
+    # or by name if consistency across runs is more important than input order.
+    # Assuming original order is fine.
 
-def get_tooltip_html(tooltip_data, node_label_for_title, is_generic_file_info_node, is_individual_key_question, kq_id_for_header):
-    node_label_html = node_label_for_title.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-    
-    tooltip_html_parts = [
-        f"<strong>{node_label_html}</strong><br>"
-    ]
-
-    if is_individual_key_question:
-        header_text = f"Content for Key Question {kq_id_for_header if kq_id_for_header else ''}"
-        tooltip_html_parts.append(f"<strong>{header_text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')}:</strong><br>")
-        escaped_kq_content = str(tooltip_data).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\\n", "<br>")
-        tooltip_html_parts.append(escaped_kq_content)
-    elif is_generic_file_info_node:
-        status_message = tooltip_data.get("status", "File information node.")
-        tooltip_html_parts.append(f"{status_message.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')}<br>")
-        
-        details_json_str = json.dumps(tooltip_data, indent=2, ensure_ascii=False)
-        details_json_str_escaped = details_json_str.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-        tooltip_html_parts.extend([
-            f"<strong>Details:</strong><br>",
-            f"<pre>{details_json_str_escaped}</pre>"
-        ])
-    else: # Standard subtask
-        internal_subtask_id = tooltip_data.get("subtask_id", "N/A")
-        title = tooltip_data.get("title", "(No Title provided in JSON)")
-        description = tooltip_data.get("description", "(No Description provided in JSON)")
-        tooltip_html_parts.extend([
-            f"<strong>Internal ID:</strong> {internal_subtask_id}<br>",
-            f"<strong>Title:</strong> {title.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')}<br>",
-            f"<strong>Description:</strong> {description.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')}<br>"
-        ])
-        
-        details_json_str = json.dumps(tooltip_data, indent=2, ensure_ascii=False)
-        details_json_str_escaped = details_json_str.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-        tooltip_html_parts.extend([
-            f"<strong>Full JSON Details:</strong><br>",
-            f"<pre>{details_json_str_escaped}</pre>"
-        ])
-    
-    return "".join(tooltip_html_parts)
-
-def populate_network(net, granular_subtasks_list, layer_node_identifiers_set):
-    nodes_added_to_graph = set() # To prevent adding the same node ID twice
-    
-    # Store Key Question node IDs for linking
-    task_layer_to_kq_node_id = {}
-
-    # 1. Create Layer Nodes
-    # Sort layer identifiers for consistent processing (task name, then layer num)
-    sorted_layer_identifiers = sorted(list(layer_node_identifiers_set), key=lambda x: (x[0], x[1]))
-    task_to_layer_nodes = {}
-
-    for task_base, layer_num in sorted_layer_identifiers:
-        layer_node_id = f"LAYER_NODE_{task_base}_L{layer_num}"
-        if layer_node_id not in nodes_added_to_graph:
-            net.add_node(layer_node_id, 
-                         label=f"{task_base} - Layer {layer_num}", 
-                         level=layer_num, # This sets the hierarchical level
-                         shape="diamond", 
-                         color="#FFD700", # Gold for layer nodes
-                         size=25,
-                         font={"size": 16, "face": "Verdana", "bold": True})
-            nodes_added_to_graph.add(layer_node_id)
-        if task_base not in task_to_layer_nodes:
-            task_to_layer_nodes[task_base] = []
-        task_to_layer_nodes[task_base].append((layer_num, layer_node_id))
-
-    # 2. Create Granular Subtask Nodes (including Key Questions)
-    for subtask_detail in granular_subtasks_list:
-        node_id = subtask_detail["id"]
-        if node_id in nodes_added_to_graph:
+    for task_index, task in enumerate(scripted_tasks):
+        task_name = task.get("name")
+        if not task_name:
+            print(f"Warning: Skipping task at index {task_index} due to missing 'name'.")
             continue
+
+        # --- 1. Task Node ---
+        task_node_id = f"TASK_{task_name.replace(' ', '_').upper()}" # Ensure unique and clean ID
+        if task_node_id in nodes_added: # Should ideally not happen if task names are unique
+             task_node_id += f"_idx{task_index}" # Make unique if names clash
         
-        label = subtask_detail["label"]
-        tooltip = get_tooltip_html(subtask_detail["tooltip_data"], label, subtask_detail["is_generic_file_info_node"], subtask_detail["is_individual_key_question"], subtask_detail.get("kq_id_for_tooltip_header"))
+        task_tooltip = create_html_tooltip(task, title_prefix=f"Task: {task_name}")
+        net.add_node(task_node_id, label=task_name, title=task_tooltip, level=pyvis_level_counter,
+                     shape="box", color="#4CAF50", size=20, 
+                     font={"size": 14, "face": "Verdana", "bold": True})
+        nodes_added.add(task_node_id)
         
-        shape = "box" 
-        color = "#ADD8E6" # Light blue for Key Questions and scripted subtasks by default
+        last_connected_node_in_main_chain = task_node_id
+        pyvis_level_counter += 1
 
-        if subtask_detail["is_individual_key_question"]:
-            # Key Question specific appearance
-            shape = "box" 
-            color = "#A7C7E7" # Periwinkle blue for Key Questions (example)
-            # Store its ID for linking
-            task_base = subtask_detail["task_base_name"]
-            kq_layer = subtask_detail["original_file_layer_num"]
-            task_layer_to_kq_node_id[(task_base, kq_layer)] = node_id
-        elif subtask_detail["is_generic_file_info_node"]:
-            color = "#D3D3D3" # Grey for generic file-level nodes
-            shape = "ellipse" 
-        elif not subtask_detail["is_from_scripted_file"]: # Branched subtasks (green nodes)
-            shape = "dot"
-            color = "#90EE90" # Light green for branched (dot)
-        # Else, it's a scripted subtask (that isn't a KQ or generic file node), keep default shape/color from above
+        key_questions = task.get("key_questions")
+        if key_questions is None: # Handles 'null' from JSON
+            key_questions = [] 
+        elif not isinstance(key_questions, list):
+            print(f"Warning: 'key_questions' for task '{task_name}' is not a list. Found: {type(key_questions)}. Treating as empty.")
+            key_questions = []
 
-        net.add_node(node_id, 
-                     label=label, 
-                     title=tooltip, 
-                     level=subtask_detail["pyvis_level"], # granular nodes are at the same level as their layer node
-                     shape=shape, 
-                     color=color,
-                     font={"size": 10, "face": "Arial"})
-        nodes_added_to_graph.add(node_id)
+        # Sort key questions by 'id' field if possible, assuming 'id' is numeric or string convertible to int
+        try:
+            # Ensure 'id' exists and is not None before trying to convert to int
+            key_questions_sorted = sorted(
+                [kq for kq in key_questions if kq and kq.get('id') is not None], 
+                key=lambda kq: int(kq['id'])
+            )
+        except (ValueError, TypeError) as e:
+            print(f"Warning: Could not sort key questions by ID for task '{task_name}' due to non-integer or missing IDs. Using original order. Error: {e}")
+            key_questions_sorted = key_questions # Use original order if sorting fails
 
-    # 3. Create Layer-to-Layer Edges (Diamond to Diamond)
-    for task_base, layers in task_to_layer_nodes.items():
-        # Sort layers by number to connect them sequentially
-        sorted_layers = sorted(layers, key=lambda x: x[0]) 
-        for i in range(len(sorted_layers) - 1):
-            source_layer_node_id = sorted_layers[i][1]
-            target_layer_node_id = sorted_layers[i+1][1]
-            net.add_edge(source_layer_node_id, target_layer_node_id, color="#555555", width=3, dashes=False)
+        task_specific_layer_data = all_layer_data.get(task_name, defaultdict(lambda: {"scripted_subtasks": [], "subtask_branches": []}))
 
-    # 4. Create Edges: Layer Node -> KQ Node -> Granular Subtasks
-    for subtask_detail in granular_subtasks_list:
-        granular_node_id = subtask_detail["id"]
-        task_base = subtask_detail["task_base_name"]
-        file_layer = subtask_detail["original_file_layer_num"]
+        for kq_index, kq_item in enumerate(key_questions_sorted):
+            kq_id = kq_item.get("id", f"autoID_{kq_index}")
+            kq_content = kq_item.get("content", "N/A")
+
+            # --- 2. Key Question Node ---
+            kq_node_id = f"KQ_{task_name.replace(' ', '_').upper()}_KQID_{str(kq_id).replace(' ', '_')}"
+            if kq_node_id in nodes_added: kq_node_id += f"_idx{kq_index}"
+
+            kq_label = f"KQ {kq_id}: {str(kq_content)[:35]}{'...' if len(str(kq_content)) > 35 else ''}"
+            # kq_tooltip_text = f"Task: {task_name}\\nKey Question ID: {kq_id}\\n\\n{kq_content}" # Old way, create_html_tooltip is better
+            kq_tooltip = create_html_tooltip(kq_item, title_prefix=f"Key Question {kq_id} (for Task: {task_name})")
+
+            net.add_node(kq_node_id, label=kq_label, title=kq_tooltip, level=pyvis_level_counter,
+                         shape="box", color="#A7C7E7", font={"size": 11}) # Periwinkle blue
+            nodes_added.add(kq_node_id)
+            net.add_edge(last_connected_node_in_main_chain, kq_node_id, color="#AAAAAA", width=2)
+            last_connected_node_in_main_chain = kq_node_id
+            pyvis_level_counter += 1
+            
+            # --- 3. Layer Hub Node (associated with this KQ) ---
+            data_layer_num = kq_index + 1 # Layer 1 for first KQ, Layer 2 for second, etc.
+
+            layer_hub_node_id = f"LAYERHUB_{task_name.replace(' ', '_').upper()}_L{data_layer_num}"
+            if layer_hub_node_id in nodes_added: layer_hub_node_id += f"_idx{kq_index}"
+
+            net.add_node(layer_hub_node_id, label=f"{task_name} - Layer {data_layer_num}", 
+                         level=pyvis_level_counter, shape="diamond", color="#FFD700", size=25,
+                         font={"size": 16, "face": "Verdana", "bold": True},
+                         title=f"Hub for Layer {data_layer_num} items of Task: {task_name}")
+            nodes_added.add(layer_hub_node_id)
+            net.add_edge(last_connected_node_in_main_chain, layer_hub_node_id, color="#888888", width=2.5)
+            last_connected_node_in_main_chain = layer_hub_node_id
+            
+            child_pyvis_level = pyvis_level_counter + 0.5
+
+            layer_items = task_specific_layer_data.get(data_layer_num, {"scripted_subtasks": [], "subtask_branches": []})
+
+            # Scripted Subtasks for this layer
+            for s_idx, scripted_item in enumerate(layer_items.get("scripted_subtasks", [])):
+                s_id_val = scripted_item.get("subtask_id", scripted_item.get("id", f"autoS_{s_idx}"))
+                s_node_id = f"SCRIPTED_{task_name.replace(' ', '_').upper()}_L{data_layer_num}_ID_{str(s_id_val).replace(' ', '_')}"
+                if s_node_id in nodes_added: s_node_id += f"_sidx{s_idx}"
+                
+                s_label = str(scripted_item.get('title', s_id_val))[:40]
+                if len(str(scripted_item.get('title', s_id_val))) > 40: s_label += "..."
+                s_tooltip = create_html_tooltip(scripted_item, title_prefix=f"Scripted: {scripted_item.get('title', s_id_val)} (Layer {data_layer_num})")
+                
+                net.add_node(s_node_id, label=s_label, title=s_tooltip, level=child_pyvis_level,
+                             shape="box", color="#ADD8E6", font={"size": 10}) # Light Blue
+                nodes_added.add(s_node_id)
+                net.add_edge(layer_hub_node_id, s_node_id, color="#C0C0C0", width=1, length=100)
+
+            # Subtask Branches for this layer
+            for b_idx, branch_item in enumerate(layer_items.get("subtask_branches", [])):
+                b_id_val = branch_item.get("subtask_id", f"autoB_{b_idx}")
+                b_node_id = f"BRANCH_{task_name.replace(' ', '_').upper()}_L{data_layer_num}_ID_{str(b_id_val).replace('.', '_').replace(' ', '_')}"
+                if b_node_id in nodes_added: b_node_id += f"_bidx{b_idx}"
+
+                b_label = str(branch_item.get('title', b_id_val))[:40]
+                if len(str(branch_item.get('title', b_id_val))) > 40: b_label += "..."
+                b_tooltip = create_html_tooltip(branch_item, title_prefix=f"Branch: {branch_item.get('title', b_id_val)} (Layer {data_layer_num})")
+
+                net.add_node(b_node_id, label=b_label, title=b_tooltip, level=child_pyvis_level,
+                             shape="dot", color="#90EE90", size=12, font={"size": 10}) # Light Green
+                nodes_added.add(b_node_id)
+                net.add_edge(layer_hub_node_id, b_node_id, color="#D0D0D0", width=1, length=120)
+
+            pyvis_level_counter += 1
+
+        # --- 4. Scene End State Node ---
+        end_state_ref = task.get("scene_end_state_reference", "No end state defined.")
+        end_node_id = f"END_{task_name.replace(' ', '_').upper()}"
+        if end_node_id in nodes_added: end_node_id += f"_idx{task_index}"
+
+        end_tooltip = create_html_tooltip(end_state_ref, title_prefix=f"End State: {task_name}")
+        net.add_node(end_node_id, label=f"{task_name} - End", title=end_tooltip,
+                     level=pyvis_level_counter,
+                     shape="ellipse", color="#E91E63", size=15, font={"size": 12})
+        nodes_added.add(end_node_id)
+        net.add_edge(last_connected_node_in_main_chain, end_node_id, color="#AAAAAA", width=2, dashes=True)
         
-        parent_layer_node_id = f"LAYER_NODE_{task_base}_L{file_layer}"
-        kq_node_id_for_layer = task_layer_to_kq_node_id.get((task_base, file_layer))
-
-        if subtask_detail["is_individual_key_question"]:
-            # Edge from Layer Node to this Key Question Node
-            if parent_layer_node_id in nodes_added_to_graph and granular_node_id in nodes_added_to_graph:
-                net.add_edge(parent_layer_node_id, granular_node_id, color="#B0B0B0", width=1.5, arrows="to", length=50)
-        elif not subtask_detail["is_generic_file_info_node"]: 
-            # This is a granular subtask (green node or other non-KQ, non-file node)
-            # Edge from KQ Node to this Granular Subtask
-            if kq_node_id_for_layer and kq_node_id_for_layer in nodes_added_to_graph and granular_node_id in nodes_added_to_graph:
-                net.add_edge(kq_node_id_for_layer, granular_node_id, color="#C0C0C0", width=1, arrows="to", length=50)
-            # Fallback: if no KQ node for this layer, connect directly from Layer Node (maintains some connectivity)
-            elif parent_layer_node_id in nodes_added_to_graph and granular_node_id in nodes_added_to_graph:
-                print(f"Warning: KQ Node not found for layer {file_layer} of task {task_base}. Connecting subtask '{granular_node_id}' directly to Layer Node '{parent_layer_node_id}'.")
-                net.add_edge(parent_layer_node_id, granular_node_id, color="#E0E0E0", width=1, dashes=True, arrows="to", length=50) # Dashed line for fallback
-        # Generic file info nodes are not typically connected further from layer nodes unless they are KQs (handled above)
+        pyvis_level_counter += 2
 
 PYVIS_OPTIONS = """
     var options = {
       "layout": {
         "hierarchical": {
           "enabled": true,
-          "levelSeparation": 250, 
-          "nodeSpacing": 110, 
-          "treeSpacing": 160,
+          "levelSeparation": 200,
+          "nodeSpacing": 120,
+          "treeSpacing": 180,
           "blockShifting": true,
           "edgeMinimization": true,
-          "parentCentralization": true,
-          "direction": "UD", 
-          "sortMethod": "hierarchical" 
+          "parentCentralization": false,
+          "direction": "UD",
+          "sortMethod": "hierarchical"
         }
       },
       "interaction": {
         "hover": true,
-        "tooltipDelay": 200
+        "tooltipDelay": 200,
+        "navigationButtons": true,
+        "keyboard": true
       },
       "physics": {
-        "enabled": false 
+        "enabled": false
       },
       "nodes": {
         "borderWidth": 1,
         "borderWidthSelected": 2,
-        "font": { "size": 11 }
+        "font": { "size": 11, "face": "Arial" }
       },
       "edges": {
         "smooth": {
             "enabled": true,
-            "type": "dynamic", 
-            "roundness": 0.5
+            "type": "cubicBezier",
+            "forceDirection": "vertical",
+            "roundness": 0.4
+         },
+         "arrows": {
+           "to": { "enabled": true, "scaleFactor": 0.7 }
          }
       }
     }
     """
 
 def main():
-    all_granular_subtasks_list, layer_node_identifiers = load_subtask_data_from_files(GENERATE_DATA_DIR, MIDDLE_DATA_DIR)
+    # 1. Load Scripted Tasks (main tasks, KQs, end states)
+    scripted_tasks = load_scripted_tasks(SCRIPTED_TASKS_FILE)
+    if not scripted_tasks:
+        print(f"No scripted tasks loaded from '{SCRIPTED_TASKS_FILE}'. Visualization might be empty or incomplete.")
+        # return # Optionally exit if no main tasks
 
-    if not all_granular_subtasks_list and not layer_node_identifiers:
-        print(f"No task data found or processed. Please check your JSON files in '{MIDDLE_DATA_DIR}' and their corresponding '_response.json' triggers in '{GENERATE_DATA_DIR}'.")
-        return
+    task_names_from_json = [task['name'] for task in scripted_tasks if isinstance(task, dict) and 'name' in task]
 
-    net = Network(height="90vh", width="100%", directed=True, notebook=False,
-                  bgcolor="#FFFFFF", font_color="black", 
-                  select_menu=False, 
-                  filter_menu=False  
+    # 2. Load Layer-Specific Data (scripted subtasks, branches)
+    all_layer_data = load_all_layer_data(GENERATE_DATA_DIR, task_names_from_json)
+    
+    if not all_layer_data and task_names_from_json:
+        print(f"Warning: No layer-specific data (scripted subtasks, branches) loaded. Check '{GENERATE_DATA_DIR}'. The graph will show Tasks, KQs, and End States only.")
+
+    net = Network(height="95vh", width="100%", directed=True, notebook=False,
+                  bgcolor="#F0F0F0", font_color="black", # Lighter background
+                  select_menu=True, 
+                  filter_menu=True   
                   )
 
-    populate_network(net, all_granular_subtasks_list, layer_node_identifiers)
+    # 3. Populate the network with the new structure
+    populate_network_new(net, scripted_tasks, all_layer_data)
+    
     net.set_options(PYVIS_OPTIONS)
+    # For debugging layout, uncomment:
+    # net.show_buttons(filter_=['layout', 'interaction', 'nodes', 'edges']) 
 
     try:
         net.show(OUTPUT_HTML_FILE, notebook=False)
         abs_output_path = os.path.abspath(OUTPUT_HTML_FILE)
         print(f"Visualization generated: {abs_output_path}")
-        print(f"Structure: Task Layers (diamonds) connect sequentially. Subtasks (various shapes) connect to their parent Layer.")
+        print("Structure: Task -> KQ -> Layer Hub (with Scripted/Branch children) -> ... -> End State")
     except Exception as e:
         print(f"Error generating or saving HTML file: {e}")
 
