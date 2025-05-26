@@ -2,12 +2,12 @@ import os
 import json
 from pyvis.network import Network
 import re
-from collections import defaultdict # Added for convenience
+from collections import defaultdict 
 
 # Define paths
 GENERATE_DATA_DIR = "Generate_branches/data"
 MIDDLE_DATA_DIR = "Middle_data"
-SCRIPTED_TASKS_FILE = os.path.join(GENERATE_DATA_DIR, "Scripted_tasks.json") # New constant
+SCRIPTED_TASKS_FILE = os.path.join(GENERATE_DATA_DIR, "Scripted_tasks.json") 
 OUTPUT_HTML_FILE = "task_visualization.html"
 
 # --- Helper function to create HTML tooltips ---
@@ -142,41 +142,78 @@ def load_all_layer_data(generate_dir, task_names_from_scripted_json):
         # --- DIAGNOSTIC PRINT 2 (part a) --- 
         print(f"DIAGNOSTIC: Processing task folder: '{task_run_root_path}' for canonical task: '{canonical_task_name}'")
 
-        for dirpath, dirnames, filenames in os.walk(task_run_root_path):
-            # --- DIAGNOSTIC PRINT 2 (part b) --- 
-            print(f"DIAGNOSTIC: Walking dirpath: '{dirpath}', subdirs: {dirnames}, files: {filenames}")
-            
-            for file_name in filenames:
+        # Expected subfolder prefixes
+        # These correspond to the type of data they hold and part of the filename pattern
+        data_type_subfolders = {
+            "Scripted_subtask": "scripted_subtasks",  # Folder prefix: key for all_tasks_data
+            "Subtask_branches": "subtask_branches"    # Folder prefix: key for all_tasks_data
+        }
+
+        try:
+            # List immediate subdirectories within the task_run_root_path
+            # e.g., ['Scripted_subtask_20250415_180747', 'Subtask_branches_20250415_180747', ...]
+            potential_typed_subfolders = [d for d in os.listdir(task_run_root_path) if os.path.isdir(os.path.join(task_run_root_path, d))]
+        except OSError as e:
+            print(f"Warning: Could not list directories in '{task_run_root_path}'. Error: {e}. Skipping layer data for this task.")
+            continue
+
+        for typed_subfolder_name in potential_typed_subfolders:
+            current_data_category = None # This will be "scripted_subtasks" or "subtask_branches"
+            expected_file_prefix_in_regex = "" # This will be "scripted_subtask" or "subtask_branches"
+
+            if typed_subfolder_name.startswith("Scripted_subtask"):
+                current_data_category = data_type_subfolders["Scripted_subtask"]
+                expected_file_prefix_in_regex = "scripted_subtask"
+            elif typed_subfolder_name.startswith("Subtask_branches"):
+                current_data_category = data_type_subfolders["Subtask_branches"]
+                expected_file_prefix_in_regex = "subtask_branches"
+            else:
+                # This subdirectory is not one of the types we're looking for (e.g., could be task_chain or other files/dirs)
+                continue 
+
+            specific_type_dir_path = os.path.join(task_run_root_path, typed_subfolder_name)
+            # --- DIAGNOSTIC PRINT 2 (part b) --- (Adjusted context)
+            print(f"DIAGNOSTIC: Identified typed subfolder: '{specific_type_dir_path}' for category: '{current_data_category}'")
+
+            try:
+                filenames_in_typed_dir = [f for f in os.listdir(specific_type_dir_path) if os.path.isfile(os.path.join(specific_type_dir_path, f))]
+            except OSError as e:
+                print(f"Warning: Could not list files in '{specific_type_dir_path}'. Error: {e}. Skipping this subfolder.")
+                continue
+
+            for file_name in filenames_in_typed_dir:
                 # --- DIAGNOSTIC PRINT 3 (part a) --- 
-                print(f"DIAGNOSTIC: Checking file: '{file_name}' in dirpath: '{dirpath}'")
+                print(f"DIAGNOSTIC: Checking file: '{file_name}' in dirpath: '{specific_type_dir_path}'")
                 match = response_file_pattern.match(file_name)
-                # --- DIAGNOSTIC PRINT 3 (part b) --- 
+                
                 if match:
-                    print(f"DIAGNOSTIC: YES - Pattern matched for '{file_name}'. Type: {match.group(1)}, Layer: {match.group(2)}, Suffix: {match.group(3)}")
+                    # --- DIAGNOSTIC PRINT 3 (part b) --- 
+                    print(f"DIAGNOSTIC: YES - Pattern matched for '{file_name}'. Regex Type: {match.group(1)}, Layer: {match.group(2)}, Suffix: {match.group(3)}")
+                    
+                    # Validate that the file's prefix matches the folder type we are in
+                    if match.group(1) != expected_file_prefix_in_regex:
+                        print(f"Warning: File prefix '{match.group(1)}' from regex in '{file_name}' does not match expected folder type prefix '{expected_file_prefix_in_regex}'. Skipping file.")
+                        continue
                 else:
+                    # --- DIAGNOSTIC PRINT 3 (part b) --- 
                     print(f"DIAGNOSTIC: NO - Pattern did NOT match for '{file_name}'.")
-
-                if not match:
-                    continue
-
-                file_type_indicator = match.group(1) # "scripted_subtask" or "subtask_branches"
+                    continue # Skip if not a response file or pattern mismatch (e.g. the .json file not ending with _response.json)
+                
+                # file_type_indicator = match.group(1) # "scripted_subtask" or "subtask_branches" (from regex)
                 try:
                     layer_num = int(match.group(2))
                 except ValueError:
-                    print(f"Warning: Could not parse layer number from filename '{file_name}' in '{dirpath}'. Skipping.")
+                    print(f"Warning: Could not parse layer number from filename '{file_name}' in '{specific_type_dir_path}'. Skipping.")
                     continue
 
-                # The content IS the _response.json file itself as per user request.
-                content_json_full_path = os.path.join(dirpath, file_name)
+                content_json_full_path = os.path.join(specific_type_dir_path, file_name)
 
                 # --- DIAGNOSTIC PRINT 4 --- 
-                print(f"DIAGNOSTIC: Attempting to load content from (now using response file itself): '{content_json_full_path}'")
+                print(f"DIAGNOSTIC: Attempting to load content from (response file itself): '{content_json_full_path}'")
 
                 loaded_content = None
-                if not os.path.exists(content_json_full_path):
-                    print(f"Warning: Content file '{content_json_full_path}' for response trigger '{file_name}' not found. No data to load for this item.")
-                    # We might still want to represent that a layer/type exists but has no content,
-                    # but for now, if content is missing, we skip adding it.
+                if not os.path.exists(content_json_full_path): # Should always exist if listed by os.listdir
+                    print(f"Warning: Content file '{content_json_full_path}' (previously listed) now not found. Skipping.")
                     continue 
                 
                 try:
@@ -189,51 +226,41 @@ def load_all_layer_data(generate_dir, task_names_from_scripted_json):
                     print(f"Warning: Could not read/process content file '{content_json_full_path}'. Error: {e}. Skipping this content.")
                     continue
 
-                if loaded_content is None: # Should not happen if file exists and no error, but as a safeguard
+                if loaded_content is None:
                     continue
 
                 # Add loaded content to the correct part of all_tasks_data
-                if file_type_indicator == "scripted_subtask":
-                    # Expecting a list of subtasks or a single subtask dict
+                # current_data_category is "scripted_subtasks" or "subtask_branches"
+                if current_data_category == "scripted_subtasks":
                     if isinstance(loaded_content, list):
                         all_tasks_data[canonical_task_name][layer_num]["scripted_subtasks"].extend(loaded_content)
-                    elif isinstance(loaded_content, dict): # Single subtask object
+                    elif isinstance(loaded_content, dict): 
                         all_tasks_data[canonical_task_name][layer_num]["scripted_subtasks"].append(loaded_content)
                     else:
                         print(f"Warning: Unexpected data type for scripted_subtask in {content_json_full_path}. Expected list or dict, got {type(loaded_content)}.")
                 
-                elif file_type_indicator == "subtask_branches":
-                    # Expecting a list of branches, or a dict with a "subtask_branches" key holding a list
+                elif current_data_category == "subtask_branches":
                     branches_to_add = []
                     if isinstance(loaded_content, list):
                         branches_to_add = loaded_content
                     elif isinstance(loaded_content, dict) and "subtask_branches" in loaded_content and isinstance(loaded_content["subtask_branches"], list):
                         branches_to_add = loaded_content["subtask_branches"]
-                    elif isinstance(loaded_content, dict) and "subtask_id" in loaded_content: # A single branch object
+                    elif isinstance(loaded_content, dict) and "subtask_id" in loaded_content: 
                          branches_to_add = [loaded_content]
                     else:
-                        print(f"Warning: Unexpected data type or structure for subtask_branches in {content_json_full_path}. Expected list or dict with 'subtask_branches' list. Data: {str(loaded_content)[:100]}...")
+                        print(f"Warning: Unexpected data type or structure for subtask_branches in {content_json_full_path}. Data: {str(loaded_content)[:100]}...")
 
-                    # Ensure subtask_id format (task_name.layer_num.true_id) and uniqueness if needed for this layer
                     processed_branches = []
-                    seen_branch_ids_for_layer = set()
+                    seen_branch_ids_for_layer = set() # Uniqueness check per layer, per file
                     for branch in branches_to_add:
                         if not isinstance(branch, dict) or "subtask_id" not in branch:
                             print(f"Warning: Skipping malformed branch in {content_json_full_path}: {str(branch)[:100]}")
                             continue
                         
-                        # Validate subtask_id format: task_name.layer_num.true_id
-                        # Example: Beginning.1.branchA
-                        # We primarily need to ensure it's attached to the correct layer_num derived from the filename.
-                        # The `subtask_id` itself in the JSON is used for display/tooltip.
-                        # The filename's layer_num is the authority for which layer it belongs to.
-                        
-                        # Simple uniqueness check for this processing batch for this layer
                         branch_id_for_uniqueness = branch["subtask_id"] 
                         if branch_id_for_uniqueness not in seen_branch_ids_for_layer:
                             processed_branches.append(branch)
                             seen_branch_ids_for_layer.add(branch_id_for_uniqueness)
-                        # else: print(f"Info: Duplicate subtask_id '{branch_id_for_uniqueness}' within branches from {content_json_full_path}. Keeping first instance.")
                     
                     all_tasks_data[canonical_task_name][layer_num]["subtask_branches"].extend(processed_branches)
 
